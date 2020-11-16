@@ -16,9 +16,10 @@
 ## Cocoapods
 
 ```ruby
-target 'IssueTracker' do
+target 'MapClustering' do
 
   pod 'SwiftLint'
+  pod 'NMapsMap'
 
 end
 ```
