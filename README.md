@@ -48,8 +48,8 @@ end
 1. 대용량 파일을 받기 위해 [git-lfs](https://git-lfs.github.com/)를 설치해야합니다.
 ```
 brew install git-lfs
-
 ```
+
 2. 프로젝트 폴더에서 git-lfs 초기화를 해줘야 합니다.
 ```
 git-lfs install
