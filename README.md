@@ -1,5 +1,22 @@
 # Project17-B-Map
 
+<div align="center">
+
+[Wiki Documentation](https://github.com/boostcamp-2020/Project17-B-Map/wiki)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Issue](https://github.com/boostcamp-2020/Project17-B-Map/issues)
+
+[![Swift](https://img.shields.io/badge/swift-v5.3-orange?logo=swift)](https://developer.apple.com/kr/swift/)
+[![Xcode](https://img.shields.io/badge/xcode-v12.2-blue?logo=xcode)](https://developer.apple.com/kr/xcode/)
+
+[![GitHub Open Issues](https://img.shields.io/github/issues-raw/boostcamp-2020/Project17-B-Map?color=green)](https://github.com/boostcamp-2020/Project17-B-Map/issues)
+[![GitHub Closed Issues](https://img.shields.io/github/issues-closed-raw/boostcamp-2020/Project17-B-Map?color=red)](https://github.com/boostcamp-2020/Project17-B-Map/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub Open PR](https://img.shields.io/github/issues-pr-raw/boostcamp-2020/Project17-B-Map?color=green)](https://github.com/boostcamp-2020/Project17-B-Map/pulls)
+[![GitHub Closed PR](https://img.shields.io/github/issues-pr-closed-raw/boostcamp-2020/Project17-B-Map?color=red)](https://github.com/boostcamp-2020/Project17-B-Map/pulls?q=is%3Apr+is%3Aclosed)
+
+[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)](https://github.com/boostcamp-2020/Project17-B-Map)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+</div>
+
 # Map App 
 [![Releases](https://img.shields.io/github/v/release/boostcamp-2020/Project17-B-Map)](https://github.com/boostcamp-2020/Project17-B-Map/releases)
 [![build](https://github.com/boostcamp-2020/Project17-B-Map/workflows/iOS%20CI/badge.svg)](https://github.com/boostcamp-2020/Project17-B-Map/actions)
@@ -10,7 +27,7 @@
 
 ## Requirements
  - iOS 14.0+
- - Xcode 12.1+
+ - Xcode 12.2+
  - Swift 5.3+
  
 ## Cocoapods
@@ -28,9 +45,19 @@ end
 
 
 ## Installation
+1. 대용량 파일을 받기 위해 [git-lfs](https://git-lfs.github.com/)를 설치해야합니다.
+```
+brew install git-lfs
 
 ```
-$ pod install
+2. 프로젝트 폴더에서 git-lfs 초기화를 해줘야 합니다.
+```
+git-lfs install
+```
+
+3. SDK를 최신 버전으로 업데이트 합니다.
+```
+$ pod install --repo-update
 ```
 
 
@@ -40,7 +67,7 @@ $ pod install
 - 조정래 [@chojl1125](https://github.com/chojl1125)
 - 현기엽 [@KYHyeon](https://github.com/KYHyeon)
 - 김석호 [@SeokBA](https://github.com/SeokBA)
-- 강민석 [@kati-kms](https://github.com/kati-kms)
+- 강석민 [@kati-kms](https://github.com/kati-kms)
 
 ## License
 
