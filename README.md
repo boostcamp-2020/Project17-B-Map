@@ -33,7 +33,7 @@
 ## Cocoapods
 
 ```ruby
-target 'MapClustering' do
+target 'BoostClusteringMaB' do
 
   pod 'SwiftLint'
   pod 'NMapsMap'
