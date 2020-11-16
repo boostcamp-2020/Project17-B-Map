@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "708C08D825625C830072B1E0"
+               BlueprintIdentifier = "700A666F25626CF800184916"
                BuildableName = "BoostClusteringMaBTests.xctest"
                BlueprintName = "BoostClusteringMaBTests"
                ReferencedContainer = "container:BoostClusteringMaB.xcodeproj">

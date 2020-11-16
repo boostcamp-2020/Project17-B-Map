@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,7 @@
 		708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */; };
 		708C08C9256258330072B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708C08C8256258330072B1E0 /* Assets.xcassets */; };
 		708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 708C08CA256258330072B1E0 /* LaunchScreen.storyboard */; };
+		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		708C08CD256258330072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		708C08DB25625C830072B1E0 /* BoostClusteringMaBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostClusteringMaBTests.swift; sourceTree = "<group>"; };
 		708C08DD25625C830072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
 		F569563DFA45CF3E50E4BFD7 /* Pods-BoostClusteringMaBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaBTests.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaBTests/Pods-BoostClusteringMaBTests.release.xcconfig"; sourceTree = "<group>"; };
 		FD8AB17D4EBE80189C506A4A /* Pods-BoostClusteringMaBTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaBTests.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaBTests/Pods-BoostClusteringMaBTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		708C08B0256258320072B1E0 = {
 			isa = PBXGroup;
 			children = (
+				70BA50EF2562B0950076920D /* .swiftlint.yml */,
 				708C08BB256258320072B1E0 /* BoostClusteringMaB */,
 				708C08DA25625C830072B1E0 /* BoostClusteringMaBTests */,
 				700A667125626CF800184916 /* BoostClusteringMaBTests */,
@@ -173,6 +176,8 @@
 				708C08B5256258320072B1E0 /* Sources */,
 				708C08B6256258320072B1E0 /* Frameworks */,
 				708C08B7256258320072B1E0 /* Resources */,
+				252620F9E297751AEB8D9B10 /* [CP] Embed Pods Frameworks */,
+				70BA50EE2562B0740076920D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -232,6 +237,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70BA50F02562B0950076920D /* .swiftlint.yml in Resources */,
 				708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */,
 				708C08C9256258330072B1E0 /* Assets.xcassets in Resources */,
 				708C08C4256258320072B1E0 /* Main.storyboard in Resources */,
@@ -241,6 +247,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		252620F9E297751AEB8D9B10 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70BA50EE2562B0740076920D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 		E3F2041224107C69D7859781 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
