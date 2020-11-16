@@ -67,7 +67,7 @@ $ pod install --repo-update
 - 조정래 [@chojl1125](https://github.com/chojl1125)
 - 현기엽 [@KYHyeon](https://github.com/KYHyeon)
 - 김석호 [@SeokBA](https://github.com/SeokBA)
-- 강석민 [@kati-kms](https://github.com/kati-kms)
+- 강민석 [@kati-kms](https://github.com/kati-kms)
 
 ## License
 
