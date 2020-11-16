@@ -9,13 +9,13 @@ on:
 jobs:
   build-and-UnitTest:
     runs-on: macos-latest
-
+  
     env:
       XC_VERSION: ${{ '12.1' }}
-      XC_WORKSPACE: ${{ '/BoostClusteringMaB/BoostClusteringMaB.xcworkspace' }}
+      XC_WORKSPACE: ${{ 'BoostClusteringMaB/BoostClusteringMaB.xcworkspace' }}
       XC_SCHEME: ${{ 'BoostClusteringMaBTest' }}
     
-    steps:     
+    steps: 
       - uses: actions/checkout@v2
       - name: Install Dependencies
         working-directory: ./BoostClusteringMaB
