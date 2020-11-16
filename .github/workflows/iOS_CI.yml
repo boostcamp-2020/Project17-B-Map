@@ -13,7 +13,7 @@ jobs:
     env:
       XC_VERSION: ${{ '12.1' }}
       XC_WORKSPACE: ${{ 'BoostClusteringMaB/BoostClusteringMaB.xcworkspace' }}
-      XC_SCHEME: ${{ 'BoostClusteringMaBTest' }}
+      XC_SCHEME: ${{ 'BoostClusteringMaBTests' }}
     
     steps: 
       - uses: actions/checkout@v2
