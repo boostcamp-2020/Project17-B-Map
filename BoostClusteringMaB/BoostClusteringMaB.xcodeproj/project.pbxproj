@@ -14,7 +14,18 @@
 		708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */; };
 		708C08C9256258330072B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708C08C8256258330072B1E0 /* Assets.xcassets */; };
 		708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 708C08CA256258330072B1E0 /* LaunchScreen.storyboard */; };
+		708C08DC25625C830072B1E0 /* BoostClusteringMaBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08DB25625C830072B1E0 /* BoostClusteringMaBTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		708C08DE25625C830072B1E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 708C08B1256258320072B1E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 708C08B8256258320072B1E0;
+			remoteInfo = BoostClusteringMaB;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		708C08B9256258320072B1E0 /* BoostClusteringMaB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoostClusteringMaB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -26,10 +37,20 @@
 		708C08C8256258330072B1E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		708C08CB256258330072B1E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		708C08CD256258330072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		708C08D925625C830072B1E0 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		708C08DB25625C830072B1E0 /* BoostClusteringMaBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostClusteringMaBTests.swift; sourceTree = "<group>"; };
+		708C08DD25625C830072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		708C08B6256258320072B1E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		708C08D625625C830072B1E0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -43,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				708C08BB256258320072B1E0 /* BoostClusteringMaB */,
+				708C08DA25625C830072B1E0 /* BoostClusteringMaBTests */,
 				708C08BA256258320072B1E0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				708C08B9256258320072B1E0 /* BoostClusteringMaB.app */,
+				708C08D925625C830072B1E0 /* BoostClusteringMaBTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,6 +91,15 @@
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
 			);
 			path = BoostClusteringMaB;
+			sourceTree = "<group>";
+		};
+		708C08DA25625C830072B1E0 /* BoostClusteringMaBTests */ = {
+			isa = PBXGroup;
+			children = (
+				708C08DB25625C830072B1E0 /* BoostClusteringMaBTests.swift */,
+				708C08DD25625C830072B1E0 /* Info.plist */,
+			);
+			path = BoostClusteringMaBTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -90,6 +122,24 @@
 			productReference = 708C08B9256258320072B1E0 /* BoostClusteringMaB.app */;
 			productType = "com.apple.product-type.application";
 		};
+		708C08D825625C830072B1E0 /* BoostClusteringMaBTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 708C08E225625C830072B1E0 /* Build configuration list for PBXNativeTarget "BoostClusteringMaBTests" */;
+			buildPhases = (
+				708C08D525625C830072B1E0 /* Sources */,
+				708C08D625625C830072B1E0 /* Frameworks */,
+				708C08D725625C830072B1E0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				708C08DF25625C830072B1E0 /* PBXTargetDependency */,
+			);
+			name = BoostClusteringMaBTests;
+			productName = BoostClusteringMaBTests;
+			productReference = 708C08D925625C830072B1E0 /* BoostClusteringMaBTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -101,6 +151,10 @@
 				TargetAttributes = {
 					708C08B8256258320072B1E0 = {
 						CreatedOnToolsVersion = 12.2;
+					};
+					708C08D825625C830072B1E0 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 708C08B8256258320072B1E0;
 					};
 				};
 			};
@@ -118,6 +172,7 @@
 			projectRoot = "";
 			targets = (
 				708C08B8256258320072B1E0 /* BoostClusteringMaB */,
+				708C08D825625C830072B1E0 /* BoostClusteringMaBTests */,
 			);
 		};
 /* End PBXProject section */
@@ -130,6 +185,13 @@
 				708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */,
 				708C08C9256258330072B1E0 /* Assets.xcassets in Resources */,
 				708C08C4256258320072B1E0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		708C08D725625C830072B1E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +209,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		708C08D525625C830072B1E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				708C08DC25625C830072B1E0 /* BoostClusteringMaBTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		708C08DF25625C830072B1E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 708C08B8256258320072B1E0 /* BoostClusteringMaB */;
+			targetProxy = 708C08DE25625C830072B1E0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		708C08C2256258320072B1E0 /* Main.storyboard */ = {
@@ -323,6 +401,46 @@
 			};
 			name = Release;
 		};
+		708C08E025625C830072B1E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3PWYBKFUK;
+				INFOPLIST_FILE = BoostClusteringMaBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostcamp.b.map.BoostClusteringMaBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
+			};
+			name = Debug;
+		};
+		708C08E125625C830072B1E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3PWYBKFUK;
+				INFOPLIST_FILE = BoostClusteringMaBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostcamp.b.map.BoostClusteringMaBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -340,6 +458,15 @@
 			buildConfigurations = (
 				708C08D1256258330072B1E0 /* Debug */,
 				708C08D2256258330072B1E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		708C08E225625C830072B1E0 /* Build configuration list for PBXNativeTarget "BoostClusteringMaBTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				708C08E025625C830072B1E0 /* Debug */,
+				708C08E125625C830072B1E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
