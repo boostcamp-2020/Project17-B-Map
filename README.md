@@ -19,7 +19,7 @@
 
 # Map App 
 [![Releases](https://img.shields.io/github/v/release/boostcamp-2020/Project17-B-Map)](https://github.com/boostcamp-2020/Project17-B-Map/releases)
-[![build](https://github.com/boostcamp-2020/Project17-B-Map/workflows/iOS%20CI/badge.svg)](https://github.com/boostcamp-2020/Project17-B-Map/actions)
+[![build](https://github.com/boostcamp-2020/Project17-B-Map/workflows/CI/badge.svg)](https://github.com/boostcamp-2020/Project17-B-Map/actions)
 
 
 ## Library
