@@ -1,0 +1,9 @@
+groups:
+  - name: devs
+    reviewers: 5
+    usernames: 
+      - chojl1125
+      - kati-kms
+      - KYHyeon
+      - SeokBA
+      - wogus3602
