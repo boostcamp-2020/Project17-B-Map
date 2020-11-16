@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5FBF1E0E73F4AE6E7C3A179A /* Pods_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */; };
+		700A667325626CF800184916 /* BoostClusteringMaBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A667225626CF800184916 /* BoostClusteringMaBTests.swift */; };
 		708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BC256258320072B1E0 /* AppDelegate.swift */; };
 		708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BE256258320072B1E0 /* SceneDelegate.swift */; };
 		708C08C1256258320072B1E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C0256258320072B1E0 /* ViewController.swift */; };
@@ -15,12 +15,11 @@
 		708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */; };
 		708C08C9256258330072B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708C08C8256258330072B1E0 /* Assets.xcassets */; };
 		708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 708C08CA256258330072B1E0 /* LaunchScreen.storyboard */; };
-		708C08DC25625C830072B1E0 /* BoostClusteringMaBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08DB25625C830072B1E0 /* BoostClusteringMaBTests.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		708C08DE25625C830072B1E0 /* PBXContainerItemProxy */ = {
+		700A667525626CF800184916 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 708C08B1256258320072B1E0 /* Project object */;
 			proxyType = 1;
@@ -33,6 +32,9 @@
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		700A667225626CF800184916 /* BoostClusteringMaBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostClusteringMaBTests.swift; sourceTree = "<group>"; };
+		700A667425626CF800184916 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		708C08B9256258320072B1E0 /* BoostClusteringMaB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoostClusteringMaB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		708C08BC256258320072B1E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		708C08BE256258320072B1E0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -42,7 +44,6 @@
 		708C08C8256258330072B1E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		708C08CB256258330072B1E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		708C08CD256258330072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		708C08D925625C830072B1E0 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		708C08DB25625C830072B1E0 /* BoostClusteringMaBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostClusteringMaBTests.swift; sourceTree = "<group>"; };
 		708C08DD25625C830072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
@@ -51,19 +52,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		700A666D25626CF800184916 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		708C08B6256258320072B1E0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		708C08D625625C830072B1E0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FBF1E0E73F4AE6E7C3A179A /* Pods_BoostClusteringMaBTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +78,6 @@
 				FD8AB17D4EBE80189C506A4A /* Pods-BoostClusteringMaBTests.debug.xcconfig */,
 				F569563DFA45CF3E50E4BFD7 /* Pods-BoostClusteringMaBTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -91,11 +90,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		700A667125626CF800184916 /* BoostClusteringMaBTests */ = {
+			isa = PBXGroup;
+			children = (
+				700A667225626CF800184916 /* BoostClusteringMaBTests.swift */,
+				700A667425626CF800184916 /* Info.plist */,
+			);
+			path = BoostClusteringMaBTests;
+			sourceTree = "<group>";
+		};
 		708C08B0256258320072B1E0 = {
 			isa = PBXGroup;
 			children = (
 				708C08BB256258320072B1E0 /* BoostClusteringMaB */,
 				708C08DA25625C830072B1E0 /* BoostClusteringMaBTests */,
+				700A667125626CF800184916 /* BoostClusteringMaBTests */,
 				708C08BA256258320072B1E0 /* Products */,
 				1EB6294C0254973AEAFBA6F2 /* Pods */,
 				4209E5B8751C8F296BB99D8F /* Frameworks */,
@@ -106,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				708C08B9256258320072B1E0 /* BoostClusteringMaB.app */,
-				708C08D925625C830072B1E0 /* BoostClusteringMaBTests.xctest */,
+				700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -138,6 +147,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		700A666F25626CF800184916 /* BoostClusteringMaBTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 700A667725626CF800184916 /* Build configuration list for PBXNativeTarget "BoostClusteringMaBTests" */;
+			buildPhases = (
+				700A666C25626CF800184916 /* Sources */,
+				700A666D25626CF800184916 /* Frameworks */,
+				700A666E25626CF800184916 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				700A667625626CF800184916 /* PBXTargetDependency */,
+			);
+			name = BoostClusteringMaBTests;
+			productName = BoostClusteringMaBTests;
+			productReference = 700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		708C08B8256258320072B1E0 /* BoostClusteringMaB */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 708C08D0256258330072B1E0 /* Build configuration list for PBXNativeTarget "BoostClusteringMaB" */;
@@ -156,25 +183,6 @@
 			productReference = 708C08B9256258320072B1E0 /* BoostClusteringMaB.app */;
 			productType = "com.apple.product-type.application";
 		};
-		708C08D825625C830072B1E0 /* BoostClusteringMaBTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 708C08E225625C830072B1E0 /* Build configuration list for PBXNativeTarget "BoostClusteringMaBTests" */;
-			buildPhases = (
-				8C32FE1314E2750E6463F81F /* [CP] Check Pods Manifest.lock */,
-				708C08D525625C830072B1E0 /* Sources */,
-				708C08D625625C830072B1E0 /* Frameworks */,
-				708C08D725625C830072B1E0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				708C08DF25625C830072B1E0 /* PBXTargetDependency */,
-			);
-			name = BoostClusteringMaBTests;
-			productName = BoostClusteringMaBTests;
-			productReference = 708C08D925625C830072B1E0 /* BoostClusteringMaBTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,12 +192,12 @@
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
-					708C08B8256258320072B1E0 = {
-						CreatedOnToolsVersion = 12.2;
-					};
-					708C08D825625C830072B1E0 = {
+					700A666F25626CF800184916 = {
 						CreatedOnToolsVersion = 12.2;
 						TestTargetID = 708C08B8256258320072B1E0;
+					};
+					708C08B8256258320072B1E0 = {
+						CreatedOnToolsVersion = 12.2;
 					};
 				};
 			};
@@ -207,12 +215,19 @@
 			projectRoot = "";
 			targets = (
 				708C08B8256258320072B1E0 /* BoostClusteringMaB */,
-				708C08D825625C830072B1E0 /* BoostClusteringMaBTests */,
+				700A666F25626CF800184916 /* BoostClusteringMaBTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		700A666E25626CF800184916 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		708C08B7256258320072B1E0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,38 +238,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		708C08D725625C830072B1E0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8C32FE1314E2750E6463F81F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BoostClusteringMaBTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E3F2041224107C69D7859781 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -280,6 +266,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		700A666C25626CF800184916 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				700A667325626CF800184916 /* BoostClusteringMaBTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		708C08B5256258320072B1E0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -291,21 +285,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		708C08D525625C830072B1E0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				708C08DC25625C830072B1E0 /* BoostClusteringMaBTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		708C08DF25625C830072B1E0 /* PBXTargetDependency */ = {
+		700A667625626CF800184916 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 708C08B8256258320072B1E0 /* BoostClusteringMaB */;
-			targetProxy = 708C08DE25625C830072B1E0 /* PBXContainerItemProxy */;
+			targetProxy = 700A667525626CF800184916 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -329,6 +315,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		700A667825626CF800184916 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3PWYBKFUK;
+				INFOPLIST_FILE = BoostClusteringMaBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostcamp.b.map.BoostClusteringMaBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
+			};
+			name = Debug;
+		};
+		700A667925626CF800184916 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B3PWYBKFUK;
+				INFOPLIST_FILE = BoostClusteringMaBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostcamp.b.map.BoostClusteringMaBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
+			};
+			name = Release;
+		};
 		708C08CE256258330072B1E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -485,51 +511,18 @@
 			};
 			name = Release;
 		};
-		708C08E025625C830072B1E0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD8AB17D4EBE80189C506A4A /* Pods-BoostClusteringMaBTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B3PWYBKFUK;
-				INFOPLIST_FILE = BoostClusteringMaBTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boostcamp.b.map.BoostClusteringMaBTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
-			};
-			name = Debug;
-		};
-		708C08E125625C830072B1E0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F569563DFA45CF3E50E4BFD7 /* Pods-BoostClusteringMaBTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B3PWYBKFUK;
-				INFOPLIST_FILE = BoostClusteringMaBTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boostcamp.b.map.BoostClusteringMaBTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		700A667725626CF800184916 /* Build configuration list for PBXNativeTarget "BoostClusteringMaBTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				700A667825626CF800184916 /* Debug */,
+				700A667925626CF800184916 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		708C08B4256258320072B1E0 /* Build configuration list for PBXProject "BoostClusteringMaB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -544,15 +537,6 @@
 			buildConfigurations = (
 				708C08D1256258330072B1E0 /* Debug */,
 				708C08D2256258330072B1E0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		708C08E225625C830072B1E0 /* Build configuration list for PBXNativeTarget "BoostClusteringMaBTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				708C08E025625C830072B1E0 /* Debug */,
-				708C08E125625C830072B1E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
