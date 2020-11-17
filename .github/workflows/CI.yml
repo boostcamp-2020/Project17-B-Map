@@ -16,6 +16,11 @@ jobs:
       XC_SCHEME: ${{ 'BoostClusteringMaBTests' }}
     
     steps: 
+      - name: Get the version
+        run: |
+          number=`echo $GITHUB_REF | cut -d / -f 3`
+          echo "ISSUE_NUMBER=$number" >> $GITHUB_ENV
+          
       - uses: actions/checkout@v2
       - name: Install Dependencies
         working-directory: ./BoostClusteringMaB
@@ -27,3 +32,74 @@ jobs:
 
       - name: Run Build and Unit Tests
         run: /usr/bin/xcodebuild test -workspace "$XC_WORKSPACE" -scheme "$XC_SCHEME" -destination 'platform=iOS Simulator,name=iPhone 11'
+
+      # Unit Test 성공했을 때 Slack에 Success Message 보냄
+      - name: Slack Success Message
+        if: success()
+        uses: tokorom/action-slack-incoming-webhook@v1.1.3
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          text: 🎉Unit Test Success🎉.
+          attachments: |
+            [
+              {
+                "color": "good",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}",
+                "fields": [
+                  {
+                    "title": "Author",
+                    "value": "${{ github.actor }}"
+                  },
+                  {
+                    "title": "GitHub Pull Request URL",
+                    "value": "${{ github.event.repository.html_url }}/pull/${{ env.ISSUE_NUMBER }}"
+                  }
+                ]
+              }
+            ]
+              
+      # Unit Test 실패했을 때 Slack에 Fail Message 보냄
+      - name: Slack Fail Message
+        if: failure()
+        uses: tokorom/action-slack-incoming-webhook@v1.1.3
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          text: 🚨Unit Test Failure🚨.
+          attachments: |
+            [
+              {
+                "color": "danger",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}",
+                "fields": [
+                  {
+                    "title": "Author",
+                    "value": "${{ github.actor }}"
+                  },
+                  {
+                    "title": "GitHub Pull Request URL",
+                    "value": "${{ github.event.repository.html_url }}/pull/${{  env.ISSUE_NUMBER  }}"
+                  }
+                ]
+              }
+            ]
+
+      # Unit Test 실패했을 때 PR에 Fail Message 생성
+      - name: Write a comment when unit test fails
+        uses: actions/github-script@v3
+        if: failure()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+              const ref = "${{github.ref}}"
+              const pull_number = Number(ref.split("/")[2])
+
+              await github.issues.createComment({
+                issue_number: pull_number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: 'Test Code Fail👋 '
+              })
