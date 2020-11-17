@@ -49,8 +49,6 @@
 		708C08DD25625C830072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
-		F569563DFA45CF3E50E4BFD7 /* Pods-BoostClusteringMaBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaBTests.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaBTests/Pods-BoostClusteringMaBTests.release.xcconfig"; sourceTree = "<group>"; };
-		FD8AB17D4EBE80189C506A4A /* Pods-BoostClusteringMaBTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaBTests.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaBTests/Pods-BoostClusteringMaBTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +75,6 @@
 			children = (
 				90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */,
 				13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */,
-				FD8AB17D4EBE80189C506A4A /* Pods-BoostClusteringMaBTests.debug.xcconfig */,
-				F569563DFA45CF3E50E4BFD7 /* Pods-BoostClusteringMaBTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";

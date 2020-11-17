@@ -59,6 +59,11 @@ class ViewController: UIViewController {
         marker3.setMarker(markerView)
         marker3.mapView = mapView
 
+        let lat = NMGLatLng(lat: 130, lng: 30)
+
+        print(lat.isWithinCoverage())
+        print(lat.lat)
+        print(lat.lng)
     }
 }
 

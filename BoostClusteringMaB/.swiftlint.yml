@@ -6,16 +6,16 @@ included:
 
 excluded:
     - Pods
-    - BoostClusteringMaB/AppDelegate.swift
-    - BoostClusteringMaB/SceneDelegate.swift
+#    - BoostClusteringMaB/AppDelegate.swift
+#    - BoostClusteringMaB/SceneDelegate.swift
 
 identifier_name:
   min_length: 1
 
-large_tuple:
-    - 3
+#large_tuple:
+#    - 3
 
-function_body_length: 200
+#function_body_length: 200
 
 #line_length:
 #    warning: 150
