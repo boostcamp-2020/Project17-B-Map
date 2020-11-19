@@ -6,7 +6,7 @@
 
 [![Swift](https://img.shields.io/badge/swift-v5.3-orange?logo=swift)](https://developer.apple.com/kr/swift/)
 [![Xcode](https://img.shields.io/badge/xcode-v12.2-blue?logo=xcode)](https://developer.apple.com/kr/xcode/)
-[![CocoaPods](https://img.shields.io/badge/xcode-v1.8.4-blue?logo=CocoaPods)](https://developer.apple.com/kr/xcode/)
+[![CocoaPods](https://img.shields.io/badge/CocoaPods-v1.8.4-blue?logo=CocoaPods)](https://developer.apple.com/kr/xcode/)
 
 [![GitHub Open Issues](https://img.shields.io/github/issues-raw/boostcamp-2020/Project17-B-Map?color=green)](https://github.com/boostcamp-2020/Project17-B-Map/issues)
 [![GitHub Closed Issues](https://img.shields.io/github/issues-closed-raw/boostcamp-2020/Project17-B-Map?color=red)](https://github.com/boostcamp-2020/Project17-B-Map/issues?q=is%3Aissue+is%3Aclosed)
