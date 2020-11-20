@@ -14,6 +14,7 @@ jobs:
       XC_VERSION: ${{ '12.1' }}
       XC_WORKSPACE: ${{ 'BoostClusteringMaB/BoostClusteringMaB.xcworkspace' }}
       XC_SCHEME: ${{ 'BoostClusteringMaBTests' }}
+      working-directory: ./BoostClusteringMaB
     
     steps: 
       - name: Get the version
@@ -22,9 +23,22 @@ jobs:
           echo "ISSUE_NUMBER=$number" >> $GITHUB_ENV
           
       - uses: actions/checkout@v2
+
+      - name: Install Python Dependency
+        run: pip3 install boto3
+
+      - name: Download from NCP
+        env:
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          python3 download.py --access_key="$ACCESS_KEY" --secret_key="$SECRET_KEY"
+          unzip Pods.zip
+        working-directory: ./BoostClusteringMaB
+
       - name: Install Dependencies
         working-directory: ./BoostClusteringMaB
-        run: pod install --repo-update
+        run: pod install
         shell: bash
 
       - name: Select latest Xcode
