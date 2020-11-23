@@ -9,7 +9,7 @@ import UIKit
 import NMapsMap
 
 class ViewController: UIViewController {
-    let markerImageView = MarkerImageView()
+    let markerImageView = MarkerImageView(radius: 30)
     
     override func viewDidLoad() {
         super.viewDidLoad()
