@@ -20,6 +20,10 @@ struct LatLng: Hashable {
 		return LatLng(lat: lhs.lat + rhs.lat, lng: lhs.lng + rhs.lng)
 	}
 	
+	static func += (lhs: inout LatLng, rhs: LatLng) {
+		lhs = lhs + rhs
+	}
+	
 	static let zero: LatLng = LatLng(lat: 0, lng: 0)
 	
 	var lat: Double
