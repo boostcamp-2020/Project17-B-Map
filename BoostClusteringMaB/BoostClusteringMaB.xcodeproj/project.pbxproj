@@ -19,6 +19,7 @@
 		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
 		C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB0850256B875800B93665 /* gangnam_8000.json */; };
 		C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0854256B87A200B93665 /* LinkedList.swift */; };
+		C3FB085A256B882200B93665 /* LatLng.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0859256B882200B93665 /* LatLng.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		C3FB084B256B873700B93665 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
 		C3FB0850256B875800B93665 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		C3FB0854256B87A200B93665 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		C3FB0859256B882200B93665 /* LatLng.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatLng.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 		C3FB0858256B87A500B93665 /* KMeans */ = {
 			isa = PBXGroup;
 			children = (
+				C3FB0859256B882200B93665 /* LatLng.swift */,
 				C3FB0854256B87A200B93665 /* LinkedList.swift */,
 			);
 			path = KMeans;
@@ -346,6 +349,7 @@
 				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
+				C3FB085A256B882200B93665 /* LatLng.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
