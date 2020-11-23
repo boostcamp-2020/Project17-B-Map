@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1.1.0
     - name: Auto Reviewer
-      uses: uesteibar/reviewer-lottery@v1.1.0
+      uses: uesteibar/reviewer-lottery@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
