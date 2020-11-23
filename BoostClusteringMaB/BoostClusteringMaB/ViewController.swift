@@ -9,6 +9,8 @@ import UIKit
 import NMapsMap
 
 class ViewController: UIViewController {
+    lazy var naverMapView = NMFMapView(frame: view.frame)
+    
     let markerView: UIView = {
         let view = UIView(frame: .init(x: 0, y: 0, width: 30, height: 30))
         view.backgroundColor = .systemPink
@@ -33,8 +35,7 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let mapView = NMFMapView(frame: view.frame)
-        view.addSubview(mapView)
+        view.addSubview(naverMapView)
 
         markerView.addSubview(label)
 
@@ -49,15 +50,15 @@ class ViewController: UIViewController {
 
         let marker = NMFMarker(position: .init(lat: 37.3591784, lng: 127.1026379))
         marker.setMarker(markerView)
-        marker.mapView = mapView
+        marker.mapView = naverMapView
 
         let marker2 = NMFMarker(position: .init(lat: 37.3561884, lng: 127.1026479))
         marker2.setMarker(markerView)
-        marker2.mapView = mapView
+        marker2.mapView = naverMapView
 
         let marker3 = NMFMarker(position: .init(lat: 37.3501984, lng: 127.1026579))
         marker3.setMarker(markerView)
-        marker3.mapView = mapView
+        marker3.mapView = naverMapView
 
         let lat = NMGLatLng(lat: 130, lng: 30)
 
