@@ -1,11 +1,20 @@
 //
-//  CoredataLayer.swift
+//  CoreDataLayer.swift
 //  BoostClusteringMaB
 //
 //  Created by 현기엽 on 2020/11/23.
 //
 
 import CoreData
+
+protocol CoreDataManager {
+    func add(place: Place, completion handler: (() -> Void)?) throws
+    func fetch() throws -> [POI]
+    func remove(at: Int) throws
+    func removeAll() throws
+    func save() throws
+}
+
 class CoreDataLayer {
     enum CoreDataError: Error {
         case invalidCoordinate
