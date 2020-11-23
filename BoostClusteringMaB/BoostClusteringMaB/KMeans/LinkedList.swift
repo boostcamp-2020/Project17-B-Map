@@ -92,6 +92,13 @@ class LinkedList<T: Equatable> {
 		now = now?.next
 	}
 	
+	func merge(other: LinkedList<T>) {
+		self.tail?.next = other.head
+		other.head?.prev = self.tail
+		self.tail = other.tail
+		self.size += other.size
+	}
+	
 	func allValues() -> [T] {
 		var values: [T?] = []
 		setNowToHead()
