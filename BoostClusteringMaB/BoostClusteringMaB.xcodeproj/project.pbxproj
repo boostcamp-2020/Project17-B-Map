@@ -19,6 +19,7 @@
 		F42790E6256BBFF100A54AE0 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42790E5256BBFF100A54AE0 /* Place.swift */; };
 		F4973417256B56AC00A7472F /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = F4973416256B56AC00A7472F /* gangnam_8000.json */; };
 		F4973420256B591200A7472F /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497341F256B591200A7472F /* CoreDataLayer.swift */; };
+		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
 		F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +55,7 @@
 		F42790E5256BBFF100A54AE0 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		F4973416256B56AC00A7472F /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		F497341F256B591200A7472F /* CoreDataLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
+		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
 		F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +143,7 @@
 				708C08DB25625C830072B1E0 /* BoostClusteringMaBTests.swift */,
 				708C08DD25625C830072B1E0 /* Info.plist */,
 				F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */,
+				F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */,
 			);
 			path = BoostClusteringMaBTests;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */,
 				F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -50,32 +50,30 @@ class CoreDataTests: XCTestCase {
     }
     
     func testAdd10000POI() throws {
-        // Given
-        let expectTimer = XCTestExpectation(description: "testAdd10000POI")
-        let asyncTimeout: TimeInterval = 100
-        let numberOfRepeats = 10000
-        let layer = CoreDataLayer()
-        let beforeCount = try layer.fetch().count
-        let group = DispatchGroup()
-        
-        // When
-        for _ in 0..<numberOfRepeats {
-            group.enter()
-            try? layer.add(place: newPlace) {
-                try? layer.save()
-                group.leave()
+        try timeout(30) { expectation in
+            // Given
+            let numberOfRepeats = 10000
+            let layer = CoreDataLayer()
+            let beforeCount = try layer.fetch().count
+            let group = DispatchGroup()
+            
+            // When
+            for _ in 0..<numberOfRepeats {
+                group.enter()
+                try? layer.add(place: newPlace) {
+                    try? layer.save()
+                    group.leave()
+                }
+            }
+            
+            // Then
+            group.notify(queue: .main) {
+                let fetchLayer = CoreDataLayer()
+                let afterCount = try? fetchLayer.fetch().count
+                XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
+                CoreDataContainer.shared.saveContext()
+                expectation.fulfill()
             }
         }
-        
-        // Then
-        group.notify(queue: .main) {
-            let fetchLayer = CoreDataLayer()
-            let afterCount = try? fetchLayer.fetch().count
-            XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
-            CoreDataContainer.shared.saveContext()
-            expectTimer.fulfill()
-        }
-        
-        wait(for: [expectTimer], timeout: asyncTimeout)
     }
 }
