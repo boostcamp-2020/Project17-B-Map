@@ -42,6 +42,11 @@ class Cluster: Equatable {
 		center = newCenter
 	}
 	
+	func combine(other: Cluster) {
+		self.points.merge(other: other.points)
+		updateCenter()
+	}
+	
 	// 오차 제곱 합
 	func sumOfSquaredOfError() -> Double {
 		var sum: Double = 0
