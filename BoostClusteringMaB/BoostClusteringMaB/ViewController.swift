@@ -27,6 +27,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        naverMapView.touchDelegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +66,13 @@ class ViewController: UIViewController {
         print(lat.isWithinCoverage())
         print(lat.lat)
         print(lat.lng)
+    }
+}
+
+extension ViewController: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        let marker = NMFMarker(position: latlng, iconImage: NMFOverlayImage(image: markerView.snapshot()))
+        marker.mapView = mapView
     }
 }
 
