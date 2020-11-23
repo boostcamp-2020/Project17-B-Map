@@ -17,7 +17,7 @@
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 		F4973417256B56AC00A7472F /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = F4973416256B56AC00A7472F /* gangnam_8000.json */; };
-		F4973420256B591200A7472F /* CoredataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497341F256B591200A7472F /* CoredataLayer.swift */; };
+		F4973420256B591200A7472F /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497341F256B591200A7472F /* CoreDataLayer.swift */; };
 		F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 /* End PBXBuildFile section */
@@ -51,7 +51,7 @@
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
 		F4973416256B56AC00A7472F /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
-		F497341F256B591200A7472F /* CoredataLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataLayer.swift; sourceTree = "<group>"; };
+		F497341F256B591200A7472F /* CoreDataLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
 		F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,7 +126,7 @@
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
 				F4973416256B56AC00A7472F /* gangnam_8000.json */,
-				F497341F256B591200A7472F /* CoredataLayer.swift */,
+				F497341F256B591200A7472F /* CoreDataLayer.swift */,
 				F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */,
 			);
 			path = BoostClusteringMaB;
@@ -316,7 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				708C08C1256258320072B1E0 /* ViewController.swift in Sources */,
-				F4973420256B591200A7472F /* CoredataLayer.swift in Sources */,
+				F4973420256B591200A7472F /* CoreDataLayer.swift in Sources */,
 				F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
