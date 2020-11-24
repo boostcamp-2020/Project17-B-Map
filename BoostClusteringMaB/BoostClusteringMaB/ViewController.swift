@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         naverMapView.addCameraDelegate(delegate: self)
         view.addSubview(naverMapView)
-        
+
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
         //let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
         naverMapView.moveCamera(cameraUpdate)
