@@ -10,14 +10,15 @@ import Foundation
 class CSVParser {
     enum CSVParSerError: Error {
         case empty
+        case invalidFileName
     }
 
     var pois = [Place]()
 
-    func convertCSVIntoArray(file name: String) {
+    func convertCSVIntoArray(file name: String) throws {
         guard let filepath = Bundle.main.path(forResource: name, ofType: "csv"),
               let data = try? String(contentsOfFile: filepath) else {
-            return
+            throw CSVParSerError.invalidFileName
         }
 
         var rows = data.components(separatedBy: "\n")
@@ -45,6 +46,7 @@ class CSVParser {
         guard !pois.isEmpty else {
             throw CSVParSerError.empty
         }
+        
         try pois.forEach({ place in
             try coreDataManager.add(place: place, completion: nil)
         })
