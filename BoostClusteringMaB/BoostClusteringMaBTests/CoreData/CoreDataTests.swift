@@ -18,23 +18,44 @@ class CoreDataTests: XCTestCase {
                          category: "부스트캠프")
     
     func testAddPOI() throws {
-          // Given
-          let layer = CoreDataLayer()
-          // When
-          try layer.add(place: newPlace) {
-              try? layer.save()
-          }
-          // Then
-          let poi = try layer.fetch().first(where: { poi -> Bool in
-              poi.id == newPlace.id
-          })
-          XCTAssertEqual(poi?.id, newPlace.id)
-          XCTAssertEqual(poi?.category, newPlace.category)
-          XCTAssertEqual(poi?.imageURL, newPlace.imageURL)
-          XCTAssertEqual(poi?.name, newPlace.name)
-          XCTAssertEqual(poi?.latitude, Double(newPlace.y))
-          XCTAssertEqual(poi?.longitude, Double(newPlace.x))
-      }
+        // Given
+        let layer = CoreDataLayer()
+
+        // When
+        try layer.add(place: newPlace) {
+            try? layer.save()
+        }
+
+        // Then
+        let poi = try layer.fetch().first(where: { poi -> Bool in
+            poi.id == newPlace.id
+        })
+        XCTAssertEqual(poi?.id, newPlace.id)
+        XCTAssertEqual(poi?.category, newPlace.category)
+        XCTAssertEqual(poi?.imageURL, newPlace.imageURL)
+        XCTAssertEqual(poi?.name, newPlace.name)
+        XCTAssertEqual(poi?.latitude, Double(newPlace.y))
+        XCTAssertEqual(poi?.longitude, Double(newPlace.x))
+    }
+
+    func test_add_잘못된좌표를입력_invalidCoordinate() throws {
+        // Given
+        let layer = CoreDataLayer()
+        let wrongCoordinatePlace = Place(id: "아이디",
+                                         name: "이름",
+                                         x: "경도",
+                                         y: "위도",
+                                         imageURL: nil,
+                                         category: "카테고리")
+
+        // Then
+        XCTAssertThrowsError(
+            // When
+            try layer.add(place: wrongCoordinatePlace) {
+            try? layer.save()
+        })
+
+    }
     
     func testFetchPOI() throws {
         // Given
