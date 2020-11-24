@@ -56,12 +56,12 @@ class CoreDataLayer {
     }
     
     func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI] {
-        guard northEast.lat < southWest.lat,
+        guard northEast.lat > southWest.lat,
               northEast.lng > southWest.lng else {
             throw CoreDataError.invalidCoordinate
         }
         
-        let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}", argumentArray: [northEast.lat, southWest.lat])
+        let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}", argumentArray: [southWest.lat, northEast.lat])
         let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}", argumentArray: [southWest.lng, northEast.lng])
         let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
         

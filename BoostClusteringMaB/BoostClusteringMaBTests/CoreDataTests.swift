@@ -54,7 +54,7 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        let pois = try layer.fetch(southWest: LatLng(lat: 45, lng: 120), northEast: LatLng(lat: 30, lng: 135))
+        let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
         
         // Then
         let all = try layer.fetch()
@@ -66,7 +66,7 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        let pois = try layer.fetch(southWest: LatLng(lat: 45, lng: 135), northEast: LatLng(lat: 30, lng: 145))
+        let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 135), northEast: LatLng(lat: 45, lng: 145))
         
         // Then
         XCTAssertTrue(pois.isEmpty)
@@ -77,8 +77,8 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // Then
-        XCTAssertThrowsError(try layer.fetch(southWest: LatLng(lat: 30, lng: 120),
-                                             northEast: LatLng(lat: 45, lng: 135)))
+        XCTAssertThrowsError(try layer.fetch(southWest: LatLng(lat: 45, lng: 120),
+                                             northEast: LatLng(lat: 30, lng: 135)))
     }
     
     func testAdd10000POI() throws {
