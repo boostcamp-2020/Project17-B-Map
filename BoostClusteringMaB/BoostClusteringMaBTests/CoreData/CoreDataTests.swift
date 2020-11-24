@@ -66,7 +66,6 @@ class CoreDataTests: XCTestCase {
         
         // Then
         XCTAssertNotNil(pois)
-        print(pois.count)
     }
     
     func testAdd10000POI() throws {
@@ -95,13 +94,13 @@ class CoreDataTests: XCTestCase {
     }
 
     func test_CoreDataManager_fetchByClassification() {
-        //Given
+        // Given
         let layer = CoreDataLayer()
 
-        //When
+        // When
         let pois = try? layer.fetch(by: "부스트캠프")
 
-        //Then
+        // Then
         pois?.forEach({
             XCTAssertEqual($0.category, "부스트캠프")
         })
