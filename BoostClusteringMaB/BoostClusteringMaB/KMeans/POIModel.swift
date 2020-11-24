@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Issue
-struct POI: Codable {
+struct Places: Codable {
 	let places: [Place]
 }
 

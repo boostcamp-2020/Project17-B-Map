@@ -11,7 +11,7 @@ import NMapsMap
 class ViewController: UIViewController {
     lazy var naverMapView = NMFMapView(frame: view.frame)
     var markers = [NMFMarker]()
-    var poiData: POI?
+    var poiData: Places?
     typealias POIValue = (Int, (Double, Double))
     
     let markerImageView = MarkerImageView(radius: 30)
@@ -48,10 +48,10 @@ class ViewController: UIViewController {
         markers.append(marker)
     }
     
-    private func jsonToData(name: String) -> POI? {
+    private func jsonToData(name: String) -> Places? {
         if let path = Bundle.main.url(forResource: name, withExtension: "json") {
             guard let data = try? Data(contentsOf: path) else { return nil }
-            let jsonResult = try? JSONDecoder().decode(POI.self, from: data)
+            let jsonResult = try? JSONDecoder().decode(Places.self, from: data)
             return jsonResult
         }
         return nil
