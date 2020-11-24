@@ -10,12 +10,12 @@ import CoreData
 @testable import BoostClusteringMaB
 
 class CoreDataTests: XCTestCase {
-    let newPlace = Place(category: "부스트캠프",
-                         id: "123321",
-                         imageUrl: nil,
+    let newPlace = Place(id: "123321",
                          name: "Mab",
                          x: "124.323412",
-                         y: "35.55532")
+                         y: "35.55532",
+                         imageURL: nil,
+                         category: "부스트캠프")
     
     func testAddPOI() throws {
         // Given
@@ -31,7 +31,7 @@ class CoreDataTests: XCTestCase {
         
         XCTAssertEqual(poi?.id, newPlace.id)
         XCTAssertEqual(poi?.category, newPlace.category)
-        XCTAssertEqual(poi?.imageURL, newPlace.imageUrl)
+        XCTAssertEqual(poi?.imageURL, newPlace.imageURL)
         XCTAssertEqual(poi?.name, newPlace.name)
         XCTAssertEqual(poi?.latitude, Double(newPlace.y))
         XCTAssertEqual(poi?.longitude, Double(newPlace.x))

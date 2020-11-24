@@ -18,7 +18,6 @@
 		708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 708C08CA256258330072B1E0 /* LaunchScreen.storyboard */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435B3256BAA000066C423 /* CGPoint+Distance.swift */; };
-		C31435BB256BF6950066C423 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435BA256BF6950066C423 /* LinkedListTests.swift */; };
 		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
 		C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB0850256B875800B93665 /* gangnam_8000.json */; };
 		C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0854256B87A200B93665 /* LinkedList.swift */; };
@@ -31,6 +30,7 @@
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
 		F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
+		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +63,6 @@
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
 		C31435B3256BAA000066C423 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
-		C31435BA256BF6950066C423 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 		C3FB084B256B873700B93665 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
 		C3FB0850256B875800B93665 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		C3FB0854256B87A200B93665 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
@@ -75,6 +74,7 @@
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
 		F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
+		F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +131,6 @@
 				708C08BA256258320072B1E0 /* Products */,
 				1EB6294C0254973AEAFBA6F2 /* Pods */,
 				4209E5B8751C8F296BB99D8F /* Frameworks */,
-				F4FD16D2256C9FDC00615FA0 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -172,6 +171,7 @@
 				708C08DD25625C830072B1E0 /* Info.plist */,
 				F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */,
 				F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */,
+				F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */,
 			);
 			path = BoostClusteringMaBTests;
 			sourceTree = "<group>";
@@ -203,14 +203,6 @@
 				C3FB086A256B8D8D00B93665 /* POIModel.swift */,
 			);
 			path = KMeans;
-			sourceTree = "<group>";
-		};
-		F4FD16D2256C9FDC00615FA0 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				C31435BA256BF6950066C423 /* LinkedListTests.swift */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,7 +373,7 @@
 			files = (
 				F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */,
 				F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */,
-				C31435BB256BF6950066C423 /* LinkedListTests.swift in Sources */,
+				F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */,
 				700A667325626CF800184916 /* (null) in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
