@@ -10,6 +10,7 @@ import CoreData
 protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
     func fetch() throws -> [POI]
+    func fetch(by classification: String) throws -> [POI]
     func remove(at: Int) throws
     func removeAll() throws
     func save() throws
@@ -54,6 +55,15 @@ class CoreDataLayer {
         guard let pois = try childContext.fetch(POI.fetchRequest()) as? [POI] else {
             throw CoreDataError.invalidType
         }
+        return pois
+    }
+
+    func fetch(by classification: String) throws -> [POI] {
+        let request: NSFetchRequest = POI.fetchRequest()
+        request.predicate = NSPredicate(format: "category == %@", classification)
+
+        let pois = try childContext.fetch(request)
+
         return pois
     }
     
