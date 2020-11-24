@@ -15,7 +15,7 @@ protocol CoreDataManager {
     func save() throws
 }
 
-class CoreDataLayer {
+final class CoreDataLayer {
     enum CoreDataError: Error {
         case invalidCoordinate
         case saveError(String)
