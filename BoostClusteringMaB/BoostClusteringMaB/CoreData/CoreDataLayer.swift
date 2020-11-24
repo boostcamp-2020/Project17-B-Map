@@ -10,7 +10,7 @@ import CoreData
 protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
     func fetch() throws -> [POI]
-    func remove(at: Int) throws
+    func remove(poi: POI) throws
     func removeAll() throws
     func save() throws
 }
