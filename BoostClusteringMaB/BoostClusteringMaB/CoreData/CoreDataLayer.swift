@@ -69,5 +69,6 @@ final class CoreDataLayer {
     
     func save() throws {
         try childContext.save()
+        CoreDataContainer.shared.saveContext()
     }
 }

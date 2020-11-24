@@ -22,7 +22,9 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        try layer.add(place: newPlace)
+        try layer.add(place: newPlace) {
+            try? layer.save()
+        }
         
         // Then
         let poi = try layer.fetch().first(where: { poi -> Bool in
@@ -61,17 +63,16 @@ class CoreDataTests: XCTestCase {
             for _ in 0..<numberOfRepeats {
                 group.enter()
                 try? layer.add(place: newPlace) {
-                    try? layer.save()
                     group.leave()
                 }
             }
             
             // Then
             group.notify(queue: .main) {
+                try? layer.save()
                 let fetchLayer = CoreDataLayer()
                 let afterCount = try? fetchLayer.fetch().count
                 XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
-                CoreDataContainer.shared.saveContext()
                 expectation.fulfill()
             }
         }
@@ -80,22 +81,26 @@ class CoreDataTests: XCTestCase {
     func testRemove() throws {
         // Given
         let layer = CoreDataLayer()
-        try layer.add(place: newPlace)
-        guard let poi = try layer.fetch().first(where: { poi -> Bool in
-            poi.id == newPlace.id
-        }) else {
-            XCTFail("data add fail")
-            return
+        try layer.add(place: newPlace) {            
+            do {
+                let pois = try layer.fetch()
+                guard let poi = pois.first(where: { poi -> Bool in
+                    poi.id == self.newPlace.id
+                }) else {
+                    XCTFail("data add fail")
+                    return
+                }
+                let beforeCount = pois.count
+                
+                // When
+                layer.remove(poi: poi)
+                try layer.save()
+                
+                // Then
+                let afterCount = try layer.fetch().count
+                XCTAssertEqual(beforeCount - 1, afterCount)
+            } catch {}
         }
-        let beforeCount = try layer.fetch().count
-        
-        // When
-        layer.remove(poi: poi)
-        try layer.save()
-        
-        // Then
-        let afterCount = try layer.fetch().count
-        XCTAssertEqual(beforeCount - 1, afterCount)
     }
     
     func testRemoveAll() throws {
