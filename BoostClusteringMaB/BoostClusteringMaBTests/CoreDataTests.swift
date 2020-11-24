@@ -23,7 +23,7 @@ class CoreDataTests: XCTestCase {
         
         // When
         try layer.add(place: newPlace)
-        
+
         // Then
         let poi = try layer.fetch().first(where: { poi -> Bool in
             poi.id == newPlace.id

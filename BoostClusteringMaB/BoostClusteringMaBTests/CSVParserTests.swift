@@ -6,27 +6,34 @@
 //
 
 import XCTest
+@testable import BoostClusteringMaB
 
-class CSVParser: XCTestCase {
+class CSVParserTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func test_CSVParser_convertCSVIntoArray() throws {
+        // Given
+        let csvParser = CSVParser()
+
+        // When
+        csvParser.convertCSVIntoArray(file: "poi")
+
+        // Then
+        XCTAssertNotNil(csvParser.pois)
+        XCTAssertTrue(!csvParser.pois.isEmpty)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    func test_CSVParser_add() throws {
+        // Given
+        let csvParser = CSVParser()
+        let coreDataManager: CoreDataManager = CoreDataLayer()
+        let beforeCount = try coreDataManager.fetch().count
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+        // When
+        csvParser.convertCSVIntoArray(file: "poi")
+        try csvParser.add(to: coreDataManager)
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        // Then
+        let afterCount = try coreDataManager.fetch().count
+        XCTAssertNotEqual(beforeCount, afterCount)
     }
-
 }
