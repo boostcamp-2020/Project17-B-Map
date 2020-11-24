@@ -21,6 +21,10 @@ class LinkedList<T: Equatable> {
 		self.now = nil
 	}
 	
+	var isEmpty: Bool {
+		return size == 0
+	}
+
 	func add(_ input: T) {
 		let new: Node<T> = Node(value: input)
 		new.next = nil
@@ -34,11 +38,11 @@ class LinkedList<T: Equatable> {
 	}
 	
 	func remove() -> T? {
-		//now node를 지운다
+		if isEmpty { return nil }
 		if now == head {
 			return linkedPopFront()
 		} else if now == tail {
-			return linekdPopBack()
+			return linkedPopBack()
 		} else {
 			let value = now?.value
 			let before = now?.prev
@@ -53,7 +57,7 @@ class LinkedList<T: Equatable> {
 	}
 	
 	private func linkedPopFront() -> T? {
-		guard size == 0 else { return nil }
+		if isEmpty { return nil }
 		self.size -= 1
 		
 		let value = self.head?.value
@@ -68,8 +72,8 @@ class LinkedList<T: Equatable> {
 		return value
 	}
 	
-	private func linekdPopBack() -> T? {
-		guard size == 0 else { return nil }
+	private func linkedPopBack() -> T? {
+		if isEmpty { return nil }
 		self.size -= 1
 		
 		let value = self.head?.value

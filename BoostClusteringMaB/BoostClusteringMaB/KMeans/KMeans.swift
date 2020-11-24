@@ -53,21 +53,22 @@ class KMeans {
 	
 	//1 임의로 중심점을 추출 + 그걸로 클러스터 생성
 	func randomCenters(count: Int, points: [LatLng]) -> [LatLng] {
-		var set = Set<LatLng>()
-		while set.count < count {
-			let random = points.randomElement()
-			set.insert(random!)
+		var centers = Set<LatLng>()
+		while centers.count < count {
+			guard let random = points.randomElement() else { continue }
+			centers.insert(random)
 		}
-		return Array(set)
+		return Array(centers)
 	}
 	
 	//1 임의로 중심점을 추출 ( 좌표 정렬해서 적절한 간격으로 뽑음 )
 	func randomCentersByPointsIndex(count: Int, points: [LatLng]) -> [LatLng] {
+		guard let firstPoint = points.first else { return [] }
+		var result = [firstPoint]
 		switch count {
 		case 1:
-			return [points.first!]
+			return result
 		default:
-			var result = [points.first!]
 			let diff = points.count / (count - 1)
 			(1..<count).forEach {
 				result.append(points[$0 * diff - 1])
@@ -117,8 +118,8 @@ class KMeans {
 	
 	func findNearestCluster(point: LatLng) -> Cluster {
 		var minDistance = Double.greatestFiniteMagnitude
-		var nearestCluster = clusters.first!
-		
+		var nearestCluster = Cluster(center: LatLng.greatestFinite)
+
 		clusters.forEach {
 			let newDistance = $0.center.squaredDistance(to: point)
 			if newDistance < minDistance {
@@ -145,14 +146,14 @@ class KMeans {
 		var sum: Double = 0
 		
 		for i in 0..<clusters.count {
-			var maxx: Double = 0
+			var maxValue: Double = 0
 			for j in 0..<clusters.count {
 				if i == j { continue }
 				let deviations = clusters[i].deviation() + clusters[j].deviation()
 				let distanceCenters = clusters[i].center.distance(to: clusters[j].center)
-				maxx = max(maxx, deviations / distanceCenters)
+				maxValue = max(maxValue, deviations / distanceCenters)
 			}
-			sum += maxx
+			sum += maxValue
 		}
 		
 		let result = sum / Double(clusters.count)

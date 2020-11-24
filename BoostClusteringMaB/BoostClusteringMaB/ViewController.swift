@@ -47,16 +47,12 @@ class ViewController: UIViewController {
 	}
 
 	func generatePoints() -> [LatLng] {
-		let xList = poiData!.places.map({Double($0.x)!})
-		let yList = poiData!.places.map({Double($0.y)!})
+		guard let xList = poiData?.places.compactMap({Double($0.x)}) else { return [] }
+		guard let yList = poiData?.places.compactMap({Double($0.y)}) else { return [] }
 
 		var points = [LatLng]()
 		for (x, y) in zip(xList, yList) {
-			var data = [Double]()
-			data.append(x)
-			data.append(y)
-
-			points.append(LatLng(lat: data.last!, lng: data.first!))
+			points.append(LatLng(lat: y, lng: x))
 		}
 		return points
 	}
