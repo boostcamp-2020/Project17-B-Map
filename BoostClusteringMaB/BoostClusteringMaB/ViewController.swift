@@ -20,11 +20,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         configureMapView()
         poiData = jsonToData(name: "gangnam_8000")
+        markers = findOptimalClustering().map { addMarker(latLng: .init(lat: $0.lat, lng: $0.lng)) }
     }
     
     private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
-        //        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
+        // let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
         
         view.addSubview(naverMapView)
         naverMapView.touchDelegate = self
@@ -32,10 +33,10 @@ class ViewController: UIViewController {
         naverMapView.moveCamera(cameraUpdate)
     }
     
-    func addMarker(latLng: LatLng) {
+    func addMarker(latLng: LatLng) -> NMFMarker {
         let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
         marker.mapView = naverMapView
-        markers.append(marker)
+        return marker
     }
     
     private func jsonToData(name: String) -> Places? {
@@ -58,7 +59,7 @@ class ViewController: UIViewController {
         return points
     }
     
-    func findOptimalClustering() {
+    func findOptimalClustering() -> [LatLng] {
         let points = generatePoints()
         let sortedPoints = points.sorted(by: <)
         
@@ -73,7 +74,7 @@ class ViewController: UIViewController {
         print(index)
         
         let min = index.dropFirst().min()
-        guard let optimalKIndex = index.firstIndex(where: { $0 == min }) else { return }
+        guard let optimalKIndex = index.firstIndex(where: { $0 == min }) else { return [] }
         
         let kMeans = KMeans(k: optimalKIndex + 1, points: sortedPoints)
         kMeans.run()
@@ -83,10 +84,7 @@ class ViewController: UIViewController {
         kMeans.clusters.forEach {
             print($0.points.size)
         }
-        kMeans.centroids.forEach {
-            print($0)
-            addMarker(latLng: $0)
-        }
+        return kMeans.centroids
     }
     
     func combineClusters(kMeans: KMeans, clusters: [Cluster]) {
@@ -118,10 +116,65 @@ class ViewController: UIViewController {
 
 extension ViewController: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        markers.forEach({
-            $0.mapView = nil
-        })
-        self.findOptimalClustering()
+        let newLatLng = self.findOptimalClustering()
+        
+        if markers.count > newLatLng.count {
+            mergeMarkerAnimation(to: newLatLng)
+        } else if markers.count < newLatLng.count {
+            divideMarkerAnimation(from: newLatLng)
+        }
+    }
+    
+    func mergeMarkerAnimation(to upperClusters: [LatLng]) {
+        let newMarkers = upperClusters.map { addMarker(latLng: $0) }
+        
+        markers.forEach { marker in
+            let markerLatLng = LatLng(lat: marker.position.lat, lng: marker.position.lng)
+            var nearestCluster = upperClusters[0]
+            var minDistance = nearestCluster.squaredDistance(to: markerLatLng)
+            
+            upperClusters[1...].forEach { cluster in
+                let newDistance = cluster.squaredDistance(to: markerLatLng)
+                if newDistance < minDistance {
+                    nearestCluster = cluster
+                    minDistance = newDistance
+                }
+            }
+            
+            marker.moveWithAnimation(naverMapView, to: .init(lat: nearestCluster.lat, lng: nearestCluster.lng)) {
+                marker.mapView = nil
+            }
+        }
+        
+        markers = newMarkers
+    }
+    
+    func divideMarkerAnimation(from lowerClusters: [LatLng]) {
+        var newMarkers = [NMFMarker]()
+        
+        markers.forEach { $0.mapView = nil }
+        
+        lowerClusters.forEach { cluster in
+            var nearestMarker = markers[0]
+            var markerLatLng = LatLng(lat: nearestMarker.position.lat, lng: nearestMarker.position.lng)
+            var minDistance = cluster.squaredDistance(to: markerLatLng)
+            
+            markers[1...].forEach { marker in
+                markerLatLng = LatLng(lat: marker.position.lat, lng: marker.position.lng)
+                let newDistance = cluster.squaredDistance(to: markerLatLng)
+                if newDistance < minDistance {
+                    nearestMarker = marker
+                    minDistance = newDistance
+                }
+            }
+            
+            let newMarker = addMarker(latLng: .init(lat: nearestMarker.position.lat,
+                                                      lng: nearestMarker.position.lng))
+            newMarker.moveWithAnimation(naverMapView, to: .init(lat: cluster.lat, lng: cluster.lng), complete: nil)
+            newMarkers.append(newMarker)
+        }
+        
+        markers = newMarkers
     }
 }
 

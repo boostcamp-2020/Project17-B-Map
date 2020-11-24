@@ -11,7 +11,7 @@ import NMapsMap
 // MARK: Marker Animation
 extension NMFMarker {
     func moveWithAnimation(_ mapView: NMFMapView, to destination: NMGLatLng, complete: (() -> Void)?) {
-        let div = 500
+        let div = 10000
         let latLen = (destination.lat - position.lat) / Double(div)
         let lngLen = (destination.lng - position.lng) / Double(div)
         
