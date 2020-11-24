@@ -11,6 +11,7 @@ class CSVParser {
     enum CSVParSerError: Error {
         case empty
         case invalidFileName
+        case invalidCSVForm
     }
 
     var pois = [Place]()
@@ -38,6 +39,8 @@ class CSVParser {
 
                 let place = Place(id: id, name: name, x: x, y: y, imageURL: imageURL, category: category)
                 pois.append(place)
+            } else {
+                throw CSVParSerError.invalidCSVForm
             }
         }
     }
