@@ -10,6 +10,7 @@ import NMapsMap
 
 class ViewController: UIViewController {
 
+
 	var mapView: NMFMapView!
 	var markers = [NMFMarker]()
 	var poiData: POI?
@@ -134,9 +135,13 @@ extension ViewController: NMFMapViewCameraDelegate {
         markers.forEach({
             $0.mapView = nil
         })
-
-		self.findOptimalClustering()
+        self.findOptimalClustering()
 	}
+extension ViewController: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        let marker = NMFMarker(position: latlng, iconImage: .init(image: markerView.snapshot()))
+        marker.mapView = mapView
+    }
 }
 
 extension NMFMarker {
