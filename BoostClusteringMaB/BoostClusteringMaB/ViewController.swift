@@ -14,6 +14,8 @@ class ViewController: UIViewController {
 	var markers = [NMFMarker]()
 	var poiData: POI?
 	typealias POIValue = (Int, (Double, Double))
+      
+  let markerImageView = MarkerImageView(radius: 30)
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -29,6 +31,17 @@ class ViewController: UIViewController {
 		let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
 		//let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
 		mapView.moveCamera(cameraUpdate)
+           let marker = NMFMarker(position: .init(lat: 37.3591784, lng: 127.1026379))
+        marker.setImageView(markerImageView, count: 1)
+        marker.mapView = mapView
+
+        let marker2 = NMFMarker(position: .init(lat: 37.3561884, lng: 127.1026479))
+        marker2.setImageView(markerImageView, count: 2)
+        marker2.mapView = mapView
+
+        let marker3 = NMFMarker(position: .init(lat: 37.3501984, lng: 127.1026579))
+        marker3.setImageView(markerImageView, count: 3)
+        marker3.mapView = mapView
 	}
 	
 	func marker(latLng: LatLng) {
@@ -127,25 +140,7 @@ extension ViewController: NMFMapViewCameraDelegate {
 }
 
 extension NMFMarker {
-    func setMarker(_ view: UIView) {
-        self.iconImage = NMFOverlayImage(image: view.snapshot())
-    }
-}
-
-extension UIView {
-    /// View를 UIImage로 생성
-    ///
-    /// 지정한 view를 이미지로 만들어줌
-    /// ```
-    /// let uiImage: UIImage = view.snapshot()
-    /// ```
-    /// - Returns: UIImage()
-    func snapshot(_ view: UIView...) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, UIScreen.main.scale)
-        guard let currentContext = UIGraphicsGetCurrentContext() else { return UIImage() }
-        self.layer.render(in: currentContext)
-        guard let img = UIGraphicsGetImageFromCurrentImageContext() else { return UIImage() }
-        UIGraphicsEndImageContext()
-        return img
+    func setImageView(_ view: MarkerImageView, count: Int) {
+        self.iconImage = .init(image: view.snapshot())
     }
 }

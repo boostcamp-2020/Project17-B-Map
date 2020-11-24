@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		700A667325626CF800184916 /* BoostClusteringMaBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A667225626CF800184916 /* BoostClusteringMaBTests.swift */; };
 		708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BC256258320072B1E0 /* AppDelegate.swift */; };
 		708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BE256258320072B1E0 /* SceneDelegate.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DF97E34256B9F280007BCEE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0DF97E35256B9F330007BCEE /* MarkerImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		1EB6294C0254973AEAFBA6F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +151,7 @@
 		708C08BB256258320072B1E0 /* BoostClusteringMaB */ = {
 			isa = PBXGroup;
 			children = (
+				0DF97E34256B9F280007BCEE /* Views */,
 				C31435B7256BB8010066C423 /* extension */,
 				C3FB0858256B87A500B93665 /* KMeans */,
 				C3FB084F256B873F00B93665 /* POI JSON Data */,
@@ -370,6 +381,7 @@
 			files = (
 				708C08C1256258320072B1E0 /* ViewController.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
+				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */,
 				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
