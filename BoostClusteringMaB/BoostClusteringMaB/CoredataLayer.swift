@@ -16,7 +16,7 @@ protocol CoreDataManager {
     func save() throws
 }
 
-class CoreDataLayer {
+class CoreDataLayer: CoreDataManager {
     enum CoreDataError: Error {
         case invalidCoordinate
         case saveError(String)
@@ -24,9 +24,8 @@ class CoreDataLayer {
     }
     
     private lazy var childContext: NSManagedObjectContext = {
-        
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        
+
         childContext.parent = CoreDataContainer.shared.mainContext
         return childContext
     }()
@@ -36,6 +35,7 @@ class CoreDataLayer {
               let longitude = Double(place.x) else {
             throw CoreDataError.invalidCoordinate
         }
+
         childContext.perform { [weak self] in
             guard let self = self else {
                 return
@@ -69,5 +69,14 @@ class CoreDataLayer {
     
     func save() throws {
         try childContext.save()
+        CoreDataContainer.shared.saveContext()
+    }
+
+    func remove(at: Int) throws {
+
+    }
+
+    func removeAll() throws {
+        
     }
 }
