@@ -46,6 +46,6 @@ class ViewController: UIViewController {
 
 extension NMFMarker {
     func setMarker(_ view: MarkerImageView, count: Int) {
-        self.iconImage = NMFOverlayImage(image: view.snapshot())
+        self.iconImage = .init(image: view.snapshot())
     }
 }
