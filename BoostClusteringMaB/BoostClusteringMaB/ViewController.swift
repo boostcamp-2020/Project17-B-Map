@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         naverMapView.moveCamera(cameraUpdate)
     }
     
-    func marker(latLng: LatLng) {
+    func addMarker(latLng: LatLng) {
         let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
         marker.mapView = naverMapView
         markers.append(marker)
@@ -85,7 +85,7 @@ class ViewController: UIViewController {
         }
         kMeans.centroids.forEach {
             print($0)
-            marker(latLng: $0)
+            addMarker(latLng: $0)
         }
     }
     
