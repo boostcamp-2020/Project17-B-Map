@@ -1,6 +1,7 @@
 disabled_rules:
     - trailing_whitespace
     - todo
+    - shorthand_operator
 
 included:
 
