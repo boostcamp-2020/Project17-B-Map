@@ -57,6 +57,16 @@ class CoreDataLayer {
         return pois
     }
     
+    func remove(poi: POI) {
+        childContext.delete(poi)
+    }
+    
+    func removeAll() throws {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "POI")
+        let removeAll = NSBatchDeleteRequest(fetchRequest: request)
+        try childContext.execute(removeAll)
+    }
+    
     func save() throws {
         try childContext.save()
     }
