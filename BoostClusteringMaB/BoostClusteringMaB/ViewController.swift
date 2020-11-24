@@ -71,14 +71,14 @@ class ViewController: UIViewController {
 
 extension ViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        let marker = NMFMarker(position: latlng, iconImage: NMFOverlayImage(image: markerView.snapshot()))
+        let marker = NMFMarker(position: latlng, iconImage: .init(image: markerView.snapshot()))
         marker.mapView = mapView
     }
 }
 
 extension NMFMarker {
     func setMarker(_ view: UIView) {
-        self.iconImage = NMFOverlayImage(image: view.snapshot())
+        self.iconImage = .init(image: view.snapshot())
     }
 }
 
