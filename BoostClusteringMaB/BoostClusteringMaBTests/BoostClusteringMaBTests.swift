@@ -6,9 +6,11 @@
 //
 
 import XCTest
+@testable import BoostClusteringMaB
 
 class BoostClusteringMaBTests: XCTestCase {
 
     func testExample() throws {
     }
+	
 }
