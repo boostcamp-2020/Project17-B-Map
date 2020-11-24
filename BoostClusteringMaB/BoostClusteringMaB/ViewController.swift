@@ -25,15 +25,15 @@ class ViewController: UIViewController {
         view.addSubview(mapView)
 
         let marker = NMFMarker(position: .init(lat: 37.3591784, lng: 127.1026379))
-        marker.setMarker(markerImageView, count: 1)
+        marker.setImageView(markerImageView, count: 1)
         marker.mapView = mapView
 
         let marker2 = NMFMarker(position: .init(lat: 37.3561884, lng: 127.1026479))
-        marker2.setMarker(markerImageView, count: 2)
+        marker2.setImageView(markerImageView, count: 2)
         marker2.mapView = mapView
 
         let marker3 = NMFMarker(position: .init(lat: 37.3501984, lng: 127.1026579))
-        marker3.setMarker(markerImageView, count: 3)
+        marker3.setImageView(markerImageView, count: 3)
         marker3.mapView = mapView
 
         let lat = NMGLatLng(lat: 130, lng: 30)
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
 }
 
 extension NMFMarker {
-    func setMarker(_ view: MarkerImageView, count: Int) {
+    func setImageView(_ view: MarkerImageView, count: Int) {
         self.iconImage = .init(image: view.snapshot())
     }
 }
