@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         configureMapView()
         poiData = jsonToData(name: "gangnam_8000")
         markers = findOptimalClustering().map { addMarker(latLng: .init(lat: $0.lat, lng: $0.lng)) }
+        markers.forEach { $0.mapView = naverMapView }
     }
     
     private func configureMapView() {
@@ -35,7 +36,6 @@ class ViewController: UIViewController {
     
     func addMarker(latLng: LatLng) -> NMFMarker {
         let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-        marker.mapView = naverMapView
         return marker
     }
     
@@ -115,66 +115,67 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: NMFMapViewCameraDelegate {
+    enum ClustringAnimationType {
+        case merge, divide
+    }
+    
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let newLatLng = self.findOptimalClustering()
+        let newMarkers = self.findOptimalClustering().map {
+            self.addMarker(latLng: $0)
+        }
         
-        if markers.count > newLatLng.count {
-            mergeMarkerAnimation(to: newLatLng)
-        } else if markers.count < newLatLng.count {
-            divideMarkerAnimation(from: newLatLng)
+        if markers.count > newMarkers.count {
+            markerClustringAnimation(.merge, newMarkers)
+        } else if markers.count < newMarkers.count {
+            markerClustringAnimation(.divide, newMarkers)
         }
     }
     
-    func mergeMarkerAnimation(to upperClusters: [LatLng]) {
-        let newMarkers = upperClusters.map { addMarker(latLng: $0) }
+    private func markerClustringAnimation(_ type: ClustringAnimationType, _ newMarkers: [NMFMarker]) {
+        let upperMarkers = type == .merge ? newMarkers:markers
+        let lowerMarkers = type == .merge ? markers:newMarkers
         
-        markers.forEach { marker in
-            let markerLatLng = LatLng(lat: marker.position.lat, lng: marker.position.lng)
-            var nearestCluster = upperClusters[0]
-            var minDistance = nearestCluster.squaredDistance(to: markerLatLng)
+        switch type {
+        case .merge:
+            newMarkers.forEach { $0.mapView = naverMapView }
+        case .divide:
+            markers.forEach { $0.mapView = nil }
+        }
+        
+        lowerMarkers.forEach { lowerMarker in
+            var nearestMarker = upperMarkers[0]
+            var minDistance = squaredDistance(lowerMarker, nearestMarker)
             
-            upperClusters[1...].forEach { cluster in
-                let newDistance = cluster.squaredDistance(to: markerLatLng)
+            upperMarkers[1...].forEach { upperMarker in
+                let newDistance = squaredDistance(lowerMarker, upperMarker)
                 if newDistance < minDistance {
-                    nearestCluster = cluster
+                    nearestMarker = upperMarker
                     minDistance = newDistance
                 }
             }
             
-            marker.moveWithAnimation(naverMapView, to: .init(lat: nearestCluster.lat, lng: nearestCluster.lng)) {
-                marker.mapView = nil
+            switch type {
+            case .merge:
+                let lat = nearestMarker.position.lat
+                let lng = nearestMarker.position.lng
+                lowerMarker.moveWithAnimation(naverMapView, to: .init(lat: lat, lng: lng)) {
+                    lowerMarker.mapView = nil
+                }
+                
+            case .divide:
+                let lat = lowerMarker.position.lat
+                let lng = lowerMarker.position.lng
+                lowerMarker.position = .init(lat: nearestMarker.position.lat,
+                                             lng: nearestMarker.position.lng)
+                lowerMarker.mapView = naverMapView
+                lowerMarker.moveWithAnimation(naverMapView, to: .init(lat: lat, lng: lng), complete: nil)
             }
         }
-        
         markers = newMarkers
     }
     
-    func divideMarkerAnimation(from lowerClusters: [LatLng]) {
-        var newMarkers = [NMFMarker]()
-        
-        markers.forEach { $0.mapView = nil }
-        
-        lowerClusters.forEach { cluster in
-            var nearestMarker = markers[0]
-            var markerLatLng = LatLng(lat: nearestMarker.position.lat, lng: nearestMarker.position.lng)
-            var minDistance = cluster.squaredDistance(to: markerLatLng)
-            
-            markers[1...].forEach { marker in
-                markerLatLng = LatLng(lat: marker.position.lat, lng: marker.position.lng)
-                let newDistance = cluster.squaredDistance(to: markerLatLng)
-                if newDistance < minDistance {
-                    nearestMarker = marker
-                    minDistance = newDistance
-                }
-            }
-            
-            let newMarker = addMarker(latLng: .init(lat: nearestMarker.position.lat,
-                                                      lng: nearestMarker.position.lng))
-            newMarker.moveWithAnimation(naverMapView, to: .init(lat: cluster.lat, lng: cluster.lng), complete: nil)
-            newMarkers.append(newMarker)
-        }
-        
-        markers = newMarkers
+    private func squaredDistance(_ lhs: NMFMarker, _ rhs: NMFMarker) -> Double {
+        return pow(lhs.position.lat - rhs.position.lat, 2) + pow(lhs.position.lng - rhs.position.lng, 2)
     }
 }
 
