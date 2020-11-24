@@ -103,15 +103,6 @@ class LinkedList<T: Equatable> {
 		self.tail = other.tail
 		self.size += other.size
 	}
-	
-	func allValues() -> [T] {
-		var values: [T?] = []
-		setNowToHead()
-		while now != nil {
-			values.append(now?.value)
-		}
-		return values.compactMap { $0 }
-	}
 }
 
 class Node<T: Equatable>: Equatable {
