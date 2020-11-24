@@ -45,13 +45,9 @@ class CSVParser {
         guard !pois.isEmpty else {
             throw CSVParSerError.empty
         }
-        do {
         try pois.forEach({ place in
             try coreDataManager.add(place: place, completion: nil)
         })
-        } catch let error {
-            print(error)
-        }
 
         try coreDataManager.save()
     }
