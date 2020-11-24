@@ -43,21 +43,19 @@ class LinkedList<T: Equatable> {
 			return linkedPopFront()
 		} else if now == tail {
 			return linkedPopBack()
-		} else {
-			let value = now?.value
-			let before = now?.prev
-			let after = now?.next
-			
-			before?.next = after
-			after?.prev = before
-			now = now?.prev
-			self.size -= 1
-			return value
 		}
+		let value = now?.value
+		let before = now?.prev
+		let after = now?.next
+		
+		before?.next = after
+		after?.prev = before
+		now = now?.prev
+		self.size -= 1
+		return value
 	}
 	
 	private func linkedPopFront() -> T? {
-		if isEmpty { return nil }
 		self.size -= 1
 		
 		let value = self.head?.value
@@ -73,10 +71,9 @@ class LinkedList<T: Equatable> {
 	}
 	
 	private func linkedPopBack() -> T? {
-		if isEmpty { return nil }
 		self.size -= 1
 		
-		let value = self.head?.value
+		let value = self.tail?.value
 		self.tail = self.tail?.prev
 		
 		if size == 0 {
@@ -94,6 +91,10 @@ class LinkedList<T: Equatable> {
 	
 	func moveNowToNext() {
 		now = now?.next
+	}
+	
+	func setNowToTail() {
+		now = tail
 	}
 	
 	func merge(other: LinkedList<T>) {
