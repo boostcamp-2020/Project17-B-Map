@@ -76,4 +76,17 @@ class CoreDataTests: XCTestCase {
             }
         }
     }
+
+    func test_CoreDataManager_fetchByClassification() {
+        //Given
+        let layer = CoreDataLayer()
+
+        //When
+        let pois = try? layer.fetch(by: "부스트캠프")
+
+        //Then
+        pois?.forEach({
+            XCTAssertEqual($0.category, "부스트캠프")
+        })
+    }
 }
