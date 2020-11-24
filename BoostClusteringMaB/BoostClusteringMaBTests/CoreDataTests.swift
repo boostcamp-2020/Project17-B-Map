@@ -76,4 +76,37 @@ class CoreDataTests: XCTestCase {
             }
         }
     }
+    
+    func testRemove() throws {
+        // Given
+        let layer = CoreDataLayer()
+        try layer.add(place: newPlace)
+        guard let poi = try layer.fetch().first(where: { poi -> Bool in
+            poi.id == newPlace.id
+        }) else {
+            XCTFail("data add fail")
+            return
+        }
+        let beforeCount = try layer.fetch().count
+        
+        // When
+        layer.remove(poi: poi)
+        try layer.save()
+        
+        // Then
+        let afterCount = try layer.fetch().count
+        XCTAssertEqual(beforeCount - 1, afterCount)
+    }
+    
+    func testRemoveAll() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // When
+        try layer.removeAll()
+        try layer.save()
+        
+        // Then
+        XCTAssertTrue(try layer.fetch().isEmpty)
+    }
 }
