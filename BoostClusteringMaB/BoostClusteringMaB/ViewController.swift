@@ -18,28 +18,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureMapView()
         poiData = jsonToData(name: "gangnam_8000")
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        naverMapView.addCameraDelegate(delegate: self)
-        view.addSubview(naverMapView)
-        
+    private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
-        //let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
+        //        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
+        
+        view.addSubview(naverMapView)
+        naverMapView.touchDelegate = self
+        naverMapView.addCameraDelegate(delegate: self)
         naverMapView.moveCamera(cameraUpdate)
-        let marker = NMFMarker(position: .init(lat: 37.3591784, lng: 127.1026379))
-        marker.setImageView(markerImageView, count: 1)
-        marker.mapView = naverMapView
-        
-        let marker2 = NMFMarker(position: .init(lat: 37.3561884, lng: 127.1026479))
-        marker2.setImageView(markerImageView, count: 2)
-        marker2.mapView = naverMapView
-        
-        let marker3 = NMFMarker(position: .init(lat: 37.3501984, lng: 127.1026579))
-        marker3.setImageView(markerImageView, count: 3)
-        marker3.mapView = naverMapView
     }
     
     func marker(latLng: LatLng) {
