@@ -128,7 +128,6 @@ class ViewController: UIViewController {
 
 extension ViewController: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        
         markers.forEach({
             $0.mapView = nil
         })
@@ -138,13 +137,15 @@ extension ViewController: NMFMapViewCameraDelegate {
 
 extension ViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        let marker = NMFMarker(position: latlng, iconImage: .init(image: markerImageView.snapshot()))
+        let marker = NMFMarker(position: latlng)
         marker.mapView = mapView
+        marker.setImageView(markerImageView, count: 0)
     }
 }
 
 extension NMFMarker {
     func setImageView(_ view: MarkerImageView, count: Int) {
-        self.iconImage = .init(image: view.snapshot())
+        view.text = String(count)
+        iconImage = .init(image: view.snapshot())
     }
 }
