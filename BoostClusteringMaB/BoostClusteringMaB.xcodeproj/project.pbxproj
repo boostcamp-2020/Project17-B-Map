@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
+		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BC256258320072B1E0 /* AppDelegate.swift */; };
 		708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BE256258320072B1E0 /* SceneDelegate.swift */; };
 		708C08C1256258320072B1E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C0256258320072B1E0 /* ViewController.swift */; };
@@ -15,9 +17,16 @@
 		708C08C9256258330072B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708C08C8256258330072B1E0 /* Assets.xcassets */; };
 		708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 708C08CA256258330072B1E0 /* LaunchScreen.storyboard */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
+		C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435B3256BAA000066C423 /* CGPoint+Distance.swift */; };
+		C31435BB256BF6950066C423 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435BA256BF6950066C423 /* LinkedListTests.swift */; };
+		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
+		C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB0850256B875800B93665 /* gangnam_8000.json */; };
+		C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0854256B87A200B93665 /* LinkedList.swift */; };
+		C3FB085A256B882200B93665 /* LatLng.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0859256B882200B93665 /* LatLng.swift */; };
+		C3FB085E256B887300B93665 /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB085D256B887300B93665 /* Cluster.swift */; };
+		C3FB0862256B889600B93665 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0861256B889600B93665 /* KMeans.swift */; };
+		C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB086A256B8D8D00B93665 /* POIModel.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
-		F42790E6256BBFF100A54AE0 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42790E5256BBFF100A54AE0 /* Place.swift */; };
-		F4973417256B56AC00A7472F /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = F4973416256B56AC00A7472F /* gangnam_8000.json */; };
 		F4973420256B591200A7472F /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497341F256B591200A7472F /* CoreDataLayer.swift */; };
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
 		F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */; };
@@ -35,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,8 +62,15 @@
 		708C08DD25625C830072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
-		F42790E5256BBFF100A54AE0 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
-		F4973416256B56AC00A7472F /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
+		C31435B3256BAA000066C423 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
+		C31435BA256BF6950066C423 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
+		C3FB084B256B873700B93665 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
+		C3FB0850256B875800B93665 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
+		C3FB0854256B87A200B93665 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		C3FB0859256B882200B93665 /* LatLng.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatLng.swift; sourceTree = "<group>"; };
+		C3FB085D256B887300B93665 /* Cluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cluster.swift; sourceTree = "<group>"; };
+		C3FB0861256B889600B93665 /* KMeans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
+		C3FB086A256B8D8D00B93665 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
 		F497341F256B591200A7472F /* CoreDataLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
 		F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
@@ -79,6 +96,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DF97E34256B9F280007BCEE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0DF97E35256B9F330007BCEE /* MarkerImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		1EB6294C0254973AEAFBA6F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +131,7 @@
 				708C08BA256258320072B1E0 /* Products */,
 				1EB6294C0254973AEAFBA6F2 /* Pods */,
 				4209E5B8751C8F296BB99D8F /* Frameworks */,
+				F4FD16D2256C9FDC00615FA0 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +147,10 @@
 		708C08BB256258320072B1E0 /* BoostClusteringMaB */ = {
 			isa = PBXGroup;
 			children = (
+				0DF97E34256B9F280007BCEE /* Views */,
+				C31435B7256BB8010066C423 /* extension */,
+				C3FB0858256B87A500B93665 /* KMeans */,
+				C3FB084F256B873F00B93665 /* POI JSON Data */,
 				708C08BC256258320072B1E0 /* AppDelegate.swift */,
 				708C08BE256258320072B1E0 /* SceneDelegate.swift */,
 				708C08C0256258320072B1E0 /* ViewController.swift */,
@@ -129,10 +159,8 @@
 				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
-				F4973416256B56AC00A7472F /* gangnam_8000.json */,
 				F497341F256B591200A7472F /* CoreDataLayer.swift */,
 				F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */,
-				F42790E5256BBFF100A54AE0 /* Place.swift */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
@@ -146,6 +174,43 @@
 				F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */,
 			);
 			path = BoostClusteringMaBTests;
+			sourceTree = "<group>";
+		};
+		C31435B7256BB8010066C423 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+		C3FB084F256B873F00B93665 /* POI JSON Data */ = {
+			isa = PBXGroup;
+			children = (
+				C3FB084B256B873700B93665 /* restaurant.json */,
+				C3FB0850256B875800B93665 /* gangnam_8000.json */,
+			);
+			path = "POI JSON Data";
+			sourceTree = "<group>";
+		};
+		C3FB0858256B87A500B93665 /* KMeans */ = {
+			isa = PBXGroup;
+			children = (
+				C3FB0861256B889600B93665 /* KMeans.swift */,
+				C3FB085D256B887300B93665 /* Cluster.swift */,
+				C3FB0859256B882200B93665 /* LatLng.swift */,
+				C3FB0854256B87A200B93665 /* LinkedList.swift */,
+				C3FB086A256B8D8D00B93665 /* POIModel.swift */,
+			);
+			path = KMeans;
+			sourceTree = "<group>";
+		};
+		F4FD16D2256C9FDC00615FA0 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				C31435BA256BF6950066C423 /* LinkedListTests.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,9 +305,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				70BA50F02562B0950076920D /* .swiftlint.yml in Resources */,
+				C3FB084C256B873700B93665 /* restaurant.json in Resources */,
 				708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */,
+				C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */,
 				708C08C9256258330072B1E0 /* Assets.xcassets in Resources */,
-				F4973417256B56AC00A7472F /* gangnam_8000.json in Resources */,
 				708C08C4256258320072B1E0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +381,8 @@
 			files = (
 				F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */,
 				F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */,
+				C31435BB256BF6950066C423 /* LinkedListTests.swift in Sources */,
+				700A667325626CF800184916 /* (null) in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,9 +394,15 @@
 				F4973420256B591200A7472F /* CoreDataLayer.swift in Sources */,
 				F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
+				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
+				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
+				C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */,
+				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
-				F42790E6256BBFF100A54AE0 /* Place.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
+				C3FB085A256B882200B93665 /* LatLng.swift in Sources */,
+				C3FB0862256B889600B93665 /* KMeans.swift in Sources */,
+				C3FB085E256B887300B93665 /* Cluster.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

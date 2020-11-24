@@ -42,7 +42,7 @@ class CoreDataLayer {
             let poi = POI(context: self.childContext)
             poi.id = place.id
             poi.category = place.category
-            poi.imageURL = place.imageUrl
+            poi.imageURL = place.imageURL
             poi.latitude = latitude
             poi.longitude = longitude
             poi.name = place.name
