@@ -21,8 +21,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        jsonToData(name: "gangnam_8000")
-
+//        try? coreDataLayer.removeAll()
+//        jsonToData(name: "gangnam_8000")
+//        jsonToData(name: "restaurant")
         configureMapView()
     }
     
@@ -162,24 +163,24 @@ extension ViewController: NMFMapViewCameraDelegate {
             }
 
             // MARK: Not Animation
-//
-//            self.markers.forEach({
-//                $0.mapView = nil
-//            })
-//
-//            self.markers = newMarkers
-//
-//            self.markers.forEach({
-//                $0.mapView = self.naverMapView
-//            })
+
+            self.markers.forEach({
+                $0.mapView = nil
+            })
+
+            self.markers = newMarkers
+
+            self.markers.forEach({
+                $0.mapView = self.naverMapView
+            })
 
             // MARK: Animation
 
-            if self.markers.count > newMarkers.count {
-                self.markerClustringAnimation(.merge, newMarkers)
-            } else if self.markers.count < newMarkers.count {
-                self.markerClustringAnimation(.divide, newMarkers)
-            }
+//            if self.markers.count > newMarkers.count {
+//                self.markerClustringAnimation(.merge, newMarkers)
+//            } else if self.markers.count < newMarkers.count {
+//                self.markerClustringAnimation(.divide, newMarkers)
+//            }
         })
     }
 
