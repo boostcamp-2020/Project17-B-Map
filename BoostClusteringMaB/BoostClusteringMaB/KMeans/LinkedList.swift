@@ -21,6 +21,10 @@ class LinkedList<T: Equatable> {
 		self.now = nil
 	}
 	
+	deinit {
+		prepareForDeinit()
+	}
+	
 	var isEmpty: Bool {
 		return size == 0
 	}
@@ -102,6 +106,20 @@ class LinkedList<T: Equatable> {
 		other.head?.prev = self.tail
 		self.tail = other.tail
 		self.size += other.size
+	}
+	
+	func prepareForDeinit() {
+		setNowToHead()
+		for _ in 0..<size {
+			let next = now?.next
+			now?.next?.prev = nil
+			now = nil
+			now = next
+		}
+		
+		head = nil
+		tail = nil
+		now = nil
 	}
 }
 
