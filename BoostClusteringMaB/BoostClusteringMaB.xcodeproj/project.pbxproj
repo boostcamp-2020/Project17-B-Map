@@ -148,6 +148,7 @@
 		708C08BB256258320072B1E0 /* BoostClusteringMaB */ = {
 			isa = PBXGroup;
 			children = (
+				F45E25DF256CCB9000054D55 /* CoreData */,
 				0DF97E34256B9F280007BCEE /* Views */,
 				C31435B7256BB8010066C423 /* extension */,
 				C3FB0858256B87A500B93665 /* KMeans */,
@@ -160,8 +161,6 @@
 				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
-				F497341F256B591200A7472F /* CoreDataLayer.swift */,
-				F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
@@ -206,6 +205,15 @@
 				C3FB086A256B8D8D00B93665 /* POIModel.swift */,
 			);
 			path = KMeans;
+			sourceTree = "<group>";
+		};
+		F45E25DF256CCB9000054D55 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				F497341F256B591200A7472F /* CoreDataLayer.swift */,
+				F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

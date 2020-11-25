@@ -22,7 +22,9 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        try layer.add(place: newPlace)
+        try layer.add(place: newPlace) {
+            try? layer.save()
+        }
         
         // Then
         let poi = try layer.fetch().first(where: { poi -> Bool in
@@ -49,6 +51,38 @@ class CoreDataTests: XCTestCase {
         print(pois.count)
     }
     
+    func testFetchPOIBetweenY30_45X120_135_All() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // When
+        let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
+        
+        // Then
+        let all = try layer.fetch()
+        XCTAssertEqual(pois.count, all.count)
+    }
+    
+    func testFetchPOIBetweenY30_45X135_145_Empty() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // When
+        let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 135), northEast: LatLng(lat: 45, lng: 145))
+        
+        // Then
+        XCTAssertTrue(pois.isEmpty)
+    }
+    
+    func testFetchPOIBetweenY45_30X120_135_invalidCoordinate() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // Then
+        XCTAssertThrowsError(try layer.fetch(southWest: LatLng(lat: 45, lng: 120),
+                                             northEast: LatLng(lat: 30, lng: 135)))
+    }
+    
     func testAdd10000POI() throws {
         try timeout(30) { expectation in
             // Given
@@ -61,19 +95,55 @@ class CoreDataTests: XCTestCase {
             for _ in 0..<numberOfRepeats {
                 group.enter()
                 try? layer.add(place: newPlace) {
-                    try? layer.save()
                     group.leave()
                 }
             }
             
             // Then
             group.notify(queue: .main) {
+                try? layer.save()
                 let fetchLayer = CoreDataLayer()
                 let afterCount = try? fetchLayer.fetch().count
                 XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
-                CoreDataContainer.shared.saveContext()
                 expectation.fulfill()
             }
         }
+    }
+    
+    func testRemove() throws {
+        // Given
+        let layer = CoreDataLayer()
+        try layer.add(place: newPlace) {            
+            do {
+                let pois = try layer.fetch()
+                guard let poi = pois.first(where: { poi -> Bool in
+                    poi.id == self.newPlace.id
+                }) else {
+                    XCTFail("data add fail")
+                    return
+                }
+                let beforeCount = pois.count
+                
+                // When
+                layer.remove(poi: poi)
+                try layer.save()
+                
+                // Then
+                let afterCount = try layer.fetch().count
+                XCTAssertEqual(beforeCount - 1, afterCount)
+            } catch {}
+        }
+    }
+    
+    func testRemoveAll() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // When
+        try layer.removeAll()
+        try layer.save()
+        
+        // Then
+        XCTAssertTrue(try layer.fetch().isEmpty)
     }
 }
