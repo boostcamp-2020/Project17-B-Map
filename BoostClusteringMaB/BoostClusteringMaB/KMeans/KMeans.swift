@@ -70,7 +70,9 @@ class KMeans {
 	
 	//1 임의로 중심점을 추출 ( 좌표 정렬해서 적절한 간격으로 뽑음 )
 	private func randomCentersByPointsIndex(count: Int, points: [LatLng]) -> [LatLng] {
+        guard points.count > count else { return points }
 		guard let firstPoint = points.first else { return [] }
+
 		var result = [firstPoint]
 		switch count {
 		case 1:
