@@ -75,8 +75,6 @@ class ViewController: UIViewController {
 
         guard !points.isEmpty else { return }
 
-        let sortedPoints = points.sorted(by: <)
-
         let kRange = (2...8)
 
         var minValue = Double.greatestFiniteMagnitude
@@ -87,7 +85,7 @@ class ViewController: UIViewController {
 
         kRange.forEach { k in
             DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: sortedPoints)
+                let kMeans = KMeans(k: k, points: points)
                 kMeans.run()
 
                 let DBI = kMeans.daviesBouldinIndex()
