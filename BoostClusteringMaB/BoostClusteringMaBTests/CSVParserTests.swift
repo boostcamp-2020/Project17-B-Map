@@ -9,6 +9,14 @@ import XCTest
 @testable import BoostClusteringMaB
 
 class CoreDataLayerMock: CoreDataManager {
+    func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI] {
+        return []
+    }
+
+    func remove(poi: POI) throws {
+
+    }
+
     func add(place: Place, completion handler: (() -> Void)?) throws {
 
     }
@@ -19,10 +27,6 @@ class CoreDataLayerMock: CoreDataManager {
 
     func fetch(by classification: String) throws -> [POI] {
         []
-    }
-
-    func remove(at: Int) throws {
-
     }
 
     func removeAll() throws {

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
+		70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD0256DEB9900F138CB /* CoreDataContainer.swift */; };
 		708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BC256258320072B1E0 /* AppDelegate.swift */; };
 		708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BE256258320072B1E0 /* SceneDelegate.swift */; };
 		708C08C1256258320072B1E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C0256258320072B1E0 /* ViewController.swift */; };
@@ -29,9 +31,7 @@
 		C3FB0862256B889600B93665 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0861256B889600B93665 /* KMeans.swift */; };
 		C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB086A256B8D8D00B93665 /* POIModel.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
-		F4973420256B591200A7472F /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497341F256B591200A7472F /* CoreDataLayer.swift */; };
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
-		F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +52,8 @@
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		70387DCF256DEB9900F138CB /* CoreDataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
+		70387DD0256DEB9900F138CB /* CoreDataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		708C08B9256258320072B1E0 /* BoostClusteringMaB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoostClusteringMaB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		708C08BC256258320072B1E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		708C08BE256258320072B1E0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,9 +77,7 @@
 		C3FB085D256B887300B93665 /* Cluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cluster.swift; sourceTree = "<group>"; };
 		C3FB0861256B889600B93665 /* KMeans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
 		C3FB086A256B8D8D00B93665 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
-		F497341F256B591200A7472F /* CoreDataLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
-		F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +151,7 @@
 		708C08BB256258320072B1E0 /* BoostClusteringMaB */ = {
 			isa = PBXGroup;
 			children = (
+				F45E25DF256CCB9000054D55 /* CoreData */,
 				0DF97E34256B9F280007BCEE /* Views */,
 				C31435B7256BB8010066C423 /* extension */,
 				C3FB0858256B87A500B93665 /* KMeans */,
@@ -163,8 +164,6 @@
 				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
-				F497341F256B591200A7472F /* CoreDataLayer.swift */,
-				F4FC209B256B8A7600D97246 /* CoreDataContainer.swift */,
 				70BFFD5B256CB9360048CEA6 /* CSVParser.swift */,
 				70BFFD7E256CD6120048CEA6 /* poi.csv */,
 			);
@@ -226,6 +225,15 @@
 				C3FB086A256B8D8D00B93665 /* POIModel.swift */,
 			);
 			path = KMeans;
+			sourceTree = "<group>";
+		};
+		F45E25DF256CCB9000054D55 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				70387DD0256DEB9900F138CB /* CoreDataContainer.swift */,
+				70387DCF256DEB9900F138CB /* CoreDataLayer.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -407,13 +415,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
 				708C08C1256258320072B1E0 /* ViewController.swift in Sources */,
-				F4973420256B591200A7472F /* CoreDataLayer.swift in Sources */,
-				F4FC209C256B8A7600D97246 /* CoreDataContainer.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
+				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
 				C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */,
 				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,

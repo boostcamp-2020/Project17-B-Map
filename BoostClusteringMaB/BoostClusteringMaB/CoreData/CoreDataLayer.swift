@@ -11,16 +11,16 @@ protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
     func fetch() throws -> [POI]
     func fetch(by classification: String) throws -> [POI]
-    func remove(at: Int) throws
+    func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI]
+    func remove(poi: POI) throws
     func removeAll() throws
     func save() throws
 }
 
-class CoreDataLayer: CoreDataManager {
+final class CoreDataLayer: CoreDataManager {
     enum CoreDataError: Error {
         case invalidCoordinate
         case saveError(String)
-        case invalidType
     }
     
     private lazy var childContext: NSManagedObjectContext = {
@@ -52,10 +52,33 @@ class CoreDataLayer: CoreDataManager {
     }
     
     func fetch() throws -> [POI] {
-        guard let pois = try childContext.fetch(POI.fetchRequest()) as? [POI] else {
-            throw CoreDataError.invalidType
+        let request: NSFetchRequest = POI.fetchRequest()
+        return try childContext.fetch(request)
+    }
+    
+    func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI] {
+        guard northEast.lat > southWest.lat,
+              northEast.lng > southWest.lng else {
+            throw CoreDataError.invalidCoordinate
         }
-        return pois
+        
+        let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}", argumentArray: [southWest.lat, northEast.lat])
+        let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}", argumentArray: [southWest.lng, northEast.lng])
+        let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
+        
+        let request: NSFetchRequest = POI.fetchRequest()
+        request.predicate = predicate
+        return try childContext.fetch(request)
+    }
+    
+    func remove(poi: POI) {
+        childContext.delete(poi)
+    }
+    
+    func removeAll() throws {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "POI")
+        let removeAll = NSBatchDeleteRequest(fetchRequest: request)
+        try childContext.execute(removeAll)
     }
 
     func fetch(by classification: String) throws -> [POI] {
@@ -70,13 +93,5 @@ class CoreDataLayer: CoreDataManager {
     func save() throws {
         try childContext.save()
         CoreDataContainer.shared.saveContext()
-    }
-
-    func remove(at: Int) throws {
-
-    }
-
-    func removeAll() throws {
-        
     }
 }
