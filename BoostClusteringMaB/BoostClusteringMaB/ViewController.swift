@@ -132,8 +132,8 @@ extension ViewController: NMFMapViewCameraDelegate {
     }
     
     private func markerClustringAnimation(_ type: ClustringAnimationType, _ newMarkers: [NMFMarker]) {
-        let upperMarkers = type == .merge ? newMarkers:markers
-        let lowerMarkers = type == .merge ? markers:newMarkers
+        let upperMarkers = (type == .merge) ? newMarkers : markers
+        let lowerMarkers = (type == .merge) ? markers : newMarkers
         
         switch type {
         case .merge:
@@ -189,7 +189,7 @@ extension ViewController: NMFMapViewTouchDelegate {
 
 extension NMFMarker {
     func setImageView(_ view: MarkerImageView, count: Int) {
-        view.text = String(count)
+        view.text = "\(count)"
         iconImage = .init(image: view.snapshot())
     }
 }
