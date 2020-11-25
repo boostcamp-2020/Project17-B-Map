@@ -9,7 +9,8 @@ import UIKit
 import NMapsMap
 
 class ViewController: UIViewController {
-    lazy var naverMapView = NMFMapView(frame: view.frame)
+    lazy var mapView = NMFNaverMapView(frame: view.frame)
+    var naverMapView: NMFMapView!
     let markerImageView = MarkerImageView(radius: 30)
     var markers = [NMFMarker]()
     var poiData: [POI]?
@@ -28,8 +29,10 @@ class ViewController: UIViewController {
     private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
         // let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
-        
-        view.addSubview(naverMapView)
+        naverMapView = mapView.mapView
+        mapView.showZoomControls = true
+
+        view.addSubview(mapView)
         naverMapView.touchDelegate = self
         naverMapView.addCameraDelegate(delegate: self)
         naverMapView.moveCamera(cameraUpdate)
@@ -75,7 +78,7 @@ class ViewController: UIViewController {
 
         guard !points.isEmpty else { return }
 
-        let kRange = (2...8)
+        let kRange = (2...10)
 
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
@@ -108,7 +111,7 @@ class ViewController: UIViewController {
     }
     
     func combineClusters(kMeans: KMeans, clusters: [Cluster]) {
-        let stdDistance: Double = 50 //추후 클러스터 크기에 따라 변동가능성
+        let stdDistance: Double = 90     //추후 클러스터 크기에 따라 변동가능성
         
         for i in 0..<clusters.count {
             for j in 0..<clusters.count {
@@ -158,22 +161,25 @@ extension ViewController: NMFMapViewCameraDelegate {
                 return
             }
 
-            guard self.markers.count != newMarkers.count else { return }
+            // MARK: Not Animation
+//
+//            self.markers.forEach({
+//                $0.mapView = nil
+//            })
+//
+//            self.markers = newMarkers
+//
+//            self.markers.forEach({
+//                $0.mapView = self.naverMapView
+//            })
 
-            self.markers.forEach({
-                $0.mapView = nil
-            })
+            // MARK: Animation
 
-            self.markers = newMarkers
-
-            self.markers.forEach({
-                $0.mapView = self.naverMapView
-            })
-            //            if self.markers.count > newMarkers.count {
-            //                self.markerClustringAnimation(.merge, newMarkers)
-            //            } else if self.markers.count < newMarkers.count {
-            //                self.markerClustringAnimation(.divide, newMarkers)
-            //            }
+            if self.markers.count > newMarkers.count {
+                self.markerClustringAnimation(.merge, newMarkers)
+            } else if self.markers.count < newMarkers.count {
+                self.markerClustringAnimation(.divide, newMarkers)
+            }
         })
     }
 
@@ -232,9 +238,9 @@ extension ViewController: NMFMapViewCameraDelegate {
 
 extension ViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        let marker = NMFMarker(position: latlng)
-        marker.mapView = mapView
-        marker.setImageView(markerImageView, count: 0)
+        // MARK: - 화면 터치시 마커 찍기
+//        let marker = NMFMarker(position: latlng)
+//        marker.mapView = mapView
     }
 }
 
