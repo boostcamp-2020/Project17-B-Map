@@ -5,7 +5,7 @@
 //  Created by 강민석 on 2020/11/23.
 //
 
-import Foundation
+import NMapsMap
 
 struct LatLng {
 	
@@ -14,7 +14,17 @@ struct LatLng {
 	
 	var lat: Double
 	var lng: Double
-	
+
+    init(lat: Double, lng: Double) {
+        self.lat = lat
+        self.lng = lng
+    }
+
+    init(_ nmg: NMGLatLng) {
+        lat = nmg.lat
+        lng = nmg.lng
+    }
+
 	func squaredDistance(to other: LatLng) -> Double {
 		return (self.lat - other.lat) * (self.lat - other.lat) + (self.lng - other.lng) * (self.lng - other.lng)
 	}
@@ -22,6 +32,8 @@ struct LatLng {
 	func distance(to other: LatLng) -> Double {
 		return sqrt(squaredDistance(to: other))
 	}
+
+
 }
 
 extension LatLng: Hashable {

@@ -41,7 +41,7 @@ class KMeans {
 	//시간은 maxK를 조정하는방식으로 줌레벨에 따라 + 애니메이션
 	func run() {
 		let maxIteration = 5 // 없으면 2~30번 돈다.
-		//let initCenters = randomCenters(count: k, points: points)
+//		let initCenters = randomCenters(count: k, points: points)
 		let initCenters = randomCentersByPointsIndex(count: k, points: points)
 		clusters = generateClusters(centers: initCenters)
 		classifyPoints() // O(n)
@@ -58,6 +58,8 @@ class KMeans {
 	
 	//1 임의로 중심점을 추출 + 그걸로 클러스터 생성
 	private func randomCenters(count: Int, points: [LatLng]) -> [LatLng] {
+        guard points.count > count else { return points }
+
 		var centers = Set<LatLng>()
 		while centers.count < count {
 			guard let random = points.randomElement() else { continue }
