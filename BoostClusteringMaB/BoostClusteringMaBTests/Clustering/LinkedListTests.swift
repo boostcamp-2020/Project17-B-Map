@@ -19,17 +19,38 @@ class LinkedListTests: XCTestCase {
     }
 
 	func test_Init() {
+		// Given
 		let list = LinkedList<Int>()
 		
+		// When
 		list.add(1)
 		list.add(2)
 		
+		// Then
 		XCTAssertEqual(list.size, 2)
 	}
 	
-	func test_PushAndDelete() {
+	func test_리스트가_비었는지() {
+		// Given
 		let list = LinkedList<Int>()
 		
+		// Then
+		XCTAssertTrue(list.isEmpty)
+	}
+	
+	func test_비었는데_지우면_nil이야() {
+		// Given
+		let list = LinkedList<Int>()
+		
+		// Then
+		XCTAssertNil(list.remove()) 
+	}
+	
+	func test_PopFront() {
+		// Given
+		let list = LinkedList<Int>()
+		
+		// When
 		list.add(1)
 		list.add(2)
 		list.add(3)
@@ -37,6 +58,97 @@ class LinkedListTests: XCTestCase {
 		list.add(5)
 		list.setNowToHead()
 		
+		//Then
+		XCTAssertEqual(list.remove(), 1)
+		XCTAssertEqual(list.size, 4)
+	}
+	
+	func test_PopFront를_할때_size가_정상적으로_1줄어드는지() {
+		// Given
+		let list = LinkedList<Int>()
+		list.add(1)
+		list.add(2)
+		list.add(3)
+		
+		// When
+		list.setNowToHead()
+		
+		// Then
+		XCTAssertEqual(list.size, 3)
+		
+		// When
+		list.remove()
+		
+		// Then
+		XCTAssertEqual(list.size, 2)
+	}
+	
+	func test_list가_하나있을때_PopFront를하면_head와_tail이_nil이_된다() {
+		// Given
+		let list = LinkedList<Int>()
+		
+		// When
+		list.add(1)
+		list.setNowToHead()
+		list.remove()
+		
+		// Then
+		XCTAssertNil(list.tail)
+		XCTAssertNil(list.head)
+	}
+	
+	func test_PopBack() {
+		// Given
+		let list = LinkedList<Int>()
+		
+		// When
+		list.add(1)
+		list.add(2)
+		list.add(3)
+		list.add(4)
+		list.add(5)
+		list.setNowToTail()
+		
+		// Then
+		XCTAssertEqual(list.now, list.tail)
+		XCTAssertEqual(list.remove(), 5)
+		XCTAssertEqual(list.size, 4)
+	}
+	
+	func test_PopBack을_할때_size가_정상적으로_1줄어드는지() {
+		// Given
+		let list = LinkedList<Int>()
+		
+		// When
+		list.add(1)
+		list.add(2)
+		list.add(3)
+		
+		list.setNowToTail()
+		
+		// Then
+		XCTAssertEqual(list.size, 3)
+		
+		// When
+		list.remove()
+		
+		// Then
+		XCTAssertEqual(list.size, 2)
+	}
+	
+	func test_리스트의_양끝이아닌_요소를_지울때_시나리오() {
+		// Given
+		let list = LinkedList<Int>()
+		
+		// When
+		list.add(1)
+		list.add(2)
+		list.add(3)
+		list.add(4)
+		list.add(5)
+		list.setNowToHead()
+		
+		// Then
 		XCTAssertEqual(list.now?.value, 1)
 		list.moveNowToNext()
 		
@@ -55,8 +167,11 @@ class LinkedListTests: XCTestCase {
 		XCTAssertEqual(list.size, 4)
 	}
 	
-	func test_Sum() {
+	func test_순회가_잘되는지() {
+		// Given
 		let points = LinkedList<LatLng>()
+		
+		// When
 		points.add(LatLng(lat: 10, lng: 10))
 		points.add(LatLng(lat: 20, lng: 20))
 		points.add(LatLng(lat: 30, lng: 30))
@@ -71,6 +186,33 @@ class LinkedListTests: XCTestCase {
 			sum += (points.now?.value ?? LatLng.zero)
 			points.moveNowToNext()
 		}
+		
+		// Then
 		XCTAssertEqual(sum, LatLng(lat: 150, lng: 150))
+	}
+	
+	func test_두개의_list_merge() {
+		// Given
+		let list = LinkedList<Int>()
+		let list2 = LinkedList<Int> ()
+		
+		// When
+		list.add(1)
+		list.add(2)
+		list.add(3)
+		list.add(4)
+		
+		list2.add(11)
+		list2.add(12)
+		list2.add(13)
+		list2.add(14)
+
+		list.merge(other: list2)
+		
+		// Then
+		XCTAssertEqual(list.size, 8)
+		
+		XCTAssertEqual(list.head?.value, 1)
+		XCTAssertEqual(list.tail?.value, 14)
 	}
 }

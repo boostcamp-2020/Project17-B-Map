@@ -24,6 +24,7 @@ class Cluster: Equatable {
 		points.add(point)
 	}
 	
+	@discardableResult
 	func remove(point: LatLng) -> LatLng? {
 		return points.remove()
 	}
