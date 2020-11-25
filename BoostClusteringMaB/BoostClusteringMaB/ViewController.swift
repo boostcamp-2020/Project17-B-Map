@@ -69,7 +69,7 @@ class ViewController: UIViewController {
         let northEast = LatLng(boundsLatLngs[1])
 
         guard let points = try? coreDataLayer.fetch(southWest: southWest,
-                                                    northEast: northEast).map({poi in
+                                                    northEast: northEast, sorted: true).map({poi in
                                                         LatLng(lat: poi.latitude, lng: poi.longitude)
                                                     }) else { return }
 

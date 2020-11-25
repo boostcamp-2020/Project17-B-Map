@@ -9,10 +9,6 @@ import XCTest
 @testable import BoostClusteringMaB
 
 class CoreDataLayerMock: CoreDataManager {
-    func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI] {
-        return []
-    }
-
     func remove(poi: POI) throws {
 
     }
@@ -21,12 +17,16 @@ class CoreDataLayerMock: CoreDataManager {
 
     }
 
-    func fetch() throws -> [POI] {
+    func fetch(sorted: Bool) throws -> [POI] {
         []
     }
 
-    func fetch(by classification: String) throws -> [POI] {
+    func fetch(by classification: String, sorted: Bool) throws -> [POI] {
         []
+    }
+    
+    func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool) throws -> [POI] {
+        return []
     }
 
     func removeAll() throws {
@@ -56,14 +56,14 @@ class CSVParserTests: XCTestCase {
         // Given
         let csvParser = CSVParser()
         let coreDataManager: CoreDataManager = CoreDataLayer()
-        let beforeCount = try coreDataManager.fetch().count
+        let beforeCount = try coreDataManager.fetch(sorted: true).count
 
         // When
         try csvParser.convertCSVIntoArray(file: "poi")
         try csvParser.add(to: coreDataManager)
 
         // Then
-        let afterCount = try coreDataManager.fetch().count
+        let afterCount = try coreDataManager.fetch(sorted: true).count
         XCTAssertNotEqual(beforeCount, afterCount)
     }
 

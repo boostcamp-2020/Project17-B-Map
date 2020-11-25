@@ -9,9 +9,9 @@ import CoreData
 
 protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
-    func fetch() throws -> [POI]
-    func fetch(by classification: String) throws -> [POI]
-    func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI]
+    func fetch(sorted: Bool) throws -> [POI]
+    func fetch(by classification: String, sorted: Bool) throws -> [POI]
+    func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool) throws -> [POI]
     func remove(poi: POI) throws
     func removeAll() throws
     func save() throws
@@ -51,24 +51,47 @@ final class CoreDataLayer: CoreDataManager {
         }
     }
     
-    func fetch() throws -> [POI] {
+    func fetch(sorted: Bool = true) throws -> [POI] {
         let request: NSFetchRequest = POI.fetchRequest()
+        request.sortDescriptors = makeSortDescription(sorted: sorted)
+        
         return try childContext.fetch(request)
     }
     
-    func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI] {
+    func fetch(by classification: String, sorted: Bool = true) throws -> [POI] {
+        let request: NSFetchRequest = POI.fetchRequest()
+        request.predicate = NSPredicate(format: "category == %@", classification)
+        request.sortDescriptors = makeSortDescription(sorted: sorted)
+        
+        let pois = try childContext.fetch(request)
+        
+        return pois
+    }
+    
+    func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool = true) throws -> [POI] {
         guard northEast.lat > southWest.lat,
               northEast.lng > southWest.lng else {
             throw CoreDataError.invalidCoordinate
         }
         
-        let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}", argumentArray: [southWest.lat, northEast.lat])
-        let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}", argumentArray: [southWest.lng, northEast.lng])
+        let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}",
+                                            argumentArray: [southWest.lat, northEast.lat])
+        let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}",
+                                             argumentArray: [southWest.lng, northEast.lng])
         let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
         
         let request: NSFetchRequest = POI.fetchRequest()
         request.predicate = predicate
+        request.sortDescriptors = makeSortDescription(sorted: sorted)
+        
         return try childContext.fetch(request)
+    }
+    
+    private func makeSortDescription(sorted: Bool) -> [NSSortDescriptor]? {
+        let latitudeSort = NSSortDescriptor(key: "latitude", ascending: true)
+        let longitudeSort = NSSortDescriptor(key: "longitude", ascending: true)
+        
+        return sorted ? [latitudeSort, longitudeSort] : nil
     }
     
     func remove(poi: POI) {
@@ -79,15 +102,6 @@ final class CoreDataLayer: CoreDataManager {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "POI")
         let removeAll = NSBatchDeleteRequest(fetchRequest: request)
         try childContext.execute(removeAll)
-    }
-
-    func fetch(by classification: String) throws -> [POI] {
-        let request: NSFetchRequest = POI.fetchRequest()
-        request.predicate = NSPredicate(format: "category == %@", classification)
-
-        let pois = try childContext.fetch(request)
-
-        return pois
     }
     
     func save() throws {
