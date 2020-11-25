@@ -20,23 +20,40 @@ class CoreDataTests: XCTestCase {
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
-        
+
         // When
         try layer.add(place: newPlace) {
             try? layer.save()
         }
-        
         // Then
         let poi = try layer.fetch().first(where: { poi -> Bool in
             poi.id == newPlace.id
         })
-        
         XCTAssertEqual(poi?.id, newPlace.id)
         XCTAssertEqual(poi?.category, newPlace.category)
         XCTAssertEqual(poi?.imageURL, newPlace.imageURL)
         XCTAssertEqual(poi?.name, newPlace.name)
         XCTAssertEqual(poi?.latitude, Double(newPlace.y))
         XCTAssertEqual(poi?.longitude, Double(newPlace.x))
+    }
+
+    func test_add_잘못된좌표를입력_invalidCoordinate() throws {
+        // Given
+        let layer = CoreDataLayer()
+        let wrongCoordinatePlace = Place(id: "아이디",
+                                         name: "이름",
+                                         x: "경도",
+                                         y: "위도",
+                                         imageURL: nil,
+                                         category: "카테고리")
+
+        // Then
+        XCTAssertThrowsError(
+            // When
+            try layer.add(place: wrongCoordinatePlace) {
+                try? layer.save()
+            })
+
     }
     
     func testFetchPOI() throws {
@@ -48,7 +65,6 @@ class CoreDataTests: XCTestCase {
         
         // Then
         XCTAssertNotNil(pois)
-        print(pois.count)
     }
     
     func testFetchPOIBetweenY30_45X120_135_All() throws {
@@ -90,7 +106,6 @@ class CoreDataTests: XCTestCase {
             let layer = CoreDataLayer()
             let beforeCount = try layer.fetch().count
             let group = DispatchGroup()
-            
             // When
             for _ in 0..<numberOfRepeats {
                 group.enter()
@@ -98,7 +113,6 @@ class CoreDataTests: XCTestCase {
                     group.leave()
                 }
             }
-            
             // Then
             group.notify(queue: .main) {
                 try? layer.save()
@@ -109,7 +123,20 @@ class CoreDataTests: XCTestCase {
             }
         }
     }
-    
+
+    func test_CoreDataManager_fetchByClassification() {
+        // Given
+        let layer = CoreDataLayer()
+
+        // When
+        let pois = try? layer.fetch(by: "부스트캠프")
+
+        // Then
+        pois?.forEach({
+            XCTAssertEqual($0.category, "부스트캠프")
+        })
+    }
+
     func testRemove() throws {
         // Given
         let layer = CoreDataLayer()

@@ -10,22 +10,22 @@ import CoreData
 protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
     func fetch() throws -> [POI]
+    func fetch(by classification: String) throws -> [POI]
     func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI]
     func remove(poi: POI) throws
     func removeAll() throws
     func save() throws
 }
 
-final class CoreDataLayer {
+final class CoreDataLayer: CoreDataManager {
     enum CoreDataError: Error {
         case invalidCoordinate
         case saveError(String)
     }
     
     private lazy var childContext: NSManagedObjectContext = {
-        
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        
+
         childContext.parent = CoreDataContainer.shared.mainContext
         return childContext
     }()
@@ -35,6 +35,7 @@ final class CoreDataLayer {
               let longitude = Double(place.x) else {
             throw CoreDataError.invalidCoordinate
         }
+
         childContext.perform { [weak self] in
             guard let self = self else {
                 return
@@ -78,6 +79,15 @@ final class CoreDataLayer {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "POI")
         let removeAll = NSBatchDeleteRequest(fetchRequest: request)
         try childContext.execute(removeAll)
+    }
+
+    func fetch(by classification: String) throws -> [POI] {
+        let request: NSFetchRequest = POI.fetchRequest()
+        request.predicate = NSPredicate(format: "category == %@", classification)
+
+        let pois = try childContext.fetch(request)
+
+        return pois
     }
     
     func save() throws {
