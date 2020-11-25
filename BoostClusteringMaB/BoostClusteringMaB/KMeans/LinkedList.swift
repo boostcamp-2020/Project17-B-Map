@@ -21,6 +21,10 @@ class LinkedList<T: Equatable> {
 		self.now = nil
 	}
 	
+	deinit {
+		prepareForDeinit()
+	}
+	
 	var isEmpty: Bool {
 		return size == 0
 	}
@@ -43,21 +47,19 @@ class LinkedList<T: Equatable> {
 			return linkedPopFront()
 		} else if now == tail {
 			return linkedPopBack()
-		} else {
-			let value = now?.value
-			let before = now?.prev
-			let after = now?.next
-			
-			before?.next = after
-			after?.prev = before
-			now = now?.prev
-			self.size -= 1
-			return value
 		}
+		let value = now?.value
+		let before = now?.prev
+		let after = now?.next
+		
+		before?.next = after
+		after?.prev = before
+		now = now?.prev
+		self.size -= 1
+		return value
 	}
 	
 	private func linkedPopFront() -> T? {
-		if isEmpty { return nil }
 		self.size -= 1
 		
 		let value = self.head?.value
@@ -73,10 +75,9 @@ class LinkedList<T: Equatable> {
 	}
 	
 	private func linkedPopBack() -> T? {
-		if isEmpty { return nil }
 		self.size -= 1
 		
-		let value = self.head?.value
+		let value = self.tail?.value
 		self.tail = self.tail?.prev
 		
 		if size == 0 {
@@ -96,6 +97,10 @@ class LinkedList<T: Equatable> {
 		now = now?.next
 	}
 	
+	func setNowToTail() {
+		now = tail
+	}
+	
 	func merge(other: LinkedList<T>) {
 		self.tail?.next = other.head
 		other.head?.prev = self.tail
@@ -103,13 +108,18 @@ class LinkedList<T: Equatable> {
 		self.size += other.size
 	}
 	
-	func allValues() -> [T] {
-		var values: [T?] = []
+	func prepareForDeinit() {
 		setNowToHead()
-		while now != nil {
-			values.append(now?.value)
+		for _ in 0..<size {
+			let next = now?.next
+			now?.next?.prev = nil
+			now = nil
+			now = next
 		}
-		return values.compactMap { $0 }
+		
+		head = nil
+		tail = nil
+		now = nil
 	}
 }
 
