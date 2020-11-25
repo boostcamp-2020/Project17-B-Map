@@ -18,34 +18,25 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureMapView()
         poiData = jsonToData(name: "gangnam_8000")
+        markers = findOptimalClustering().map { addMarker(latLng: .init(lat: $0.lat, lng: $0.lng)) }
+        markers.forEach { $0.mapView = naverMapView }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        naverMapView.addCameraDelegate(delegate: self)
-        view.addSubview(naverMapView)
-        
+    private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
-        //let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
+        // let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
+        
+        view.addSubview(naverMapView)
+        naverMapView.touchDelegate = self
+        naverMapView.addCameraDelegate(delegate: self)
         naverMapView.moveCamera(cameraUpdate)
-        let marker = NMFMarker(position: .init(lat: 37.3591784, lng: 127.1026379))
-        marker.setImageView(markerImageView, count: 1)
-        marker.mapView = naverMapView
-        
-        let marker2 = NMFMarker(position: .init(lat: 37.3561884, lng: 127.1026479))
-        marker2.setImageView(markerImageView, count: 2)
-        marker2.mapView = naverMapView
-        
-        let marker3 = NMFMarker(position: .init(lat: 37.3501984, lng: 127.1026579))
-        marker3.setImageView(markerImageView, count: 3)
-        marker3.mapView = naverMapView
     }
     
-    func marker(latLng: LatLng) {
+    func addMarker(latLng: LatLng) -> NMFMarker {
         let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-        marker.mapView = naverMapView
-        markers.append(marker)
+        return marker
     }
     
     private func jsonToData(name: String) -> Places? {
@@ -68,7 +59,7 @@ class ViewController: UIViewController {
         return points
     }
     
-    func findOptimalClustering() {
+    func findOptimalClustering() -> [LatLng] {
         let points = generatePoints()
         let sortedPoints = points.sorted(by: <)
         
@@ -83,7 +74,7 @@ class ViewController: UIViewController {
         print(index)
         
         let min = index.dropFirst().min()
-        guard let optimalKIndex = index.firstIndex(where: { $0 == min }) else { return }
+        guard let optimalKIndex = index.firstIndex(where: { $0 == min }) else { return [] }
         
         let kMeans = KMeans(k: optimalKIndex + 1, points: sortedPoints)
         kMeans.run()
@@ -93,10 +84,7 @@ class ViewController: UIViewController {
         kMeans.clusters.forEach {
             print($0.points.size)
         }
-        kMeans.centroids.forEach {
-            print($0)
-            marker(latLng: $0)
-        }
+        return kMeans.centroids
     }
     
     func combineClusters(kMeans: KMeans, clusters: [Cluster]) {
@@ -127,24 +115,81 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: NMFMapViewCameraDelegate {
+    enum ClustringAnimationType {
+        case merge, divide
+    }
+    
     func mapViewCameraIdle(_ mapView: NMFMapView) {
+        let newMarkers = self.findOptimalClustering().map {
+            self.addMarker(latLng: $0)
+        }
         
-        markers.forEach({
-            $0.mapView = nil
-        })
-        self.findOptimalClustering()
+        if markers.count > newMarkers.count {
+            markerClustringAnimation(.merge, newMarkers)
+        } else if markers.count < newMarkers.count {
+            markerClustringAnimation(.divide, newMarkers)
+        }
+    }
+    
+    private func markerClustringAnimation(_ type: ClustringAnimationType, _ newMarkers: [NMFMarker]) {
+        let upperMarkers = (type == .merge) ? newMarkers : markers
+        let lowerMarkers = (type == .merge) ? markers : newMarkers
+        
+        switch type {
+        case .merge:
+            newMarkers.forEach { $0.mapView = naverMapView }
+        case .divide:
+            markers.forEach { $0.mapView = nil }
+        }
+        
+        lowerMarkers.forEach { lowerMarker in
+            var nearestMarker = upperMarkers[0]
+            var minDistance = squaredDistance(lowerMarker, nearestMarker)
+            
+            upperMarkers[1...].forEach { upperMarker in
+                let newDistance = squaredDistance(lowerMarker, upperMarker)
+                if newDistance < minDistance {
+                    nearestMarker = upperMarker
+                    minDistance = newDistance
+                }
+            }
+            
+            switch type {
+            case .merge:
+                let lat = nearestMarker.position.lat
+                let lng = nearestMarker.position.lng
+                lowerMarker.moveWithAnimation(naverMapView, to: .init(lat: lat, lng: lng)) {
+                    lowerMarker.mapView = nil
+                }
+                
+            case .divide:
+                let lat = lowerMarker.position.lat
+                let lng = lowerMarker.position.lng
+                lowerMarker.position = .init(lat: nearestMarker.position.lat,
+                                             lng: nearestMarker.position.lng)
+                lowerMarker.mapView = naverMapView
+                lowerMarker.moveWithAnimation(naverMapView, to: .init(lat: lat, lng: lng), complete: nil)
+            }
+        }
+        markers = newMarkers
+    }
+    
+    private func squaredDistance(_ lhs: NMFMarker, _ rhs: NMFMarker) -> Double {
+        return pow(lhs.position.lat - rhs.position.lat, 2) + pow(lhs.position.lng - rhs.position.lng, 2)
     }
 }
 
 extension ViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        let marker = NMFMarker(position: latlng, iconImage: .init(image: markerImageView.snapshot()))
+        let marker = NMFMarker(position: latlng)
         marker.mapView = mapView
+        marker.setImageView(markerImageView, count: 0)
     }
 }
 
 extension NMFMarker {
     func setImageView(_ view: MarkerImageView, count: Int) {
-        self.iconImage = .init(image: view.snapshot())
+        view.text = "\(count)"
+        iconImage = .init(image: view.snapshot())
     }
 }
