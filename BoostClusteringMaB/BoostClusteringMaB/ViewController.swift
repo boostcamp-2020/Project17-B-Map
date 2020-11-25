@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     lazy var naverMapView = NMFMapView(frame: view.frame)
     var markers = [NMFMarker]()
     var poiData: Places?
-    typealias POIValue = (Int, (Double, Double))
     
     let markerImageView = MarkerImageView(radius: 30)
     
@@ -76,7 +75,7 @@ class ViewController: UIViewController {
             kMeans.run()
             index.append(kMeans.daviesBouldinIndex())
         }
-        print(index)
+//        print(index)
 
         let min = index.dropFirst().min()
         guard let optimalKIndex = index.firstIndex(where: { $0 == min }) else { return [] }
@@ -85,7 +84,7 @@ class ViewController: UIViewController {
         kMeans.run()
         combineClusters(kMeans: kMeans, clusters: kMeans.clusters)
 
-        print("count \(kMeans.clusters.count)")
+//        print("count \(kMeans.clusters.count)")
         kMeans.clusters.forEach {
             print($0.points.size)
         }
