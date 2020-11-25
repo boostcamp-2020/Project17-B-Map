@@ -49,6 +49,38 @@ class CoreDataTests: XCTestCase {
         print(pois.count)
     }
     
+    func testFetchPOIBetweenY30_45X120_135_All() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // When
+        let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
+        
+        // Then
+        let all = try layer.fetch()
+        XCTAssertEqual(pois.count, all.count)
+    }
+    
+    func testFetchPOIBetweenY30_45X135_145_Empty() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // When
+        let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 135), northEast: LatLng(lat: 45, lng: 145))
+        
+        // Then
+        XCTAssertTrue(pois.isEmpty)
+    }
+    
+    func testFetchPOIBetweenY45_30X120_135_invalidCoordinate() throws {
+        // Given
+        let layer = CoreDataLayer()
+        
+        // Then
+        XCTAssertThrowsError(try layer.fetch(southWest: LatLng(lat: 45, lng: 120),
+                                             northEast: LatLng(lat: 30, lng: 135)))
+    }
+    
     func testAdd10000POI() throws {
         try timeout(30) { expectation in
             // Given
