@@ -7,7 +7,7 @@
 
 import CoreData
 
-class CoreDataContainer {
+final class CoreDataContainer {
     static var shared: CoreDataContainer = CoreDataContainer()
     private let containerName = "BoostClusteringMaB"
     

@@ -11,12 +11,12 @@ protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
     func fetch() throws -> [POI]
     func fetch(southWest: LatLng, northEast: LatLng) throws -> [POI]
-    func remove(at: Int) throws
+    func remove(poi: POI) throws
     func removeAll() throws
     func save() throws
 }
 
-class CoreDataLayer {
+final class CoreDataLayer {
     enum CoreDataError: Error {
         case invalidCoordinate
         case saveError(String)
@@ -70,7 +70,18 @@ class CoreDataLayer {
         return try childContext.fetch(request)
     }
     
+    func remove(poi: POI) {
+        childContext.delete(poi)
+    }
+    
+    func removeAll() throws {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "POI")
+        let removeAll = NSBatchDeleteRequest(fetchRequest: request)
+        try childContext.execute(removeAll)
+    }
+    
     func save() throws {
         try childContext.save()
+        CoreDataContainer.shared.saveContext()
     }
 }
