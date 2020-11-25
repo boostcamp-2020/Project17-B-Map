@@ -55,32 +55,38 @@ class ViewController: UIViewController {
         return points
     }
     
-    func findOptimalClustering() -> [LatLng] {
+    func findOptimalClustering(completion: @escaping ([LatLng]) -> Void) {
         let points = generatePoints()
         let sortedPoints = points.sorted(by: <)
-        
-        let minK = 1
-        let maxK = 8
-        var index: [Double] = []
-        (minK...maxK).forEach {
-            let kMeans = KMeans(k: $0, points: sortedPoints)
-            kMeans.run()
-            index.append(kMeans.daviesBouldinIndex())
+
+        let kRange = (2...8)
+
+        var minValue = Double.greatestFiniteMagnitude
+        var minKMeans: KMeans!
+
+        let group = DispatchGroup.init()
+        let serialQueue = DispatchQueue.init(label: "serial")
+
+        kRange.forEach { k in
+            DispatchQueue.global(qos: .userInteractive).async(group: group) {
+                let kMeans = KMeans(k: k, points: sortedPoints)
+                kMeans.run()
+
+                let DBI = kMeans.daviesBouldinIndex()
+                serialQueue.async(group: group) {
+                    if DBI <= minValue {
+                        minValue = DBI
+                        minKMeans = kMeans
+                    }
+                }
+            }
         }
-        print(index)
         
-        let min = index.dropFirst().min()
-        guard let optimalKIndex = index.firstIndex(where: { $0 == min }) else { return [] }
-        
-        let kMeans = KMeans(k: optimalKIndex + 1, points: sortedPoints)
-        kMeans.run()
-        combineClusters(kMeans: kMeans, clusters: kMeans.clusters)
-        
-        print("count \(kMeans.clusters.count)")
-        kMeans.clusters.forEach {
-            print($0.points.size)
+        group.notify(queue: .main) { [weak self] in
+            self?.combineClusters(kMeans: minKMeans, clusters: minKMeans.clusters)
+            completion(minKMeans.centroids)
+
         }
-        return kMeans.centroids
     }
     
     func combineClusters(kMeans: KMeans, clusters: [Cluster]) {
@@ -116,23 +122,26 @@ extension ViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let newMarkers = self.findOptimalClustering().map {
-            self.addMarker(latLng: $0)
-        }
-        
-        guard markers.count != 0 else {
-            newMarkers.forEach { $0.mapView = naverMapView }
-            markers = newMarkers
-            return
-        }
-        
-        guard markers.count != newMarkers.count else { return }
-        
-        if markers.count > newMarkers.count {
-            markerClustringAnimation(.merge, newMarkers)
-        } else if markers.count < newMarkers.count {
-            markerClustringAnimation(.divide, newMarkers)
-        }
+        findOptimalClustering(completion: { [weak self] array in
+            guard let self = self else { return }
+
+            let newMarkers = array.map {
+                self.addMarker(latLng: $0)
+            }
+            guard self.markers.count != 0 else {
+                newMarkers.forEach { $0.mapView = self.naverMapView }
+                self.markers = newMarkers
+                return
+            }
+
+            guard self.markers.count != newMarkers.count else { return }
+
+            if self.markers.count > newMarkers.count {
+                self.markerClustringAnimation(.merge, newMarkers)
+            } else if self.markers.count < newMarkers.count {
+                self.markerClustringAnimation(.divide, newMarkers)
+            }
+        })
     }
     
     private func markerClustringAnimation(_ type: ClustringAnimationType, _ newMarkers: [NMFMarker]) {
