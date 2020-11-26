@@ -62,18 +62,6 @@ class ViewController: UIViewController {
         }
     }
     
-    //    func generatePoints() -> [LatLng] {
-    //        guard let xList = poiData?.places.compactMap({Double($0.x)}) else { return [] }
-    //        guard let yList = poiData?.places.compactMap({Double($0.y)}) else { return [] }
-    //
-    //        var points = [LatLng]()
-    //        for (x, y) in zip(xList, yList) {
-    //            points.append(LatLng(lat: y, lng: x))
-    //        }
-    //        return points
-    //    }
-
-    
     var newMarkers: [NMFMarker]?
 }
 
