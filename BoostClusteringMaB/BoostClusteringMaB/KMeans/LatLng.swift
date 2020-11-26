@@ -49,6 +49,10 @@ extension LatLng: Hashable {
 		return LatLng(lat: lhs.lat + rhs.lat, lng: lhs.lng + rhs.lng)
 	}
 	
+	static func - (lhs: LatLng, rhs: LatLng) -> LatLng {
+		return LatLng(lat: lhs.lat - rhs.lat, lng: lhs.lng - rhs.lng)
+	}
+	
 	static func += (lhs: inout LatLng, rhs: LatLng) {
 		lhs = lhs + rhs
 	}
