@@ -11,14 +11,14 @@ import NMapsMap
 class ViewController: UIViewController {
     lazy var mapView = NMFNaverMapView(frame: view.frame)
     var naverMapView: NMFMapView!
-    let markerImageView = MarkerImageView(radius: 30)
     var markers = [NMFMarker]()
     var poiData: [POI]?
 	var clustering: Clustering?
+    var polygonOverlays = [NMFPolygonOverlay]()
 
     let coreDataLayer: CoreDataManager = CoreDataLayer()
-
     let animationOperationQueue = OperationQueue.main
+    let markerImageView = MarkerImageView(radius: 30)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,15 +109,23 @@ extension ViewController: NMFMapViewCameraDelegate {
 //                self.markerClustringAnimation(.divide, newMarkers)
 //            }
 			
+            self.polygonOverlays.forEach {
+                $0.mapView = nil
+            }
+            
+            self.polygonOverlays.removeAll()
+            
 			// MARK: - 영역표시
 			convexHullPoints.forEach { latlngs in
 				let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
 				guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject> else { return }
-				let polygonOverlay = NMFPolygonOverlay(polygon)
-				polygonOverlay?.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
-				polygonOverlay?.outlineWidth = 3
-				polygonOverlay?.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
-				polygonOverlay?.mapView = self.naverMapView
+                guard let polygonOverlay = NMFPolygonOverlay(polygon) else { return }
+                
+				polygonOverlay.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
+				polygonOverlay.outlineWidth = 3
+				polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
+				polygonOverlay.mapView = self.naverMapView
+                self.polygonOverlays.append(polygonOverlay)
 			}
         })
     }
