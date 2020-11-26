@@ -116,10 +116,11 @@ extension ViewController: NMFMapViewCameraDelegate {
             self.polygonOverlays.removeAll()
             
 			// MARK: - 영역표시
-			convexHullPoints.forEach { latlngs in
+            for latlngs in convexHullPoints where latlngs.count > 2 {
 				let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
-				guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject> else { return }
-                guard let polygonOverlay = NMFPolygonOverlay(polygon) else { return }
+
+				guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject>,
+                      let polygonOverlay = NMFPolygonOverlay(polygon) else { return }
                 
 				polygonOverlay.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
 				polygonOverlay.outlineWidth = 3
