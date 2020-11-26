@@ -109,17 +109,13 @@ class LinkedList<T: Equatable> {
 	}
 	
 	func prepareForDeinit() {
-		setNowToHead()
-		for _ in 0..<size {
-			let next = now?.next
-			now?.next?.prev = nil
-			now = nil
-			now = next
-		}
-		
-		head = nil
-		tail = nil
-		now = nil
+        setNowToTail()
+        repeat {
+            tail = now
+            now = tail?.prev
+            tail?.prev = nil
+            tail?.next = nil
+        } while(now != nil)
 	}
 }
 
