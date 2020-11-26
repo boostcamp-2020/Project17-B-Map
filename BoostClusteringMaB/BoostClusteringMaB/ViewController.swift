@@ -16,15 +16,60 @@ class ViewController: UIViewController {
     var poiData: [POI]?
 
     let coreDataLayer: CoreDataManager = CoreDataLayer()
-
-    let animationOperationQueue = OperationQueue.main
-
+    var animationView: UIView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        try? coreDataLayer.removeAll()
 //        jsonToData(name: "gangnam_8000")
 //        jsonToData(name: "restaurant")
         configureMapView()
+        
+        let animationView = UIButton(frame: view.frame)
+        animationView.backgroundColor = .clear
+        view.addSubview(animationView)
+        animationView.isUserInteractionEnabled = false
+        self.animationView = animationView
+    }
+    
+    func moveWithAnimation(from source: NMGLatLng, to destination: NMGLatLng, complete: (() -> Void)?) {
+        let sourcePoint = self.naverMapView.projection.point(from: source)
+        let destinationPoint = self.naverMapView.projection.point(from: destination)
+        
+        guard sourcePoint.distance(to: .zero) < 1000,
+              destinationPoint.distance(to: .zero) < 1000 else {
+            complete?()
+            return
+        }
+        
+        let radius: CGFloat = 60
+        
+        let sourcePointView = MarkerImageView(frame: CGRect(x: 0, y: 0, width: radius, height: radius))
+        sourcePointView.center = CGPoint(x: sourcePoint.x, y: sourcePoint.y - radius / 2)
+        sourcePointView.transform = .identity
+        animationView?.addSubview(sourcePointView)
+        
+        let destinationPointView = MarkerImageView(frame: CGRect(x: 0, y: 0, width: radius, height: radius))
+        destinationPointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius / 2)
+        destinationPointView.alpha = 0
+        destinationPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        animationView?.addSubview(destinationPointView)
+
+        UIView.animate(
+            withDuration: 0.5,
+            animations: {
+                sourcePointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius)
+                sourcePointView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                sourcePointView.alpha = 0
+                
+                destinationPointView.transform = .identity
+                destinationPointView.alpha = 1
+            },
+            completion: { _ in
+                sourcePointView.removeFromSuperview()
+                destinationPointView.removeFromSuperview()
+                complete?()
+            })
     }
     
     private func configureMapView() {
@@ -36,10 +81,11 @@ class ViewController: UIViewController {
         view.addSubview(mapView)
         naverMapView.touchDelegate = self
         naverMapView.addCameraDelegate(delegate: self)
+        
         naverMapView.moveCamera(cameraUpdate)
     }
     
-    func addMarker(latLng: LatLng) -> NMFMarker {
+    func createMarker(latLng: LatLng) -> NMFMarker {
         let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
         return marker
     }
@@ -132,92 +178,68 @@ extension ViewController: NMFMapViewCameraDelegate {
         case merge, divide
     }
     
+    private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
+        return zip(latLngs, pointSizes).map {
+            let marker = self.createMarker(latLng: $0)
+            if $1 != 1 {
+                marker.setImageView(self.markerImageView, count: $1)
+            }
+            return marker
+        }
+    }
+    
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        findOptimalClustering(completion: { [weak self] array, pointSize in
+        findOptimalClustering(completion: { [weak self] latLngs, pointSizes in
             guard let self = self else { return }
 
-            let newMarkers: [NMFMarker] = zip(array, pointSize).map {
-                let marker = self.addMarker(latLng: $0)
-                if $1 != 1 {
-                    marker.setImageView(self.markerImageView, count: $1)
-                }
-                return marker
-            }
-
+            let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
+            
             guard self.markers.count != 0 else {
                 newMarkers.forEach { $0.mapView = self.naverMapView }
                 self.markers = newMarkers
                 return
             }
-
-            // MARK: Not Animation
-
+            
             self.markers.forEach({
                 $0.mapView = nil
             })
+            
+            self.clusteringAnimation(old: self.markers, new: newMarkers, isMerge: self.markers.count > newMarkers.count)
 
-            self.markers = newMarkers
-
+        })
+    }
+    
+    private func clusteringAnimation(old: [NMFMarker], new: [NMFMarker], isMerge: Bool) {
+        let upper = isMerge ? new : old
+        let lower = isMerge ? old : new
+        let group = DispatchGroup()
+        
+        lower.compactMap { lowerMarker in
+            guard let upperMarker = upper
+                    .map({ upperMarker in
+                        (upperMarker, squaredDistance(lowerMarker, upperMarker))
+                    })
+                    .min(by: { (lhs, rhs) -> Bool in
+                        lhs.1 < rhs.1
+                    })?
+                    .0
+            else { return nil }
+            
+            return isMerge ? (lowerMarker, upperMarker) : (upperMarker, lowerMarker)
+        }.forEach { (from: NMFMarker, to: NMFMarker) -> Void in
+            group.enter()
+            moveWithAnimation(from: from.position, to: to.position, complete: {
+                group.leave()
+            })
+        }
+        
+        group.notify(queue: .main) {
+            self.markers = new
+            
             self.markers.forEach({
                 $0.mapView = self.naverMapView
             })
-
-            // MARK: Animation
-
-//            if self.markers.count > newMarkers.count {
-//                self.markerClustringAnimation(.merge, newMarkers)
-//            } else if self.markers.count < newMarkers.count {
-//                self.markerClustringAnimation(.divide, newMarkers)
-//            }
-        })
-    }
-
-    private func markerClustringAnimation(_ type: ClusteringAnimationType, _ newMarkers: [NMFMarker]) {
-        let upperMarkers = (type == .merge) ? newMarkers : markers
-        let lowerMarkers = (type == .merge) ? markers : newMarkers
-        
-        switch type {
-        case .merge:
-            newMarkers.forEach { $0.mapView = naverMapView }
-        case .divide:
-            markers.forEach { $0.mapView = nil }
         }
-        
-        lowerMarkers.forEach { lowerMarker in
-            var nearestMarker = upperMarkers[0]
-            var minDistance = squaredDistance(lowerMarker, nearestMarker)
-            
-            upperMarkers[1...].forEach { upperMarker in
-                let newDistance = squaredDistance(lowerMarker, upperMarker)
-                if newDistance < minDistance {
-                    nearestMarker = upperMarker
-                    minDistance = newDistance
-                }
-            }
-            
-            switch type {
-            case .merge:
-                let lat = nearestMarker.position.lat
-                let lng = nearestMarker.position.lng
-                lowerMarker.moveWithAnimation(naverMapView,
-                                              to: .init(lat: lat, lng: lng),
-                                              queue: animationOperationQueue) {
-                    lowerMarker.mapView = nil
-                }
-                
-            case .divide:
-                let lat = lowerMarker.position.lat
-                let lng = lowerMarker.position.lng
-                lowerMarker.position = .init(lat: nearestMarker.position.lat,
-                                             lng: nearestMarker.position.lng)
-                lowerMarker.mapView = naverMapView
-                lowerMarker.moveWithAnimation(naverMapView,
-                                              to: .init(lat: lat, lng: lng),
-                                              queue: animationOperationQueue,
-                                              complete: nil)
-            }
-        }
-        markers = newMarkers
     }
     
     private func squaredDistance(_ lhs: NMFMarker, _ rhs: NMFMarker) -> Double {
