@@ -204,12 +204,18 @@ extension ViewController: NMFMapViewCameraDelegate {
                 $0.mapView = nil
             })
             
-            self.clusteringAnimation(old: self.markers, new: newMarkers, isMerge: self.markers.count > newMarkers.count)
-
+            self.clusteringAnimation(old: self.markers.map { $0.position }, new: newMarkers.map { $0.position }, isMerge: self.markers.count > newMarkers.count) {
+                
+                self.markers = newMarkers
+                
+                self.markers.forEach({
+                    $0.mapView = self.naverMapView
+                })
+            }
         })
     }
     
-    private func clusteringAnimation(old: [NMFMarker], new: [NMFMarker], isMerge: Bool) {
+    private func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: @escaping () -> Void) {
         let upper = isMerge ? new : old
         let lower = isMerge ? old : new
         let group = DispatchGroup()
@@ -217,7 +223,7 @@ extension ViewController: NMFMapViewCameraDelegate {
         lower.compactMap { lowerMarker in
             guard let upperMarker = upper
                     .map({ upperMarker in
-                        (upperMarker, squaredDistance(lowerMarker, upperMarker))
+                        (upperMarker, lowerMarker.distance(to: upperMarker))
                     })
                     .min(by: { (lhs, rhs) -> Bool in
                         lhs.1 < rhs.1
@@ -226,24 +232,16 @@ extension ViewController: NMFMapViewCameraDelegate {
             else { return nil }
             
             return isMerge ? (lowerMarker, upperMarker) : (upperMarker, lowerMarker)
-        }.forEach { (from: NMFMarker, to: NMFMarker) -> Void in
+        }.forEach { (from: NMGLatLng, to: NMGLatLng) -> Void in
             group.enter()
-            moveWithAnimation(from: from.position, to: to.position, complete: {
+            moveWithAnimation(from: from, to: to, complete: {
                 group.leave()
             })
         }
         
         group.notify(queue: .main) {
-            self.markers = new
-            
-            self.markers.forEach({
-                $0.mapView = self.naverMapView
-            })
+            completion()
         }
-    }
-    
-    private func squaredDistance(_ lhs: NMFMarker, _ rhs: NMFMarker) -> Double {
-        return pow(lhs.position.lat - rhs.position.lat, 2) + pow(lhs.position.lng - rhs.position.lng, 2)
     }
 }
 
