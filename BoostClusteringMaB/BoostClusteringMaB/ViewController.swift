@@ -55,17 +55,6 @@ class ViewController: UIViewController {
             })
         }
     }
-    
-    //    func generatePoints() -> [LatLng] {
-    //        guard let xList = poiData?.places.compactMap({Double($0.x)}) else { return [] }
-    //        guard let yList = poiData?.places.compactMap({Double($0.y)}) else { return [] }
-    //
-    //        var points = [LatLng]()
-    //        for (x, y) in zip(xList, yList) {
-    //            points.append(LatLng(lat: y, lng: x))
-    //        }
-    //        return points
-    //    }
 
     func findOptimalClustering(completion: @escaping ([LatLng], [Int]) -> Void) {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
@@ -107,7 +96,6 @@ class ViewController: UIViewController {
             self?.combineClusters(kMeans: minKMeans, clusters: minKMeans.clusters)
             let points = minKMeans.clusters.map({$0.points.size})
             completion(minKMeans.centroids, points)
-
         }
     }
     
