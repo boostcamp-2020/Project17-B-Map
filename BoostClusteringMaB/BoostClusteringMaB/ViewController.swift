@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     let markerImageView = MarkerImageView(radius: 30)
     var markers = [NMFMarker]()
     var poiData: [POI]?
+	var clustering: Clustering?
 
     let coreDataLayer: CoreDataManager = CoreDataLayer()
 
@@ -25,7 +26,12 @@ class ViewController: UIViewController {
 //        jsonToData(name: "gangnam_8000")
 //        jsonToData(name: "restaurant")
         configureMapView()
+		configureClustering()
     }
+	
+	private func configureClustering() {
+		clustering = Clustering(naverMapView: naverMapView, coreDataLayer: coreDataLayer)
+	}
     
     private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
@@ -67,75 +73,7 @@ class ViewController: UIViewController {
     //        return points
     //    }
 
-    func findOptimalClustering(completion: @escaping ([LatLng], [Int]) -> Void) {
-        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-
-        guard let points = try? coreDataLayer.fetch(southWest: southWest,
-                                                    northEast: northEast, sorted: true).map({poi in
-                                                        LatLng(lat: poi.latitude, lng: poi.longitude)
-                                                    }) else { return }
-
-        guard !points.isEmpty else { return }
-
-        let kRange = (2...10)
-
-        var minValue = Double.greatestFiniteMagnitude
-        var minKMeans: KMeans?
-
-        let group = DispatchGroup.init()
-        let serialQueue = DispatchQueue.init(label: "serial")
-
-        kRange.forEach { k in
-            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: points)
-                kMeans.run()
-
-                let DBI = kMeans.daviesBouldinIndex()
-                serialQueue.async(group: group) {
-                    if DBI <= minValue {
-                        minValue = DBI
-                        minKMeans = kMeans
-                    }
-                }
-            }
-        }
-        
-        group.notify(queue: .main) { [weak self] in
-            guard let minKMeans = minKMeans else { return }
-            self?.combineClusters(kMeans: minKMeans, clusters: minKMeans.clusters)
-            let points = minKMeans.clusters.map({$0.points.size})
-            completion(minKMeans.centroids, points)
-
-        }
-    }
     
-    func combineClusters(kMeans: KMeans, clusters: [Cluster]) {
-        let stdDistance: Double = 90     //추후 클러스터 크기에 따라 변동가능성
-        
-        for i in 0..<clusters.count {
-            for j in 0..<clusters.count {
-                if i == j { continue }
-                let point1 = convertLatLngToPoint(latLng: clusters[i].center)
-                let point2 = convertLatLngToPoint(latLng: clusters[j].center)
-                let distance = point1.distance(to: point2)
-                if stdDistance > distance {
-                    clusters[i].combine(other: clusters[j])
-                    let newClusters = clusters.filter { $0 != clusters[j] }
-                    kMeans.clusters = newClusters
-                    combineClusters(kMeans: kMeans, clusters: newClusters)
-                    return
-                }
-            }
-        }
-    }
-    
-    func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
-        let projection = naverMapView.projection
-        let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-        return point
-    }
     var newMarkers: [NMFMarker]?
 }
 
@@ -145,7 +83,8 @@ extension ViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        findOptimalClustering(completion: { [weak self] array, pointSize in
+		//움직인 좌표로 Fetch
+		clustering?.findOptimalClustering(completion: { [weak self] array, pointSize, convexHullPoints in
             guard let self = self else { return }
 
             let newMarkers: [NMFMarker] = zip(array, pointSize).map {
@@ -181,6 +120,17 @@ extension ViewController: NMFMapViewCameraDelegate {
 //            } else if self.markers.count < newMarkers.count {
 //                self.markerClustringAnimation(.divide, newMarkers)
 //            }
+			
+			// MARK: - 영역표시
+			convexHullPoints.forEach { latlngs in
+				let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
+				guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject> else { return }
+				let polygonOverlay = NMFPolygonOverlay(polygon)
+				polygonOverlay?.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
+				polygonOverlay?.outlineWidth = 3
+				polygonOverlay?.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
+				polygonOverlay?.mapView = self.naverMapView
+			}
         })
     }
 
