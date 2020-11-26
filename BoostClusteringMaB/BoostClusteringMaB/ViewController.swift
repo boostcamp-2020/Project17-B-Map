@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     var poiData: [POI]?
 
     let coreDataLayer: CoreDataManager = CoreDataLayer()
-    var animationView: UIView?
+    var markerAnimationController: MarkerAnimateController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,52 +24,9 @@ class ViewController: UIViewController {
 //        jsonToData(name: "gangnam_8000")
 //        jsonToData(name: "restaurant")
         configureMapView()
+        markerAnimationController = MarkerAnimateController(view: view,
+                                                                projection: naverMapView.projection)
         
-        let animationView = UIButton(frame: view.frame)
-        animationView.backgroundColor = .clear
-        view.addSubview(animationView)
-        animationView.isUserInteractionEnabled = false
-        self.animationView = animationView
-    }
-    
-    func moveWithAnimation(from source: NMGLatLng, to destination: NMGLatLng, complete: (() -> Void)?) {
-        let sourcePoint = self.naverMapView.projection.point(from: source)
-        let destinationPoint = self.naverMapView.projection.point(from: destination)
-        
-        guard sourcePoint.distance(to: .zero) < 1000,
-              destinationPoint.distance(to: .zero) < 1000 else {
-            complete?()
-            return
-        }
-        
-        let radius: CGFloat = 60
-        
-        let sourcePointView = MarkerImageView(frame: CGRect(x: 0, y: 0, width: radius, height: radius))
-        sourcePointView.center = CGPoint(x: sourcePoint.x, y: sourcePoint.y - radius / 2)
-        sourcePointView.transform = .identity
-        animationView?.addSubview(sourcePointView)
-        
-        let destinationPointView = MarkerImageView(frame: CGRect(x: 0, y: 0, width: radius, height: radius))
-        destinationPointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius / 2)
-        destinationPointView.alpha = 0
-        destinationPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
-        animationView?.addSubview(destinationPointView)
-
-        UIView.animate(
-            withDuration: 0.5,
-            animations: {
-                sourcePointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius)
-                sourcePointView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-                sourcePointView.alpha = 0
-                
-                destinationPointView.transform = .identity
-                destinationPointView.alpha = 1
-            },
-            completion: { _ in
-                sourcePointView.removeFromSuperview()
-                destinationPointView.removeFromSuperview()
-                complete?()
-            })
     }
     
     private func configureMapView() {
@@ -204,8 +161,11 @@ extension ViewController: NMFMapViewCameraDelegate {
                 $0.mapView = nil
             })
             
-            self.clusteringAnimation(old: self.markers.map { $0.position }, new: newMarkers.map { $0.position }, isMerge: self.markers.count > newMarkers.count) {
-                
+            self.markerAnimationController?.clusteringAnimation(
+                old: self.markers.map { $0.position },
+                new: newMarkers.map { $0.position },
+                isMerge: self.markers.count > newMarkers.count) {
+                // after animation
                 self.markers = newMarkers
                 
                 self.markers.forEach({
@@ -215,34 +175,6 @@ extension ViewController: NMFMapViewCameraDelegate {
         })
     }
     
-    private func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: @escaping () -> Void) {
-        let upper = isMerge ? new : old
-        let lower = isMerge ? old : new
-        let group = DispatchGroup()
-        
-        lower.compactMap { lowerMarker in
-            guard let upperMarker = upper
-                    .map({ upperMarker in
-                        (upperMarker, lowerMarker.distance(to: upperMarker))
-                    })
-                    .min(by: { (lhs, rhs) -> Bool in
-                        lhs.1 < rhs.1
-                    })?
-                    .0
-            else { return nil }
-            
-            return isMerge ? (lowerMarker, upperMarker) : (upperMarker, lowerMarker)
-        }.forEach { (from: NMGLatLng, to: NMGLatLng) -> Void in
-            group.enter()
-            moveWithAnimation(from: from, to: to, complete: {
-                group.leave()
-            })
-        }
-        
-        group.notify(queue: .main) {
-            completion()
-        }
-    }
 }
 
 extension ViewController: NMFMapViewTouchDelegate {
