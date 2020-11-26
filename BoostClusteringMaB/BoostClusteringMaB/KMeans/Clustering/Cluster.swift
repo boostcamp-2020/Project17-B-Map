@@ -17,13 +17,13 @@ class Cluster: Equatable {
 	
 	init(center: LatLng) {
 		self.center = center
-		self.points = LinkedList<LatLng>()
+        self.points = LinkedList<LatLng>()
 	}
 	
 	func add(point: LatLng) {
 		points.add(point)
 	}
-	
+
 	@discardableResult
 	func remove(point: LatLng) -> LatLng? {
 		return points.remove()

@@ -37,10 +37,10 @@ class ConvexHull {
             }
             
             if left.y != right.y {
-                return left.y < right.y;
+                return left.y < right.y
             }
             
-            return left.x < right.x;
+            return left.x < right.x
         })
         
     }
@@ -81,6 +81,6 @@ class ConvexHull {
         }
         var result = stack.map { infos[$0] }
         result.append(infos[0])
-        return result.map{LatLng(lat: $0.y, lng: $0.x)}
+        return result.map({LatLng(lat: $0.y, lng: $0.x)})
     }
 }

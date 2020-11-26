@@ -14,14 +14,15 @@ class LinkedList<T: Equatable> {
 	var tail: Node<T>?
 	var now: Node<T>?
 	
-	init () {
+    init () {
 		self.size = 0
 		self.head = nil
 		self.tail = nil
-		self.now = nil
+        self.now = nil
 	}
 	
 	deinit {
+        //계속 불림
 		prepareForDeinit()
 	}
 	

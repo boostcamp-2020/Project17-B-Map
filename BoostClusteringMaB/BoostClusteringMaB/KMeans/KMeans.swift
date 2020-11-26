@@ -37,7 +37,7 @@ class KMeans {
 		self.clusters = []
 		self.isChanged = false
 	}
-	
+
 	//시간은 maxK를 조정하는방식으로 줌레벨에 따라 + 애니메이션
 	func run() {
 		let maxIteration = 5 // 없으면 2~30번 돈다.
@@ -110,7 +110,7 @@ class KMeans {
 		isChanged = false
 		
 		clusters.forEach { cluster in
-			let points = cluster.points
+            var points = cluster.points
 			points.setNowToHead()
 			for _ in 0..<points.size {
 				guard let point = points.now?.value else { points.moveNowToNext(); break }

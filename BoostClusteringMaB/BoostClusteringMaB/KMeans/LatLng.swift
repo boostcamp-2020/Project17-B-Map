@@ -32,8 +32,6 @@ struct LatLng {
 	func distance(to other: LatLng) -> Double {
 		return sqrt(squaredDistance(to: other))
 	}
-
-
 }
 
 extension LatLng: Hashable {

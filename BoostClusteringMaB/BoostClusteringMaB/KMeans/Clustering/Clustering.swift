@@ -45,7 +45,7 @@ class Clustering {
 				serialQueue.async(group: group) {
 					if DBI <= minValue {
 						minValue = DBI
-						minKMeans = kMeans
+                        minKMeans = kMeans
 					}
 				}
 			}
@@ -54,7 +54,8 @@ class Clustering {
 		group.notify(queue: .main) { [weak self] in
 			guard let minKMeans = minKMeans else { return }
 			self?.combineClusters(kMeans: minKMeans, clusters: minKMeans.clusters)
-			let points = minKMeans.clusters.map({$0.points.size})
+            // 이후 링크드 리스트가 사라지면서 deinit 불림
+            let points = minKMeans.clusters.map({$0.points.size})
 			let convexHullPoints = minKMeans.clusters.map { $0.area() }
 			completion(minKMeans.centroids, points, convexHullPoints)
 		}
@@ -62,18 +63,20 @@ class Clustering {
 	
 	func combineClusters(kMeans: KMeans, clusters: [Cluster]) {
 		let stdDistance: Double = 90     //추후 클러스터 크기에 따라 변동가능성
-		
+        var clustersTemp = clusters
+
 		for i in 0..<clusters.count {
-			for j in 0..<clusters.count {
-				if i == j { continue }
+			for j in 0..<clusters.count where i < j {
+//				if i < j { continue }
 				let point1 = convertLatLngToPoint(latLng: clusters[i].center)
 				let point2 = convertLatLngToPoint(latLng: clusters[j].center)
 				let distance = point1.distance(to: point2)
 				if stdDistance > distance {
-					clusters[i].combine(other: clusters[j])
-					let newClusters = clusters.filter { $0 != clusters[j] }
-					kMeans.clusters = newClusters
-					combineClusters(kMeans: kMeans, clusters: newClusters)
+                    clustersTemp[i].combine(other: clustersTemp[j])
+                    clustersTemp.remove(at: j)
+//					let newClusters = clusters.filter { $0 != clusters[j] }
+					kMeans.clusters = clustersTemp
+					combineClusters(kMeans: kMeans, clusters: clustersTemp)
 					return
 				}
 			}
