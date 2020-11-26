@@ -70,4 +70,14 @@ class Cluster: Equatable {
 		let result = sum / Double(points.size)
 		return result
 	}
+	
+	func area() -> [LatLng] {
+		let sortedPoints = points.allValues().sorted(by: {
+			($0.lng, $0.lat) < ($1.lng, $1.lat)
+		})
+		guard let first = sortedPoints.first else { return [] }
+		let convexHull = ConvexHull(stdPoint: first, points: sortedPoints)
+		let convexHullPoints = convexHull.run()
+		return convexHullPoints
+	}
 }
