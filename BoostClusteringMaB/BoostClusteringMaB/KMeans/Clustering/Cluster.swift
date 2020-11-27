@@ -14,12 +14,12 @@ class Cluster: Equatable {
 	
 	var center: LatLng
 	var points: LinkedList<LatLng>
-	
+
 	init(center: LatLng) {
 		self.center = center
         self.points = LinkedList<LatLng>()
 	}
-	
+
 	func add(point: LatLng) {
 		points.add(point)
 	}
