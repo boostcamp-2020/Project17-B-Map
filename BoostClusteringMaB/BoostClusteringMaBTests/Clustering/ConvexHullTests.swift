@@ -10,7 +10,23 @@ import XCTest
 
 class ConvexHullTests: XCTestCase {
     
-    func testExample() {
+    func test_ConvexHull() {
+        
+        //Given
+        let stdPoint = LatLng(lat: 0.0, lng: 0.0)
+        var points: [LatLng] = []
+
+        points.append(LatLng(lat: 0.0, lng: 0.0))
+        points.append(LatLng(lat: 0.0, lng: 1.0))
+        points.append(LatLng(lat: 1.0, lng: 0.0))
+        points.append(LatLng(lat: 1.0, lng: 1.0))
+        points.append(LatLng(lat: 0.6, lng: 0.7))
+
+        //When
+        let convex = ConvexHull(stdPoint: stdPoint, points: points)
+
+        //Then
+        XCTAssertEqual(convex.run().count, 5)
         
     }
 }
