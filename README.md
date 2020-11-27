@@ -6,7 +6,7 @@
 
 [![Swift](https://img.shields.io/badge/swift-v5.3-orange?logo=swift)](https://developer.apple.com/kr/swift/)
 [![Xcode](https://img.shields.io/badge/xcode-v12.2-blue?logo=xcode)](https://developer.apple.com/kr/xcode/)
-[![CocoaPods](https://img.shields.io/badge/CocoaPods-v1.8.4-blue?logo=CocoaPods)](https://developer.apple.com/kr/xcode/)
+[![CocoaPods](https://img.shields.io/badge/CocoaPods-v1.10.0-blue?logo=CocoaPods)](https://developer.apple.com/kr/xcode/)
 
 [![GitHub Open Issues](https://img.shields.io/github/issues-raw/boostcamp-2020/Project17-B-Map?color=green)](https://github.com/boostcamp-2020/Project17-B-Map/issues)
 [![GitHub Closed Issues](https://img.shields.io/github/issues-closed-raw/boostcamp-2020/Project17-B-Map?color=red)](https://github.com/boostcamp-2020/Project17-B-Map/issues?q=is%3Aissue+is%3Aclosed)
@@ -20,7 +20,7 @@
 
 # Map App 
 [![Releases](https://img.shields.io/github/v/release/boostcamp-2020/Project17-B-Map)](https://github.com/boostcamp-2020/Project17-B-Map/releases)
-[![build](https://github.com/boostcamp-2020/Project17-B-Map/workflows/CI/badge.svg)](https://github.com/boostcamp-2020/Project17-B-Map/actions)
+[![build](https://github.com/boostcamp-2020/Project17-B-Map/workflows/iOS%20CI/badge.svg)](https://github.com/boostcamp-2020/Project17-B-Map/actions)
 
 ## Author
 
@@ -28,9 +28,22 @@
 | ----------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 |  **[S001] 강민석** <br>[@kati-kms](https://github.com/kati-kms)   |  **[S009] 김석호** [@SeokBA](https://github.com/seokBA)   |  **[S018] 박재현** [@wogus3602](https://github.com/wogus3602)     |  **[S057] 조정래** [@chojl1125](https://github.com/chojl1125)     |  **[S063] 현기엽** [@KYHyeon](https://github.com/KYHyeon)     |
 
+## 프로젝트 목표
 
-## Library
+### Clustering
+- Kmeans 클러스터 계산 시간 1초 이내
+- Davies-Bouldin index 1.0 이내의 k값 설정하기
 
+### Animation
+- 사용자 입장에서 자연스러운 애니메이션 구현 (60fps기준)
+- 마커가 병합/분할 된 뒤, 바운스되는 애니메이션 구현
+
+### Interaction
+- POI Data 8000개 기준 클러스터 터치 최대 7번 내로 목표 지점 도달
+- 카테고리 별 검색 기능 구현
+
+### Unit Test
+- 기능을 개발했으면 단위테스트 작성해서 익숙해지기
 
 ## Requirements
  - iOS 14.0+
