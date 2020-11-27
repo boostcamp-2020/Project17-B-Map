@@ -98,18 +98,18 @@ extension ViewController: NMFMapViewCameraDelegate {
                 return
             }
             
-//            self.markers.forEach({
-//                $0.mapView = nil
-//            })
-//            self.markers = newMarkers
-//
-//            self.markers.forEach({
-//                $0.mapView = self.naverMapView
-//            })
+            //            self.markers.forEach({
+            //                $0.mapView = nil
+            //            })
+            //            self.markers = newMarkers
+            //
+            //            self.markers.forEach({
+            //                $0.mapView = self.naverMapView
+            //            })
 
             self.markers.forEach({
-                  $0.mapView = nil
-              })
+                $0.mapView = nil
+            })
 
             // MARK: Animation
 
