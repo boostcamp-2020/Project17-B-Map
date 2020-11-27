@@ -128,6 +128,14 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		0D0172CD2570C15100A26886 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		0DF97E34256B9F280007BCEE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +186,7 @@
 		708C08BB256258320072B1E0 /* BoostClusteringMaB */ = {
 			isa = PBXGroup;
 			children = (
+				0D0172CD2570C15100A26886 /* Animations */,
 				F45E25DF256CCB9000054D55 /* CoreData */,
 				0DF97E34256B9F280007BCEE /* Views */,
 				C31435B7256BB8010066C423 /* extension */,
@@ -193,7 +202,6 @@
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
 				70BFFD5B256CB9360048CEA6 /* CSVParser.swift */,
 				70BFFD7E256CD6120048CEA6 /* poi.csv */,
-				F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
