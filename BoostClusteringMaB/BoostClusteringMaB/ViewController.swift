@@ -30,7 +30,6 @@ class ViewController: UIViewController {
     
     private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
-        // let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)) // 을지로
         naverMapView = mapView.mapView
         mapView.showZoomControls = true
 
@@ -166,7 +165,6 @@ extension ViewController: NMFMapViewCameraDelegate {
                 isMerge: self.markers.count > newMarkers.count) {
                 // after animation
                 self.markers = newMarkers
-                
                 self.markers.forEach({
                     $0.mapView = self.naverMapView
                 })
