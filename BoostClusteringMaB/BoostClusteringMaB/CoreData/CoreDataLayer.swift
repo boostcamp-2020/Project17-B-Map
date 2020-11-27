@@ -25,7 +25,7 @@ final class CoreDataLayer: CoreDataManager {
     
     private lazy var childContext: NSManagedObjectContext = {
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-
+        
         childContext.parent = CoreDataContainer.shared.mainContext
         return childContext
     }()
@@ -35,7 +35,7 @@ final class CoreDataLayer: CoreDataManager {
               let longitude = Double(place.x) else {
             throw CoreDataError.invalidCoordinate
         }
-
+        
         childContext.perform { [weak self] in
             guard let self = self else {
                 return

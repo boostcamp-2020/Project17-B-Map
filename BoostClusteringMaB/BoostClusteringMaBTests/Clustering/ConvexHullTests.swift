@@ -9,8 +9,8 @@ import XCTest
 @testable import BoostClusteringMaB
 
 class ConvexHullTests: XCTestCase {
-
+    
     func testExample() {
-
+        
     }
 }

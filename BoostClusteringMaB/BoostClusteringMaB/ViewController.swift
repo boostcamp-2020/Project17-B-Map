@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var naverMapView: NMFMapView!
     var markers = [NMFMarker]()
     var poiData: [POI]?
-	var clustering: Clustering?
+    var clustering: Clustering?
     var polygonOverlays = [NMFPolygonOverlay]()
 
     let coreDataLayer: CoreDataManager = CoreDataLayer()
@@ -22,16 +22,16 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        try? coreDataLayer.removeAll()
-//        jsonToData(name: "gangnam_8000")
-//        jsonToData(name: "restaurant")
+        //        try? coreDataLayer.removeAll()
+        //        jsonToData(name: "gangnam_8000")
+        //        jsonToData(name: "restaurant")
         configureMapView()
-		configureClustering()
+        configureClustering()
     }
-	
-	private func configureClustering() {
-		clustering = Clustering(naverMapView: naverMapView, coreDataLayer: coreDataLayer)
-	}
+
+    private func configureClustering() {
+        clustering = Clustering(naverMapView: naverMapView, coreDataLayer: coreDataLayer)
+    }
     
     private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
@@ -71,8 +71,8 @@ extension ViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-		//움직인 좌표로 Fetch
-		clustering?.findOptimalClustering(completion: { [weak self] array, pointSize, convexHullPoints in
+        //움직인 좌표로 Fetch
+        clustering?.findOptimalClustering(completion: { [weak self] array, pointSize, convexHullPoints in
             guard let self = self else { return }
 
             let newMarkers: [NMFMarker] = zip(array, pointSize).map {
@@ -103,31 +103,31 @@ extension ViewController: NMFMapViewCameraDelegate {
 
             // MARK: Animation
 
-//            if self.markers.count > newMarkers.count {
-//                self.markerClustringAnimation(.merge, newMarkers)
-//            } else if self.markers.count < newMarkers.count {
-//                self.markerClustringAnimation(.divide, newMarkers)
-//            }
-			
+            //            if self.markers.count > newMarkers.count {
+            //                self.markerClustringAnimation(.merge, newMarkers)
+            //            } else if self.markers.count < newMarkers.count {
+            //                self.markerClustringAnimation(.divide, newMarkers)
+            //            }
+
             self.polygonOverlays.forEach {
                 $0.mapView = nil
             }
             
             self.polygonOverlays.removeAll()
             
-			// MARK: - 영역표시
+            // MARK: - 영역표시
             for latlngs in convexHullPoints where latlngs.count > 3 {
-				let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
+                let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
 
-				guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject>,
+                guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject>,
                       let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
                 
-				polygonOverlay.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
-				polygonOverlay.outlineWidth = 3
-				polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
-				polygonOverlay.mapView = self.naverMapView
+                polygonOverlay.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
+                polygonOverlay.outlineWidth = 3
+                polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
+                polygonOverlay.mapView = self.naverMapView
                 self.polygonOverlays.append(polygonOverlay)
-			}
+            }
         })
     }
 
@@ -187,8 +187,8 @@ extension ViewController: NMFMapViewCameraDelegate {
 extension ViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         // MARK: - 화면 터치시 마커 찍기
-//        let marker = NMFMarker(position: latlng)
-//        marker.mapView = mapView
+        //        let marker = NMFMarker(position: latlng)
+        //        marker.mapView = mapView
     }
 }
 
