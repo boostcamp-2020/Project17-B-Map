@@ -16,7 +16,7 @@ class CoreDataTests: XCTestCase {
                          y: "35.55532",
                          imageURL: nil,
                          category: "부스트캠프")
-    
+
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
@@ -70,7 +70,8 @@ class CoreDataTests: XCTestCase {
     func testFetchPOIBetweenY30_45X120_135_All() throws {
         // Given
         let layer = CoreDataLayer()
-        
+        try layer.removeAll()
+
         // When
         let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
         
@@ -104,8 +105,10 @@ class CoreDataTests: XCTestCase {
             // Given
             let numberOfRepeats = 10000
             let layer = CoreDataLayer()
+            try layer.removeAll()
             let beforeCount = try layer.fetch().count
             let group = DispatchGroup()
+
             // When
             for _ in 0..<numberOfRepeats {
                 group.enter()
@@ -113,6 +116,7 @@ class CoreDataTests: XCTestCase {
                     group.leave()
                 }
             }
+
             // Then
             group.notify(queue: .main) {
                 try? layer.save()
