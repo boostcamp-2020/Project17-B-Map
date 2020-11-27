@@ -40,6 +40,8 @@
 		F48E8ED125702FAC00507D01 /* MarkerAnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */; };
 		F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */; };
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
+		F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4A07BAD257118BF00B18415 /* Loading.storyboard */; };
+		F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A07BB125711B1900B18415 /* LoadViewController.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
 /* End PBXBuildFile section */
@@ -94,6 +96,8 @@
 		F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerAnimateController.swift; sourceTree = "<group>"; };
 		F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+isValid.swift"; sourceTree = "<group>"; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
+		F4A07BAD257118BF00B18415 /* Loading.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
+		F4A07BB125711B1900B18415 /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,6 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				0DF97E35256B9F330007BCEE /* MarkerImageView.swift */,
+				708C08C2256258320072B1E0 /* Main.storyboard */,
+				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
+				F4A07BAD257118BF00B18415 /* Loading.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -186,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				0D0172CD2570C15100A26886 /* Animations */,
+				F4A07BBB2571203700B18415 /* Loading */,
 				F45E25DF256CCB9000054D55 /* CoreData */,
 				0DF97E34256B9F280007BCEE /* Views */,
 				C31435B7256BB8010066C423 /* extension */,
@@ -194,9 +202,7 @@
 				708C08BC256258320072B1E0 /* AppDelegate.swift */,
 				708C08BE256258320072B1E0 /* SceneDelegate.swift */,
 				708C08C0256258320072B1E0 /* ViewController.swift */,
-				708C08C2256258320072B1E0 /* Main.storyboard */,
 				708C08C8256258330072B1E0 /* Assets.xcassets */,
-				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
 				0D0172BF2570BF2A00A26886 /* JsonParser.swift */,
@@ -274,6 +280,14 @@
 				70387DCF256DEB9900F138CB /* CoreDataLayer.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		F4A07BBB2571203700B18415 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				F4A07BB125711B1900B18415 /* LoadViewController.swift */,
+			);
+			path = Loading;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,6 +388,7 @@
 				708C08C9256258330072B1E0 /* Assets.xcassets in Resources */,
 				70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */,
 				708C08C4256258320072B1E0 /* Main.storyboard in Resources */,
+				F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +478,7 @@
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				0D0172C42570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift in Sources */,
+				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
 				C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */,
