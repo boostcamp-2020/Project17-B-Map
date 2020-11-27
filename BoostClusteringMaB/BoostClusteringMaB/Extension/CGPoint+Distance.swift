@@ -8,7 +8,7 @@
 import UIKit
 
 extension CGPoint {
-	func distance(to point: CGPoint) -> Double {
-		return Double(sqrt(pow((point.x - x), 2) + pow((point.y - y), 2)))
-	}
+    func distance(to point: CGPoint) -> Double {
+        return Double(sqrt(pow((point.x - x), 2) + pow((point.y - y), 2)))
+    }
 }

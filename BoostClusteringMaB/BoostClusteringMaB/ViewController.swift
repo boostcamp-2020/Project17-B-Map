@@ -11,22 +11,30 @@ import NMapsMap
 class ViewController: UIViewController {
     lazy var mapView = NMFNaverMapView(frame: view.frame)
     var naverMapView: NMFMapView!
-    let markerImageView = MarkerImageView(radius: 30)
     var markers = [NMFMarker]()
     var poiData: [POI]?
+    var clustering: Clustering?
+    var polygonOverlays = [NMFPolygonOverlay]()
 
     let coreDataLayer: CoreDataManager = CoreDataLayer()
+    let animationOperationQueue = OperationQueue.main
+    let markerImageView = MarkerImageView(radius: 30)
+
     var markerAnimationController: MarkerAnimateController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        try? coreDataLayer.removeAll()
-//        jsonToData(name: "gangnam_8000")
-//        jsonToData(name: "restaurant")
+        //        try? coreDataLayer.removeAll()
+        //        jsonToData(name: "gangnam_8000")
+        //        jsonToData(name: "restaurant")
         configureMapView()
+        configureClustering()
         markerAnimationController = MarkerAnimateController(view: view,
-                                                                projection: naverMapView.projection)
-        
+                                                            projection: naverMapView.projection)
+    }
+
+    private func configureClustering() {
+        clustering = Clustering(naverMapView: naverMapView, coreDataLayer: coreDataLayer)
     }
     
     private func configureMapView() {
@@ -58,75 +66,7 @@ class ViewController: UIViewController {
             })
         }
     }
-
-    func findOptimalClustering(completion: @escaping ([LatLng], [Int]) -> Void) {
-        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-
-        guard let points = try? coreDataLayer.fetch(southWest: southWest,
-                                                    northEast: northEast, sorted: true).map({poi in
-                                                        LatLng(lat: poi.latitude, lng: poi.longitude)
-                                                    }) else { return }
-
-        guard !points.isEmpty else { return }
-
-        let kRange = (2...10)
-
-        var minValue = Double.greatestFiniteMagnitude
-        var minKMeans: KMeans?
-
-        let group = DispatchGroup.init()
-        let serialQueue = DispatchQueue.init(label: "serial")
-
-        kRange.forEach { k in
-            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: points)
-                kMeans.run()
-
-                let DBI = kMeans.daviesBouldinIndex()
-                serialQueue.async(group: group) {
-                    if DBI <= minValue {
-                        minValue = DBI
-                        minKMeans = kMeans
-                    }
-                }
-            }
-        }
-        
-        group.notify(queue: .main) { [weak self] in
-            guard let minKMeans = minKMeans else { return }
-            self?.combineClusters(kMeans: minKMeans, clusters: minKMeans.clusters)
-            let points = minKMeans.clusters.map({$0.points.size})
-            completion(minKMeans.centroids, points)
-        }
-    }
     
-    func combineClusters(kMeans: KMeans, clusters: [Cluster]) {
-        let stdDistance: Double = 90     //추후 클러스터 크기에 따라 변동가능성
-        
-        for i in 0..<clusters.count {
-            for j in 0..<clusters.count {
-                if i == j { continue }
-                let point1 = convertLatLngToPoint(latLng: clusters[i].center)
-                let point2 = convertLatLngToPoint(latLng: clusters[j].center)
-                let distance = point1.distance(to: point2)
-                if stdDistance > distance {
-                    clusters[i].combine(other: clusters[j])
-                    let newClusters = clusters.filter { $0 != clusters[j] }
-                    kMeans.clusters = newClusters
-                    combineClusters(kMeans: kMeans, clusters: newClusters)
-                    return
-                }
-            }
-        }
-    }
-    
-    func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
-        let projection = naverMapView.projection
-        let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-        return point
-    }
     var newMarkers: [NMFMarker]?
 }
 
@@ -146,7 +86,8 @@ extension ViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        findOptimalClustering(completion: { [weak self] latLngs, pointSizes in
+        //움직인 좌표로 Fetch
+        clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints in
             guard let self = self else { return }
 
             let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
@@ -157,31 +98,61 @@ extension ViewController: NMFMapViewCameraDelegate {
                 return
             }
             
+            //            self.markers.forEach({
+            //                $0.mapView = nil
+            //            })
+            //            self.markers = newMarkers
+            //
+            //            self.markers.forEach({
+            //                $0.mapView = self.naverMapView
+            //            })
+
             self.markers.forEach({
                 $0.mapView = nil
             })
-            
+
+            // MARK: Animation
+
             self.markerAnimationController?.clusteringAnimation(
                 old: self.markers.map { $0.position },
                 new: newMarkers.map { $0.position },
                 isMerge: self.markers.count > newMarkers.count) {
                 // after animation
                 self.markers = newMarkers
-                
+
                 self.markers.forEach({
                     $0.mapView = self.naverMapView
                 })
             }
+
+            self.polygonOverlays.forEach {
+                $0.mapView = nil
+            }
+            
+            self.polygonOverlays.removeAll()
+            
+            // MARK: - 영역표시
+            for latlngs in convexHullPoints where latlngs.count > 3 {
+                let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
+
+                guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject> else { return }
+                guard let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
+
+                polygonOverlay.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
+                polygonOverlay.outlineWidth = 3
+                polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
+                polygonOverlay.mapView = self.naverMapView
+                self.polygonOverlays.append(polygonOverlay)
+            }
         })
     }
-    
 }
 
 extension ViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         // MARK: - 화면 터치시 마커 찍기
-//        let marker = NMFMarker(position: latlng)
-//        marker.mapView = mapView
+        //        let marker = NMFMarker(position: latlng)
+        //        marker.mapView = mapView
     }
 }
 

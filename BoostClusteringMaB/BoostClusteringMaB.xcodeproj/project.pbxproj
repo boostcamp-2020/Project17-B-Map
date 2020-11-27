@@ -11,6 +11,7 @@
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
 		70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD0256DEB9900F138CB /* CoreDataContainer.swift */; };
+		707942C2256FD056002AF718 /* ConvexHullTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707942C1256FD056002AF718 /* ConvexHullTests.swift */; };
 		708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BC256258320072B1E0 /* AppDelegate.swift */; };
 		708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BE256258320072B1E0 /* SceneDelegate.swift */; };
 		708C08C1256258320072B1E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C0256258320072B1E0 /* ViewController.swift */; };
@@ -24,6 +25,8 @@
 		70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */ = {isa = PBXBuildFile; fileRef = 70BFFD7E256CD6120048CEA6 /* poi.csv */; };
 		C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435B3256BAA000066C423 /* CGPoint+Distance.swift */; };
 		C3496436256CEBAE001F40AA /* KMeansTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3496435256CEBAE001F40AA /* KMeansTest.swift */; };
+		C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A28798256F986D00DF23B1 /* Clustering.swift */; };
+		C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */; };
 		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
 		C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB0850256B875800B93665 /* gangnam_8000.json */; };
 		C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0854256B87A200B93665 /* LinkedList.swift */; };
@@ -57,6 +60,7 @@
 		700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70387DCF256DEB9900F138CB /* CoreDataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
 		70387DD0256DEB9900F138CB /* CoreDataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
+		707942C1256FD056002AF718 /* ConvexHullTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHullTests.swift; sourceTree = "<group>"; };
 		708C08B9256258320072B1E0 /* BoostClusteringMaB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoostClusteringMaB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		708C08BC256258320072B1E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		708C08BE256258320072B1E0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
 		C31435B3256BAA000066C423 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
 		C3496435256CEBAE001F40AA /* KMeansTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeansTest.swift; sourceTree = "<group>"; };
+		C3A28798256F986D00DF23B1 /* Clustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clustering.swift; sourceTree = "<group>"; };
+		C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHull.swift; sourceTree = "<group>"; };
 		C3FB084B256B873700B93665 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
 		C3FB0850256B875800B93665 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		C3FB0854256B87A200B93665 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
@@ -133,6 +139,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		707942C8257027E0002AF718 /* Clustering */ = {
+			isa = PBXGroup;
+			children = (
+				C3A28798256F986D00DF23B1 /* Clustering.swift */,
+				C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */,
+				C3FB085D256B887300B93665 /* Cluster.swift */,
+			);
+			path = Clustering;
+			sourceTree = "<group>";
+		};
 		708C08B0256258320072B1E0 = {
 			isa = PBXGroup;
 			children = (
@@ -159,11 +175,12 @@
 			children = (
 				F45E25DF256CCB9000054D55 /* CoreData */,
 				0DF97E34256B9F280007BCEE /* Views */,
-				C31435B7256BB8010066C423 /* extension */,
+				C31435B7256BB8010066C423 /* Extension */,
 				C3FB0858256B87A500B93665 /* KMeans */,
 				C3FB084F256B873F00B93665 /* POI JSON Data */,
 				708C08BC256258320072B1E0 /* AppDelegate.swift */,
 				708C08BE256258320072B1E0 /* SceneDelegate.swift */,
+				F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */,
 				708C08C0256258320072B1E0 /* ViewController.swift */,
 				708C08C2256258320072B1E0 /* Main.storyboard */,
 				708C08C8256258330072B1E0 /* Assets.xcassets */,
@@ -172,7 +189,6 @@
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
 				70BFFD5B256CB9360048CEA6 /* CSVParser.swift */,
 				70BFFD7E256CD6120048CEA6 /* poi.csv */,
-				F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
@@ -202,17 +218,18 @@
 			isa = PBXGroup;
 			children = (
 				F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */,
+				707942C1256FD056002AF718 /* ConvexHullTests.swift */,
 			);
 			path = Clustering;
 			sourceTree = "<group>";
 		};
-		C31435B7256BB8010066C423 /* extension */ = {
+		C31435B7256BB8010066C423 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
 				F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */,
 			);
-			path = extension;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		C3FB084F256B873F00B93665 /* POI JSON Data */ = {
@@ -227,10 +244,10 @@
 		C3FB0858256B87A500B93665 /* KMeans */ = {
 			isa = PBXGroup;
 			children = (
+				707942C8257027E0002AF718 /* Clustering */,
 				C3FB0861256B889600B93665 /* KMeans.swift */,
-				C3FB085D256B887300B93665 /* Cluster.swift */,
-				C3FB0859256B882200B93665 /* LatLng.swift */,
 				C3FB0854256B87A200B93665 /* LinkedList.swift */,
+				C3FB0859256B882200B93665 /* LatLng.swift */,
 				C3FB086A256B8D8D00B93665 /* POIModel.swift */,
 			);
 			path = KMeans;
@@ -412,6 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				707942C2256FD056002AF718 /* ConvexHullTests.swift in Sources */,
 				70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */,
 				F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */,
 				F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */,
@@ -426,10 +444,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
+				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
 				708C08C1256258320072B1E0 /* ViewController.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
+				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
 				C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */,

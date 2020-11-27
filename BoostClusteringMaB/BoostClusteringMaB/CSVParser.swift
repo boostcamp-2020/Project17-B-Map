@@ -13,22 +13,22 @@ class CSVParser {
         case invalidFileName
         case invalidCSVForm
     }
-
+    
     var pois = [Place]()
-
+    
     func convertCSVIntoArray(file name: String) throws {
         guard let filepath = Bundle.main.path(forResource: name, ofType: "csv"),
               let data = try? String(contentsOfFile: filepath) else {
             throw CSVParSerError.invalidFileName
         }
-
+        
         var rows = data.components(separatedBy: "\n")
-
+        
         rows.removeFirst()
-
+        
         for row in rows {
             let columns = row.components(separatedBy: ",")
-
+            
             if columns.count == 6 {
                 let id = columns[0]
                 let name = columns[1]
@@ -36,7 +36,7 @@ class CSVParser {
                 let x = columns[3]
                 let y = columns[4]
                 let imageURL = columns[5]
-
+                
                 let place = Place(id: id, name: name, x: x, y: y, imageURL: imageURL, category: category)
                 pois.append(place)
             } else {
@@ -44,7 +44,7 @@ class CSVParser {
             }
         }
     }
-
+    
     func add(to coreDataManager: CoreDataManager) throws {
         guard !pois.isEmpty else {
             throw CSVParSerError.empty
@@ -53,7 +53,7 @@ class CSVParser {
         try pois.forEach({ place in
             try coreDataManager.add(place: place, completion: nil)
         })
-
+        
         try coreDataManager.save()
     }
 }

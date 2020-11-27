@@ -1,5 +1,5 @@
 PODS:
-  - NMapsMap (3.10.0)
+  - NMapsMap (3.10.1)
   - SwiftLint (0.41.0)
 
 DEPENDENCIES:
@@ -12,7 +12,7 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  NMapsMap: 17caab4af9a3fc5c25b79858de18bdeab1eaff87
+  NMapsMap: 1dc27ca06eac287ce1f001a972172766dca2abe1
   SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
 
 PODFILE CHECKSUM: 01ebcc23c4f7e70f1d093be01ac14476e7f882e0
