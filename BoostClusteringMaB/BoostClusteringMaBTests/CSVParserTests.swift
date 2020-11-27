@@ -16,7 +16,11 @@ class CoreDataLayerMock: CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws {
         
     }
-    
+
+    func add(places: [Place], completion handler: (() -> Void)?) throws {
+        
+    }
+
     func fetch(sorted: Bool) throws -> [POI] {
         []
     }

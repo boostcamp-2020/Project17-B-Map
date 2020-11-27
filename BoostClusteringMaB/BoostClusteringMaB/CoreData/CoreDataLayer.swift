@@ -9,6 +9,7 @@ import CoreData
 
 protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
+    func add(places: [Place], completion handler: (() -> Void)?) throws
     func fetch(sorted: Bool) throws -> [POI]
     func fetch(by classification: String, sorted: Bool) throws -> [POI]
     func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool) throws -> [POI]
@@ -47,6 +48,21 @@ final class CoreDataLayer: CoreDataManager {
             poi.latitude = latitude
             poi.longitude = longitude
             poi.name = place.name
+            handler?()
+        }
+    }
+    
+    func add(places: [Place], completion handler: (() -> Void)? = nil) throws {
+        let group = DispatchGroup()
+        
+        try places.forEach { place in
+            group.enter()
+            try add(place: place) {
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
             handler?()
         }
     }
