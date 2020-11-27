@@ -26,7 +26,6 @@ class ViewController: UIViewController {
         configureMapView()
         markerAnimationController = MarkerAnimateController(view: view,
                                                                 projection: naverMapView.projection)
-        
     }
     
     private func configureMapView() {
@@ -40,11 +39,6 @@ class ViewController: UIViewController {
         naverMapView.addCameraDelegate(delegate: self)
         
         naverMapView.moveCamera(cameraUpdate)
-    }
-    
-    func createMarker(latLng: LatLng) -> NMFMarker {
-        let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-        return marker
     }
     
     private func jsonToData(name: String) {
@@ -133,6 +127,11 @@ class ViewController: UIViewController {
 extension ViewController: NMFMapViewCameraDelegate {
     enum ClusteringAnimationType {
         case merge, divide
+    }
+    
+    func createMarker(latLng: LatLng) -> NMFMarker {
+        let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
+        return marker
     }
     
     private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
