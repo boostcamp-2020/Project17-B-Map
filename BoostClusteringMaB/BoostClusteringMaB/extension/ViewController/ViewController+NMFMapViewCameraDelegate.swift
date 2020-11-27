@@ -27,7 +27,7 @@ extension ViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        findOptimalClustering(completion: { [weak self] latLngs, pointSizes in
+        clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints in
             guard let self = self else { return }
             
             let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
@@ -46,6 +46,26 @@ extension ViewController: NMFMapViewCameraDelegate {
                 isMerge: self.markers.count > newMarkers.count) {
                 self.markers = newMarkers
                 self.setMapView(makers: self.markers, mapView: self.mapView)
+            }
+
+            self.polygonOverlays.forEach {
+                $0.mapView = nil
+            }
+
+            self.polygonOverlays.removeAll()
+
+            // MARK: - 영역표시
+            for latlngs in convexHullPoints where latlngs.count > 3 {
+                let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
+
+                guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject> else { return }
+                guard let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
+
+                polygonOverlay.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
+                polygonOverlay.outlineWidth = 3
+                polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
+                polygonOverlay.mapView = self.naverMapView.mapView
+                self.polygonOverlays.append(polygonOverlay)
             }
         })
     }

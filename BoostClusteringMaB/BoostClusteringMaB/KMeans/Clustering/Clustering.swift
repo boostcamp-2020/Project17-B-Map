@@ -17,7 +17,6 @@ class Clustering {
     }
     
     func findOptimalClustering(completion: @escaping ([LatLng], [Int], [[LatLng]]) -> Void) {
-        
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
