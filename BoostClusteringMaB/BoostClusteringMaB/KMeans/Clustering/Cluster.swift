@@ -12,6 +12,8 @@ class Cluster: Equatable {
 		return lhs.center == rhs.center
 	}
 	
+	static let greatestFinite: Cluster = Cluster(center: LatLng.greatestFinite)
+	
 	var center: LatLng
 	var points: LinkedList<LatLng>
 

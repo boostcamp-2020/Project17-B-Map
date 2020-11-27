@@ -127,7 +127,7 @@ class KMeans {
 	
 	private func findNearestCluster(point: LatLng) -> Cluster {
 		var minDistance = Double.greatestFiniteMagnitude
-		var nearestCluster = Cluster(center: LatLng.greatestFinite)
+		var nearestCluster = Cluster.greatestFinite
 
 		clusters.forEach {
 			let newDistance = $0.center.squaredDistance(to: point)
