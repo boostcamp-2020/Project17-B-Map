@@ -60,12 +60,13 @@ class CSVParserTests: XCTestCase {
         // Given
         let csvParser = CSVParser()
         let coreDataManager: CoreDataManager = CoreDataLayer()
+        try coreDataManager.removeAll()
         let beforeCount = try coreDataManager.fetch(sorted: true).count
-        
+
         // When
         try csvParser.convertCSVIntoArray(file: "poi")
         try csvParser.add(to: coreDataManager)
-        
+
         // Then
         let afterCount = try coreDataManager.fetch(sorted: true).count
         XCTAssertNotEqual(beforeCount, afterCount)
