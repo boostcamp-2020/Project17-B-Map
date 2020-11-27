@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0172B12570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */; };
+		0D0172B82570BECB00A26886 /* ViewController+Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */; };
+		0D0172C02570BF2A00A26886 /* ViewController+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* ViewController+CoreData.swift */; };
+		0D0172C42570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */; };
+		0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */; };
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		7022C4732571431A000647C4 /* MarkerAnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7022C4722571431A000647C4 /* MarkerAnimateController.swift */; };
 		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
 		70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD0256DEB9900F138CB /* CoreDataContainer.swift */; };
 		707942C2256FD056002AF718 /* ConvexHullTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707942C1256FD056002AF718 /* ConvexHullTests.swift */; };
@@ -35,7 +41,6 @@
 		C3FB0862256B889600B93665 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0861256B889600B93665 /* KMeans.swift */; };
 		C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB086A256B8D8D00B93665 /* POIModel.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
-		F48E8ED125702FAC00507D01 /* MarkerAnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */; };
 		F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */; };
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
@@ -53,11 +58,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+NMFMapViewCameraDelegate.swift"; sourceTree = "<group>"; };
+		0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Clustering.swift"; sourceTree = "<group>"; };
+		0D0172BF2570BF2A00A26886 /* ViewController+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+CoreData.swift"; sourceTree = "<group>"; };
+		0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+NMFMapViewTouchDelegate.swift"; sourceTree = "<group>"; };
+		0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+ImageView.swift"; sourceTree = "<group>"; };
 		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7022C4722571431A000647C4 /* MarkerAnimateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerAnimateController.swift; sourceTree = "<group>"; };
 		70387DCF256DEB9900F138CB /* CoreDataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
 		70387DD0256DEB9900F138CB /* CoreDataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		707942C1256FD056002AF718 /* ConvexHullTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHullTests.swift; sourceTree = "<group>"; };
@@ -87,7 +98,6 @@
 		C3FB085D256B887300B93665 /* Cluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cluster.swift; sourceTree = "<group>"; };
 		C3FB0861256B889600B93665 /* KMeans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
 		C3FB086A256B8D8D00B93665 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
-		F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerAnimateController.swift; sourceTree = "<group>"; };
 		F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+isValid.swift"; sourceTree = "<group>"; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
@@ -113,6 +123,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D0172B62570BEB600A26886 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */,
+				0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */,
+				0D0172BF2570BF2A00A26886 /* ViewController+CoreData.swift */,
+				0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		0D0172CD2570C15100A26886 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		0DF97E34256B9F280007BCEE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +201,7 @@
 		708C08BB256258320072B1E0 /* BoostClusteringMaB */ = {
 			isa = PBXGroup;
 			children = (
+				0D0172CD2570C15100A26886 /* Animations */,
 				F45E25DF256CCB9000054D55 /* CoreData */,
 				0DF97E34256B9F280007BCEE /* Views */,
 				C31435B7256BB8010066C423 /* Extension */,
@@ -180,7 +209,6 @@
 				C3FB084F256B873F00B93665 /* POI JSON Data */,
 				708C08BC256258320072B1E0 /* AppDelegate.swift */,
 				708C08BE256258320072B1E0 /* SceneDelegate.swift */,
-				F48E8ED025702FAC00507D01 /* MarkerAnimateController.swift */,
 				708C08C0256258320072B1E0 /* ViewController.swift */,
 				708C08C2256258320072B1E0 /* Main.storyboard */,
 				708C08C8256258330072B1E0 /* Assets.xcassets */,
@@ -188,6 +216,7 @@
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
 				70BFFD5B256CB9360048CEA6 /* CSVParser.swift */,
+				7022C4722571431A000647C4 /* MarkerAnimateController.swift */,
 				70BFFD7E256CD6120048CEA6 /* poi.csv */,
 			);
 			path = BoostClusteringMaB;
@@ -226,8 +255,10 @@
 		C31435B7256BB8010066C423 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				0D0172B62570BEB600A26886 /* ViewController */,
 				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
 				F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */,
+				0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -446,19 +477,24 @@
 				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
 				708C08C1256258320072B1E0 /* ViewController.swift in Sources */,
+				0D0172B82570BECB00A26886 /* ViewController+Clustering.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
+				0D0172C42570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
 				C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */,
+				0D0172C02570BF2A00A26886 /* ViewController+CoreData.swift in Sources */,
 				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
 				F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */,
+				0D0172B12570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift in Sources */,
 				C3FB085A256B882200B93665 /* LatLng.swift in Sources */,
-				F48E8ED125702FAC00507D01 /* MarkerAnimateController.swift in Sources */,
+				0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */,
+				7022C4732571431A000647C4 /* MarkerAnimateController.swift in Sources */,
 				C3FB0862256B889600B93665 /* KMeans.swift in Sources */,
 				C3FB085E256B887300B93665 /* Cluster.swift in Sources */,
 			);
