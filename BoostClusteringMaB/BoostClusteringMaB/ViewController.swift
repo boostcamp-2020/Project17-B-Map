@@ -115,7 +115,6 @@ class ViewController: UIViewController {
         let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
         return point
     }
-    var newMarkers: [NMFMarker]?
 }
 
 extension ViewController: NMFMapViewCameraDelegate {
