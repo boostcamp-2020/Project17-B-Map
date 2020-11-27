@@ -10,6 +10,7 @@ import NMapsMap
 
 extension ViewController {
     func findOptimalClustering(completion: @escaping ([LatLng], [Int]) -> Void) {
+        let queueLabel = "findOptimalClustering.serial"
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
@@ -26,8 +27,8 @@ extension ViewController {
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
         
-        let group = DispatchGroup.init()
-        let serialQueue = DispatchQueue.init(label: "serial")
+        let group = DispatchGroup()
+        let serialQueue = DispatchQueue(label: queueLabel)
         
         kRange.forEach { k in
             DispatchQueue.global(qos: .userInteractive).async(group: group) {
