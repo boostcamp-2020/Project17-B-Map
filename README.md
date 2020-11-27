@@ -2,6 +2,8 @@
 
 <div align="center">
 
+<img src="https://user-images.githubusercontent.com/16751025/100414316-c90d2980-30bc-11eb-9e05-82c324c4136e.png" alt="icon" width="250"/>
+
 [Wiki Documentation](https://github.com/boostcamp-2020/Project17-B-Map/wiki)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Issue](https://github.com/boostcamp-2020/Project17-B-Map/issues)
 
 [![Swift](https://img.shields.io/badge/swift-v5.3-orange?logo=swift)](https://developer.apple.com/kr/swift/)
