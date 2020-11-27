@@ -39,7 +39,7 @@ extension ViewController: NMFMapViewCameraDelegate {
             }
             
             self.setMapView(makers: self.markers, mapView: nil)
-            
+        
             self.markerAnimationController.clusteringAnimation(
                 old: self.markers.map { $0.position },
                 new: newMarkers.map { $0.position },
@@ -61,7 +61,14 @@ extension ViewController: NMFMapViewCameraDelegate {
                 guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject> else { return }
                 guard let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
 
-                polygonOverlay.fillColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 31.0/255.0)
+                let randomNumber1 = CGFloat(Double.random(in: 0.0...1.0))
+                let randomNumber2 = CGFloat(Double.random(in: 0.0...1.0))
+                let randomNumber3 = CGFloat(Double.random(in: 0.0...1.0))
+
+                polygonOverlay.fillColor = UIColor(red: randomNumber1,
+                                                   green: randomNumber2,
+                                                   blue: randomNumber3,
+                                                   alpha: 31.0/255.0)
                 polygonOverlay.outlineWidth = 3
                 polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
                 polygonOverlay.mapView = self.naverMapView.mapView
