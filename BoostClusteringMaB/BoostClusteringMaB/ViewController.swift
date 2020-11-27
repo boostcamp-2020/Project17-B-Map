@@ -10,13 +10,13 @@ import NMapsMap
 
 class ViewController: UIViewController {
     lazy var naverMapView = NMFNaverMapView(frame: view.frame)
+    lazy var markerAnimationController = MarkerAnimateController(view: view, projection: mapView.projection)
     var mapView: NMFMapView { naverMapView.mapView }
     let markerImageView = MarkerImageView(radius: 30)
     var markers = [NMFMarker]()
     var poiData: [POI]?
 
     let coreDataLayer: CoreDataManager = CoreDataLayer()
-    var markerAnimationController: MarkerAnimateController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +24,6 @@ class ViewController: UIViewController {
 //        jsonToData(name: "gangnam_8000")
 //        jsonToData(name: "restaurant")
         configureMapView()
-        markerAnimationController = MarkerAnimateController(view: view,
-                                                                projection: naverMapView.projection)
     }
     
     private func configureMapView() {
@@ -156,7 +154,7 @@ extension ViewController: NMFMapViewCameraDelegate {
                 $0.mapView = nil
             })
             
-            self.markerAnimationController?.clusteringAnimation(
+            self.markerAnimationController.clusteringAnimation(
                 old: self.markers.map { $0.position },
                 new: newMarkers.map { $0.position },
                 isMerge: self.markers.count > newMarkers.count) {
