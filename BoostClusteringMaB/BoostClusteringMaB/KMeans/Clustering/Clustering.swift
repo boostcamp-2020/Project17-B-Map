@@ -71,6 +71,9 @@ class Clustering {
 				let point1 = convertLatLngToPoint(latLng: clusters[i].center)
 				let point2 = convertLatLngToPoint(latLng: clusters[j].center)
 				let distance = point1.distance(to: point2)
+
+//                let distance = cenvertLatLngToPoint(latLng1: clusters[i].center, latLng2: clusters[j].center)
+
 				if stdDistance > distance {
                     newClusters[i].combine(other: newClusters[j])
                     newClusters.remove(at: j)
@@ -80,7 +83,15 @@ class Clustering {
 		}
 		return clusters
 	}
-	
+
+    func cenvertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double {
+        let mercatorCoord = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng1.lat, lng: latLng1.lng))
+        let mercatorCoord2 = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng2.lat, lng: latLng2.lng))
+        let metersPerPixel = naverMapView.projection.metersPerPixel()
+
+        return (mercatorCoord.distance(to: mercatorCoord2) / metersPerPixel)
+    }
+
 	func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
 		let projection = naverMapView.projection
 		let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
