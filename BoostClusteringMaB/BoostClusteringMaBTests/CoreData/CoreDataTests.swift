@@ -100,33 +100,33 @@ class CoreDataTests: XCTestCase {
                                              northEast: LatLng(lat: 30, lng: 135)))
     }
     
-    func testAdd10000POI() throws {
-        try timeout(30) { expectation in
-            // Given
-            let numberOfRepeats = 10000
-            let layer = CoreDataLayer()
-            try layer.removeAll()
-            let beforeCount = try layer.fetch().count
-            let group = DispatchGroup()
-
-            // When
-            for _ in 0..<numberOfRepeats {
-                group.enter()
-                try? layer.add(place: newPlace) {
-                    group.leave()
-                }
-            }
-
-            // Then
-            group.notify(queue: .main) {
-                try? layer.save()
-                let fetchLayer = CoreDataLayer()
-                let afterCount = try? fetchLayer.fetch().count
-                XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
-                expectation.fulfill()
-            }
-        }
-    }
+//    func testAdd10000POI() throws {
+//        try timeout(30) { expectation in
+//            // Given
+//            let numberOfRepeats = 10000
+//            let layer = CoreDataLayer()
+//            try layer.removeAll()
+//            let beforeCount = try layer.fetch().count
+//            let group = DispatchGroup()
+//
+//            // When
+//            for _ in 0..<numberOfRepeats {
+//                group.enter()
+//                try? layer.add(place: newPlace) {
+//                    group.leave()
+//                }
+//            }
+//
+//            // Then
+//            group.notify(queue: .main) {
+//                try? layer.save()
+//                let fetchLayer = CoreDataLayer()
+//                let afterCount = try? fetchLayer.fetch().count
+//                XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
+//                expectation.fulfill()
+//            }
+//        }
+//    }
     
     func test_CoreDataManager_fetchByClassification() {
         // Given
