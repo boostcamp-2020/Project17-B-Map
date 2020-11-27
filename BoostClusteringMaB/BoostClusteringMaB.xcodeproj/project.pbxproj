@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */; };
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+ImageView.swift"; sourceTree = "<group>"; };
 		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -211,6 +213,7 @@
 			children = (
 				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
 				F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */,
+				0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */,
 				C3FB085A256B882200B93665 /* LatLng.swift in Sources */,
 				F48E8ED125702FAC00507D01 /* MarkerAnimateController.swift in Sources */,
+				0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */,
 				C3FB0862256B889600B93665 /* KMeans.swift in Sources */,
 				C3FB085E256B887300B93665 /* Cluster.swift in Sources */,
 			);

@@ -175,10 +175,3 @@ extension ViewController: NMFMapViewTouchDelegate {
 //        marker.mapView = mapView
     }
 }
-
-extension NMFMarker {
-    func setImageView(_ view: MarkerImageView, count: Int) {
-        view.text = "\(count)"
-        iconImage = .init(image: view.snapshot())
-    }
-}
