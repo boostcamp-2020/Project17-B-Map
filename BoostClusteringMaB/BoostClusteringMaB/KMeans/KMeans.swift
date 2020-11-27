@@ -110,7 +110,7 @@ class KMeans {
         isChanged = false
         
         clusters.forEach { cluster in
-            var points = cluster.points
+            let points = cluster.points
             points.setNowToHead()
             for _ in 0..<points.size {
                 guard let point = points.now?.value else { points.moveNowToNext(); break }
@@ -156,8 +156,7 @@ class KMeans {
         
         for i in 0..<clusters.count {
             var maxValue: Double = 0
-            for j in 0..<clusters.count {
-                if i == j { continue }
+            for j in 0..<clusters.count where i < j {
                 let deviations = clusters[i].deviation() + clusters[j].deviation()
                 let distanceCenters = clusters[i].center.distance(to: clusters[j].center)
                 maxValue = max(maxValue, deviations / distanceCenters)

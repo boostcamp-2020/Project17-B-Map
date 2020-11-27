@@ -57,10 +57,13 @@ class LinkedListTests: XCTestCase {
         list.add(4)
         list.add(5)
         list.setNowToHead()
-        
+
+        let removeData = list.remove()
+        let size = list.size
+
         //Then
-        XCTAssertEqual(list.remove(), 1)
-        XCTAssertEqual(list.size, 4)
+        XCTAssertEqual(removeData, 1)
+        XCTAssertEqual(size, 4)
     }
     
     func test_PopFront를_할때_size가_정상적으로_1줄어드는지() {
@@ -77,7 +80,7 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(list.size, 3)
         
         // When
-        list.remove()
+        _ = list.remove()
         
         // Then
         XCTAssertEqual(list.size, 2)
@@ -194,7 +197,7 @@ class LinkedListTests: XCTestCase {
     func test_두개의_list_merge() {
         // Given
         let list = LinkedList<Int>()
-        let list2 = LinkedList<Int> ()
+        let list2 = LinkedList<Int>()
         
         // When
         list.add(1)

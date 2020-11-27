@@ -83,7 +83,7 @@ class Clustering {
         return clusters
     }
     
-    func cenvertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double {
+    func convertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double {
         let mercatorCoord = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng1.lat, lng: latLng1.lng))
         let mercatorCoord2 = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng2.lat, lng: latLng2.lng))
         let metersPerPixel = naverMapView.projection.metersPerPixel()
