@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D0172B12570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */; };
 		0D0172B82570BECB00A26886 /* ViewController+Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */; };
-		0D0172C02570BF2A00A26886 /* ViewController+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* ViewController+CoreData.swift */; };
+		0D0172C02570BF2A00A26886 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* JsonParser.swift */; };
 		0D0172C42570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */; };
 		0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */; };
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
@@ -57,7 +57,7 @@
 /* Begin PBXFileReference section */
 		0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+NMFMapViewCameraDelegate.swift"; sourceTree = "<group>"; };
 		0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Clustering.swift"; sourceTree = "<group>"; };
-		0D0172BF2570BF2A00A26886 /* ViewController+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+CoreData.swift"; sourceTree = "<group>"; };
+		0D0172BF2570BF2A00A26886 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+NMFMapViewTouchDelegate.swift"; sourceTree = "<group>"; };
 		0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+ImageView.swift"; sourceTree = "<group>"; };
 		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
@@ -122,7 +122,6 @@
 			children = (
 				0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */,
 				0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */,
-				0D0172BF2570BF2A00A26886 /* ViewController+CoreData.swift */,
 				0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */,
 			);
 			path = ViewController;
@@ -200,6 +199,7 @@
 				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
+				0D0172BF2570BF2A00A26886 /* JsonParser.swift */,
 				70BFFD5B256CB9360048CEA6 /* CSVParser.swift */,
 				70BFFD7E256CD6120048CEA6 /* poi.csv */,
 			);
@@ -466,7 +466,7 @@
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
 				C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */,
-				0D0172C02570BF2A00A26886 /* ViewController+CoreData.swift in Sources */,
+				0D0172C02570BF2A00A26886 /* JsonParser.swift in Sources */,
 				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
