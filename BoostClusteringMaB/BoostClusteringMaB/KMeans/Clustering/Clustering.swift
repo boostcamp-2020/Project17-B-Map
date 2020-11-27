@@ -54,7 +54,6 @@ class Clustering {
         group.notify(queue: .main) { [weak self] in
             guard let minKMeans = minKMeans else { return }
             guard let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters) else { return }
-            // 이후 링크드 리스트가 사라지면서 deinit 불림
             let points = combinedClusters.map { $0.points.size }
             let convexHullPoints = combinedClusters.map { $0.area() }
             let centroids = combinedClusters.map { $0.center }
@@ -63,7 +62,7 @@ class Clustering {
     }
     
     func combineClusters(clusters: [Cluster]) -> [Cluster] {
-        let stdDistance: Double = 90     //추후 클러스터 크기에 따라 변동가능성
+        let stdDistance: Double = 90
         var newClusters = clusters
         
         for i in 0..<clusters.count {
