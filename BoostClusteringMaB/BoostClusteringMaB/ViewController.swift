@@ -9,8 +9,8 @@ import UIKit
 import NMapsMap
 
 class ViewController: UIViewController {
-    lazy var mapView = NMFNaverMapView(frame: view.frame)
-    var naverMapView: NMFMapView!
+    lazy var naverMapView = NMFNaverMapView(frame: view.frame)
+    var mapView: NMFMapView { naverMapView.mapView }
     let markerImageView = MarkerImageView(radius: 30)
     var markers = [NMFMarker]()
     var poiData: [POI]?
@@ -30,14 +30,11 @@ class ViewController: UIViewController {
     
     private func configureMapView() {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587)) // 강남
-        naverMapView = mapView.mapView
-        mapView.showZoomControls = true
-
-        view.addSubview(mapView)
-        naverMapView.touchDelegate = self
-        naverMapView.addCameraDelegate(delegate: self)
-        
-        naverMapView.moveCamera(cameraUpdate)
+        naverMapView.showZoomControls = true
+        mapView.touchDelegate = self
+        mapView.addCameraDelegate(delegate: self)
+        mapView.moveCamera(cameraUpdate)
+        view.addSubview(naverMapView)
     }
     
     private func jsonToData(name: String) {
@@ -53,7 +50,7 @@ class ViewController: UIViewController {
     }
 
     func findOptimalClustering(completion: @escaping ([LatLng], [Int]) -> Void) {
-        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
+        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
 
@@ -116,7 +113,7 @@ class ViewController: UIViewController {
     }
     
     func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
-        let projection = naverMapView.projection
+        let projection = mapView.projection
         let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
         return point
     }
@@ -150,7 +147,7 @@ extension ViewController: NMFMapViewCameraDelegate {
             let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
             
             guard self.markers.count != 0 else {
-                newMarkers.forEach { $0.mapView = self.naverMapView }
+                newMarkers.forEach { $0.mapView = self.mapView }
                 self.markers = newMarkers
                 return
             }
@@ -166,7 +163,7 @@ extension ViewController: NMFMapViewCameraDelegate {
                 // after animation
                 self.markers = newMarkers
                 self.markers.forEach({
-                    $0.mapView = self.naverMapView
+                    $0.mapView = self.mapView
                 })
             }
         })
