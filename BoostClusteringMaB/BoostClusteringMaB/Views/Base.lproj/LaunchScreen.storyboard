@@ -29,8 +29,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="당신을 좋은곳으로 데려갈 지도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oz4-eC-R3v">
-                                <rect key="frame" x="96" y="487" width="222" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="당신을 좋은 곳으로 데려갈 지도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oz4-eC-R3v">
+                                <rect key="frame" x="91" y="487" width="232.5" height="20"/>
                                 <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
