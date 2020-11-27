@@ -20,7 +20,7 @@ class CoreDataTests: XCTestCase {
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
-
+        
         // When
         try layer.add(place: newPlace) {
             try? layer.save()
@@ -36,7 +36,7 @@ class CoreDataTests: XCTestCase {
         XCTAssertEqual(poi?.latitude, Double(newPlace.y))
         XCTAssertEqual(poi?.longitude, Double(newPlace.x))
     }
-
+    
     func test_add_잘못된좌표를입력_invalidCoordinate() throws {
         // Given
         let layer = CoreDataLayer()
@@ -46,14 +46,14 @@ class CoreDataTests: XCTestCase {
                                          y: "위도",
                                          imageURL: nil,
                                          category: "카테고리")
-
+        
         // Then
         XCTAssertThrowsError(
             // When
             try layer.add(place: wrongCoordinatePlace) {
                 try? layer.save()
             })
-
+        
     }
     
     func testFetchPOI() throws {
@@ -123,20 +123,20 @@ class CoreDataTests: XCTestCase {
             }
         }
     }
-
+    
     func test_CoreDataManager_fetchByClassification() {
         // Given
         let layer = CoreDataLayer()
-
+        
         // When
         let pois = try? layer.fetch(by: "부스트캠프")
-
+        
         // Then
         pois?.forEach({
             XCTAssertEqual($0.category, "부스트캠프")
         })
     }
-
+    
     func testRemove() throws {
         // Given
         let layer = CoreDataLayer()
