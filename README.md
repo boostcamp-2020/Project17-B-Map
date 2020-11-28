@@ -56,10 +56,15 @@
 
 ```ruby
 target 'BoostClusteringMaB' do
+  use_frameworks!
 
   pod 'SwiftLint'
   pod 'NMapsMap'
 
+
+  target 'BoostClusteringMaBTests' do
+    pod 'NMapsMap'
+  end
 end
 ```
 
