@@ -8,6 +8,15 @@
 import UIKit
 import NMapsMap
 
+protocol NMFMapViewProtocol {
+    var coveringBounds: NMGLatLngBounds { get }
+    var projection: NMFProjection { get }
+}
+
+extension NMFMapView: NMFMapViewProtocol {
+
+}
+
 class ViewController: UIViewController {
     lazy var naverMapView = NMFNaverMapView(frame: view.frame)
     lazy var markerAnimationController = MarkerAnimateController(view: view, projection: mapView.projection)
