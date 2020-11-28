@@ -121,7 +121,9 @@ final class CoreDataLayer: CoreDataManager {
     }
     
     func save() throws {
-        try childContext.save()
-        CoreDataContainer.shared.saveContext()
+        if childContext.hasChanges {
+            try childContext.save()
+            CoreDataContainer.shared.saveContext()
+        }
     }
 }
