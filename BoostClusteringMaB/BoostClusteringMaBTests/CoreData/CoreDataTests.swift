@@ -91,7 +91,7 @@ class CoreDataTests: XCTestCase {
                 let all = try layer.fetch()
                 XCTAssertEqual(pois.count, all.count)
             } catch {
-                
+
             }
         }
     }
@@ -121,7 +121,6 @@ class CoreDataTests: XCTestCase {
             // Given
             let numberOfRepeats = 10000
             let layer = CoreDataLayer()
-            try layer.removeAll()
 
             let beforeCount = try layer.fetch().count
             let group = DispatchGroup()
