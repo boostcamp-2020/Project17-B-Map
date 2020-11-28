@@ -9,55 +9,35 @@ import XCTest
 @testable import BoostClusteringMaB
 
 class CSVParserTests: XCTestCase {
-    
-    func test_convertCSVIntoArray() throws {
+    func test_parseCSV_poi_count_equal_21() throws {
         // Given
         let csvParser = CSVParser()
         
-        // When
-        try csvParser.convertCSVIntoArray(file: "poi")
-        
-        // Then
-        XCTAssertNotNil(csvParser.pois)
-        XCTAssertTrue(!csvParser.pois.isEmpty)
-    }
-    
-    func test_add() throws {
-        // Given
-        let csvParser = CSVParser()
-        let coreDataManager: CoreDataManager = CoreDataLayer()
-        try coreDataManager.removeAll()
-        let beforeCount = try coreDataManager.fetch(sorted: true).count
-
-        // When
-        try csvParser.convertCSVIntoArray(file: "poi")
-        try csvParser.add(to: coreDataManager)
-
-        // Then
-        let afterCount = try coreDataManager.fetch(sorted: true).count
-        XCTAssertNotEqual(beforeCount, afterCount)
-    }
-    
-    func test_add_poi빈배열() {
-        // Given
-        let csvParser = CSVParser()
-        let coreDataManagerMock: CoreDataManager = CoreDataLayerMock()
-        
-        // Then
-        XCTAssertThrowsError(
+        timeout(1) { expectation in
             // When
-            try csvParser.add(to: coreDataManagerMock)
-        )
+            csvParser.parse(fileName: "poi", completion: { result in
+                let places = try? result.get()
+                
+                // Then
+                XCTAssertEqual(places?.count, 21)
+                expectation.fulfill()
+            })
+        }
     }
     
-    func test_convertCSVIntoArray_존재하지않는파일입력() {
+    func test_parseInvalidCSVFile_throws_invalidFileName() throws {
         // Given
         let csvParser = CSVParser()
         
-        // Then
-        XCTAssertThrowsError(
+        timeout(1) { expectation in
             // When
-            try csvParser.convertCSVIntoArray(file: "존재하지않는파일")
-        )
+            csvParser.parse(fileName: "존재하지_않는_파일", completion: { result in
+                do {
+                    // Then
+                    XCTAssertThrowsError(try result.get())
+                    expectation.fulfill()
+                } catch {}
+            })
+        }
     }
 }
