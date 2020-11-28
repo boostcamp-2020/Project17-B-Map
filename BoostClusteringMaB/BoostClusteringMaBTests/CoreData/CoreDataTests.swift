@@ -16,7 +16,7 @@ class CoreDataTests: XCTestCase {
                          y: "35.55532",
                          imageURL: nil,
                          category: "부스트캠프")
-    
+
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
@@ -106,7 +106,7 @@ class CoreDataTests: XCTestCase {
     }
     
     func testAdd10000POI() throws {
-        try timeout(30) { expectation in
+        try timeout(60) { expectation in
             // Given
             let numberOfRepeats = 10000
             let layer = CoreDataLayer()
