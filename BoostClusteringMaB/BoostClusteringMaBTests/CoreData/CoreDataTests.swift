@@ -76,13 +76,24 @@ class CoreDataTests: XCTestCase {
     func testFetchPOIBetweenY30_45X120_135_All() throws {
         // Given
         let layer = CoreDataLayer()
+        var places = [Place]()
+        (0...100).forEach({ _ in
+            places.append(newPlace)
+        })
 
-        // When
-        let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
-        
-        // Then
-        let all = try layer.fetch()
-        XCTAssertEqual(pois.count, all.count)
+        try? layer.add(places: places) {
+            do {
+                try layer.save()
+                // When
+                let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
+
+                // Then
+                let all = try layer.fetch()
+                XCTAssertEqual(pois.count, all.count)
+            } catch {
+                
+            }
+        }
     }
     
     func testFetchPOIBetweenY30_45X135_145_Empty() throws {
@@ -110,6 +121,8 @@ class CoreDataTests: XCTestCase {
             // Given
             let numberOfRepeats = 10000
             let layer = CoreDataLayer()
+            try layer.removeAll()
+
             let beforeCount = try layer.fetch().count
             let group = DispatchGroup()
 
