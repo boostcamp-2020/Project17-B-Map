@@ -8,10 +8,10 @@
 import NMapsMap
 
 class Clustering {
-    private let naverMapView: NMFMapView
+    private let naverMapView: NMFMapViewProtocol
     private let coreDataLayer: CoreDataManager
     
-    init(naverMapView: NMFMapView, coreDataLayer: CoreDataManager) {
+    init(naverMapView: NMFMapViewProtocol, coreDataLayer: CoreDataManager) {
         self.naverMapView = naverMapView
         self.coreDataLayer = coreDataLayer
     }
