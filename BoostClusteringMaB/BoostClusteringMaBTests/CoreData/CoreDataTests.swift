@@ -16,25 +16,31 @@ class CoreDataTests: XCTestCase {
                          y: "35.55532",
                          imageURL: nil,
                          category: "부스트캠프")
-
+    
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
-        
+
         // When
         try layer.add(place: newPlace) {
-            try? layer.save()
+            do {
+                try? layer.save()
+
+                // Then
+                let poi = try layer.fetch().first(where: { poi -> Bool in
+                    poi.id == self.newPlace.id
+                })
+
+                XCTAssertEqual(poi?.id, "123321")
+                XCTAssertEqual(poi?.category, "부스트캠프")
+                XCTAssertEqual(poi?.imageURL, nil)
+                XCTAssertEqual(poi?.name, "Mab")
+                XCTAssertEqual(poi?.latitude, 35.55532)
+                XCTAssertEqual(poi?.longitude, 124.323412)
+            } catch {
+                
+            }
         }
-        // Then
-        let poi = try layer.fetch().first(where: { poi -> Bool in
-            poi.id == newPlace.id
-        })
-        XCTAssertEqual(poi?.id, newPlace.id)
-        XCTAssertEqual(poi?.category, newPlace.category)
-        XCTAssertEqual(poi?.imageURL, newPlace.imageURL)
-        XCTAssertEqual(poi?.name, newPlace.name)
-        XCTAssertEqual(poi?.latitude, Double(newPlace.y))
-        XCTAssertEqual(poi?.longitude, Double(newPlace.x))
     }
     
     func test_add_잘못된좌표를입력_invalidCoordinate() throws {
@@ -70,7 +76,6 @@ class CoreDataTests: XCTestCase {
     func testFetchPOIBetweenY30_45X120_135_All() throws {
         // Given
         let layer = CoreDataLayer()
-        try layer.removeAll()
 
         // When
         let pois = try layer.fetch(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
@@ -100,33 +105,32 @@ class CoreDataTests: XCTestCase {
                                              northEast: LatLng(lat: 30, lng: 135)))
     }
     
-//    func testAdd10000POI() throws {
-//        try timeout(30) { expectation in
-//            // Given
-//            let numberOfRepeats = 10000
-//            let layer = CoreDataLayer()
-//            try layer.removeAll()
-//            let beforeCount = try layer.fetch().count
-//            let group = DispatchGroup()
-//
-//            // When
-//            for _ in 0..<numberOfRepeats {
-//                group.enter()
-//                try? layer.add(place: newPlace) {
-//                    group.leave()
-//                }
-//            }
-//
-//            // Then
-//            group.notify(queue: .main) {
-//                try? layer.save()
-//                let fetchLayer = CoreDataLayer()
-//                let afterCount = try? fetchLayer.fetch().count
-//                XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
-//                expectation.fulfill()
-//            }
-//        }
-//    }
+    func testAdd10000POI() throws {
+        try timeout(30) { expectation in
+            // Given
+            let numberOfRepeats = 10000
+            let layer = CoreDataLayer()
+            let beforeCount = try layer.fetch().count
+            let group = DispatchGroup()
+
+            // When
+            for _ in 0..<numberOfRepeats {
+                group.enter()
+                try? layer.add(place: newPlace) {
+                    group.leave()
+                }
+            }
+
+            // Then
+            group.notify(queue: .main) {
+                try? layer.save()
+                let fetchLayer = CoreDataLayer()
+                let afterCount = try? fetchLayer.fetch().count
+                XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
+                expectation.fulfill()
+            }
+        }
+    }
     
     func test_CoreDataManager_fetchByClassification() {
         // Given
