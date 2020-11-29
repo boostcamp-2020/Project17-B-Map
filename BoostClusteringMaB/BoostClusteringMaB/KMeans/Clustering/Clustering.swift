@@ -11,16 +11,28 @@ class Clustering {
     typealias LatLngs = [LatLng]
 
     private let naverMapView: NMFMapViewProtocol
-    private let points: LatLngs
+    private let coreDataLayer: CoreDataManager
 
-    init(naverMapView: NMFMapViewProtocol, points: LatLngs) {
+    init(naverMapView: NMFMapViewProtocol, coreDataLayer: CoreDataManager) {
         self.naverMapView = naverMapView
-        self.points = points
+        self.coreDataLayer = coreDataLayer
+    }
+
+    func refreshPoints() -> [LatLng] {
+        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
+        let southWest = LatLng(boundsLatLngs[0])
+        let northEast = LatLng(boundsLatLngs[1])
+
+        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
+                                                         northEast: northEast,
+                                                         sorted: true) else { return [] }
+
+        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
     }
 
     func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs]) -> Void) {
         let kRange = (2...10)
-        
+        let points = refreshPoints()
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
         
@@ -29,7 +41,7 @@ class Clustering {
         
         kRange.forEach { k in
             DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: self.points)
+                let kMeans = KMeans(k: k, points: points)
                 kMeans.run()
                 
                 let DBI = kMeans.daviesBouldinIndex()
