@@ -9,7 +9,11 @@ import XCTest
 @testable import BoostClusteringMaB
 
 class CSVParserTests: XCTestCase {
-    
+
+    override func setUp() {
+        try? CoreDataLayer().removeAll()
+    }
+
     func test_convertCSVIntoArray() throws {
         // Given
         let csvParser = CSVParser()
@@ -26,7 +30,6 @@ class CSVParserTests: XCTestCase {
         // Given
         let csvParser = CSVParser()
         let coreDataManager: CoreDataManager = CoreDataLayer()
-        try coreDataManager.removeAll()
         let beforeCount = try coreDataManager.fetch(sorted: true).count
 
         // When
