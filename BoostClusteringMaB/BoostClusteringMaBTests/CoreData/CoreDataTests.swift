@@ -17,6 +17,11 @@ class CoreDataTests: XCTestCase {
                          imageURL: nil,
                          category: "부스트캠프")
 
+    override func setUp() {
+        let layer = CoreDataLayer()
+        try? layer.removeAll()
+    }
+
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()

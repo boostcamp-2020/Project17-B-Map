@@ -112,12 +112,12 @@ class ClusteringTests: XCTestCase {
         XCTAssertEqual(clusters.last?.center, LatLng(lat: 90.0, lng: 90.0))
     }
 
+    // MARK: - 보류
 //    func test_findOptimalClustering() {
 //        // Given
 //        let expectaion = expectation(description: "completed")
 //        let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjection())
-//        let points = settingPoints(mapViewMock, CoreDataLayerMock())
-//        let clustering = Clustering(naverMapView: mapViewMock, points: points)
+//        let clustering = Clustering(naverMapView: mapViewMock, coreDataLayer: CoreDataLayerMock())
 //
 //        // When
 //        clustering.findOptimalClustering {latLngs, pointSizes, convexHullPoints in
