@@ -39,20 +39,7 @@ class ViewController: UIViewController {
     }
 
     private func configureClustering() {
-        let points = settingPoints()
-        clustering = Clustering(naverMapView: naverMapView.mapView, points: points)
-    }
-
-    func settingPoints() -> [LatLng] {
-        let boundsLatLngs = naverMapView.mapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-
-        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
-                                                         northEast: northEast,
-                                                         sorted: true) else { return [] }
-
-        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
+        clustering = Clustering(naverMapView: naverMapView.mapView, coreDataLayer: coreDataLayer)
     }
 
     private func configureMapView() {
