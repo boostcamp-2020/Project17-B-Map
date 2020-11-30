@@ -97,7 +97,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
         self.markers = newMarkers
     }
     
-    private func markerChangeAnimation(newMarkers: [NMFMarker]) {
+    private func markerChangeAnimation(newMarkers: [NMFMarker], completion: (() -> Void)?) {
         self.setMapView(makers: self.markers, mapView: nil)
         let oldMarkers = self.markers
         self.markers = newMarkers
@@ -108,8 +108,8 @@ extension MainViewController: NMFMapViewCameraDelegate {
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
                 self.setMapView(makers: newMarkers, mapView: self.mapView)
-            }
-        )
+                completion?()
+            })
     }
     
     private func changePolygonOverays(points convexHullPoints: [[LatLng]]) {
@@ -152,8 +152,11 @@ extension MainViewController: NMFMapViewCameraDelegate {
                 return
             }
             
-            self.markerChangeAnimation(newMarkers: newMarkers)
-            self.changePolygonOverays(points: convexHullPoints)
+            self.markerChangeAnimation(
+                newMarkers: newMarkers,
+                completion: {
+                    self.changePolygonOverays(points: convexHullPoints)
+                })
         })
     }
 }
