@@ -53,6 +53,16 @@
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		703874ED2574C24200F2C1DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 708C08B1256258320072B1E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 708C08B8256258320072B1E0;
+			remoteInfo = BoostClusteringMaB;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0D0172BF2570BF2A00A26886 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+ImageView.swift"; sourceTree = "<group>"; };
@@ -354,6 +364,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				703874EE2574C24200F2C1DC /* PBXTargetDependency */,
 			);
 			name = BoostClusteringMaBTests;
 			productName = BoostClusteringMaBTests;
@@ -591,6 +602,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		703874EE2574C24200F2C1DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 708C08B8256258320072B1E0 /* BoostClusteringMaB */;
+			targetProxy = 703874ED2574C24200F2C1DC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		708C08C2256258320072B1E0 /* Main.storyboard */ = {
