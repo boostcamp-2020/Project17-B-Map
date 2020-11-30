@@ -79,8 +79,8 @@ extension MainViewController: NMFMapViewCameraDelegate {
         return NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
     }
     
-    private func setMapView(makers: [NMFMarker], mapView: NMFMapView?) {
-        return markers.forEach { $0.mapView = mapView }
+    private func setMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
+        return overlays.forEach { $0.mapView = mapView }
     }
     
     private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
@@ -93,12 +93,12 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
     
     private func configureFirstMarkers(newMarkers: [NMFMarker]) {
-        self.setMapView(makers: newMarkers, mapView: self.mapView)
+        self.setMapView(overlays: newMarkers, mapView: self.mapView)
         self.markers = newMarkers
     }
     
     private func markerChangeAnimation(newMarkers: [NMFMarker], completion: (() -> Void)?) {
-        self.setMapView(makers: self.markers, mapView: nil)
+        self.setMapView(overlays: self.markers, mapView: nil)
         let oldMarkers = self.markers
         self.markers = newMarkers
         
@@ -107,17 +107,14 @@ extension MainViewController: NMFMapViewCameraDelegate {
             new: newMarkers.map { $0.position },
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
-                self.setMapView(makers: newMarkers, mapView: self.mapView)
+                self.setMapView(overlays: newMarkers, mapView: self.mapView)
                 completion?()
             })
     }
     
     private func changePolygonOverays(points convexHullPoints: [[LatLng]]) {
-        self.polygonOverlays.forEach {
-            $0.mapView = nil
-        }
-        
-        self.polygonOverlays.removeAll()
+        setMapView(overlays: polygonOverlays, mapView: nil)
+        polygonOverlays.removeAll()
         
         // MARK: - 영역표시
         for latlngs in convexHullPoints where latlngs.count > 3 {
