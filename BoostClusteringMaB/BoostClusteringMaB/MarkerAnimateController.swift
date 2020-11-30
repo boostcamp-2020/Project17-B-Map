@@ -60,7 +60,7 @@ final class MarkerAnimateController {
                 }
             }, completion: { finalPosition in
                 animations.forEach { $0.completion() }
-                guard finalPosition.rawValue == 0 else { return }
+                guard finalPosition == .end else { return }
                 completion?()
             })
     }
