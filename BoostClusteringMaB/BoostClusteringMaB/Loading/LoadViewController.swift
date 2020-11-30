@@ -12,6 +12,8 @@ class LoadViewController: UIViewController {
     private let jsonParser = JsonParser()
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         guard let count = try? coreDataLayer.fetch().count,
               count > 0 else {
             loadData {
@@ -24,8 +26,17 @@ class LoadViewController: UIViewController {
     }
     
     private func loadData(completion handler: @escaping () -> Void) {
-        jsonParser.jsonToData(name: "gangnam_8000") {
-            handler()
+        jsonParser.parse(fileName: "gangnam_8000") { [weak self] result in
+            do {
+                let places = try result.get()
+                try self?.coreDataLayer.add(places: places) {
+                    try? self?.coreDataLayer.save()
+                    handler()
+                }
+            } catch {
+                print(error)
+                // 예외처리
+            }
         }
     }
     
