@@ -95,7 +95,7 @@ final class MainViewController: UIViewController, MainDisplayLogic {
                                       message: "OK를 누르면 추가합니다",
                                       preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { action in
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
             let marker = NMFMarker()
             marker.position = latlng
             marker.mapView = self.mapView
@@ -131,7 +131,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
 
     private func setMapView(makers: [NMFMarker], mapView: NMFMapView?, bounds: [NMGLatLngBounds]) {
         zip(self.markers, bounds).forEach { marker, bound in
-            marker.touchHandler = { (overlay: NMFOverlay) -> Bool in
+            marker.touchHandler = { _ in
                 self.touchedMarker(bounds: bound, insets: 0)
                 return true
             }
@@ -157,11 +157,11 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
     
     private func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
-        self.setMapView(overlays: newMarkers, mapView: self.mapView, bounds: bounds)
+        self.setMapView(makers: newMarkers, mapView: self.mapView, bounds: bounds)
         self.markers = newMarkers
     }
     
-    private func markerChangeAnimation(newMarkers: [NMFMarker], completion: (() -> Void)?) {
+    private func markerChangeAnimation(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds], completion: (() -> Void)?) {
         self.setMapView(overlays: self.markers, mapView: nil)
         let oldMarkers = self.markers
         self.markers = newMarkers
@@ -202,6 +202,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
             
             self.markerChangeAnimation(
                 newMarkers: newMarkers,
+                bounds: bounds,
                 completion: {
                     self.changePolygonOverays(points: convexHullPoints)
                 })
