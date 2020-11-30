@@ -33,6 +33,9 @@ class Clustering {
     func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs]) -> Void) {
         let kRange = (2...10)
         let points = refreshPoints()
+
+        guard !points.isEmpty else { return }
+
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
         
