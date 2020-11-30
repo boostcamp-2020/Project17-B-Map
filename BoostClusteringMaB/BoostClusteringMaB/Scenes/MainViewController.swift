@@ -13,37 +13,40 @@ protocol NMFMapViewProtocol {
     var projection: NMFProjection { get }
 }
 
-extension NMFMapView: NMFMapViewProtocol {
-
-}
+extension NMFMapView: NMFMapViewProtocol { }
 
 protocol MainDisplayLogic: class {
-  func displayFetchedCoreData(viewModel: [POI])
+    func displayFetchedCoreData(viewModel: [POI])
 }
 
-class MainViewController: UIViewController, MainDisplayLogic {
+final class MainViewController: UIViewController, MainDisplayLogic {
     lazy var naverMapView = NMFNaverMapView(frame: view.frame)
-    lazy var markerAnimationController = MarkerAnimateController(view: view, projection: mapView.projection)
-    lazy var markerImageView = MarkerImageView(radius: 30)
+    lazy var markerAnimationController: MarkerAnimateController = {
+        let controller = MarkerAnimateController(frame: view.frame, markerRadius: 30, mapView: mapView)
+        guard let animationView = controller.view else { return controller }
+        view.addSubview(animationView)
+        return controller
+    }()
+    lazy var markerImageView = MarkerImageView(radius: markerRadius)
     lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-
+    
+    let markerRadius: CGFloat = 30
     let coreDataLayer: CoreDataManager = CoreDataLayer()
-
+    
     var polygonOverlays = [NMFPolygonOverlay]()
     var mapView: NMFMapView { naverMapView.mapView }
     var projection: NMFProjection { naverMapView.mapView.projection }
     var markers = [NMFMarker]()
     var poiData: [POI]?
     var clustering: Clustering?
-
-    var interactor: MainBusinessLogic!
-
+    var interactor: MainBusinessLogic?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureClustering()
         configureMapView()
     }
-
+    
     private func setup() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
@@ -51,17 +54,17 @@ class MainViewController: UIViewController, MainDisplayLogic {
         interactor.presenter = presenter
         presenter.viewController = self
     }
-
+    
     var displayedCoreData = [POI]()
-
+    
     func displayFetchedCoreData(viewModel: [POI]) {
         displayedCoreData = viewModel
     }
-
+    
     private func configureClustering() {
         clustering = Clustering(naverMapView: naverMapView.mapView, coreDataLayer: coreDataLayer)
     }
-
+    
     private func configureMapView() {
         naverMapView.showZoomControls = true
         mapView.touchDelegate = self
@@ -75,11 +78,11 @@ extension MainViewController: NMFMapViewCameraDelegate {
     private func createMarker(latLng: LatLng) -> NMFMarker {
         return NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
     }
-
+    
     private func setMapView(makers: [NMFMarker], mapView: NMFMapView?) {
         return markers.forEach { $0.mapView = mapView }
     }
-
+    
     private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
         return zip(latLngs, pointSizes).map { latLng, pointSize in
             let marker = self.createMarker(latLng: latLng)
@@ -113,20 +116,20 @@ extension MainViewController: NMFMapViewCameraDelegate {
         self.polygonOverlays.forEach {
             $0.mapView = nil
         }
-
+        
         self.polygonOverlays.removeAll()
-
+        
         // MARK: - 영역표시
         for latlngs in convexHullPoints where latlngs.count > 3 {
             let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
-
+            
             let polygon = NMGPolygon(ring: NMGLineString(points: points)) as NMGPolygon<AnyObject>
             guard let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
-
+            
             let randomNumber1 = CGFloat(Double.random(in: 0.0...1.0))
             let randomNumber2 = CGFloat(Double.random(in: 0.0...1.0))
             let randomNumber3 = CGFloat(Double.random(in: 0.0...1.0))
-
+            
             polygonOverlay.fillColor = UIColor(red: randomNumber1,
                                                green: randomNumber2,
                                                blue: randomNumber3,
@@ -137,13 +140,13 @@ extension MainViewController: NMFMapViewCameraDelegate {
             self.polygonOverlays.append(polygonOverlay)
         }
     }
-
+    
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints in
             guard let self = self else { return }
-
+            
             let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
-
+            
             guard self.markers.count != 0 else {
                 self.configureFirstMarkers(newMarkers: newMarkers)
                 return
@@ -158,7 +161,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
 extension MainViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         // MARK: - 화면 터치시 마커 찍기
-        //        let marker = NMFMarker(position: latlng)
-        //        marker.mapView = mapView
+        // let marker = NMFMarker(position: latlng)
+        // marker.mapView = mapView
     }
 }
