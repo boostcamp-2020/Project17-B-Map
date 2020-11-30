@@ -10,7 +10,7 @@ import CoreData
 enum CoreDataError: Error {
     case invalidCoordinate
     case invalidFetch
-    case saveError(Error)
+    case saveError
 }
 
 typealias CoreDataHandler = (Result<Void, CoreDataError>) -> Void
@@ -19,12 +19,12 @@ typealias POIHandler = (Result<[POI], CoreDataError>) -> Void
 protocol CoreDataManager {
     func add(place: Place, completion handler: CoreDataHandler?)
     func add(places: [Place], completion handler: CoreDataHandler?)
-    func fetch(sorted: Bool, completion handler: POIHandler?)
-    func fetch(by classification: String, sorted: Bool, completion handler: POIHandler?)
+    func fetch(sorted: Bool, completion handler: POIHandler)
+    func fetch(by classification: String, sorted: Bool, completion handler: POIHandler)
     func fetch(southWest: LatLng,
                northEast: LatLng,
                sorted: Bool,
-               completion handler: POIHandler?)
+               completion handler: POIHandler)
     func remove(poi: POI, completion handler: CoreDataHandler?)
     func removeAll(completion handler: CoreDataHandler?)
 }
@@ -59,7 +59,7 @@ final class CoreDataLayer: CoreDataManager {
                 do {
                     try self.save()
                 } catch {
-                    handler?(.failure(.saveError(error)))
+                    handler?(.failure(.saveError))
                     return
                 }
             }
@@ -90,47 +90,46 @@ final class CoreDataLayer: CoreDataManager {
         group.notify(queue: .main) {
             do {
                 try self.save()
+                handler?(.success(()))
             } catch {
-                handler?(.failure(.saveError(error)))
-                return
+                handler?(.failure(.saveError))
             }
-            handler?(.success(()))
         }
     }
-    
+
     func fetch(sorted: Bool = true,
-               completion handler: POIHandler? = nil) {
+               completion handler: POIHandler) {
         let request: NSFetchRequest = POI.fetchRequest()
         request.sortDescriptors = makeSortDescription(sorted: sorted)
         do {
             let pois = try childContext.fetch(request)
-            handler?(.success(pois))
+            handler(.success(pois))
         } catch {
-            handler?(.failure(.invalidFetch))
+            handler(.failure(.invalidFetch))
         }
     }
     
     func fetch(by classification: String,
                sorted: Bool = true,
-               completion handler: POIHandler? = nil) {
+               completion handler: POIHandler) {
         let request: NSFetchRequest = POI.fetchRequest()
         request.predicate = NSPredicate(format: "category == %@", classification)
         request.sortDescriptors = makeSortDescription(sorted: sorted)
         do {
             let pois = try childContext.fetch(request)
-            handler?(.success(pois))
+            handler(.success(pois))
         } catch {
-            handler?(.failure(.invalidFetch))
+            handler(.failure(.invalidFetch))
         }
     }
     
     func fetch(southWest: LatLng,
                northEast: LatLng,
                sorted: Bool = true,
-               completion handler: POIHandler? = nil) {
+               completion handler: POIHandler) {
         guard northEast.lat > southWest.lat,
               northEast.lng > southWest.lng else {
-            handler?(.failure(.invalidCoordinate))
+            handler(.failure(.invalidCoordinate))
             return
         }
         
@@ -146,9 +145,9 @@ final class CoreDataLayer: CoreDataManager {
 
         do {
             let pois = try childContext.fetch(request)
-            handler?(.success(pois))
+            handler(.success(pois))
         } catch {
-            handler?(.failure(.invalidFetch))
+            handler(.failure(.invalidFetch))
         }
     }
     
@@ -165,7 +164,7 @@ final class CoreDataLayer: CoreDataManager {
             try self.save()
             handler?(.success(()))
         } catch {
-            handler?(.failure(.saveError(error)))
+            handler?(.failure(.saveError))
         }
     }
     
@@ -178,7 +177,7 @@ final class CoreDataLayer: CoreDataManager {
             try self.save()
             handler?(.success(()))
         } catch {
-            handler?(.failure(.saveError(error)))
+            handler?(.failure(.saveError))
         }
     }
     

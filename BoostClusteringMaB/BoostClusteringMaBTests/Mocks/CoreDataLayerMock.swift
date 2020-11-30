@@ -8,35 +8,33 @@
 @testable import BoostClusteringMaB
 
 class CoreDataLayerMock: CoreDataManager {
-    func remove(poi: POI) throws {
+    func add(place: Place, completion handler: CoreDataHandler?) {
 
     }
 
-    func add(place: Place, completion handler: (() -> Void)?) throws {
+    func add(places: [Place], completion handler: CoreDataHandler?) {
 
     }
 
-    func add(places: [Place], completion handler: (() -> Void)?) throws {
+    func fetch(sorted: Bool, completion handler: (Result<[POI], CoreDataError>) -> Void) {
 
     }
 
-    func fetch(sorted: Bool) throws -> [POI] {
-        []
-    }
-
-    func fetch(by classification: String, sorted: Bool) throws -> [POI] {
-        []
-    }
-
-    func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool) throws -> [POI] {
-        return []
-    }
-
-    func removeAll() throws {
+    func fetch(by classification: String, sorted: Bool, completion handler: (Result<[POI], CoreDataError>) -> Void) {
 
     }
 
-    func save() throws {
+    func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool, completion handler: (Result<[POI], CoreDataError>) -> Void) {
 
     }
+
+    func remove(poi: POI, completion handler: CoreDataHandler?) {
+
+    }
+
+    func removeAll(completion handler: CoreDataHandler?) {
+
+    }
+
+
 }

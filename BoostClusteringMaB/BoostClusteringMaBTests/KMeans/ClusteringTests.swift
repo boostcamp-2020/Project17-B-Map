@@ -38,17 +38,17 @@ class ClusterMock: Cluster {
 }
 
 class ClusteringTests: XCTestCase {
-    func settingPoints(_ mapView: MapViewMock, _ coreDataLayer: CoreDataLayerMock) -> [LatLng] {
-        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-
-        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
-                                                         northEast: northEast,
-                                                         sorted: true) else { return [] }
-
-        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
-    }
+//    func settingPoints(_ mapView: MapViewMock, _ coreDataLayer: CoreDataLayerMock) -> [LatLng] {
+//        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
+//        let southWest = LatLng(boundsLatLngs[0])
+//        let northEast = LatLng(boundsLatLngs[1])
+//
+//        coreDataLayer.fetch(southWest: southWest,
+//                            northEast: northEast,
+//                            sorted: true) { fetchPoints in
+//            return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
+//        }
+//    }
 
     func test_init() {
         // Given
