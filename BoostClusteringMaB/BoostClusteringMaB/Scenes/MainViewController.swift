@@ -71,7 +71,6 @@ class MainViewController: UIViewController, MainDisplayLogic {
     }
 }
 
-
 extension MainViewController: NMFMapViewCameraDelegate {
     private func createMarker(latLng: LatLng) -> NMFMarker {
         return NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
@@ -89,6 +88,55 @@ extension MainViewController: NMFMapViewCameraDelegate {
             return marker
         }
     }
+    
+    private func configureFirstMarkers(newMarkers: [NMFMarker]) {
+        self.setMapView(makers: newMarkers, mapView: self.mapView)
+        self.markers = newMarkers
+    }
+    
+    private func markerChangeAnimation(newMarkers: [NMFMarker]) {
+        self.setMapView(makers: self.markers, mapView: nil)
+        let oldMarkers = self.markers
+        self.markers = newMarkers
+        
+        self.markerAnimationController.clusteringAnimation(
+            old: oldMarkers.map { $0.position },
+            new: newMarkers.map { $0.position },
+            isMerge: oldMarkers.count > newMarkers.count,
+            completion: {
+                self.setMapView(makers: newMarkers, mapView: self.mapView)
+            }
+        )
+    }
+    
+    private func changePolygonOverays(points convexHullPoints: [[LatLng]]) {
+        self.polygonOverlays.forEach {
+            $0.mapView = nil
+        }
+
+        self.polygonOverlays.removeAll()
+
+        // MARK: - 영역표시
+        for latlngs in convexHullPoints where latlngs.count > 3 {
+            let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
+
+            let polygon = NMGPolygon(ring: NMGLineString(points: points)) as NMGPolygon<AnyObject>
+            guard let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
+
+            let randomNumber1 = CGFloat(Double.random(in: 0.0...1.0))
+            let randomNumber2 = CGFloat(Double.random(in: 0.0...1.0))
+            let randomNumber3 = CGFloat(Double.random(in: 0.0...1.0))
+
+            polygonOverlay.fillColor = UIColor(red: randomNumber1,
+                                               green: randomNumber2,
+                                               blue: randomNumber3,
+                                               alpha: 31.0/255.0)
+            polygonOverlay.outlineWidth = 3
+            polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
+            polygonOverlay.mapView = self.naverMapView.mapView
+            self.polygonOverlays.append(polygonOverlay)
+        }
+    }
 
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints in
@@ -97,47 +145,12 @@ extension MainViewController: NMFMapViewCameraDelegate {
             let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
 
             guard self.markers.count != 0 else {
-                self.setMapView(makers: newMarkers, mapView: self.mapView)
-                self.markers = newMarkers
+                self.configureFirstMarkers(newMarkers: newMarkers)
                 return
             }
-
-            self.setMapView(makers: self.markers, mapView: nil)
-
-            self.markerAnimationController.clusteringAnimation(
-                old: self.markers.map { $0.position },
-                new: newMarkers.map { $0.position },
-                isMerge: self.markers.count > newMarkers.count) {
-                self.markers = newMarkers
-                self.setMapView(makers: self.markers, mapView: self.mapView)
-            }
-
-            self.polygonOverlays.forEach {
-                $0.mapView = nil
-            }
-
-            self.polygonOverlays.removeAll()
-
-            // MARK: - 영역표시
-            for latlngs in convexHullPoints where latlngs.count > 3 {
-                let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
-
-                let polygon = NMGPolygon(ring: NMGLineString(points: points)) as NMGPolygon<AnyObject>
-                guard let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
-
-                let randomNumber1 = CGFloat(Double.random(in: 0.0...1.0))
-                let randomNumber2 = CGFloat(Double.random(in: 0.0...1.0))
-                let randomNumber3 = CGFloat(Double.random(in: 0.0...1.0))
-
-                polygonOverlay.fillColor = UIColor(red: randomNumber1,
-                                                   green: randomNumber2,
-                                                   blue: randomNumber3,
-                                                   alpha: 31.0/255.0)
-                polygonOverlay.outlineWidth = 3
-                polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
-                polygonOverlay.mapView = self.naverMapView.mapView
-                self.polygonOverlays.append(polygonOverlay)
-            }
+            
+            self.markerChangeAnimation(newMarkers: newMarkers)
+            self.changePolygonOverays(points: convexHullPoints)
         })
     }
 }

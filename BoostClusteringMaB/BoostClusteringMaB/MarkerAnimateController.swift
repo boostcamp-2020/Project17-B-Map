@@ -10,10 +10,11 @@ import NMapsMap
 class MarkerAnimateController {
     private var animationView: UIView?
     private weak var projection: NMFProjection?
+    private var animator: UIViewPropertyAnimator?
+    private var counter: UInt = 0
 
     init(view: UIView, projection: NMFProjection) {
         configureAnimationView(view: view)
-
         self.projection = projection
     }
 
@@ -26,42 +27,63 @@ class MarkerAnimateController {
         self.animationView = animationView
     }
 
-    func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: @escaping () -> Void) {
+    func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: (() -> Void)?) {
+        self.counter += 1
         let upper = isMerge ? new : old
         let lower = isMerge ? old : new
-        let group = DispatchGroup()
 
-        lower.compactMap { lowerMarker in
+        let animations = lower.compactMap { lowerMarker in
             guard let upperMarker = upper
                     .map({ upperMarker in
-                        (upperMarker, lowerMarker.distance(to: upperMarker))
+                        (cluster: upperMarker, distance: lowerMarker.distance(to: upperMarker))
                     })
                     .min(by: { (lhs, rhs) -> Bool in
-                        lhs.1 < rhs.1
+                        lhs.distance < rhs.distance
                     })?
-                    .0
+                    .cluster
             else { return nil }
 
             return isMerge ? (lowerMarker, upperMarker) : (upperMarker, lowerMarker)
-        }.forEach { (from: NMGLatLng, to: NMGLatLng) -> Void in
-            group.enter()
-            moveWithAnimation(from: from, to: to, complete: {
-                group.leave()
+        }.compactMap { (from: NMGLatLng, to: NMGLatLng) in
+            moveWithAnimation(from: from, to: to)
+        }
+        
+        stop()
+        start(animations: animations, completion: completion)
+    }
+    
+    private func start(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
+        animator = UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseInOut,
+            animations: {
+                animations.forEach {
+                    $0.animation()
+                }
+            },
+            completion: { _ in
+                animations.forEach {
+                    $0.completion()
+                }
+                self.counter -= 1
+                if self.counter == 0 {
+                    completion?()
+                }
             })
-        }
-
-        group.notify(queue: .main) {
-            completion()
-        }
+    }
+    
+    private func stop() {
+        animator?.stopAnimation(false)
+        animator?.finishAnimation(at: .current)
     }
 
-    private func moveWithAnimation(from source: NMGLatLng, to destination: NMGLatLng, complete: (() -> Void)?) {
+    private func moveWithAnimation(from source: NMGLatLng, to destination: NMGLatLng) -> (() -> Void, () -> Void)? {
         guard let sourcePoint = projection?.point(from: source),
               let destinationPoint = projection?.point(from: destination),
               sourcePoint.isValid,
               destinationPoint.isValid else {
-            complete?()
-            return
+            return nil
         }
 
         // 애니메이션 마커의 크기, 마커의 지름을 따라감
@@ -78,20 +100,19 @@ class MarkerAnimateController {
         destinationPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
         animationView?.addSubview(destinationPointView)
 
-        UIView.animate(
-            withDuration: 0.5,
-            animations: {
-                sourcePointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius * 2)
-                sourcePointView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-                sourcePointView.alpha = 0
-
-                destinationPointView.transform = .identity
-                destinationPointView.alpha = 1
-            },
-            completion: { _ in
-                sourcePointView.removeFromSuperview()
-                destinationPointView.removeFromSuperview()
-                complete?()
-            })
+        let animationClosure = {
+            sourcePointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius * 2)
+            sourcePointView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            sourcePointView.alpha = 0
+            
+            destinationPointView.transform = .identity
+            destinationPointView.alpha = 1
+        }
+        let completion = {
+            sourcePointView.removeFromSuperview()
+            destinationPointView.removeFromSuperview()
+        }
+        
+        return (animation: animationClosure, completion: completion)
     }
 }
