@@ -82,4 +82,40 @@ class Cluster: Equatable {
         let convexHullPoints = convexHull.run()
         return convexHullPoints
     }
+    
+    func southWest() -> LatLng {
+        var minX = Double.greatestFiniteMagnitude
+        var minY = Double.greatestFiniteMagnitude
+        points.setNowToHead()
+        for _ in 0..<points.size {
+            let x = points.now?.value.lng ?? Double.greatestFiniteMagnitude
+            let y = points.now?.value.lat ?? Double.greatestFiniteMagnitude
+            if x < minX {
+                minX = x
+            }
+            if y < minY {
+                minY = y
+            }
+            points.moveNowToNext()
+        }
+        return LatLng(lat: minY, lng: minX)
+    }
+    
+    func northEast() -> LatLng {
+        var maxX: Double = 0
+        var maxY: Double = 0
+        points.setNowToHead()
+        for _ in 0..<points.size {
+            let x = points.now?.value.lng ?? 0.0
+            let y = points.now?.value.lat ?? 0.0
+            if x > maxX {
+                maxX = x
+            }
+            if y > maxY {
+                maxY = y
+            }
+            points.moveNowToNext()
+        }
+        return LatLng(lat: maxY, lng: maxX)
+    }
 }
