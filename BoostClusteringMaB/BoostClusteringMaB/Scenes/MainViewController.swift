@@ -138,7 +138,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
 
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints, bounds  in
+        clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints, bounds in
             guard let self = self else { return }
 
             let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)

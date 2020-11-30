@@ -30,7 +30,7 @@ class Clustering {
 //        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
 //    }
 
-    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs]) -> Void) {
+    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs], [NMGLatLngBounds]) -> Void) {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
@@ -42,6 +42,9 @@ class Clustering {
             let kRange = (2...10)
 
             guard !points.isEmpty else { return }
+
+            var minValue = Double.greatestFiniteMagnitude
+            var minKMeans: KMeans?
 
             let group = DispatchGroup.init()
             let serialQueue = DispatchQueue.init(label: "serial")
@@ -69,14 +72,17 @@ class Clustering {
                 var points = [Int]()
                 var centroids = LatLngs()
                 var convexHullPoints = [LatLngs]()
+                var bounds = [NMGLatLngBounds]()
 
                 combinedClusters.forEach({
                     points.append($0.points.size)
                     centroids.append($0.center)
                     convexHullPoints.append($0.area())
+                    bounds.append(NMGLatLngBounds(southWest: $0.southWest().convert(),
+                                                  northEast: $0.northEast().convert()))
                 })
 
-                completion(centroids, points, convexHullPoints)
+                completion(centroids, points, convexHullPoints, bounds)
             }
         }
     }
