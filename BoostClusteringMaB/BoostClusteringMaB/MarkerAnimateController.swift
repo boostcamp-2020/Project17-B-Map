@@ -11,7 +11,6 @@ final class MarkerAnimateController {
     private let markerRadius: CGFloat
     private let mapView: NMFMapViewProtocol
     private var animator: UIViewPropertyAnimator?
-    private var counter: UInt = 0
     var view: UIView?
     
     init(frame: CGRect, markerRadius: CGFloat, mapView: NMFMapViewProtocol) {
@@ -27,8 +26,6 @@ final class MarkerAnimateController {
     }
     
     func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: (() -> Void)?) {
-        self.counter += 1
-        
         let upper = isMerge ? new : old
         let lower = isMerge ? old : new
         
@@ -61,14 +58,10 @@ final class MarkerAnimateController {
                 animations.forEach {
                     $0.animation()
                 }
-            }, completion: { _ in
-                animations.forEach {
-                    $0.completion()
-                }
-                self.counter -= 1
-                if self.counter == 0 {
-                    completion?()
-                }
+            }, completion: { finalPosition in
+                animations.forEach { $0.completion() }
+                guard finalPosition.rawValue == 0 else { return }
+                completion?()
             })
     }
     
