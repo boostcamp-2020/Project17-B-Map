@@ -22,23 +22,16 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
 
         // When
-        try layer.add(place: newPlace) {
-            do {
-                try? layer.save()
-
+        layer.add(place: newPlace) { _ in
+            layer.fetch { result in
                 // Then
-                let poi = try layer.fetch().first(where: { poi -> Bool in
-                    poi.id == self.newPlace.id
-                })
-
+                let poi = try? result.get().first
                 XCTAssertEqual(poi?.id, "123321")
                 XCTAssertEqual(poi?.category, "부스트캠프")
                 XCTAssertEqual(poi?.imageURL, nil)
                 XCTAssertEqual(poi?.name, "Mab")
                 XCTAssertEqual(poi?.latitude, 35.55532)
                 XCTAssertEqual(poi?.longitude, 124.323412)
-            } catch {
-                
             }
         }
     }
@@ -56,10 +49,8 @@ class CoreDataTests: XCTestCase {
         // Then
         XCTAssertThrowsError(
             // When
-            try layer.add(place: wrongCoordinatePlace) {
-                try? layer.save()
-            })
-        
+            layer.add(place: wrongCoordinatePlace)
+        )
     }
     
     func testFetchPOI() throws {
