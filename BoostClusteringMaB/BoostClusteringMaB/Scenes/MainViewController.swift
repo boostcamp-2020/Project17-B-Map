@@ -1,22 +1,86 @@
 //
-//  ViewController+NMFMapViewCameraDelegate.swift
+//  ViewController.swift
 //  BoostClusteringMaB
 //
-//  Created by 김석호 on 2020/11/27.
+//  Created by ParkJaeHyun on 2020/11/16.
 //
 
-import Foundation
+import UIKit
 import NMapsMap
 
-extension ViewController: NMFMapViewCameraDelegate {
+protocol NMFMapViewProtocol {
+    var coveringBounds: NMGLatLngBounds { get }
+    var projection: NMFProjection { get }
+}
+
+extension NMFMapView: NMFMapViewProtocol {
+
+}
+
+protocol MainDisplayLogic: class {
+  func displayFetchedCoreData(viewModel: [POI])
+}
+
+class MainViewController: UIViewController, MainDisplayLogic {
+    lazy var naverMapView = NMFNaverMapView(frame: view.frame)
+    lazy var markerAnimationController = MarkerAnimateController(view: view, projection: mapView.projection)
+    lazy var markerImageView = MarkerImageView(radius: 30)
+    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+
+    let coreDataLayer: CoreDataManager = CoreDataLayer()
+
+    var polygonOverlays = [NMFPolygonOverlay]()
+    var mapView: NMFMapView { naverMapView.mapView }
+    var projection: NMFProjection { naverMapView.mapView.projection }
+    var markers = [NMFMarker]()
+    var poiData: [POI]?
+    var clustering: Clustering?
+
+    var interactor: MainBusinessLogic!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureClustering()
+        configureMapView()
+    }
+
+    private func setup() {
+        let interactor = MainInteractor()
+        let presenter = MainPresenter()
+        self.interactor = interactor
+        interactor.presenter = presenter
+        presenter.viewController = self
+    }
+
+    var displayedCoreData = [POI]()
+
+    func displayFetchedCoreData(viewModel: [POI]) {
+        displayedCoreData = viewModel
+    }
+
+    private func configureClustering() {
+        clustering = Clustering(naverMapView: naverMapView.mapView, coreDataLayer: coreDataLayer)
+    }
+
+    private func configureMapView() {
+        naverMapView.showZoomControls = true
+        mapView.touchDelegate = self
+        mapView.addCameraDelegate(delegate: self)
+        mapView.moveCamera(.init(scrollTo: startPoint))
+        view.addSubview(naverMapView)
+    }
+}
+
+
+extension MainViewController: NMFMapViewCameraDelegate {
     private func createMarker(latLng: LatLng) -> NMFMarker {
         return NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
     }
-    
+
     private func setMapView(makers: [NMFMarker], mapView: NMFMapView?) {
         return markers.forEach { $0.mapView = mapView }
     }
-    
+
     private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
         return zip(latLngs, pointSizes).map { latLng, pointSize in
             let marker = self.createMarker(latLng: latLng)
@@ -25,21 +89,21 @@ extension ViewController: NMFMapViewCameraDelegate {
             return marker
         }
     }
-    
+
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints in
             guard let self = self else { return }
-            
+
             let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
-            
+
             guard self.markers.count != 0 else {
                 self.setMapView(makers: newMarkers, mapView: self.mapView)
                 self.markers = newMarkers
                 return
             }
-            
+
             self.setMapView(makers: self.markers, mapView: nil)
-        
+
             self.markerAnimationController.clusteringAnimation(
                 old: self.markers.map { $0.position },
                 new: newMarkers.map { $0.position },
@@ -75,5 +139,13 @@ extension ViewController: NMFMapViewCameraDelegate {
                 self.polygonOverlays.append(polygonOverlay)
             }
         })
+    }
+}
+
+extension MainViewController: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        // MARK: - 화면 터치시 마커 찍기
+        //        let marker = NMFMarker(position: latlng)
+        //        marker.mapView = mapView
     }
 }
