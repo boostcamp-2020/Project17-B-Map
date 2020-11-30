@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0D0172B12570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */; };
-		0D0172B82570BECB00A26886 /* ViewController+Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */; };
 		0D0172C02570BF2A00A26886 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* JsonParser.swift */; };
 		0D0172C42570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */; };
 		0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */; };
@@ -61,7 +60,6 @@
 
 /* Begin PBXFileReference section */
 		0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+NMFMapViewCameraDelegate.swift"; sourceTree = "<group>"; };
-		0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Clustering.swift"; sourceTree = "<group>"; };
 		0D0172BF2570BF2A00A26886 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+NMFMapViewTouchDelegate.swift"; sourceTree = "<group>"; };
 		0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+ImageView.swift"; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				0D0172B02570BE8500A26886 /* ViewController+NMFMapViewCameraDelegate.swift */,
-				0D0172B72570BECB00A26886 /* ViewController+Clustering.swift */,
 				0D0172C32570BF6A00A26886 /* ViewController+NMFMapViewTouchDelegate.swift */,
 			);
 			path = ViewController;
@@ -492,7 +489,6 @@
 				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
 				708C08C1256258320072B1E0 /* ViewController.swift in Sources */,
-				0D0172B82570BECB00A26886 /* ViewController+Clustering.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
