@@ -29,9 +29,27 @@ class ClusterMock: Cluster {
     override func combine(other: Cluster) {
         self.center += other.center
     }
+
+    override func area() -> [LatLng] {
+        return [.init(lat: 30, lng: 40),
+                .init(lat: 40, lng: 50),
+                .init(lat: 50, lng: 60)]
+    }
 }
 
 class ClusteringTests: XCTestCase {
+    func settingPoints(_ mapView: MapViewMock, _ coreDataLayer: CoreDataLayerMock) -> [LatLng] {
+        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
+        let southWest = LatLng(boundsLatLngs[0])
+        let northEast = LatLng(boundsLatLngs[1])
+
+        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
+                                                         northEast: northEast,
+                                                         sorted: true) else { return [] }
+
+        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
+    }
+
     func test_init() {
         // Given
         let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjection())
@@ -48,6 +66,7 @@ class ClusteringTests: XCTestCase {
         // Given
         let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjectionMock())
         let coreDataLayerMock = CoreDataLayerMock()
+
         let clustering = Clustering(naverMapView: mapViewMock, coreDataLayer: coreDataLayerMock)
 
         // When
@@ -93,6 +112,23 @@ class ClusteringTests: XCTestCase {
         XCTAssertEqual(clusters.last?.center, LatLng(lat: 90.0, lng: 90.0))
     }
 
-    func test_findOptimalClustering() {
-    }
+    // MARK: - 보류
+//    func test_findOptimalClustering() {
+//        // Given
+//        let expectaion = expectation(description: "completed")
+//        let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjection())
+//        let clustering = Clustering(naverMapView: mapViewMock, coreDataLayer: CoreDataLayerMock())
+//
+//        // When
+//        clustering.findOptimalClustering {latLngs, pointSizes, convexHullPoints in
+//            // Then
+//            XCTAssertEqual(latLngs.count, 1)
+//            XCTAssertEqual(pointSizes.count, 1)
+//            XCTAssertEqual(convexHullPoints.count, 3)
+//
+//            expectaion.fulfill()
+//        }
+//
+//        waitForExpectations(timeout: 60)
+//    }
 }

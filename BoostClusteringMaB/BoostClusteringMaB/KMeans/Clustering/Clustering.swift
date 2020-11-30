@@ -8,27 +8,34 @@
 import NMapsMap
 
 class Clustering {
+    typealias LatLngs = [LatLng]
+
     private let naverMapView: NMFMapViewProtocol
     private let coreDataLayer: CoreDataManager
-    
+
     init(naverMapView: NMFMapViewProtocol, coreDataLayer: CoreDataManager) {
         self.naverMapView = naverMapView
         self.coreDataLayer = coreDataLayer
     }
-    
-    func findOptimalClustering(completion: @escaping ([LatLng], [Int], [[LatLng]]) -> Void) {
+
+    func refreshPoints() -> [LatLng] {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
-        
-        guard let points = try? coreDataLayer.fetch(southWest: southWest,
-                                                    northEast: northEast, sorted: true).map({poi in
-                                                        LatLng(lat: poi.latitude, lng: poi.longitude)
-                                                    }) else { return }
-        guard !points.isEmpty else { return }
-        
+
+        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
+                                                         northEast: northEast,
+                                                         sorted: true) else { return [] }
+
+        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
+    }
+
+    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs]) -> Void) {
         let kRange = (2...10)
-        
+        let points = refreshPoints()
+
+        guard !points.isEmpty else { return }
+
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
         
@@ -51,11 +58,20 @@ class Clustering {
         }
         
         group.notify(queue: .main) { [weak self] in
-            guard let minKMeans = minKMeans else { return }
-            guard let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters) else { return }
-            let points = combinedClusters.map { $0.points.size }
-            let convexHullPoints = combinedClusters.map { $0.area() }
-            let centroids = combinedClusters.map { $0.center }
+            guard let minKMeans = minKMeans,
+                  let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
+            else { return }
+
+            var points = [Int]()
+            var centroids = LatLngs()
+            var convexHullPoints = [LatLngs]()
+
+            combinedClusters.forEach({
+                points.append($0.points.size)
+                centroids.append($0.center)
+                convexHullPoints.append($0.area())
+            })
+
             completion(centroids, points, convexHullPoints)
         }
     }
