@@ -3,21 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0D0172C02570BF2A00A26886 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* JsonParser.swift */; };
 		0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */; };
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
-		4A3C8021232DFCF9C5E93307 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */; };
-		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		4A3C8021232DFCF9C5E93307 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */; platformFilter = ios; };
+		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; platformFilter = ios; };
 		7022C4732571431A000647C4 /* MarkerAnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7022C4722571431A000647C4 /* MarkerAnimateController.swift */; };
 		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
 		70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD0256DEB9900F138CB /* CoreDataContainer.swift */; };
-		70672319257205B000CF68FD /* ClusteringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70672318257205B000CF68FD /* ClusteringTests.swift */; };
-		706723202572088E00CF68FD /* CoreDataLayerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7067231F2572088E00CF68FD /* CoreDataLayerMock.swift */; };
-		707942C2256FD056002AF718 /* ConvexHullTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707942C1256FD056002AF718 /* ConvexHullTests.swift */; };
+		70672319257205B000CF68FD /* ClusteringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70672318257205B000CF68FD /* ClusteringTests.swift */; platformFilter = ios; };
+		706723202572088E00CF68FD /* CoreDataLayerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7067231F2572088E00CF68FD /* CoreDataLayerMock.swift */; platformFilter = ios; };
+		707942C2256FD056002AF718 /* ConvexHullTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707942C1256FD056002AF718 /* ConvexHullTests.swift */; platformFilter = ios; };
 		707E63E7257490EC003F0E10 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E63E6257490EC003F0E10 /* MainInteractor.swift */; };
 		707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E63EA257490F5003F0E10 /* MainPresenter.swift */; };
 		708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708C08BC256258320072B1E0 /* AppDelegate.swift */; };
@@ -29,10 +29,10 @@
 		708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 708C08CA256258330072B1E0 /* LaunchScreen.storyboard */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD5B256CB9360048CEA6 /* CSVParser.swift */; };
-		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; };
+		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; platformFilter = ios; };
 		70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */ = {isa = PBXBuildFile; fileRef = 70BFFD7E256CD6120048CEA6 /* poi.csv */; };
 		C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435B3256BAA000066C423 /* CGPoint+Distance.swift */; };
-		C3496436256CEBAE001F40AA /* KMeansTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3496435256CEBAE001F40AA /* KMeansTest.swift */; };
+		C3496436256CEBAE001F40AA /* KMeansTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3496435256CEBAE001F40AA /* KMeansTest.swift */; platformFilter = ios; };
 		C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A28798256F986D00DF23B1 /* Clustering.swift */; };
 		C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */; };
 		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
@@ -45,12 +45,12 @@
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 		F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */; };
 		F496019125727ED500740523 /* String+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496019025727ED500740523 /* String+Bundle.swift */; };
-		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
+		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; platformFilter = ios; };
 		F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4A07BAD257118BF00B18415 /* Loading.storyboard */; };
 		F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A07BB125711B1900B18415 /* LoadViewController.swift */; };
 		F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E23D2A25727A5F008A9B4C /* DataParser.swift */; };
-		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
-		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
+		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; platformFilter = ios; };
+		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; platformFilter = ios; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -606,6 +606,7 @@
 /* Begin PBXTargetDependency section */
 		700A667625626CF800184916 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = maccatalyst;
 			target = 708C08B8256258320072B1E0 /* BoostClusteringMaB */;
 			targetProxy = 700A667525626CF800184916 /* PBXContainerItemProxy */;
 		};
