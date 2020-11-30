@@ -136,8 +136,7 @@ class CoreDataTests: XCTestCase {
             // Then
             group.notify(queue: .main) {
                 try? layer.save()
-                let fetchLayer = CoreDataLayer()
-                let afterCount = try? fetchLayer.fetch().count
+                let afterCount = try? layer.fetch().count
                 XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
                 expectation.fulfill()
             }
