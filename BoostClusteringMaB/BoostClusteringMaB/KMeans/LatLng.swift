@@ -25,6 +25,10 @@ struct LatLng {
         lng = nmg.lng
     }
     
+    func convert() -> NMGLatLng {
+        NMGLatLng(lat: self.lat, lng: self.lng)
+    }
+    
     func squaredDistance(to other: LatLng) -> Double {
         return (self.lat - other.lat) * (self.lat - other.lat) + (self.lng - other.lng) * (self.lng - other.lng)
     }
