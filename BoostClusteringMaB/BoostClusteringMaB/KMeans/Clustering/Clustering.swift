@@ -30,7 +30,7 @@ class Clustering {
         return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
     }
 
-    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs]) -> Void) {
+    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs], [NMGLatLngBounds]) -> Void) {
         let kRange = (2...10)
         let points = refreshPoints()
 
@@ -62,17 +62,19 @@ class Clustering {
                   let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
             else { return }
 
-            var points = [Int]()
+            var pointSizes = [Int]()
             var centroids = LatLngs()
             var convexHullPoints = [LatLngs]()
-
+            var bounds = [NMGLatLngBounds]()
+            
             combinedClusters.forEach({
-                points.append($0.points.size)
+                pointSizes.append($0.points.size)
                 centroids.append($0.center)
                 convexHullPoints.append($0.area())
+                bounds.append(NMGLatLngBounds(southWest: $0.southWest().convert(), northEast: $0.northEast().convert()))
             })
 
-            completion(centroids, points, convexHullPoints)
+            completion(centroids, pointSizes, convexHullPoints, bounds)
         }
     }
     
