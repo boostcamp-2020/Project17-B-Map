@@ -4,4 +4,8 @@ target 'BoostClusteringMaB' do
   pod 'SwiftLint'
   pod 'NMapsMap'
 
+
+  target 'BoostClusteringMaBTests' do
+    pod 'NMapsMap'
+  end
 end

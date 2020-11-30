@@ -9,6 +9,7 @@ import CoreData
 
 protocol CoreDataManager {
     func add(place: Place, completion handler: (() -> Void)?) throws
+    func add(places: [Place], completion handler: (() -> Void)?) throws
     func fetch(sorted: Bool) throws -> [POI]
     func fetch(by classification: String, sorted: Bool) throws -> [POI]
     func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool) throws -> [POI]
@@ -25,7 +26,7 @@ final class CoreDataLayer: CoreDataManager {
     
     private lazy var childContext: NSManagedObjectContext = {
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-
+        
         childContext.parent = CoreDataContainer.shared.mainContext
         return childContext
     }()
@@ -35,7 +36,7 @@ final class CoreDataLayer: CoreDataManager {
               let longitude = Double(place.x) else {
             throw CoreDataError.invalidCoordinate
         }
-
+        
         childContext.perform { [weak self] in
             guard let self = self else {
                 return
@@ -47,6 +48,21 @@ final class CoreDataLayer: CoreDataManager {
             poi.latitude = latitude
             poi.longitude = longitude
             poi.name = place.name
+            handler?()
+        }
+    }
+    
+    func add(places: [Place], completion handler: (() -> Void)? = nil) throws {
+        let group = DispatchGroup()
+        
+        try places.forEach { place in
+            group.enter()
+            try add(place: place) {
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
             handler?()
         }
     }
@@ -105,7 +121,9 @@ final class CoreDataLayer: CoreDataManager {
     }
     
     func save() throws {
-        try childContext.save()
-        CoreDataContainer.shared.saveContext()
+        if childContext.hasChanges {
+            try childContext.save()
+            CoreDataContainer.shared.saveContext()
+        }
     }
 }
