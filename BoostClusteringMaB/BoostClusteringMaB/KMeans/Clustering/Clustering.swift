@@ -43,9 +43,6 @@ class Clustering {
 
             guard !points.isEmpty else { return }
 
-            var minValue = Double.greatestFiniteMagnitude
-            var minKMeans: KMeans?
-
             let group = DispatchGroup.init()
             let serialQueue = DispatchQueue.init(label: "serial")
 
@@ -82,50 +79,6 @@ class Clustering {
                 completion(centroids, points, convexHullPoints)
             }
         }
-//
-//        let points = refreshPoints()
-//        let kRange = (2...10)
-//
-//        guard !points.isEmpty else { return }
-//
-//        var minValue = Double.greatestFiniteMagnitude
-//        var minKMeans: KMeans?
-//        
-//        let group = DispatchGroup.init()
-//        let serialQueue = DispatchQueue.init(label: "serial")
-//        
-//        kRange.forEach { k in
-//            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-//                let kMeans = KMeans(k: k, points: points)
-//                kMeans.run()
-//                
-//                let DBI = kMeans.daviesBouldinIndex()
-//                serialQueue.async(group: group) {
-//                    if DBI <= minValue {
-//                        minValue = DBI
-//                        minKMeans = kMeans
-//                    }
-//                }
-//            }
-//        }
-//        
-//        group.notify(queue: .main) { [weak self] in
-//            guard let minKMeans = minKMeans,
-//                  let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
-//            else { return }
-//
-//            var points = [Int]()
-//            var centroids = LatLngs()
-//            var convexHullPoints = [LatLngs]()
-//
-//            combinedClusters.forEach({
-//                points.append($0.points.size)
-//                centroids.append($0.center)
-//                convexHullPoints.append($0.area())
-//            })
-//
-//            completion(centroids, points, convexHullPoints)
-//        }
     }
     
     func combineClusters(clusters: [Cluster]) -> [Cluster] {
