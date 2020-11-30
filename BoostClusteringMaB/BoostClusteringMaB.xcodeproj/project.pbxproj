@@ -146,6 +146,23 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		0DE171D22574BBC70031DA8E /* csv */ = {
+			isa = PBXGroup;
+			children = (
+				70BFFD7E256CD6120048CEA6 /* poi.csv */,
+			);
+			path = csv;
+			sourceTree = "<group>";
+		};
+		0DE171D32574BBD00031DA8E /* json */ = {
+			isa = PBXGroup;
+			children = (
+				C3FB084B256B873700B93665 /* restaurant.json */,
+				C3FB0850256B875800B93665 /* gangnam_8000.json */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
 		0DF97E34256B9F280007BCEE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,14 +262,13 @@
 				0DF97E34256B9F280007BCEE /* Views */,
 				C31435B7256BB8010066C423 /* Extension */,
 				C3FB0858256B87A500B93665 /* KMeans */,
-				C3FB084F256B873F00B93665 /* POI JSON Data */,
+				C3FB084F256B873F00B93665 /* POI Data */,
 				707E63DF25749074003F0E10 /* Scenes */,
 				708C08BC256258320072B1E0 /* AppDelegate.swift */,
 				708C08BE256258320072B1E0 /* SceneDelegate.swift */,
 				708C08C8256258330072B1E0 /* Assets.xcassets */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
-				70BFFD7E256CD6120048CEA6 /* poi.csv */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
@@ -299,13 +315,13 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		C3FB084F256B873F00B93665 /* POI JSON Data */ = {
+		C3FB084F256B873F00B93665 /* POI Data */ = {
 			isa = PBXGroup;
 			children = (
-				C3FB084B256B873700B93665 /* restaurant.json */,
-				C3FB0850256B875800B93665 /* gangnam_8000.json */,
+				0DE171D32574BBD00031DA8E /* json */,
+				0DE171D22574BBC70031DA8E /* csv */,
 			);
-			path = "POI JSON Data";
+			path = "POI Data";
 			sourceTree = "<group>";
 		};
 		C3FB0858256B87A500B93665 /* KMeans */ = {
