@@ -67,7 +67,40 @@ class MainViewController: UIViewController, MainDisplayLogic {
         mapView.touchDelegate = self
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(makeMarker(_:)))
+        naverMapView.addGestureRecognizer(gestureRecognizer)
         view.addSubview(naverMapView)
+    }
+    
+    @objc func makeMarker(_ sender: UILongPressGestureRecognizer) {
+        let point = sender.location(in: view)
+        let latlng = point.convert(mapView: mapView)
+        
+        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: NMF_MAX_ZOOM - 2)
+        cameraUpdate.animation = .easeIn
+        cameraUpdate.animationDuration = 0.8
+        mapView.moveCamera(cameraUpdate)
+        sender.state = .ended
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.showAlert(latlng: latlng)
+        }
+    }
+    
+    private func showAlert(latlng: NMGLatLng) {
+        let alert = UIAlertController(title: "POI를 추가하시겠습니까?",
+                                      message: "OK를 누르면 추가합니다",
+                                      preferredStyle: UIAlertController.Style.alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: { action in
+            let marker = NMFMarker()
+            marker.position = latlng
+            marker.mapView = self.mapView
+            //coreData에 저장시켜 주세요
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        present(alert, animated: false, completion: nil)
     }
 }
 
