@@ -34,8 +34,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureMapView()
         configureClustering()
+        configureMapView()
     }
 
     private func configureClustering() {

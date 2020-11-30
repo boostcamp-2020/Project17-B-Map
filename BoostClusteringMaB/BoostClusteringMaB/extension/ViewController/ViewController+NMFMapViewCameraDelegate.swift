@@ -58,7 +58,7 @@ extension ViewController: NMFMapViewCameraDelegate {
             for latlngs in convexHullPoints where latlngs.count > 3 {
                 let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
 
-                guard let polygon = NMGPolygon(ring: NMGLineString(points: points)) as? NMGPolygon<AnyObject> else { return }
+                let polygon = NMGPolygon(ring: NMGLineString(points: points)) as NMGPolygon<AnyObject>
                 guard let polygonOverlay = NMFPolygonOverlay(polygon) else { continue }
 
                 let randomNumber1 = CGFloat(Double.random(in: 0.0...1.0))
