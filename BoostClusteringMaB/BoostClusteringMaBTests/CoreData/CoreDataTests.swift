@@ -17,11 +17,6 @@ class CoreDataTests: XCTestCase {
                          imageURL: nil,
                          category: "부스트캠프")
 
-    override func setUp() {
-        let layer = CoreDataLayer()
-        try? layer.removeAll()
-    }
-
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
@@ -122,7 +117,7 @@ class CoreDataTests: XCTestCase {
     }
     
     func testAdd10000POI() throws {
-        try timeout(60) { expectation in
+        try timeout(40) { expectation in
             // Given
             let numberOfRepeats = 10000
             let layer = CoreDataLayer()
@@ -141,8 +136,7 @@ class CoreDataTests: XCTestCase {
             // Then
             group.notify(queue: .main) {
                 try? layer.save()
-                let fetchLayer = CoreDataLayer()
-                let afterCount = try? fetchLayer.fetch().count
+                let afterCount = try? layer.fetch().count
                 XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
                 expectation.fulfill()
             }
