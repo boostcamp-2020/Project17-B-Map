@@ -18,62 +18,114 @@ class Clustering {
         self.coreDataLayer = coreDataLayer
     }
 
-    func refreshPoints() -> [LatLng] {
+//    func refreshPoints() -> [LatLng] {
+//        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
+//        let southWest = LatLng(boundsLatLngs[0])
+//        let northEast = LatLng(boundsLatLngs[1])
+//
+//        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
+//                                                         northEast: northEast,
+//                                                         sorted: true) else { return [] }
+//
+//        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
+//    }
+
+    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs]) -> Void) {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
 
-        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
-                                                         northEast: northEast,
-                                                         sorted: true) else { return [] }
+        coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true) { result in
+            guard let points = try? result.get().map({ poi in
+                LatLng(lat: poi.latitude, lng: poi.longitude)
+            }) else { return }
+            let kRange = (2...10)
 
-        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
-    }
+            guard !points.isEmpty else { return }
 
-    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs]) -> Void) {
-        let kRange = (2...10)
-        let points = refreshPoints()
+            var minValue = Double.greatestFiniteMagnitude
+            var minKMeans: KMeans?
 
-        guard !points.isEmpty else { return }
+            let group = DispatchGroup.init()
+            let serialQueue = DispatchQueue.init(label: "serial")
 
-        var minValue = Double.greatestFiniteMagnitude
-        var minKMeans: KMeans?
-        
-        let group = DispatchGroup.init()
-        let serialQueue = DispatchQueue.init(label: "serial")
-        
-        kRange.forEach { k in
-            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: points)
-                kMeans.run()
-                
-                let DBI = kMeans.daviesBouldinIndex()
-                serialQueue.async(group: group) {
-                    if DBI <= minValue {
-                        minValue = DBI
-                        minKMeans = kMeans
+            kRange.forEach { k in
+                DispatchQueue.global(qos: .userInteractive).async(group: group) {
+                    let kMeans = KMeans(k: k, points: points)
+                    kMeans.run()
+
+                    let DBI = kMeans.daviesBouldinIndex()
+                    serialQueue.async(group: group) {
+                        if DBI <= minValue {
+                            minValue = DBI
+                            minKMeans = kMeans
+                        }
                     }
                 }
             }
+
+            group.notify(queue: .main) { [weak self] in
+                guard let minKMeans = minKMeans,
+                      let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
+                else { return }
+
+                var points = [Int]()
+                var centroids = LatLngs()
+                var convexHullPoints = [LatLngs]()
+
+                combinedClusters.forEach({
+                    points.append($0.points.size)
+                    centroids.append($0.center)
+                    convexHullPoints.append($0.area())
+                })
+
+                completion(centroids, points, convexHullPoints)
+            }
         }
-        
-        group.notify(queue: .main) { [weak self] in
-            guard let minKMeans = minKMeans,
-                  let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
-            else { return }
-
-            var points = [Int]()
-            var centroids = LatLngs()
-            var convexHullPoints = [LatLngs]()
-
-            combinedClusters.forEach({
-                points.append($0.points.size)
-                centroids.append($0.center)
-                convexHullPoints.append($0.area())
-            })
-
-            completion(centroids, points, convexHullPoints)
-        }
+//
+//        let points = refreshPoints()
+//        let kRange = (2...10)
+//
+//        guard !points.isEmpty else { return }
+//
+//        var minValue = Double.greatestFiniteMagnitude
+//        var minKMeans: KMeans?
+//        
+//        let group = DispatchGroup.init()
+//        let serialQueue = DispatchQueue.init(label: "serial")
+//        
+//        kRange.forEach { k in
+//            DispatchQueue.global(qos: .userInteractive).async(group: group) {
+//                let kMeans = KMeans(k: k, points: points)
+//                kMeans.run()
+//                
+//                let DBI = kMeans.daviesBouldinIndex()
+//                serialQueue.async(group: group) {
+//                    if DBI <= minValue {
+//                        minValue = DBI
+//                        minKMeans = kMeans
+//                    }
+//                }
+//            }
+//        }
+//        
+//        group.notify(queue: .main) { [weak self] in
+//            guard let minKMeans = minKMeans,
+//                  let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
+//            else { return }
+//
+//            var points = [Int]()
+//            var centroids = LatLngs()
+//            var convexHullPoints = [LatLngs]()
+//
+//            combinedClusters.forEach({
+//                points.append($0.points.size)
+//                centroids.append($0.center)
+//                convexHullPoints.append($0.area())
+//            })
+//
+//            completion(centroids, points, convexHullPoints)
+//        }
     }
     
     func combineClusters(clusters: [Cluster]) -> [Cluster] {
