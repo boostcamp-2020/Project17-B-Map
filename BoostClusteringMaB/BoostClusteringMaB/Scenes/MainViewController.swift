@@ -269,6 +269,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         CGSize(width: self.view.bounds.width, height: 128)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let fetchedResultsController = fetchedResultsController,
               let sections = fetchedResultsController.sections
