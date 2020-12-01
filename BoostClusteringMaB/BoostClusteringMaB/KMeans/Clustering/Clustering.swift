@@ -4,47 +4,23 @@
 //
 //  Created by 강민석 on 2020/11/26.
 //
-
-import NMapsMap
-
-protocol ClusteringData: class {
-    func poiCoordinate(_ latLngs: [LatLng], _ pointSizes: [Int])
-    func drawArea(_ bounds: [NMGLatLngBounds], _ convexHullPoints: [[LatLng]])
-//    func convexHullPoints(_ data: [[LatLng]])
-//    func bounds(_ data: [NMGLatLngBounds])
-}
+import Foundation
 
 class Clustering {
     typealias LatLngs = [LatLng]
 
     weak var data: ClusteringData?
-
-    private let naverMapView: NMFMapViewProtocol
+    weak var tool: ClusteringTool?
+    
     private let coreDataLayer: CoreDataManager
 
-    init(naverMapView: NMFMapViewProtocol, coreDataLayer: CoreDataManager) {
-        self.naverMapView = naverMapView
+    init(coreDataLayer: CoreDataManager) {
         self.coreDataLayer = coreDataLayer
     }
-
-//    func refreshPoints() -> [LatLng] {
-//        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
-//        let southWest = LatLng(boundsLatLngs[0])
-//        let northEast = LatLng(boundsLatLngs[1])
-//
-//        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
-//                                                         northEast: northEast,
-//                                                         sorted: true) else { return [] }
-//
-//        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
-//    }
+    
     let group = DispatchGroup.init()
 
-    func findOptimalClustering() {
-        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-
+    func findOptimalClustering(southWest: LatLng, northEast: LatLng) {
         coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true) { result in
 //            guard let points = try? result.get().map({ poi in
 //                LatLng(lat: poi.latitude, lng: poi.longitude)
@@ -59,7 +35,7 @@ class Clustering {
         }
     }
 
-    func runKMeans(pois: [POI]) {
+    private func runKMeans(points: [LatLng]) {
         let kRange = (2...10)
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
@@ -86,26 +62,23 @@ class Clustering {
         }
     }
 
-    func groupNotifyTasks(_ minKMeans: KMeans) {
+    private func groupNotifyTasks(_ minKMeans: KMeans) {
         let combinedClusters = self.combineClusters(clusters: minKMeans.clusters)
 
         var points = [Int]()
         var centroids = LatLngs()
         var convexHullPoints = [LatLngs]()
-        var bounds = [NMGLatLngBounds]()
+        var bounds = [(southWest: LatLng, northEast: LatLng)]()
 
         combinedClusters.forEach({ cluster in
             points.append(cluster.pois.size)
             centroids.append(cluster.center)
             convexHullPoints.append(cluster.area())
-            bounds.append(NMGLatLngBounds(southWest: cluster.southWest().convert(),
-                                          northEast: cluster.northEast().convert()))
+            bounds.append((southWest: cluster.southWest(),
+                           northEast: cluster.northEast()))
         })
         
-        self.data?.poiCoordinate(centroids, points)
-        self.data?.drawArea(bounds, convexHullPoints)
-//        self.data?.convexHullPoints(convexHullPoints)
-//        self.data?.bounds(bounds)
+        self.data?.redrawMap(centroids, points, bounds, convexHullPoints)
     }
     
     func combineClusters(clusters: [Cluster]) -> [Cluster] {
@@ -114,8 +87,8 @@ class Clustering {
         
         for i in 0..<clusters.count {
             for j in 0..<clusters.count where i < j {
-                let point1 = convertLatLngToPoint(latLng: clusters[i].center)
-                let point2 = convertLatLngToPoint(latLng: clusters[j].center)
+                guard let point1 = tool?.convertLatLngToPoint(latLng: clusters[i].center),
+                      let point2 = tool?.convertLatLngToPoint(latLng: clusters[j].center) else { return [] }
                 let distance = point1.distance(to: point2)
                 
                 if stdDistance > distance {
@@ -126,21 +99,5 @@ class Clustering {
             }
         }
         return clusters
-    }
-
-    // MARK: - WebMercatorCoord
-    func convertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double {
-        let mercatorCoord = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng1.lat, lng: latLng1.lng))
-        let mercatorCoord2 = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng2.lat, lng: latLng2.lng))
-        let metersPerPixel = naverMapView.projection.metersPerPixel()
-        
-        return (mercatorCoord.distance(to: mercatorCoord2) / metersPerPixel)
-    }
-
-    // MARK: - 화면좌표
-    func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
-        let projection = naverMapView.projection
-        let point = projection.point(from: latLng.convert())
-        return point
     }
 }
