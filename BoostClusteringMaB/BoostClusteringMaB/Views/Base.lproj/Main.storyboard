@@ -75,7 +75,6 @@
                                             <outlet property="categoryLabel" destination="gX2-md-A1o" id="RuG-b7-SUQ"/>
                                             <outlet property="nameLabel" destination="9jr-Fv-8b9" id="jGq-HS-7FU"/>
                                             <outlet property="storeImageView" destination="jJd-zK-iLf" id="1uj-sC-CuZ"/>
-                                            <outletCollection property="gestureRecognizers" destination="PDu-0y-CVw" appends="YES" id="iu5-pB-hQ8"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -95,11 +94,9 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="v9C-RS-7El" id="vlf-Xy-P6U"/>
-                        <outlet property="panGestureRecognizer" destination="PDu-0y-CVw" id="VZ4-rw-UmY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="PDu-0y-CVw"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="-10.044642857142856"/>
         </scene>
