@@ -183,10 +183,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
         let polygon = NMGPolygon(ring: NMGLineString(points: points)) as NMGPolygon<AnyObject>
         guard let polygonOverlay = NMFPolygonOverlay(polygon) else { return nil }
         
-        polygonOverlay.fillColor = UIColor(red: CGFloat(.random(in: 0.0...1.0)),
-                                           green: CGFloat(.random(in: 0.0...1.0)),
-                                           blue: CGFloat(.random(in: 0.0...1.0)),
-                                           alpha: 31.0/255.0)
+        polygonOverlay.fillColor = UIColor.random()
         polygonOverlay.outlineWidth = 3
         polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
         return polygonOverlay
