@@ -8,6 +8,12 @@
 import UIKit
 import NMapsMap
 
+protocol ClusteringData: class {
+    func redrawMap(_ latLngs: [LatLng], _ pointSizes: [Int], _ bounds: [(southWest: LatLng, northEast: LatLng)], _ convexHulls: [[LatLng]])
+    func convertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double
+    func convertLatLngToPoint(latLng: LatLng) -> CGPoint
+}
+
 protocol NMFMapViewProtocol {
     var coveringBounds: NMGLatLngBounds { get }
     var projection: NMFProjection { get }
@@ -69,7 +75,7 @@ final class MainViewController: UIViewController, MainDisplayLogic {
     }
     
     private func configureClustering() {
-        clustering = Clustering(naverMapView: naverMapView.mapView, coreDataLayer: coreDataLayer)
+        clustering = Clustering(coreDataLayer: coreDataLayer)
     }
     
     private func configureMapView() {
@@ -116,11 +122,16 @@ final class MainViewController: UIViewController, MainDisplayLogic {
 }
 
 extension MainViewController: ClusteringData {
-    func redrawMap(_ latLngs: [LatLng], _ pointSizes: [Int], _ bounds: [NMGLatLngBounds], _ convexHulls: [[LatLng]]) {
+    func redrawMap(_ latLngs: [LatLng], _ pointSizes: [Int], _ bounds: [(southWest: LatLng, northEast: LatLng)], _ convexHulls: [[LatLng]]) {
         let newMarkers = createMarkers(latLngs: latLngs, pointSizes: pointSizes)
         
+        let nmfBounds = bounds.map {
+            NMGLatLngBounds(southWest: NMGLatLng(lat: $0.lat, lng: $0.lng),
+                            northEast: NMGLatLng(lat: $1.lat, lng: $1.lng))
+        }
+        
         guard self.markers.count != 0 else {
-            self.configureFirstMarkers(newMarkers: newMarkers, bounds: bounds)
+            self.configureFirstMarkers(newMarkers: newMarkers, bounds: nmfBounds)
             return
         }
 
@@ -129,10 +140,24 @@ extension MainViewController: ClusteringData {
 
         self.markerChangeAnimation(
             newMarkers: newMarkers,
-            bounds: bounds,
+            bounds: nmfBounds,
             completion: {
                 self.changePolygonOverays(points: convexHulls)
             })
+    }
+    
+    func convertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double {
+        let mercatorCoord = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng1.lat, lng: latLng1.lng))
+        let mercatorCoord2 = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng2.lat, lng: latLng2.lng))
+        let metersPerPixel = projection.metersPerPixel()
+        
+        return (mercatorCoord.distance(to: mercatorCoord2) / metersPerPixel)
+    }
+
+    // MARK: - 화면좌표
+    func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
+        let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
+        return point
     }
 }
 
@@ -185,7 +210,10 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
 
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        clustering?.findOptimalClustering()
+        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
+        let southWest = LatLng(boundsLatLngs[0])
+        let northEast = LatLng(boundsLatLngs[1])
+        clustering?.findOptimalClustering(southWest: southWest, northEast: northEast)
     }
 
     private func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
@@ -228,4 +256,9 @@ extension MainViewController: NMFMapViewTouchDelegate {
         // let marker = NMFMarker(position: latlng)
         // marker.mapView = mapView
     }
+}
+
+// MARK: NMapsMap
+extension MainViewController {
+    
 }
