@@ -12,7 +12,7 @@ protocol MainDataStore {
 }
 
 protocol MainBusinessLogic {
-    func fetchCoreData()
+    func fetchPOI(clustering: Clustering?)
 }
 
 final class MainInteractor: MainDataStore {
@@ -20,7 +20,7 @@ final class MainInteractor: MainDataStore {
 }
 
 extension MainInteractor: MainBusinessLogic {
-    func fetchCoreData() {
-        presenter?.presentFetchedCoreData()
+
+    func fetchPOI(clustering: Clustering?) {
     }
 }

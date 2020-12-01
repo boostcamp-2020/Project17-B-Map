@@ -43,10 +43,18 @@ final class MainViewController: UIViewController, MainDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
         configureClustering()
+        clustering?.data = self
         configureMapView()
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        interactor?.fetchPOI(clustering: clustering)
+    }
+
+
     private func setup() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
@@ -70,6 +78,7 @@ final class MainViewController: UIViewController, MainDisplayLogic {
         mapView.touchDelegate = self
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
+
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(makeMarker(_:)))
         naverMapView.addGestureRecognizer(gestureRecognizer)
         view.addSubview(naverMapView)
@@ -105,6 +114,35 @@ final class MainViewController: UIViewController, MainDisplayLogic {
         alert.addAction(okAction)
         present(alert, animated: false, completion: nil)
     }
+
+    var newMarkers: [NMFMarker]?
+}
+
+extension MainViewController: ClusteringData {
+
+    // TODO: newMarkers처리
+    func poiCoordinate(_ latLngs: [LatLng], _ pointSizes: [Int]) {
+        newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
+    }
+
+    func drawArea(_ bounds: [NMGLatLngBounds], _ convexHullPoints: [[LatLng]]) {
+        guard let newMarkers = newMarkers else { return }
+
+        guard self.markers.count != 0 else {
+            self.configureFirstMarkers(newMarkers: newMarkers, bounds: bounds)
+            return
+        }
+
+        self.setMapView(overlays: self.polygonOverlays, mapView: nil)
+        //터치 핸들러도 nil로?
+
+        self.markerChangeAnimation(
+            newMarkers: newMarkers,
+            bounds: bounds,
+            completion: {
+                self.changePolygonOverays(points: convexHullPoints)
+            })
+    }
 }
 
 extension MainViewController: NMFMapViewCameraDelegate {
@@ -129,6 +167,15 @@ extension MainViewController: NMFMapViewCameraDelegate {
         return polygonOverlay
     }
 
+    private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
+        return zip(latLngs, pointSizes).map { latLng, pointSize in
+            let marker = self.createMarker(latLng: latLng)
+            guard pointSize != 1 else { return marker }
+            marker.setImageView(self.markerImageView, count: pointSize)
+            return marker
+        }
+    }
+
     private func setMapView(makers: [NMFMarker], mapView: NMFMapView?, bounds: [NMGLatLngBounds]) {
         zip(self.markers, bounds).forEach { marker, bound in
             marker.touchHandler = { _ in
@@ -136,7 +183,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
                 return true
             }
             marker.mapView = mapView
-        }        
+        }
     }
     
     private func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
@@ -146,26 +193,21 @@ extension MainViewController: NMFMapViewCameraDelegate {
         cameraUpdate.animationDuration = 0.8
         mapView.moveCamera(cameraUpdate)
     }
-    
-    private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
-        return zip(latLngs, pointSizes).map { latLng, pointSize in
-            let marker = self.createMarker(latLng: latLng)
-            guard pointSize != 1 else { return marker }
-            marker.setImageView(self.markerImageView, count: pointSize)
-            return marker
-        }
+
+    func mapViewCameraIdle(_ mapView: NMFMapView) {
+        clustering?.findOptimalClustering()
     }
-    
+
     private func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         self.setMapView(makers: newMarkers, mapView: self.mapView, bounds: bounds)
         self.markers = newMarkers
     }
-    
+
     private func markerChangeAnimation(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds], completion: (() -> Void)?) {
         self.setMapView(overlays: self.markers, mapView: nil)
         let oldMarkers = self.markers
         self.markers = newMarkers
-        
+
         self.markerAnimationController.clusteringAnimation(
             old: oldMarkers.map { $0.position },
             new: newMarkers.map { $0.position },
@@ -175,7 +217,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
                 completion?()
             })
     }
-    
+
     private func changePolygonOverays(points convexHullPoints: [[LatLng]]) {
         polygonOverlays = convexHullPoints
             .filter { $0.count > 3 }
@@ -183,30 +225,8 @@ extension MainViewController: NMFMapViewCameraDelegate {
                 let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
                 return createPolygonOverlay(points: points)
             }
-        
+
         setMapView(overlays: polygonOverlays, mapView: mapView)
-    }
-    
-    func mapViewCameraIdle(_ mapView: NMFMapView) {
-        clustering?.findOptimalClustering(completion: { [weak self] latLngs, pointSizes, convexHullPoints, bounds in
-            guard let self = self else { return }
-            
-            let newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
-            
-            guard self.markers.count != 0 else {
-                self.configureFirstMarkers(newMarkers: newMarkers, bounds: bounds)
-                return
-            }
-            
-            self.setMapView(overlays: self.polygonOverlays, mapView: nil)
-            
-            self.markerChangeAnimation(
-                newMarkers: newMarkers,
-                bounds: bounds,
-                completion: {
-                    self.changePolygonOverays(points: convexHullPoints)
-                })
-        })
     }
 }
 
