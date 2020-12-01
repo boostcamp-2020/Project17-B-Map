@@ -10,6 +10,7 @@ class Clustering {
     typealias LatLngs = [LatLng]
 
     weak var data: ClusteringData?
+    weak var tool: ClusteringTool?
     
     private let coreDataLayer: CoreDataManager
 
@@ -77,14 +78,14 @@ class Clustering {
         self.data?.redrawMap(centroids, points, bounds, convexHullPoints)
     }
     
-    private func combineClusters(clusters: [Cluster]) -> [Cluster] {
+    func combineClusters(clusters: [Cluster]) -> [Cluster] {
         let stdDistance: Double = 90
         var newClusters = clusters
         
         for i in 0..<clusters.count {
             for j in 0..<clusters.count where i < j {
-                guard let point1 = data?.convertLatLngToPoint(latLng: clusters[i].center),
-                      let point2 = data?.convertLatLngToPoint(latLng: clusters[j].center) else { return [] }
+                guard let point1 = tool?.convertLatLngToPoint(latLng: clusters[i].center),
+                      let point2 = tool?.convertLatLngToPoint(latLng: clusters[j].center) else { return [] }
                 let distance = point1.distance(to: point2)
                 
                 if stdDistance > distance {

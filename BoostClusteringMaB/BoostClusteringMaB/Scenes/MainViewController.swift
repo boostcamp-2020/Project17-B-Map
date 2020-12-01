@@ -8,10 +8,15 @@
 import UIKit
 import NMapsMap
 
-protocol ClusteringData: class {
-    func redrawMap(_ latLngs: [LatLng], _ pointSizes: [Int], _ bounds: [(southWest: LatLng, northEast: LatLng)], _ convexHulls: [[LatLng]])
-    func convertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double
+protocol ClusteringTool: class {
     func convertLatLngToPoint(latLng: LatLng) -> CGPoint
+}
+
+protocol ClusteringData: class {
+    func redrawMap(_ latLngs: [LatLng],
+                   _ pointSizes: [Int],
+                   _ bounds: [(southWest: LatLng, northEast: LatLng)],
+                   _ convexHulls: [[LatLng]])
 }
 
 protocol NMFMapViewProtocol {
@@ -22,10 +27,10 @@ protocol NMFMapViewProtocol {
 extension NMFMapView: NMFMapViewProtocol { }
 
 protocol MainDisplayLogic: class {
-    func displayFetchedCoreData(viewModel: [POI])
+    func displayFetch(viewModel: ViewModel)
 }
 
-final class MainViewController: UIViewController, MainDisplayLogic {
+final class MainViewController: UIViewController {
     lazy var naverMapView = NMFNaverMapView(frame: view.frame)
     lazy var markerAnimationController: MarkerAnimateController = {
         let controller = MarkerAnimateController(frame: view.frame, markerRadius: 30, mapView: mapView)
@@ -33,57 +38,36 @@ final class MainViewController: UIViewController, MainDisplayLogic {
         view.addSubview(animationView)
         return controller
     }()
-    lazy var markerImageView = MarkerImageView(radius: markerRadius)
     lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
     
-    let markerRadius: CGFloat = 30
-    let coreDataLayer: CoreDataManager = CoreDataLayer()
+    var displayedData: ViewModel?
     
-    var polygonOverlays = [NMFPolygonOverlay]()
+    var interactor: MainBusinessLogic?
     var mapView: NMFMapView { naverMapView.mapView }
     var projection: NMFProjection { naverMapView.mapView.projection }
-    var markers = [NMFMarker]()
-    var poiData: [POI]?
-    var clustering: Clustering?
-    var interactor: MainBusinessLogic?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
-        configureClustering()
-        clustering?.data = self
+        configureVIP()
         configureMapView()
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        interactor?.fetchPOI(clustering: clustering)
-    }
-
-    private func setup() {
+    
+    // MARK: - configure VIP
+    private func configureVIP() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
         self.interactor = interactor
         interactor.presenter = presenter
+        interactor.clustering?.tool = self
+        interactor.clustering?.data = presenter
         presenter.viewController = self
-    }
-    
-    var displayedCoreData = [POI]()
-    
-    func displayFetchedCoreData(viewModel: [POI]) {
-        displayedCoreData = viewModel
-    }
-    
-    private func configureClustering() {
-        clustering = Clustering(coreDataLayer: coreDataLayer)
     }
     
     private func configureMapView() {
         naverMapView.showZoomControls = true
-        mapView.touchDelegate = self
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
-
+        
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(makeMarker(_:)))
         naverMapView.addGestureRecognizer(gestureRecognizer)
         view.addSubview(naverMapView)
@@ -121,52 +105,42 @@ final class MainViewController: UIViewController, MainDisplayLogic {
     }
 }
 
-extension MainViewController: ClusteringData {
-    func redrawMap(_ latLngs: [LatLng], _ pointSizes: [Int], _ bounds: [(southWest: LatLng, northEast: LatLng)], _ convexHulls: [[LatLng]]) {
-        let newMarkers = createMarkers(latLngs: latLngs, pointSizes: pointSizes)
-        
-        let nmfBounds = bounds.map {
-            NMGLatLngBounds(southWest: NMGLatLng(lat: $0.lat, lng: $0.lng),
-                            northEast: NMGLatLng(lat: $1.lat, lng: $1.lng))
-        }
-        
-        guard self.markers.count != 0 else {
-            self.configureFirstMarkers(newMarkers: newMarkers, bounds: nmfBounds)
+extension MainViewController: MainDisplayLogic {
+    func displayFetch(viewModel: ViewModel) {
+        let oldViewModel = displayedData
+        displayedData = viewModel
+        redrawMap(oldViewModel: oldViewModel, newViewModel: viewModel)
+    }
+    
+    private func redrawMap(oldViewModel: ViewModel?, newViewModel: ViewModel) {
+        guard let oldViewModel = oldViewModel else {
+            self.configureFirstMarkers(newMarkers: newViewModel.markers, bounds: newViewModel.bounds)
             return
         }
 
-        self.setOveraysMapView(overlays: self.polygonOverlays, mapView: nil)
-        //터치 핸들러도 nil로?
+        self.setOveraysMapView(overlays: oldViewModel.polygons, mapView: nil)
 
         self.markerChangeAnimation(
-            newMarkers: newMarkers,
-            bounds: nmfBounds,
+            oldMarkers: oldViewModel.markers,
+            newMarkers: newViewModel.markers,
+            bounds: newViewModel.bounds,
             completion: {
-                self.changePolygonOverays(points: convexHulls)
+                self.setOveraysMapView(overlays: newViewModel.polygons, mapView: self.mapView)
             })
-    }
-    
-    func convertLatLngToPoint(latLng1: LatLng, latLng2: LatLng) -> Double {
-        let mercatorCoord = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng1.lat, lng: latLng1.lng))
-        let mercatorCoord2 = NMGWebMercatorCoord(from: NMGLatLng(lat: latLng2.lat, lng: latLng2.lng))
-        let metersPerPixel = projection.metersPerPixel()
-        
-        return (mercatorCoord.distance(to: mercatorCoord2) / metersPerPixel)
-    }
-
-    // MARK: - 화면좌표
-    func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
-        let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-        return point
     }
 }
 
-extension MainViewController: NMFMapViewCameraDelegate {
-    private func setOveraysMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
+private extension MainViewController {
+    func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
+        self.setOveraysMapView(overlays: newMarkers, mapView: mapView)
+        self.setMarkersBounds(markers: newMarkers, bounds: bounds)
+    }
+    
+    func setOveraysMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
         return overlays.forEach { $0.mapView = mapView }
     }
     
-    private func setMarkersBounds(makers: [NMFMarker], bounds: [NMGLatLngBounds]) {
+    func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         zip(markers, bounds).forEach { marker, bound in
             marker.touchHandler = { _ in
                 self.touchedMarker(bounds: bound, insets: 0)
@@ -175,54 +149,19 @@ extension MainViewController: NMFMapViewCameraDelegate {
         }
     }
     
-    private func createMarker(latLng: LatLng) -> NMFMarker {
-        return NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-    }
-    
-    private func createPolygonOverlay(points: [NMGLatLng]) -> NMFPolygonOverlay? {
-        let polygon = NMGPolygon(ring: NMGLineString(points: points)) as NMGPolygon<AnyObject>
-        guard let polygonOverlay = NMFPolygonOverlay(polygon) else { return nil }
-        
-        polygonOverlay.fillColor = UIColor.random()
-        polygonOverlay.outlineWidth = 3
-        polygonOverlay.outlineColor = UIColor(red: 25.0/255.0, green: 192.0/255.0, blue: 46.0/255.0, alpha: 1)
-        return polygonOverlay
-    }
-
-    private func createMarkers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
-        return zip(latLngs, pointSizes).map { latLng, pointSize in
-            let marker = self.createMarker(latLng: latLng)
-            guard pointSize != 1 else { return marker }
-            marker.setImageView(self.markerImageView, count: pointSize)
-            return marker
-        }
-    }
-    
-    private func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
+    func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
         let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
         let cameraUpdate = NMFCameraUpdate(fit: bounds, paddingInsets: edgeInsets)
         cameraUpdate.animation = .easeIn
         cameraUpdate.animationDuration = 0.8
         mapView.moveCamera(cameraUpdate)
     }
-
-    func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-        clustering?.findOptimalClustering(southWest: southWest, northEast: northEast)
-    }
-
-    private func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
-        self.setOveraysMapView(overlays: newMarkers, mapView: mapView)
-        self.setMarkersBounds(makers: newMarkers, bounds: bounds)
-        self.markers = newMarkers
-    }
-
-    private func markerChangeAnimation(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds], completion: (() -> Void)?) {
-        self.setOveraysMapView(overlays: self.markers, mapView: nil)
-        let oldMarkers = self.markers
-        self.markers = newMarkers
+    
+    func markerChangeAnimation(oldMarkers: [NMFMarker],
+                               newMarkers: [NMFMarker],
+                               bounds: [NMGLatLngBounds],
+                               completion: (() -> Void)?) {
+        self.setOveraysMapView(overlays: oldMarkers, mapView: nil)
 
         self.markerAnimationController.clusteringAnimation(
             old: oldMarkers.map { $0.position },
@@ -230,32 +169,23 @@ extension MainViewController: NMFMapViewCameraDelegate {
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
                 self.setOveraysMapView(overlays: newMarkers, mapView: self.mapView)
-                self.setMarkersBounds(makers: newMarkers, bounds: bounds)
+                self.setMarkersBounds(markers: newMarkers, bounds: bounds)
                 completion?()
             })
     }
+}
 
-    private func changePolygonOverays(points convexHullPoints: [[LatLng]]) {
-        polygonOverlays = convexHullPoints
-            .filter { $0.count > 3 }
-            .compactMap { latlngs in
-                let points = latlngs.map { NMGLatLng(lat: $0.lat, lng: $0.lng) }
-                return createPolygonOverlay(points: points)
-            }
-
-        setOveraysMapView(overlays: polygonOverlays, mapView: mapView)
+extension MainViewController: NMFMapViewCameraDelegate {
+    func mapViewCameraIdle(_ mapView: NMFMapView) {
+        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
+        let southWest = LatLng(boundsLatLngs[0])
+        let northEast = LatLng(boundsLatLngs[1])
+        interactor?.fetchPOI(southWest: southWest, northEast: northEast)
     }
 }
 
-extension MainViewController: NMFMapViewTouchDelegate {
-    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        // MARK: - 화면 터치시 마커 찍기
-        // let marker = NMFMarker(position: latlng)
-        // marker.mapView = mapView
+extension MainViewController: ClusteringTool {
+    func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
+        return projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
     }
-}
-
-// MARK: NMapsMap
-extension MainViewController {
-    
 }
