@@ -9,8 +9,9 @@ import NMapsMap
 
 protocol ClusteringData: class {
     func poiCoordinate(_ latLngs: [LatLng], _ pointSizes: [Int])
-    func convexHullPoints(_ data: [[LatLng]])
-    func bounds(_ data: [NMGLatLngBounds])
+    func drawArea(_ bounds: [NMGLatLngBounds], _ convexHullPoints: [[LatLng]])
+//    func convexHullPoints(_ data: [[LatLng]])
+//    func bounds(_ data: [NMGLatLngBounds])
 }
 
 class Clustering {
@@ -99,8 +100,9 @@ class Clustering {
         })
         
         self.data?.poiCoordinate(centroids, points)
-        self.data?.convexHullPoints(convexHullPoints)
-        self.data?.bounds(bounds)
+        self.data?.drawArea(bounds, convexHullPoints)
+//        self.data?.convexHullPoints(convexHullPoints)
+//        self.data?.bounds(bounds)
     }
     
     func combineClusters(clusters: [Cluster]) -> [Cluster] {
