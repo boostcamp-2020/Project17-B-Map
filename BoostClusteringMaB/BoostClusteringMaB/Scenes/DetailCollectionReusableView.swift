@@ -8,5 +8,5 @@
 import UIKit
 
 class DetailCollectionReusableView: UICollectionReusableView {
-    
+    @IBOutlet var poiNumberLabel: UILabel!
 }

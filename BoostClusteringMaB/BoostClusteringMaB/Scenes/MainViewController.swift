@@ -36,13 +36,13 @@ final class MainViewController: UIViewController {
     lazy var markerAnimationController: MarkerAnimateController = {
         let controller = MarkerAnimateController(frame: view.frame, markerRadius: 30, mapView: mapView)
         guard let animationView = controller.view else { return controller }
-        view.addSubview(animationView)
+        naverMapView.addSubview(animationView)
         return controller
     }()
     //lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
     lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
 
-    var displayedData: ViewModel?
+    var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     var interactor: MainBusinessLogic?
     var mapView: NMFMapView { naverMapView.mapView }
     var projection: NMFProjection { naverMapView.mapView.projection }
@@ -81,6 +81,7 @@ final class MainViewController: UIViewController {
     func setDetailView() {
         view.bringSubviewToFront(collectionView)
         collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
+        collectionView.heightAnchor.constraint(equalToConstant: self.view.bounds.height / 5).isActive = true
     }
 
     // MARK: - configure VIP
@@ -141,6 +142,7 @@ extension MainViewController: MainDisplayLogic {
         let oldViewModel = displayedData
         displayedData = viewModel
         redrawMap(oldViewModel: oldViewModel, newViewModel: viewModel)
+        collectionView.reloadData()
     }
     
     private func redrawMap(oldViewModel: ViewModel?, newViewModel: ViewModel) {
@@ -279,7 +281,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
               let sections = fetchedResultsController.sections
         else { return 0 }
         
-        print(sections[section].numberOfObjects)
         return sections[section].numberOfObjects
     }
     
@@ -300,8 +301,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
-        header.backgroundColor = .black
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+                as? DetailCollectionReusableView
+        else { return UICollectionReusableView() }
+        header.poiNumberLabel.text = "\(displayedData.count)개"
         return header
     }
     

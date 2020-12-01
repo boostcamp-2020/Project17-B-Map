@@ -86,7 +86,23 @@
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="header" id="d0l-nM-K3O" customClass="DetailCollectionReusableView" customModule="BoostClusteringMaB" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYA-6g-GhE">
+                                            <rect key="frame" x="8" y="2.5" width="31" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                    <constraints>
+                                        <constraint firstItem="KYA-6g-GhE" firstAttribute="centerY" secondItem="d0l-nM-K3O" secondAttribute="centerY" id="AQZ-lA-qlx"/>
+                                        <constraint firstItem="KYA-6g-GhE" firstAttribute="leading" secondItem="d0l-nM-K3O" secondAttribute="leading" constant="8" id="EWl-PW-9Hd"/>
+                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="KYA-6g-GhE" secondAttribute="trailing" constant="375" id="PWh-zm-1Hg"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="poiNumberLabel" destination="KYA-6g-GhE" id="h6D-5P-fU2"/>
+                                    </connections>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="jV2-c7-4ZQ"/>
