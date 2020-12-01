@@ -15,68 +15,72 @@ class Cluster: Equatable {
     static let greatestFinite: Cluster = Cluster(center: LatLng.greatestFinite)
     
     var center: LatLng
-    var points: LinkedList<LatLng>
+    var pois: LinkedList<POI>
     
     init(center: LatLng) {
         self.center = center
-        self.points = LinkedList<LatLng>()
+        self.pois = LinkedList<POI>()
     }
     
-    func add(point: LatLng) {
-        points.add(point)
+    func add(poi: POI) {
+        pois.add(poi)
     }
     
     @discardableResult
-    func remove(point: LatLng) -> LatLng? {
-        return points.remove()
+    func remove(poi: POI) -> POI? {
+        return pois.remove()
     }
     
     func updateCenter() {
         var newCenter = LatLng.zero
         
-        points.setNowToHead()
-        for _ in 0..<points.size {
-            newCenter = newCenter + (points.now?.value ?? LatLng.zero)
-            points.moveNowToNext()
+        pois.setNowToHead()
+        for _ in 0..<pois.size {
+            let nowPoint = LatLng(lat: pois.now?.value.latitude ?? 0, lng: pois.now?.value.longitude ?? 0)
+            newCenter += nowPoint
+            //newCenter = newCenter + (points.now?.value ?? LatLng.zero)
+            pois.moveNowToNext()
         }
-        newCenter.lat /= Double(points.size)
-        newCenter.lng /= Double(points.size)
+        newCenter.lat /= Double(pois.size)
+        newCenter.lng /= Double(pois.size)
         
         center = newCenter
     }
     
     func combine(other: Cluster) {
-        self.points.merge(other: other.points)
+        self.pois.merge(other: other.pois)
         updateCenter()
     }
     
     // 오차 제곱 합
-    func sumOfSquaredOfError() -> Double {
-        var sum: Double = 0
-        points.setNowToHead()
-        for _ in 0..<points.size {
-            sum += center.squaredDistance(to: (points.now?.value ?? LatLng.zero))
-            points.moveNowToNext()
-        }
-        return sum
-    }
+//    func sumOfSquaredOfError() -> Double {
+//        var sum: Double = 0
+//        points.setNowToHead()
+//        for _ in 0..<points.size {
+//            sum += center.squaredDistance(to: (points.now?.value ?? LatLng.zero))
+//            points.moveNowToNext()
+//        }
+//        return sum
+//    }
     
     //중심점과 클러스터내의 점들간의 거리의 평균
     func deviation() -> Double {
         var sum: Double = 0
-        points.setNowToHead()
-        for _ in 0..<points.size {
-            sum += center.distance(to: (points.now?.value ?? LatLng.zero))
-            points.moveNowToNext()
+        pois.setNowToHead()
+        for _ in 0..<pois.size {
+            let nowPoint = LatLng(lat: pois.now?.value.latitude ?? 0, lng: pois.now?.value.longitude ?? 0)
+            sum += center.distance(to: nowPoint)
+            pois.moveNowToNext()
         }
-        let result = sum / Double(points.size)
+        let result = sum / Double(pois.size)
         return result
     }
     
     func area() -> [LatLng] {
-        let sortedPoints = points.allValues().sorted(by: {
-            ($0.lng, $0.lat) < ($1.lng, $1.lat)
+        let sortedPois = pois.allValues().sorted(by: {
+            ($0.longitude, $0.latitude) < ($1.longitude, $1.latitude)
         })
+        let sortedPoints = sortedPois.map { LatLng(lat: $0.latitude, lng: $0.longitude) }
         guard let first = sortedPoints.first else { return [] }
         let convexHull = ConvexHull(stdPoint: first, points: sortedPoints)
         let convexHullPoints = convexHull.run()
@@ -86,17 +90,17 @@ class Cluster: Equatable {
     func southWest() -> LatLng {
         var minX = Double.greatestFiniteMagnitude
         var minY = Double.greatestFiniteMagnitude
-        points.setNowToHead()
-        for _ in 0..<points.size {
-            let x = points.now?.value.lng ?? Double.greatestFiniteMagnitude
-            let y = points.now?.value.lat ?? Double.greatestFiniteMagnitude
+        pois.setNowToHead()
+        for _ in 0..<pois.size {
+            let x = pois.now?.value.longitude ?? Double.greatestFiniteMagnitude
+            let y = pois.now?.value.latitude ?? Double.greatestFiniteMagnitude
             if x < minX {
                 minX = x
             }
             if y < minY {
                 minY = y
             }
-            points.moveNowToNext()
+            pois.moveNowToNext()
         }
         return LatLng(lat: minY, lng: minX)
     }
@@ -104,17 +108,17 @@ class Cluster: Equatable {
     func northEast() -> LatLng {
         var maxX: Double = 0
         var maxY: Double = 0
-        points.setNowToHead()
-        for _ in 0..<points.size {
-            let x = points.now?.value.lng ?? 0.0
-            let y = points.now?.value.lat ?? 0.0
+        pois.setNowToHead()
+        for _ in 0..<pois.size {
+            let x = pois.now?.value.longitude ?? 0.0
+            let y = pois.now?.value.latitude ?? 0.0
             if x > maxX {
                 maxX = x
             }
             if y > maxY {
                 maxY = y
             }
-            points.moveNowToNext()
+            pois.moveNowToNext()
         }
         return LatLng(lat: maxY, lng: maxX)
     }

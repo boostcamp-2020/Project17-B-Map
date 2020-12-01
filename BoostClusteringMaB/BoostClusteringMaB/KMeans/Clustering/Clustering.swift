@@ -46,17 +46,20 @@ class Clustering {
         let northEast = LatLng(boundsLatLngs[1])
 
         coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true) { result in
-            guard let points = try? result.get().map({ poi in
-                LatLng(lat: poi.latitude, lng: poi.longitude)
-            }) else { return }
-
-            guard !points.isEmpty else { return }
-
-            runKMeans(points: points)
+//            guard let points = try? result.get().map({ poi in
+//                LatLng(lat: poi.latitude, lng: poi.longitude)
+//            }) else { return }
+//
+//            guard !points.isEmpty else { return }
+//
+//            runKMeans(points: points)
+            guard let pois = try? result.get() else { return }
+            guard !pois.isEmpty else { return }
+            runKMeans(pois: pois)
         }
     }
 
-    func runKMeans(points: [LatLng]) {
+    func runKMeans(pois: [POI]) {
         let kRange = (2...10)
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
@@ -64,7 +67,7 @@ class Clustering {
 
         kRange.forEach { k in
             DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: points)
+                let kMeans = KMeans(k: k, pois: pois)
                 kMeans.run()
 
                 let DBI = kMeans.daviesBouldinIndex()
@@ -92,7 +95,7 @@ class Clustering {
         var bounds = [NMGLatLngBounds]()
 
         combinedClusters.forEach({ cluster in
-            points.append(cluster.points.size)
+            points.append(cluster.pois.size)
             centroids.append(cluster.center)
             convexHullPoints.append(cluster.area())
             bounds.append(NMGLatLngBounds(southWest: cluster.southWest().convert(),
@@ -137,7 +140,7 @@ class Clustering {
     // MARK: - 화면좌표
     func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
         let projection = naverMapView.projection
-        let point = projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
+        let point = projection.point(from: latLng.convert())
         return point
     }
 }
