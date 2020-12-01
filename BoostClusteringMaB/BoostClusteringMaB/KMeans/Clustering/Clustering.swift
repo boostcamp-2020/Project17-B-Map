@@ -45,18 +45,10 @@ class Clustering {
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
 
-        coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true) { result in
-//            guard let points = try? result.get().map({ poi in
-//                LatLng(lat: poi.latitude, lng: poi.longitude)
-//            }) else { return }
-//
-//            guard !points.isEmpty else { return }
-//
-//            runKMeans(points: points)
-            guard let pois = try? result.get().map({$0.toPOI()}) else { return }
-            guard !pois.isEmpty else { return }
-            runKMeans(pois: pois)
-        }
+        let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
+        guard let pois = poi?.map({$0.toPOI()}) else { return }
+        guard !pois.isEmpty else { return }
+        runKMeans(pois: pois)
     }
 
     func runKMeans(pois: [POI]) {

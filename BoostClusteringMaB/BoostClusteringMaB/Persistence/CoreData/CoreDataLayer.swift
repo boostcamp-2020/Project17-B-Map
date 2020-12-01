@@ -19,12 +19,12 @@ typealias POIHandler = (Result<[ManagedPOI], CoreDataError>) -> Void
 protocol CoreDataManager {
     func add(place: Place, completion handler: CoreDataHandler?)
     func add(places: [Place], completion handler: CoreDataHandler?)
-    func fetch(sorted: Bool, completion handler: POIHandler)
-    func fetch(by classification: String, sorted: Bool, completion handler: POIHandler)
+    func fetch(sorted: Bool) -> [ManagedPOI]?
+    func fetch(by classification: String, sorted: Bool) -> [ManagedPOI]?
     func fetch(southWest: LatLng,
                northEast: LatLng,
-               sorted: Bool,
-               completion handler: POIHandler)
+               sorted: Bool
+                ) -> [ManagedPOI]?
     func remove(poi: ManagedPOI, completion handler: CoreDataHandler?)
     func removeAll(completion handler: CoreDataHandler?)
 }
@@ -97,40 +97,27 @@ final class CoreDataLayer: CoreDataManager {
         }
     }
 
-    func fetch(sorted: Bool = true,
-               completion handler: POIHandler) {
+    func fetch(sorted: Bool = true) -> [ManagedPOI]? {
         let request: NSFetchRequest = ManagedPOI.fetchRequest()
         request.sortDescriptors = makeSortDescription(sorted: sorted)
-        do {
-            let pois = try childContext.fetch(request)
-            handler(.success(pois))
-        } catch {
-            handler(.failure(.invalidFetch))
-        }
+    
+        return try? childContext.fetch(request)
     }
     
     func fetch(by classification: String,
-               sorted: Bool = true,
-               completion handler: POIHandler) {
+               sorted: Bool = true) -> [ManagedPOI]? {
         let request: NSFetchRequest = ManagedPOI.fetchRequest()
         request.predicate = NSPredicate(format: "category == %@", classification)
         request.sortDescriptors = makeSortDescription(sorted: sorted)
-        do {
-            let pois = try childContext.fetch(request)
-            handler(.success(pois))
-        } catch {
-            handler(.failure(.invalidFetch))
-        }
+        return try? childContext.fetch(request)
     }
     
     func fetch(southWest: LatLng,
                northEast: LatLng,
-               sorted: Bool = true,
-               completion handler: POIHandler) {
+               sorted: Bool = true) -> [ManagedPOI]? {
         guard northEast.lat > southWest.lat,
               northEast.lng > southWest.lng else {
-            handler(.failure(.invalidCoordinate))
-            return
+            return nil
         }
         
         let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}",
@@ -143,12 +130,7 @@ final class CoreDataLayer: CoreDataManager {
         request.predicate = predicate
         request.sortDescriptors = makeSortDescription(sorted: sorted)
 
-        do {
-            let pois = try childContext.fetch(request)
-            handler(.success(pois))
-        } catch {
-            handler(.failure(.invalidFetch))
-        }
+        return try? childContext.fetch(request)
     }
     
     private func makeSortDescription(sorted: Bool) -> [NSSortDescriptor]? {
@@ -169,7 +151,7 @@ final class CoreDataLayer: CoreDataManager {
     }
     
     func removeAll(completion handler: CoreDataHandler?) {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "POI")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ManagedPOI")
         let removeAll = NSBatchDeleteRequest(fetchRequest: request)
 
         do {
