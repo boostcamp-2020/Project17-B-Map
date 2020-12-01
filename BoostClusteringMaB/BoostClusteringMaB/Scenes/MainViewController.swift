@@ -64,13 +64,13 @@ final class MainViewController: UIViewController {
         
         let coreDataLayer = CoreDataLayer()
         
-        fetchedResultsController = coreDataLayer.makeFetchResultsController(southWest: LatLng(lat: 30, lng: 135), northEast: LatLng(lat: 45, lng: 145))
+        fetchedResultsController = coreDataLayer.makeFetchResultsController(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
         
         fetchedResultsController?.delegate = self
         
         do {
             try fetchedResultsController?.performFetch()
-            collectionView.reloadData()
+//            collectionView.reloadData()
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
