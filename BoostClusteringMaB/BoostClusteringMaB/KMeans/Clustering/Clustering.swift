@@ -22,13 +22,16 @@ class Clustering {
 
     func findOptimalClustering(southWest: LatLng, northEast: LatLng) {
         coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true) { result in
-            guard let points = try? result.get().map({ poi in
-                LatLng(lat: poi.latitude, lng: poi.longitude)
-            }) else { return }
-
-            guard !points.isEmpty else { return }
-
-            runKMeans(points: points)
+//            guard let points = try? result.get().map({ poi in
+//                LatLng(lat: poi.latitude, lng: poi.longitude)
+//            }) else { return }
+//
+//            guard !points.isEmpty else { return }
+//
+//            runKMeans(points: points)
+            guard let pois = try? result.get().map({$0.toPOI()}) else { return }
+            guard !pois.isEmpty else { return }
+            runKMeans(pois: pois)
         }
     }
 
@@ -40,7 +43,7 @@ class Clustering {
 
         kRange.forEach { k in
             DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: points)
+                let kMeans = KMeans(k: k, pois: pois)
                 kMeans.run()
 
                 let DBI = kMeans.daviesBouldinIndex()
@@ -68,7 +71,7 @@ class Clustering {
         var bounds = [(southWest: LatLng, northEast: LatLng)]()
 
         combinedClusters.forEach({ cluster in
-            points.append(cluster.points.size)
+            points.append(cluster.pois.size)
             centroids.append(cluster.center)
             convexHullPoints.append(cluster.area())
             bounds.append((southWest: cluster.southWest(),
