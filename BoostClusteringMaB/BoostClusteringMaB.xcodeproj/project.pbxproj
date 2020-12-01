@@ -27,6 +27,9 @@
 		708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */; };
 		708C08C9256258330072B1E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 708C08C8256258330072B1E0 /* Assets.xcassets */; };
 		708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 708C08CA256258330072B1E0 /* LaunchScreen.storyboard */; };
+		709707CB2576045A00D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707CA2576045A00D3FC36 /* ManagedPOI+CoreDataProperties.swift */; };
+		709707CC2576045A00D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707C92576045A00D3FC36 /* ManagedPOI+CoreDataClass.swift */; };
+		709707D12576047F00D3FC36 /* POI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D02576047F00D3FC36 /* POI.swift */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD5B256CB9360048CEA6 /* CSVParser.swift */; };
 		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; };
@@ -89,6 +92,9 @@
 		708C08CB256258330072B1E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		708C08CD256258330072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		708C08DD25625C830072B1E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		709707C92576045A00D3FC36 /* ManagedPOI+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ManagedPOI+CoreDataClass.swift"; path = "/Users/jaehyun/Desktop/Project17-B-Map/BoostClusteringMaB/BoostClusteringMaB/Persistence/CoreData/ManagedPOI+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		709707CA2576045A00D3FC36 /* ManagedPOI+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ManagedPOI+CoreDataProperties.swift"; path = "/Users/jaehyun/Desktop/Project17-B-Map/BoostClusteringMaB/BoostClusteringMaB/Persistence/CoreData/ManagedPOI+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		709707D02576047F00D3FC36 /* POI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POI.swift; sourceTree = "<group>"; };
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		70BFFD5B256CB9360048CEA6 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
 		70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParserTests.swift; sourceTree = "<group>"; };
@@ -287,6 +293,16 @@
 			path = BoostClusteringMaBTests;
 			sourceTree = "<group>";
 		};
+		709707CF2576047400D3FC36 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				709707C92576045A00D3FC36 /* ManagedPOI+CoreDataClass.swift */,
+				709707CA2576045A00D3FC36 /* ManagedPOI+CoreDataProperties.swift */,
+				709707D02576047F00D3FC36 /* POI.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		70BFFD84256CE5F40048CEA6 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +355,7 @@
 		F45E25DF256CCB9000054D55 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				709707CF2576047400D3FC36 /* Models */,
 				70387DD0256DEB9900F138CB /* CoreDataContainer.swift */,
 				70387DCF256DEB9900F138CB /* CoreDataLayer.swift */,
 			);
@@ -589,6 +606,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				709707D12576047F00D3FC36 /* POI.swift in Sources */,
 				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
 				F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */,
@@ -597,6 +615,7 @@
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
+				709707CB2576045A00D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
@@ -613,6 +632,7 @@
 				7022C4732571431A000647C4 /* MarkerAnimateController.swift in Sources */,
 				C3FB0862256B889600B93665 /* KMeans.swift in Sources */,
 				C3FB085E256B887300B93665 /* Cluster.swift in Sources */,
+				709707CC2576045A00D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */,
 				707E63E7257490EC003F0E10 /* MainInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
