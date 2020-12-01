@@ -45,6 +45,7 @@
 		C3FB085E256B887300B93665 /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB085D256B887300B93665 /* Cluster.swift */; };
 		C3FB0862256B889600B93665 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0861256B889600B93665 /* KMeans.swift */; };
 		C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB086A256B8D8D00B93665 /* POIModel.swift */; };
+		DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DB5257612890067325E /* DetailCollectionViewCell.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 		F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */; };
 		F496019125727ED500740523 /* String+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496019025727ED500740523 /* String+Bundle.swift */; };
@@ -113,6 +114,7 @@
 		C3FB0861256B889600B93665 /* KMeans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
 		C3FB086A256B8D8D00B93665 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
 		CAB19DF55A4260D7147166CE /* Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB-BoostClusteringMaBTests/Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; sourceTree = "<group>"; };
+		DA805DB5257612890067325E /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+isValid.swift"; sourceTree = "<group>"; };
 		F496019025727ED500740523 /* String+Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+Bundle.swift"; path = "BoostClusteringMaB/extension/String+Bundle.swift"; sourceTree = SOURCE_ROOT; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				708C08C0256258320072B1E0 /* MainViewController.swift */,
 				707E63E6257490EC003F0E10 /* MainInteractor.swift */,
 				707E63EA257490F5003F0E10 /* MainPresenter.swift */,
+				DA805DB5257612890067325E /* DetailCollectionViewCell.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -608,6 +611,7 @@
 			files = (
 				709707D12576047F00D3FC36 /* POI.swift in Sources */,
 				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
+				DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */,
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
 				F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */,
 				708C08C1256258320072B1E0 /* MainViewController.swift in Sources */,

@@ -7,6 +7,7 @@
 
 import UIKit
 import NMapsMap
+import CoreData
 
 protocol NMFMapViewProtocol {
     var coveringBounds: NMGLatLngBounds { get }
@@ -32,6 +33,7 @@ final class MainViewController: UIViewController, MainDisplayLogic {
     
     let markerRadius: CGFloat = 30
     let coreDataLayer: CoreDataManager = CoreDataLayer()
+    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>?
     
     var polygonOverlays = [NMFPolygonOverlay]()
     var mapView: NMFMapView { naverMapView.mapView }
@@ -41,20 +43,38 @@ final class MainViewController: UIViewController, MainDisplayLogic {
     var clustering: Clustering?
     var interactor: MainBusinessLogic?
     
+    @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
+    
+    @IBOutlet var collectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         configureClustering()
         clustering?.data = self
         configureMapView()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateData), name: NSNotification.Name(rawValue: "Notify"), object: nil)
-    }
-
-    @objc func updateData() {
-        
+        setDetailView()
+        initializeFetchedResultsController()
     }
     
+    func initializeFetchedResultsController() {
+        
+        fetchedResultsController = coreDataLayer.makeFetchResultsController(southWest: LatLng(lat: 30, lng: 135), northEast: LatLng(lat: 45, lng: 145))
+        
+        fetchedResultsController?.delegate = self
+        
+        do {
+            try fetchedResultsController?.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+                
+    }
+    
+    
+    func setDetailView() {
+        view.bringSubviewToFront(collectionView)
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -203,6 +223,12 @@ extension MainViewController: NMFMapViewCameraDelegate {
 
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         clustering?.findOptimalClustering()
+
+        let boundsLatLngs = naverMapView.mapView.coveringBounds.boundsLatLngs
+        let southWest = LatLng(boundsLatLngs[0])
+        let northEast = LatLng(boundsLatLngs[1])
+    
+
     }
 
     private func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
@@ -243,4 +269,76 @@ extension MainViewController: NMFMapViewTouchDelegate {
         // let marker = NMFMarker(position: latlng)
         // marker.mapView = mapView
     }
+}
+
+extension MainViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            collectionView.insertSections(IndexSet(integer: sectionIndex))
+        case .delete:
+            collectionView.deleteSections(IndexSet(integer: sectionIndex))
+        case .move:
+            break
+        case .update:
+            break
+        @unknown default:
+            fatalError()
+        }
+    }
+     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [newIndexPath!])
+        case .delete:
+            collectionView.deleteItems(at: [indexPath!])
+        case .update:
+            collectionView.reloadItems(at: [indexPath!])
+        case .move:
+            collectionView.moveItem(at: indexPath!, to: newIndexPath!)
+        @unknown default:
+            fatalError()
+        }
+    }
+
+}
+
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: self.view.bounds.width, height: 128)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let fetchedResultsController = fetchedResultsController,
+              let sections = fetchedResultsController.sections
+              else { return 0 }
+        
+        print(sections[section].numberOfObjects)
+        return sections[section].numberOfObjects
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
+        guard let object = fetchedResultsController?.object(at: indexPath) else { return cell }
+        
+        cell.nameLabel.text = object.name
+        cell.categoryLabel.text = object.category
+        
+        guard let imageURL = object.imageURL,
+              let url = URL(string: imageURL),
+              let data = try? Data(contentsOf: url) else { return cell }
+
+        cell.storeImageView.image = UIImage(data: data)
+        
+        return cell
+    }
+    
 }

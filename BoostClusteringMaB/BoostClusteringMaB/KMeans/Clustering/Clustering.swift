@@ -39,7 +39,7 @@ class Clustering {
 //        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
 //    }
     let group = DispatchGroup.init()
-
+    
     func findOptimalClustering() {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
@@ -49,6 +49,7 @@ class Clustering {
         guard let pois = poi?.map({$0.toPOI()}) else { return }
         guard !pois.isEmpty else { return }
         runKMeans(pois: pois)
+
     }
 
     func runKMeans(pois: [POI]) {

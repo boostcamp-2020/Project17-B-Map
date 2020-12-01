@@ -17,7 +17,6 @@ class LoadViewController: UIViewController {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
             return
         }
-        
         self.fetchSuccess(count: pois.count)
     }
 
@@ -37,7 +36,7 @@ class LoadViewController: UIViewController {
     }
     
     private func loadData(completion handler: @escaping (Result<Void, CoreDataError>) -> Void) {
-        jsonParser.parse(fileName: "gangnam_8000") { [weak self] result in
+        jsonParser.parse(fileName: "restaurant") { [weak self] result in
             do {
                 let places = try result.get()
                 self?.coreDataLayer.add(places: places) { result in
