@@ -113,20 +113,12 @@ final class MainViewController: UIViewController, MainDisplayLogic {
         alert.addAction(okAction)
         present(alert, animated: false, completion: nil)
     }
-
-    var newMarkers: [NMFMarker]?
 }
 
 extension MainViewController: ClusteringData {
-
-    // TODO: newMarkers처리
-    func poiCoordinate(_ latLngs: [LatLng], _ pointSizes: [Int]) {
-        newMarkers = self.createMarkers(latLngs: latLngs, pointSizes: pointSizes)
-    }
-
-    func drawArea(_ bounds: [NMGLatLngBounds], _ convexHullPoints: [[LatLng]]) {
-        guard let newMarkers = newMarkers else { return }
-
+    func redrawMap(_ latLngs: [LatLng], _ pointSizes: [Int], _ bounds: [NMGLatLngBounds], _ convexHulls: [[LatLng]]) {
+        let newMarkers = createMarkers(latLngs: latLngs, pointSizes: pointSizes)
+        
         guard self.markers.count != 0 else {
             self.configureFirstMarkers(newMarkers: newMarkers, bounds: bounds)
             return
@@ -139,7 +131,7 @@ extension MainViewController: ClusteringData {
             newMarkers: newMarkers,
             bounds: bounds,
             completion: {
-                self.changePolygonOverays(points: convexHullPoints)
+                self.changePolygonOverays(points: convexHulls)
             })
     }
 }
