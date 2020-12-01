@@ -39,7 +39,8 @@ final class MainViewController: UIViewController {
         view.addSubview(animationView)
         return controller
     }()
-    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    //lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
 
     var displayedData: ViewModel?
     var interactor: MainBusinessLogic?
