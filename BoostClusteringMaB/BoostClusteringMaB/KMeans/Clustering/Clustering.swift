@@ -7,8 +7,16 @@
 
 import NMapsMap
 
+protocol ClusteringData: class {
+    func poiCoordinate(_ latLngs: [LatLng], _ pointSizes: [Int])
+    func convexHullPoints(_ data: [[LatLng]])
+    func bounds(_ data: [NMGLatLngBounds])
+}
+
 class Clustering {
     typealias LatLngs = [LatLng]
+
+    weak var data: ClusteringData?
 
     private let naverMapView: NMFMapViewProtocol
     private let coreDataLayer: CoreDataManager
@@ -29,8 +37,9 @@ class Clustering {
 //
 //        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
 //    }
+    let group = DispatchGroup.init()
 
-    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs], [NMGLatLngBounds]) -> Void) {
+    func findOptimalClustering() {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
@@ -39,52 +48,59 @@ class Clustering {
             guard let points = try? result.get().map({ poi in
                 LatLng(lat: poi.latitude, lng: poi.longitude)
             }) else { return }
-            let kRange = (2...10)
 
             guard !points.isEmpty else { return }
 
-            var minValue = Double.greatestFiniteMagnitude
-            var minKMeans: KMeans?
+            runKMeans(points: points)
+        }
+    }
 
-            let group = DispatchGroup.init()
-            let serialQueue = DispatchQueue.init(label: "serial")
+    func runKMeans(points: [LatLng]) {
+        let kRange = (2...10)
+        var minValue = Double.greatestFiniteMagnitude
+        var minKMeans: KMeans?
+        let serialQueue = DispatchQueue.init(label: "serial")
 
-            kRange.forEach { k in
-                DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                    let kMeans = KMeans(k: k, points: points)
-                    kMeans.run()
+        kRange.forEach { k in
+            DispatchQueue.global(qos: .userInteractive).async(group: group) {
+                let kMeans = KMeans(k: k, points: points)
+                kMeans.run()
 
-                    let DBI = kMeans.daviesBouldinIndex()
-                    serialQueue.async(group: group) {
-                        if DBI <= minValue {
-                            minValue = DBI
-                            minKMeans = kMeans
-                        }
+                let DBI = kMeans.daviesBouldinIndex()
+                serialQueue.async(group: self.group) {
+                    if DBI <= minValue {
+                        minValue = DBI
+                        minKMeans = kMeans
                     }
                 }
             }
-
-            group.notify(queue: .main) { [weak self] in
-                guard let minKMeans = minKMeans,
-                      let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
-                else { return }
-
-                var points = [Int]()
-                var centroids = LatLngs()
-                var convexHullPoints = [LatLngs]()
-                var bounds = [NMGLatLngBounds]()
-
-                combinedClusters.forEach({
-                    points.append($0.points.size)
-                    centroids.append($0.center)
-                    convexHullPoints.append($0.area())
-                    bounds.append(NMGLatLngBounds(southWest: $0.southWest().convert(),
-                                                  northEast: $0.northEast().convert()))
-                })
-
-                completion(centroids, points, convexHullPoints, bounds)
-            }
         }
+
+        group.notify(queue: .main) { [weak self] in
+            guard let minKMeans = minKMeans else { return }
+            self?.groupNotifyTasks(minKMeans)
+        }
+    }
+
+    func groupNotifyTasks(_ minKMeans: KMeans) {
+        let combinedClusters = self.combineClusters(clusters: minKMeans.clusters)
+
+        var points = [Int]()
+        var centroids = LatLngs()
+        var convexHullPoints = [LatLngs]()
+        var bounds = [NMGLatLngBounds]()
+
+        combinedClusters.forEach({ cluster in
+            points.append(cluster.points.size)
+            centroids.append(cluster.center)
+            convexHullPoints.append(cluster.area())
+            bounds.append(NMGLatLngBounds(southWest: cluster.southWest().convert(),
+                                          northEast: cluster.northEast().convert()))
+        })
+        
+        self.data?.poiCoordinate(centroids, points)
+        self.data?.convexHullPoints(convexHullPoints)
+        self.data?.bounds(bounds)
     }
     
     func combineClusters(clusters: [Cluster]) -> [Cluster] {

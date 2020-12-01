@@ -8,13 +8,13 @@
 import Foundation
 
 protocol MainPresentationLogic {
-    func presentFetchedCoreData()
+    func presentFetchedPOI()
 }
 
 final class MainPresenter: MainPresentationLogic {
     weak var viewController: MainDisplayLogic?
 
-    func presentFetchedCoreData() {
+    func presentFetchedPOI() {
         viewController?.displayFetchedCoreData(viewModel: [POI]())
     }
 }
