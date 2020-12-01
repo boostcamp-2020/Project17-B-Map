@@ -36,7 +36,7 @@ class Cluster: Equatable {
         
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let nowPoint = LatLng(lat: pois.now?.value.latitude ?? 0, lng: pois.now?.value.longitude ?? 0)
+            let nowPoint = LatLng(lat: pois.now?.value.latLng.lat ?? 0, lng: pois.now?.value.latLng.lng ?? 0)
             newCenter += nowPoint
             //newCenter = newCenter + (points.now?.value ?? LatLng.zero)
             pois.moveNowToNext()
@@ -68,7 +68,7 @@ class Cluster: Equatable {
         var sum: Double = 0
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let nowPoint = LatLng(lat: pois.now?.value.latitude ?? 0, lng: pois.now?.value.longitude ?? 0)
+            let nowPoint = LatLng(lat: pois.now?.value.latLng.lat ?? 0, lng: pois.now?.value.latLng.lng ?? 0)
             sum += center.distance(to: nowPoint)
             pois.moveNowToNext()
         }
@@ -78,9 +78,9 @@ class Cluster: Equatable {
     
     func area() -> [LatLng] {
         let sortedPois = pois.allValues().sorted(by: {
-            ($0.longitude, $0.latitude) < ($1.longitude, $1.latitude)
+            ($0.latLng.lng, $0.latLng.lat) < ($1.latLng.lng, $1.latLng.lat)
         })
-        let sortedPoints = sortedPois.map { LatLng(lat: $0.latitude, lng: $0.longitude) }
+        let sortedPoints = sortedPois.map { LatLng(lat: $0.latLng.lat, lng: $0.latLng.lng) }
         guard let first = sortedPoints.first else { return [] }
         let convexHull = ConvexHull(stdPoint: first, points: sortedPoints)
         let convexHullPoints = convexHull.run()
@@ -92,8 +92,8 @@ class Cluster: Equatable {
         var minY = Double.greatestFiniteMagnitude
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let x = pois.now?.value.longitude ?? Double.greatestFiniteMagnitude
-            let y = pois.now?.value.latitude ?? Double.greatestFiniteMagnitude
+            let x = pois.now?.value.latLng.lng ?? Double.greatestFiniteMagnitude
+            let y = pois.now?.value.latLng.lat ?? Double.greatestFiniteMagnitude
             if x < minX {
                 minX = x
             }
@@ -110,8 +110,8 @@ class Cluster: Equatable {
         var maxY: Double = 0
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let x = pois.now?.value.longitude ?? 0.0
-            let y = pois.now?.value.latitude ?? 0.0
+            let x = pois.now?.value.latLng.lng ?? 0.0
+            let y = pois.now?.value.latLng.lat ?? 0.0
             if x > maxX {
                 maxX = x
             }

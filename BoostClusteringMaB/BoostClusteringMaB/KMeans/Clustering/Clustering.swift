@@ -53,7 +53,7 @@ class Clustering {
 //            guard !points.isEmpty else { return }
 //
 //            runKMeans(points: points)
-            guard let pois = try? result.get() else { return }
+            guard let pois = try? result.get().map({$0.toPOI()}) else { return }
             guard !pois.isEmpty else { return }
             runKMeans(pois: pois)
         }

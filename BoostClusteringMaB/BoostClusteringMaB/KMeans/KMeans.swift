@@ -88,7 +88,7 @@ class KMeans {
     }
     
     private func generateClusters(centers: [POI]) -> [Cluster] {
-        let centroids = centers.map { LatLng(lat: $0.latitude, lng: $0.longitude) }
+        let centroids = centers.map { LatLng(lat: $0.latLng.lat, lng: $0.latLng.lng) }
         return centroids.map { Cluster(center: $0) }
     }
     
@@ -130,7 +130,7 @@ class KMeans {
     private func findNearestCluster(poi: POI) -> Cluster {
         var minDistance = Double.greatestFiniteMagnitude
         var nearestCluster = Cluster.greatestFinite
-        let point = LatLng(lat: poi.latitude, lng: poi.longitude)
+        let point = LatLng(lat: poi.latLng.lat, lng: poi.latLng.lng)
         
         clusters.forEach {
             let newDistance = $0.center.squaredDistance(to: point)
