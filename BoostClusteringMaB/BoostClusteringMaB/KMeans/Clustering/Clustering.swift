@@ -44,16 +44,15 @@ class Clustering {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
-
-        coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true) { result in
-            guard let points = try? result.get().map({ poi in
-                LatLng(lat: poi.latitude, lng: poi.longitude)
-            }) else { return }
-
-            guard !points.isEmpty else { return }
-
-            runKMeans(points: points)
-        }
+        
+        guard let points = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)?
+                .map({ poi in
+                    LatLng(lat: poi.latitude, lng: poi.longitude)
+                }),
+              !points.isEmpty
+        else { return }
+        
+        runKMeans(points: points)
     }
 
     func runKMeans(points: [LatLng]) {
