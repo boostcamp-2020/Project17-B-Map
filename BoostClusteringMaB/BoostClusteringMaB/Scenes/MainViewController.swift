@@ -267,11 +267,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: self.view.bounds.width, height: 128)
+        CGSize(width: self.view.bounds.width - 20, height: 110)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        1
+        2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -291,9 +291,19 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
               let object = fetchedResultsController?.object(at: indexPath)
         else {
             return UICollectionViewCell()
-        }        
+        }
         cell.configure(poi: object)
+        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 10
+
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+        header.backgroundColor = .black
+        return header
+    }
+    
     
 }

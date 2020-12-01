@@ -48,6 +48,9 @@
 		C3FB0862256B889600B93665 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0861256B889600B93665 /* KMeans.swift */; };
 		C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB086A256B8D8D00B93665 /* POIModel.swift */; };
 		DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DB5257612890067325E /* DetailCollectionViewCell.swift */; };
+		DA805DD02576799E0067325E /* UIImage+load.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DCF2576799E0067325E /* UIImage+load.swift */; };
+		DA805DD425767DFD0067325E /* BMEuljiro10yearslaterOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */; };
+		DA805DDA2576834E0067325E /* DetailCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 		F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */; };
 		F496019125727ED500740523 /* String+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496019025727ED500740523 /* String+Bundle.swift */; };
@@ -120,6 +123,9 @@
 		C3FB086A256B8D8D00B93665 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
 		CAB19DF55A4260D7147166CE /* Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB-BoostClusteringMaBTests/Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; sourceTree = "<group>"; };
 		DA805DB5257612890067325E /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		DA805DCF2576799E0067325E /* UIImage+load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIImage+load.swift"; path = "BoostClusteringMaB/extension/UIImage+load.swift"; sourceTree = SOURCE_ROOT; };
+		DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
+		DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionReusableView.swift; sourceTree = "<group>"; };
 		F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+isValid.swift"; sourceTree = "<group>"; };
 		F496019025727ED500740523 /* String+Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+Bundle.swift"; path = "BoostClusteringMaB/extension/String+Bundle.swift"; sourceTree = SOURCE_ROOT; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
@@ -243,6 +249,7 @@
 				707E63E6257490EC003F0E10 /* MainInteractor.swift */,
 				707E63EA257490F5003F0E10 /* MainPresenter.swift */,
 				DA805DB5257612890067325E /* DetailCollectionViewCell.swift */,
+				DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -284,6 +291,7 @@
 				708C08C8256258330072B1E0 /* Assets.xcassets */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
+				DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
@@ -491,6 +499,7 @@
 				708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */,
 				C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */,
 				708C08C9256258330072B1E0 /* Assets.xcassets in Resources */,
+				DA805DD425767DFD0067325E /* BMEuljiro10yearslaterOTF.otf in Resources */,
 				70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */,
 				708C08C4256258320072B1E0 /* Main.storyboard in Resources */,
 				F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */,
@@ -622,6 +631,7 @@
 				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
 				DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */,
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
+				DA805DDA2576834E0067325E /* DetailCollectionReusableView.swift in Sources */,
 				F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */,
 				708C08C1256258320072B1E0 /* MainViewController.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
