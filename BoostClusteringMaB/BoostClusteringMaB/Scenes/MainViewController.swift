@@ -290,16 +290,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         else {
             return UICollectionViewCell()
         }
-        guard let object = fetchedResultsController?.object(at: indexPath) else { return cell }
         
-        cell.nameLabel.text = object.name
-        cell.categoryLabel.text = object.category
-        
-        guard let imageURL = object.imageURL,
-              let url = URL(string: imageURL),
-              let data = try? Data(contentsOf: url) else { return cell }
-
-        cell.storeImageView.image = UIImage(data: data)
+        guard let poi = fetchedResultsController?.object(at: indexPath) else { return cell }
+        cell.configure(poi: poi)
         
         return cell
     }
