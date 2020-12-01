@@ -40,7 +40,6 @@ final class MainViewController: UIViewController {
         return controller
     }()
     lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-    
 
     var displayedData: ViewModel?
     var interactor: MainBusinessLogic?
