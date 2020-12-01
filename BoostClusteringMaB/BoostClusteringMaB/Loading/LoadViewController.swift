@@ -13,6 +13,7 @@ class LoadViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+//        coreDataLayer.removeAll(completion: nil)
         guard let pois = coreDataLayer.fetch() else {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
             return
@@ -26,7 +27,7 @@ class LoadViewController: UIViewController {
                 switch result {
                 case .failure(let error):
                     debugPrint("\(error) 알람창 만들기")
-                case .success(_):
+                default:
                     self.presentMainViewController()
                 }
             }

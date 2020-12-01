@@ -36,7 +36,9 @@ class CSVParserTests: XCTestCase {
                     // Then
                     XCTAssertThrowsError(try result.get())
                     expectation.fulfill()
-                } catch {}
+                } catch {
+                    XCTFail("실패")
+                }
             })
         }
     }

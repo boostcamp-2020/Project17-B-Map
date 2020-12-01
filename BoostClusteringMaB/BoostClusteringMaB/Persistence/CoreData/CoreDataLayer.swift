@@ -99,7 +99,7 @@ final class CoreDataLayer: CoreDataManager {
                 case .failure(let error):
                     handler?(.failure(error))
                     return
-                case .success(_):
+                default:
                     group.leave()
                 }
             }

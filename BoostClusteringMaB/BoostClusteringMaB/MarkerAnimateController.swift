@@ -76,6 +76,8 @@ final class MarkerAnimateController {
         
         guard srcPoint.isValid, dstPoint.isValid else { return nil }
         
+        guard srcPoint != dstPoint else { return nil }
+        
         let srcPointView = MarkerImageView(
             frame: CGRect(
                 x: srcPoint.x - markerRadius,

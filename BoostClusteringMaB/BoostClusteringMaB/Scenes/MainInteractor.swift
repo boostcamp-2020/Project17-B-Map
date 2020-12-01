@@ -12,15 +12,28 @@ protocol MainDataStore {
 }
 
 protocol MainBusinessLogic {
-    func fetchPOI(clustering: Clustering?)
+    func fetchPOI(southWest: LatLng, northEast: LatLng)
 }
 
 final class MainInteractor: MainDataStore {
     var presenter: MainPresentationLogic?
+    
+    let coreDataLayer: CoreDataManager = CoreDataLayer()
+    var clustering: Clustering?
+    
+    init() {
+        configureClustering()
+    }
+    
+    private func configureClustering() {
+        clustering = Clustering(coreDataLayer: coreDataLayer)
+    }
+    
 }
 
 extension MainInteractor: MainBusinessLogic {
 
-    func fetchPOI(clustering: Clustering?) {
+    func fetchPOI(southWest: LatLng, northEast: LatLng) {
+        clustering?.findOptimalClustering(southWest: southWest, northEast: northEast)
     }
 }
