@@ -47,8 +47,6 @@ final class MainViewController: UIViewController {
     var projection: NMFProjection { naverMapView.mapView.projection }
     var fetchedResultsController: NSFetchedResultsController<ManagedPOI>?
     
-    @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
-    
     @IBOutlet var collectionView: UICollectionView!
     
     override func viewDidLoad() {

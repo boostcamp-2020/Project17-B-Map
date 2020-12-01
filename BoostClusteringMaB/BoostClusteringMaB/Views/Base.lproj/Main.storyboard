@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v9C-RS-7El">
-                                <rect key="frame" x="0.0" y="768" width="414" height="128"/>
+                                <rect key="frame" x="0.0" y="696" width="414" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="vmN-nj-iBu"/>
+                                    <constraint firstAttribute="height" constant="200" id="vmN-nj-iBu"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OZu-MC-jx4">
                                     <size key="itemSize" width="414" height="128"/>
