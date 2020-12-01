@@ -24,17 +24,15 @@ class CoreDataTests: XCTestCase {
         timeout(1) { expectation in
             // When
             layer.add(place: newPlace) { _ in
-                layer.fetch { result in
-                    // Then
-                    let poi = try? result.get().first
-                    XCTAssertEqual(poi?.id, "123321")
-                    XCTAssertEqual(poi?.category, "부스트캠프")
-                    XCTAssertEqual(poi?.imageURL, nil)
-                    XCTAssertEqual(poi?.name, "Mab")
-                    XCTAssertEqual(poi?.latitude, 35.55532)
-                    XCTAssertEqual(poi?.longitude, 124.323412)
-                    expectation.fulfill()
-                }
+                let poi = layer.fetch()?.first
+                // Then
+                XCTAssertEqual(poi?.id, "123321")
+                XCTAssertEqual(poi?.category, "부스트캠프")
+                XCTAssertEqual(poi?.imageURL, nil)
+                XCTAssertEqual(poi?.name, "Mab")
+                XCTAssertEqual(poi?.latitude, 35.55532)
+                XCTAssertEqual(poi?.longitude, 124.323412)
+                expectation.fulfill()
             }
         }
     }
@@ -64,11 +62,10 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        layer.fetch { pois in
-            // Then
-            let poi = try? pois.get()
-            XCTAssertNotNil(poi)
-        }
+        let pois = layer.fetch()
+        
+        // Then
+        XCTAssertNotNil(pois)
     }
     
     func testFetchPOIBetweenY30_45X120_135_All() throws {
@@ -76,16 +73,15 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        layer.fetch(southWest: LatLng(lat: 30, lng: 120),
-                    northEast: LatLng(lat: 45, lng: 135)) { pois in
-            layer.fetch { all in
-                // Then
-                let poisCount = try? pois.get().count
-                let allCount = try? all.get().count
-                XCTAssertEqual(poisCount, allCount)
-                XCTAssertNotNil(poisCount)
-            }
-        }
+        let pois = layer.fetch(southWest: LatLng(lat: 30, lng: 120),
+                               northEast: LatLng(lat: 45, lng: 135))
+        let all = layer.fetch()
+        let poisCount = pois?.count
+        let allCount = all?.count
+        
+        // Then
+        XCTAssertEqual(poisCount, allCount)
+        XCTAssertNotNil(poisCount)
     }
     
     func testFetchPOIBetweenY30_45X135_145_Empty() throws {
@@ -93,14 +89,14 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        layer.fetch(southWest: LatLng(lat: 30, lng: 135), northEast: LatLng(lat: 45, lng: 145)) { pois in
-            // Then
-            guard let bool = try? pois.get().isEmpty else {
-                XCTFail("Try failure")
-                return
-            }
-            XCTAssertTrue(bool)
+        let pois = layer.fetch(southWest: LatLng(lat: 30, lng: 135), northEast: LatLng(lat: 45, lng: 145))
+        
+        // Then
+        guard let bool = pois?.isEmpty else {
+            XCTFail("Try failure")
+            return
         }
+        XCTAssertTrue(bool)
     }
     
     func testFetchPOIBetweenY45_30X120_135_invalidCoordinate() throws {
@@ -108,10 +104,10 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
 
         // When
-        layer.fetch(southWest: LatLng(lat: 45, lng: 120), northEast: LatLng(lat: 30, lng: 135)) { pois in
-            // Then
-            XCTAssertNil(try? pois.get())
-        }
+        let pois = layer.fetch(southWest: LatLng(lat: 45, lng: 120), northEast: LatLng(lat: 30, lng: 135))
+        
+        // Then
+        XCTAssertNil(pois)
     }
     
     func test_CoreDataManager_fetchByClassification() {
@@ -119,16 +115,13 @@ class CoreDataTests: XCTestCase {
         let layer = CoreDataLayer()
         
         // When
-        layer.fetch(by: "부스트캠프") { result in
-            switch result {
-            case .success(let pois):
-                XCTAssertTrue(pois.allSatisfy({ poi -> Bool in
-                    poi.category == "부스트캠프"
-                }))
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
+        guard let pois = layer.fetch(by: "부스트캠프") else {
+            XCTFail("test_CoreDataManager_fetchByClassification")
+            return
         }
+        
+        // Then
+        XCTAssertTrue( pois.allSatisfy { poi -> Bool in poi.category == "부스트캠프" } )
     }
     
     func testAdd10000POI() throws {
@@ -137,38 +130,26 @@ class CoreDataTests: XCTestCase {
             let numberOfRepeats = 10000
             let layer = CoreDataLayer()
             let places = (0..<numberOfRepeats).map { _ in newPlace }
-            var beforeCount: Int = 0
-            
-            layer.fetch { result in
-                guard let count = try? result.get().count else {
-                    XCTFail("before count is nil")
-                    return
-                }
-                beforeCount = count
-            }
+            let beforeCount = layer.fetch()?.count
             
             // When
             layer.add(places: places) { _ in
-                layer.fetch { result in
-                    guard let afterCount = try? result.get().count else {
-                        XCTFail("after count is nil")
-                        return
-                    }
-                    
-                    // Then
-                    XCTAssertEqual(beforeCount + numberOfRepeats, afterCount)
-                    expectation.fulfill()
+                let afterCount = layer.fetch()?.count
+                
+                // Then
+                XCTAssertNotNil(beforeCount)
+                XCTAssertEqual(beforeCount! + numberOfRepeats, afterCount)
+                expectation.fulfill()
                 }
             }
         }
-    }
     
     func testRemove() throws {
         // Given
         let layer = CoreDataLayer()
-        layer.add(place: newPlace) { _ in
-            layer.fetch { result in
-                let pois = try? result.get()
+        timeout(1) { expectation in
+            layer.add(place: newPlace) { _ in
+                let pois = layer.fetch()
                 guard let poi = pois?.first(where: { poi -> Bool in
                     poi.id == self.newPlace.id
                 }),
@@ -181,14 +162,13 @@ class CoreDataTests: XCTestCase {
                 layer.remove(poi: poi) { _ in }
                 
                 // Then
-                layer.fetch { afterResult in
-                    let afterCount = try? afterResult.get().count
-                    XCTAssertEqual(beforeCount - 1, afterCount)
-                }
+                let afterCount = layer.fetch()?.count
+                XCTAssertEqual(beforeCount - 1, afterCount)
+                expectation.fulfill()
             }
         }
     }
-//
+    //
     func testRemoveAll() throws {
         // Given
         let layer = CoreDataLayer()
@@ -197,15 +177,12 @@ class CoreDataTests: XCTestCase {
         timeout(1) { expectation in
             layer.removeAll { _ in
                 // Then
-                layer.fetch { result in
-                    switch result {
-                    case .success(let pois):
-                        XCTAssertTrue(pois.isEmpty)
-                        expectation.fulfill()
-                    case .failure(let error):
-                        XCTFail(error.localizedDescription)
-                    }
+                guard let pois = layer.fetch() else {
+                    XCTFail("testRemoveAll")
+                    return
                 }
+                XCTAssertTrue(pois.isEmpty)
+                expectation.fulfill()
             }
             
         }
