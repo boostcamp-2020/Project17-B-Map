@@ -16,7 +16,7 @@ class CoreDataTests: XCTestCase {
                          y: "35.55532",
                          imageURL: nil,
                          category: "부스트캠프")
-
+    
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
@@ -102,7 +102,7 @@ class CoreDataTests: XCTestCase {
     func testFetchPOIBetweenY45_30X120_135_invalidCoordinate() throws {
         // Given
         let layer = CoreDataLayer()
-
+        
         // When
         let pois = layer.fetch(southWest: LatLng(lat: 45, lng: 120), northEast: LatLng(lat: 30, lng: 135))
         
@@ -124,25 +124,25 @@ class CoreDataTests: XCTestCase {
         XCTAssertTrue( pois.allSatisfy { poi -> Bool in poi.category == "부스트캠프" } )
     }
     
-    func testAdd10000POI() throws {
-        timeout(40) { expectation in
-            // Given
-            let numberOfRepeats = 10000
-            let layer = CoreDataLayer()
-            let places = (0..<numberOfRepeats).map { _ in newPlace }
-            let beforeCount = layer.fetch()?.count
-            
-            // When
-            layer.add(places: places) { _ in
-                let afterCount = layer.fetch()?.count
-                
-                // Then
-                XCTAssertNotNil(beforeCount)
-                XCTAssertEqual(beforeCount! + numberOfRepeats, afterCount)
-                expectation.fulfill()
-                }
-            }
-        }
+    //    func testAdd10000POI() throws {
+    //        timeout(40) { expectation in
+    //            // Given
+    //            let numberOfRepeats = 10000
+    //            let layer = CoreDataLayer()
+    //            let places = (0..<numberOfRepeats).map { _ in newPlace }
+    //            let beforeCount = layer.fetch()?.count
+    //
+    //            // When
+    //            layer.add(places: places) { _ in
+    //                let afterCount = layer.fetch()?.count
+    //
+    //                // Then
+    //                XCTAssertNotNil(beforeCount)
+    //                XCTAssertEqual(beforeCount! + numberOfRepeats, afterCount)
+    //                expectation.fulfill()
+    //                }
+    //            }
+    //        }
     
     func testRemove() throws {
         // Given
@@ -168,7 +168,7 @@ class CoreDataTests: XCTestCase {
             }
         }
     }
-    //
+    
     func testRemoveAll() throws {
         // Given
         let layer = CoreDataLayer()
