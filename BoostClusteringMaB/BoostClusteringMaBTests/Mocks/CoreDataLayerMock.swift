@@ -24,7 +24,10 @@ class CoreDataLayerMock: CoreDataManager {
 
     }
 
-    func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool, completion handler: (Result<[POI], CoreDataError>) -> Void) {
+    func fetch(southWest: LatLng,
+               northEast: LatLng,
+               sorted: Bool,
+               completion handler: (Result<[POI], CoreDataError>) -> Void) {
 
     }
 
@@ -35,6 +38,4 @@ class CoreDataLayerMock: CoreDataManager {
     func removeAll(completion handler: CoreDataHandler?) {
 
     }
-
-
 }
