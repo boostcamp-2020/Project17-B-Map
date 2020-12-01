@@ -52,7 +52,10 @@ final class CoreDataLayer: CoreDataManager {
         let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
         request.predicate = predicate
         
-        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: childContext, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: request,
+                                          managedObjectContext: childContext,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
     }
     
     private func add(place: Place, isSave: Bool, completion handler: CoreDataHandler? = nil) {

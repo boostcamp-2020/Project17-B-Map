@@ -13,6 +13,4 @@ struct POI: Equatable {
     var imageURL: String?
     var latLng: LatLng
     var name: String?
-    
-    
 }

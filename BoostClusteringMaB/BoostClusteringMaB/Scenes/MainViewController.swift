@@ -63,25 +63,26 @@ final class MainViewController: UIViewController {
         
         let coreDataLayer = CoreDataLayer()
         
-        fetchedResultsController = coreDataLayer.makeFetchResultsController(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
+        fetchedResultsController = coreDataLayer.makeFetchResultsController(
+            southWest: LatLng(lat: 30, lng: 120),
+            northEast: LatLng(lat: 45, lng: 135)
+        )
         
         fetchedResultsController?.delegate = self
         
         do {
             try fetchedResultsController?.performFetch()
-//            collectionView.reloadData()
+            //            collectionView.reloadData()
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
         
     }
-    
-    
+
     func setDetailView() {
         view.bringSubviewToFront(collectionView)
     }
-    
-    
+
     // MARK: - configure VIP
     private func configureVIP() {
         let interactor = MainInteractor()
@@ -239,8 +240,12 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
             fatalError()
         }
     }
-     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             collectionView.insertItems(at: [newIndexPath!])
@@ -268,14 +273,20 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let fetchedResultsController = fetchedResultsController,
               let sections = fetchedResultsController.sections
-              else { return 0 }
+        else { return 0 }
         
         print(sections[section].numberOfObjects)
         return sections[section].numberOfObjects
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? DetailCollectionViewCell else { return UICollectionViewCell() }
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
+                                                            for: indexPath)
+                as? DetailCollectionViewCell
+        else {
+            return UICollectionViewCell()
+        }
         guard let object = fetchedResultsController?.object(at: indexPath) else { return cell }
         
         cell.nameLabel.text = object.name

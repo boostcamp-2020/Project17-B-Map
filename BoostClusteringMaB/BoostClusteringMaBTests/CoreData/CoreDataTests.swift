@@ -121,7 +121,7 @@ class CoreDataTests: XCTestCase {
         }
         
         // Then
-        XCTAssertTrue( pois.allSatisfy { poi -> Bool in poi.category == "부스트캠프" } )
+        XCTAssertTrue( pois.allSatisfy({ poi -> Bool in poi.category == "부스트캠프" }) )
     }
     
     //    func testAdd10000POI() throws {

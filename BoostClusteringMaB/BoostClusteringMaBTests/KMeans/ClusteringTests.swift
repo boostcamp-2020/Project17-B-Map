@@ -40,7 +40,7 @@ class ClusterMock: Cluster {
 class ClusteringTests: XCTestCase {
     func test_init() {
         // Given
-        let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjection())
+//        let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjection())
         let coreDataLayerMock = CoreDataLayerMock()
 
         // When
