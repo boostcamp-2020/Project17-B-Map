@@ -35,6 +35,4 @@ class CoreDataLayerMock: CoreDataManager {
     func removeAll(completion handler: CoreDataHandler?) {
 
     }
-
-
 }
