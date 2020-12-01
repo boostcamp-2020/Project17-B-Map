@@ -54,7 +54,6 @@ final class MainViewController: UIViewController, MainDisplayLogic {
         interactor?.fetchPOI(clustering: clustering)
     }
 
-
     private func setup() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
@@ -133,7 +132,7 @@ extension MainViewController: ClusteringData {
             return
         }
 
-        self.setMapView(overlays: self.polygonOverlays, mapView: nil)
+        self.setOveraysMapView(overlays: self.polygonOverlays, mapView: nil)
         //터치 핸들러도 nil로?
 
         self.markerChangeAnimation(
@@ -146,8 +145,17 @@ extension MainViewController: ClusteringData {
 }
 
 extension MainViewController: NMFMapViewCameraDelegate {
-    private func setMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
+    private func setOveraysMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
         return overlays.forEach { $0.mapView = mapView }
+    }
+    
+    private func setMarkersBounds(makers: [NMFMarker], bounds: [NMGLatLngBounds]) {
+        zip(markers, bounds).forEach { marker, bound in
+            marker.touchHandler = { _ in
+                self.touchedMarker(bounds: bound, insets: 0)
+                return true
+            }
+        }
     }
     
     private func createMarker(latLng: LatLng) -> NMFMarker {
@@ -175,16 +183,6 @@ extension MainViewController: NMFMapViewCameraDelegate {
             return marker
         }
     }
-
-    private func setMapView(makers: [NMFMarker], mapView: NMFMapView?, bounds: [NMGLatLngBounds]) {
-        zip(self.markers, bounds).forEach { marker, bound in
-            marker.touchHandler = { _ in
-                self.touchedMarker(bounds: bound, insets: 0)
-                return true
-            }
-            marker.mapView = mapView
-        }
-    }
     
     private func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
         let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
@@ -199,12 +197,13 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
 
     private func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
-        self.setMapView(makers: newMarkers, mapView: self.mapView, bounds: bounds)
+        self.setOveraysMapView(overlays: newMarkers, mapView: mapView)
+        self.setMarkersBounds(makers: newMarkers, bounds: bounds)
         self.markers = newMarkers
     }
 
     private func markerChangeAnimation(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds], completion: (() -> Void)?) {
-        self.setMapView(overlays: self.markers, mapView: nil)
+        self.setOveraysMapView(overlays: self.markers, mapView: nil)
         let oldMarkers = self.markers
         self.markers = newMarkers
 
@@ -213,7 +212,8 @@ extension MainViewController: NMFMapViewCameraDelegate {
             new: newMarkers.map { $0.position },
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
-                self.setMapView(makers: newMarkers, mapView: self.mapView, bounds: bounds)
+                self.setOveraysMapView(overlays: newMarkers, mapView: self.mapView)
+                self.setMarkersBounds(makers: newMarkers, bounds: bounds)
                 completion?()
             })
     }
@@ -226,7 +226,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
                 return createPolygonOverlay(points: points)
             }
 
-        setMapView(overlays: polygonOverlays, mapView: mapView)
+        setOveraysMapView(overlays: polygonOverlays, mapView: mapView)
     }
 }
 
