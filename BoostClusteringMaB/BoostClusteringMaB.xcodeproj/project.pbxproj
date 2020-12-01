@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0D0172C02570BF2A00A26886 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* JsonParser.swift */; };
-		0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */; };
+		0D781E8025709E8D00D8A49E /* NMFMarker+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */; };
+		0DD30536257614460093E7B2 /* UIColor+RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD30535257614460093E7B2 /* UIColor+RandomColor.swift */; };
+		0DD3053A25762BE90093E7B2 /* NMFPolygonOverlay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD3053925762BE90093E7B2 /* NMFPolygonOverlay+.swift */; };
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		4A3C8021232DFCF9C5E93307 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */; };
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -68,7 +70,9 @@
 
 /* Begin PBXFileReference section */
 		0D0172BF2570BF2A00A26886 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
-		0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+ImageView.swift"; sourceTree = "<group>"; };
+		0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+.swift"; sourceTree = "<group>"; };
+		0DD30535257614460093E7B2 /* UIColor+RandomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIColor+RandomColor.swift"; path = "BoostClusteringMaB/extension/UIColor+RandomColor.swift"; sourceTree = SOURCE_ROOT; };
+		0DD3053925762BE90093E7B2 /* NMFPolygonOverlay+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NMFPolygonOverlay+.swift"; path = "BoostClusteringMaB/extension/NMFPolygonOverlay+.swift"; sourceTree = SOURCE_ROOT; };
 		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,8 +329,10 @@
 			children = (
 				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
 				F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */,
-				0D781E7F25709E8D00D8A49E /* NMFMarker+ImageView.swift */,
+				0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */,
 				F496019025727ED500740523 /* String+Bundle.swift */,
+				0DD30535257614460093E7B2 /* UIColor+RandomColor.swift */,
+				0DD3053925762BE90093E7B2 /* NMFPolygonOverlay+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -613,6 +619,7 @@
 				708C08C1256258320072B1E0 /* MainViewController.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
+				0DD30536257614460093E7B2 /* UIColor+RandomColor.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
@@ -628,10 +635,11 @@
 				F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */,
 				F496019125727ED500740523 /* String+Bundle.swift in Sources */,
 				C3FB085A256B882200B93665 /* LatLng.swift in Sources */,
-				0D781E8025709E8D00D8A49E /* NMFMarker+ImageView.swift in Sources */,
+				0D781E8025709E8D00D8A49E /* NMFMarker+.swift in Sources */,
 				7022C4732571431A000647C4 /* MarkerAnimateController.swift in Sources */,
 				C3FB0862256B889600B93665 /* KMeans.swift in Sources */,
 				C3FB085E256B887300B93665 /* Cluster.swift in Sources */,
+				0DD3053A25762BE90093E7B2 /* NMFPolygonOverlay+.swift in Sources */,
 				709707D825760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */,
 				707E63E7257490EC003F0E10 /* MainInteractor.swift in Sources */,
 			);

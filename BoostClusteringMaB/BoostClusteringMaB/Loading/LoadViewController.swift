@@ -27,7 +27,7 @@ class LoadViewController: UIViewController {
                 switch result {
                 case .failure(let error):
                     debugPrint("\(error) 알람창 만들기")
-                case .success(_):
+                default:
                     self.presentMainViewController()
                 }
             }
