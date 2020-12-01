@@ -26,12 +26,12 @@ class ConvexHull {
         relativePoints = points
             .dropFirst()
             .map { $0 - stdPoint }
-        relativePoints.insert(stdPoint, at: 0)
+        relativePoints.insert(LatLng(lat: 0, lng: 1), at: 0)
         zip(points, relativePoints).forEach { point, reletivePoint in
             self.infos.append(Info(x: point.lng, y: point.lat, p: reletivePoint.lng, q: reletivePoint.lat))
         }
         
-        infos.sort(by: { left, right in
+        var sortedPoints = infos.dropFirst().sorted(by: { left, right in
             if left.q * right.p != left.p * right.q {
                 return left.q * right.p < left.p * right.q
             }
@@ -43,6 +43,12 @@ class ConvexHull {
             return left.x < right.x
         })
         
+        if let first = infos.first {
+            sortedPoints.insert(first, at: 0)
+        }
+        
+        infos = sortedPoints
+
     }
     
     func ccw(point1: Info, point2: Info, point3: Info) -> Int {
@@ -54,6 +60,7 @@ class ConvexHull {
         } else if temp < 0 {
             return -1
         }
+        
         return 0
     }
     
