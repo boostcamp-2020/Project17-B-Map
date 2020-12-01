@@ -47,8 +47,15 @@ final class MainViewController: UIViewController, MainDisplayLogic {
         configureClustering()
         clustering?.data = self
         configureMapView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateData), name: NSNotification.Name(rawValue: "Notify"), object: nil)
     }
 
+    @objc func updateData() {
+        
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         interactor?.fetchPOI(clustering: clustering)
