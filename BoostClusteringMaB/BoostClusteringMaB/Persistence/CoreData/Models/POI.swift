@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct POI {
+struct POI: Equatable {
     var category: String?
     var id: String?
     var imageURL: String?
