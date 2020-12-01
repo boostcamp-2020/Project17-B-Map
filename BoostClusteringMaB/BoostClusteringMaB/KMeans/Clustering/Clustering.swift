@@ -18,63 +18,72 @@ class Clustering {
         self.coreDataLayer = coreDataLayer
     }
 
-    func refreshPoints() -> [LatLng] {
+//    func refreshPoints() -> [LatLng] {
+//        let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
+//        let southWest = LatLng(boundsLatLngs[0])
+//        let northEast = LatLng(boundsLatLngs[1])
+//
+//        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
+//                                                         northEast: northEast,
+//                                                         sorted: true) else { return [] }
+//
+//        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
+//    }
+
+    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs], [NMGLatLngBounds]) -> Void) {
         let boundsLatLngs = naverMapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
 
-        guard let fetchPoints = try? coreDataLayer.fetch(southWest: southWest,
-                                                         northEast: northEast,
-                                                         sorted: true) else { return [] }
+        coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true) { result in
+            guard let points = try? result.get().map({ poi in
+                LatLng(lat: poi.latitude, lng: poi.longitude)
+            }) else { return }
+            let kRange = (2...10)
 
-        return fetchPoints.map({poi in LatLng(lat: poi.latitude, lng: poi.longitude)})
-    }
+            guard !points.isEmpty else { return }
 
-    func findOptimalClustering(completion: @escaping (LatLngs, [Int], [LatLngs], [NMGLatLngBounds]) -> Void) {
-        let kRange = (2...10)
-        let points = refreshPoints()
+            var minValue = Double.greatestFiniteMagnitude
+            var minKMeans: KMeans?
 
-        guard !points.isEmpty else { return }
+            let group = DispatchGroup.init()
+            let serialQueue = DispatchQueue.init(label: "serial")
 
-        var minValue = Double.greatestFiniteMagnitude
-        var minKMeans: KMeans?
-        
-        let group = DispatchGroup.init()
-        let serialQueue = DispatchQueue.init(label: "serial")
-        
-        kRange.forEach { k in
-            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, points: points)
-                kMeans.run()
-                
-                let DBI = kMeans.daviesBouldinIndex()
-                serialQueue.async(group: group) {
-                    if DBI <= minValue {
-                        minValue = DBI
-                        minKMeans = kMeans
+            kRange.forEach { k in
+                DispatchQueue.global(qos: .userInteractive).async(group: group) {
+                    let kMeans = KMeans(k: k, points: points)
+                    kMeans.run()
+
+                    let DBI = kMeans.daviesBouldinIndex()
+                    serialQueue.async(group: group) {
+                        if DBI <= minValue {
+                            minValue = DBI
+                            minKMeans = kMeans
+                        }
                     }
                 }
             }
-        }
-        
-        group.notify(queue: .main) { [weak self] in
-            guard let minKMeans = minKMeans,
-                  let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
-            else { return }
 
-            var pointSizes = [Int]()
-            var centroids = LatLngs()
-            var convexHullPoints = [LatLngs]()
-            var bounds = [NMGLatLngBounds]()
-            
-            combinedClusters.forEach({
-                pointSizes.append($0.points.size)
-                centroids.append($0.center)
-                convexHullPoints.append($0.area())
-                bounds.append(NMGLatLngBounds(southWest: $0.southWest().convert(), northEast: $0.northEast().convert()))
-            })
+            group.notify(queue: .main) { [weak self] in
+                guard let minKMeans = minKMeans,
+                      let combinedClusters = self?.combineClusters(clusters: minKMeans.clusters)
+                else { return }
 
-            completion(centroids, pointSizes, convexHullPoints, bounds)
+                var points = [Int]()
+                var centroids = LatLngs()
+                var convexHullPoints = [LatLngs]()
+                var bounds = [NMGLatLngBounds]()
+
+                combinedClusters.forEach({
+                    points.append($0.points.size)
+                    centroids.append($0.center)
+                    convexHullPoints.append($0.area())
+                    bounds.append(NMGLatLngBounds(southWest: $0.southWest().convert(),
+                                                  northEast: $0.northEast().convert()))
+                })
+
+                completion(centroids, points, convexHullPoints, bounds)
+            }
         }
     }
     

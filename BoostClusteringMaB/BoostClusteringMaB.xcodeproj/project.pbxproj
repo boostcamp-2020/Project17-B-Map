@@ -54,7 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		700A667525626CF800184916 /* PBXContainerItemProxy */ = {
+		703874ED2574C24200F2C1DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 708C08B1256258320072B1E0 /* Project object */;
 			proxyType = 1;
@@ -364,7 +364,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				700A667625626CF800184916 /* PBXTargetDependency */,
+				703874EE2574C24200F2C1DC /* PBXTargetDependency */,
 			);
 			name = BoostClusteringMaBTests;
 			productName = BoostClusteringMaBTests;
@@ -604,10 +604,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		700A667625626CF800184916 /* PBXTargetDependency */ = {
+		703874EE2574C24200F2C1DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 708C08B8256258320072B1E0 /* BoostClusteringMaB */;
-			targetProxy = 700A667525626CF800184916 /* PBXContainerItemProxy */;
+			targetProxy = 703874ED2574C24200F2C1DC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -649,7 +649,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
 			};
 			name = Debug;
@@ -671,7 +671,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.boostcamp.b.map.BoostClusteringMaBTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BoostClusteringMaB.app/BoostClusteringMaB";
 			};
 			name = Release;
@@ -842,7 +842,7 @@
 				700A667925626CF800184916 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		708C08B4256258320072B1E0 /* Build configuration list for PBXProject "BoostClusteringMaB" */ = {
 			isa = XCConfigurationList;
@@ -851,7 +851,7 @@
 				708C08CF256258330072B1E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		708C08D0256258330072B1E0 /* Build configuration list for PBXNativeTarget "BoostClusteringMaB" */ = {
 			isa = XCConfigurationList;
@@ -860,7 +860,7 @@
 				708C08D2256258330072B1E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 

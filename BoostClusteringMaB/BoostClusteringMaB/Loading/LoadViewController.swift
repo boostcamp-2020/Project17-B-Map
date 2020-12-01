@@ -13,25 +13,37 @@ class LoadViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        guard let count = try? coreDataLayer.fetch().count,
-              count > 0 else {
-            loadData {
-                self.presentMainViewController()
+        coreDataLayer.fetch { result in
+            switch result {
+            case .failure(let error):
+                debugPrint("\(error) 알람창 만들기")
+            case .success(let pois):
+                self.fetchSuccess(count: pois.count)
+            }
+        }
+    }
+
+    private func fetchSuccess(count: Int) {
+        guard count > 0 else {
+            self.loadData { result in
+                switch result {
+                case .failure(let error):
+                    debugPrint("\(error) 알람창 만들기")
+                case .success(_):
+                    self.presentMainViewController()
+                }
             }
             return
         }
-        
-        presentMainViewController()
+        self.presentMainViewController()
     }
     
-    private func loadData(completion handler: @escaping () -> Void) {
+    private func loadData(completion handler: @escaping (Result<Void, CoreDataError>) -> Void) {
         jsonParser.parse(fileName: "gangnam_8000") { [weak self] result in
             do {
                 let places = try result.get()
-                try self?.coreDataLayer.add(places: places) {
-                    try? self?.coreDataLayer.save()
-                    handler()
+                self?.coreDataLayer.add(places: places) { result in
+                    handler(result)
                 }
             } catch {
                 print(error)
