@@ -286,21 +286,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
                                                             for: indexPath)
-                as? DetailCollectionViewCell
+                as? DetailCollectionViewCell,
+              let object = fetchedResultsController?.object(at: indexPath)
         else {
             return UICollectionViewCell()
         }
-        guard let object = fetchedResultsController?.object(at: indexPath) else { return cell }
         
-        cell.nameLabel.text = object.name
-        cell.categoryLabel.text = object.category
-        
-        guard let imageURL = object.imageURL,
-              let url = URL(string: imageURL),
-              let data = try? Data(contentsOf: url) else { return cell }
-
-        cell.storeImageView.image = UIImage(data: data)
-        
+        cell.configure(object: object)
         return cell
     }
     

@@ -17,4 +17,15 @@ class DetailCollectionViewCell: UICollectionViewCell {
         storeImageView.image = UIImage(named: "icon")
     }
     
+    func configure(object: ManagedPOI) {        
+        nameLabel.text = object.name
+        categoryLabel.text = object.category
+        
+        guard let imageURL = object.imageURL else { return }
+
+        DispatchQueue.main.async {
+            self.storeImageView.image = UIImage.load(imageURL: imageURL)
+        }
+    }
+    
 }
