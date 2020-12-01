@@ -80,6 +80,7 @@ final class MainViewController: UIViewController {
 
     func setDetailView() {
         view.bringSubviewToFront(collectionView)
+        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
     }
 
     // MARK: - configure VIP
