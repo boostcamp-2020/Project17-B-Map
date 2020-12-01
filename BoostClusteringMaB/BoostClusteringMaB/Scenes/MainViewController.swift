@@ -291,9 +291,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
               let object = fetchedResultsController?.object(at: indexPath)
         else {
             return UICollectionViewCell()
-        }
-        
-        cell.configure(object: object)
+        }        
+        cell.configure(poi: object)
         return cell
     }
     
