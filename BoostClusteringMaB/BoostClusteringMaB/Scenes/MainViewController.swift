@@ -54,7 +54,6 @@ final class MainViewController: UIViewController, MainDisplayLogic {
         interactor?.fetchPOI(clustering: clustering)
     }
 
-
     private func setup() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
