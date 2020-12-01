@@ -25,16 +25,16 @@ import Foundation
 
 class KMeans {
     let k: Int
-    let points: [LatLng] // 8000개 예상
+    let pois: [POI] // 8000개 예상
     var clusters: [Cluster]
     var isChanged: Bool // [point]가 변했는지 체크하기위한 변수
     var centroids: [LatLng] {
         return clusters.map { $0.center }
     }
     
-    init(k: Int, points: [LatLng]) {
+    init(k: Int, pois: [POI]) {
         self.k = k
-        self.points = points
+        self.pois = pois
         self.clusters = []
         self.isChanged = false
     }
@@ -43,7 +43,7 @@ class KMeans {
     func run() {
         let maxIteration = 5 // 없으면 2~30번 돈다.
         //		let initCenters = randomCenters(count: k, points: points)
-        let initCenters = randomCentersByPointsIndex(count: k, points: points)
+        let initCenters = randomCentersByPointsIndex(count: k, pois: pois)
         clusters = generateClusters(centers: initCenters)
         classifyPoints() // O(n)
         updateCenters() // O(n)
@@ -58,44 +58,45 @@ class KMeans {
     }
     
     //1 임의로 중심점을 추출 + 그걸로 클러스터 생성
-    private func randomCenters(count: Int, points: [LatLng]) -> [LatLng] {
-        guard points.count > count else { return points }
-        
-        var centers = Set<LatLng>()
-        while centers.count < count {
-            guard let random = points.randomElement() else { continue }
-            centers.insert(random)
-        }
-        return Array(centers)
-    }
+//    private func randomCenters(count: Int, points: [LatLng]) -> [LatLng] {
+//        guard points.count > count else { return points }
+//
+//        var centers = Set<LatLng>()
+//        while centers.count < count {
+//            guard let random = points.randomElement() else { continue }
+//            centers.insert(random)
+//        }
+//        return Array(centers)
+//    }
     
     //1 임의로 중심점을 추출 ( 좌표 정렬해서 적절한 간격으로 뽑음 )
-    private func randomCentersByPointsIndex(count: Int, points: [LatLng]) -> [LatLng] {
-        guard points.count > count else { return points }
-        guard let firstPoint = points.first else { return [] }
+    private func randomCentersByPointsIndex(count: Int, pois: [POI]) -> [POI] {
+        guard pois.count > count else { return pois }
+        guard let firstPoint = pois.first else { return [] }
         
         var result = [firstPoint]
         switch count {
         case 1:
             return result
         default:
-            let diff = points.count / (count - 1)
+            let diff = pois.count / (count - 1)
             (1..<count).forEach {
-                result.append(points[$0 * diff - 1])
+                result.append(pois[$0 * diff - 1])
             }
             return result
         }
     }
     
-    private func generateClusters(centers: [LatLng]) -> [Cluster] {
-        return centers.map { Cluster(center: $0) }
+    private func generateClusters(centers: [POI]) -> [Cluster] {
+        let centroids = centers.map { LatLng(lat: $0.latLng.lat, lng: $0.latLng.lng) }
+        return centroids.map { Cluster(center: $0) }
     }
     
     //2 모든 점들에 대해서 k개의 center중 가장 가까운 center의 클러스터에 넣어준다 -> 이를 할당
     private func classifyPoints() {
-        points.forEach {
-            let cluster = findNearestCluster(point: $0)
-            cluster.add(point: $0)
+        pois.forEach {
+            let cluster = findNearestCluster(poi: $0)
+            cluster.add(poi: $0)
         }
     }
     
@@ -111,24 +112,25 @@ class KMeans {
         isChanged = false
         
         clusters.forEach { cluster in
-            let points = cluster.points
-            points.setNowToHead()
-            for _ in 0..<points.size {
-                guard let point = points.now?.value else { points.moveNowToNext(); break }
-                let nearestCluster = findNearestCluster(point: point)
-                if cluster == nearestCluster { points.moveNowToNext(); continue }
+            let pois = cluster.pois
+            pois.setNowToHead()
+            for _ in 0..<pois.size {
+                guard let poi = pois.now?.value else { pois.moveNowToNext(); break }
+                let nearestCluster = findNearestCluster(poi: poi)
+                if cluster == nearestCluster { pois.moveNowToNext(); continue }
                 
                 isChanged = true
-                nearestCluster.add(point: point)
-                cluster.remove(point: point)
-                points.moveNowToNext()
+                nearestCluster.add(poi: poi)
+                cluster.remove(poi: poi)
+                pois.moveNowToNext()
             }
         }
     }
     
-    private func findNearestCluster(point: LatLng) -> Cluster {
+    private func findNearestCluster(poi: POI) -> Cluster {
         var minDistance = Double.greatestFiniteMagnitude
         var nearestCluster = Cluster.greatestFinite
+        let point = LatLng(lat: poi.latLng.lat, lng: poi.latLng.lng)
         
         clusters.forEach {
             let newDistance = $0.center.squaredDistance(to: point)
@@ -141,13 +143,13 @@ class KMeans {
     }
     
     //오차 제곱합
-    func sumOfSquaredOfError() -> Double {
-        var sum: Double = 0
-        clusters.forEach {
-            sum += $0.sumOfSquaredOfError()
-        }
-        return sum
-    }
+//    func sumOfSquaredOfError() -> Double {
+//        var sum: Double = 0
+//        clusters.forEach {
+//            sum += $0.sumOfSquaredOfError()
+//        }
+//        return sum
+//    }
     
     //Davies-Bouldin index (낮을수록 좋음)
     func daviesBouldinIndex() -> Double {
