@@ -11,9 +11,14 @@ let imageCache = NSCache<NSString, AnyObject>()
 
 // https://stackoverflow.com/a/42017996
 extension UIImageView {
+
+    /// 이미지를 비동기로 로드하고 캐시까지 하는 함수
+    /// - Parameters:
+    ///   - urlString: URL주소
+    ///   - placeHolder: 기본이미지
     func loadImage(contentsOf urlString: String?, placeHolder: UIImage? = #imageLiteral(resourceName: "icon")) {
         self.image = placeHolder
-        
+
         guard let urlString = urlString,
               let url = URL(string: urlString) else {
             return
@@ -24,19 +29,19 @@ extension UIImageView {
             self.image = cachedImage
             return
         }
-        
+
         // if not, download image from url
         URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) in
             if let error = error {
                 debugPrint(error.localizedDescription)
                 return
             }
-            
+
             guard let data = data else {
                 debugPrint("\(urlString) data is nil!")
                 return
             }
-            
+
             DispatchQueue.main.async {
                 if let image = UIImage(data: data) {
                     imageCache.setObject(image, forKey: urlString as NSString)
