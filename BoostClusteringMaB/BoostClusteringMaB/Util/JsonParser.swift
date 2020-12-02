@@ -52,11 +52,14 @@ class JsonParser: DataParser {
             
             let land = geocoding?.land
             let number1 = land?.number1 ?? ""
-            let number2 = land?.number2 ?? ""
+            var number2 = land?.number2 ?? ""
+            if number2 != "" {
+                number2 = "-" + number2
+            }
             
             if let loadName = land?.name {
                 // 도로명 주소가 있는 경우
-                return "\(area1) \(area2) \(area3) \(loadName) \(number1)-\(number2)"
+                return "\(area1) \(area2) \(area3) \(loadName) \(number1)\(number2)"
             } else {
                 return "\(area1) \(area2) \(area3) \(area4)"
             }
