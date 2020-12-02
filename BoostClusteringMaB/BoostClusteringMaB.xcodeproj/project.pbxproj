@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D0172C02570BF2A00A26886 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* JsonParser.swift */; };
 		0D781E8025709E8D00D8A49E /* NMFMarker+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */; };
-		0DD30536257614460093E7B2 /* UIColor+RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD30535257614460093E7B2 /* UIColor+RandomColor.swift */; };
 		0DD3053A25762BE90093E7B2 /* NMFPolygonOverlay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD3053925762BE90093E7B2 /* NMFPolygonOverlay+.swift */; };
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		4A3C8021232DFCF9C5E93307 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */; };
@@ -37,6 +36,7 @@
 		70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD5B256CB9360048CEA6 /* CSVParser.swift */; };
 		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; };
 		70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */ = {isa = PBXBuildFile; fileRef = 70BFFD7E256CD6120048CEA6 /* poi.csv */; };
+		70E2A21125776ACB009A5ADC /* UIColor+RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */; };
 		C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435B3256BAA000066C423 /* CGPoint+Distance.swift */; };
 		C3496436256CEBAE001F40AA /* KMeansTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3496435256CEBAE001F40AA /* KMeansTest.swift */; };
 		C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A28798256F986D00DF23B1 /* Clustering.swift */; };
@@ -76,7 +76,6 @@
 /* Begin PBXFileReference section */
 		0D0172BF2570BF2A00A26886 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+.swift"; sourceTree = "<group>"; };
-		0DD30535257614460093E7B2 /* UIColor+RandomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIColor+RandomColor.swift"; path = "BoostClusteringMaB/extension/UIColor+RandomColor.swift"; sourceTree = SOURCE_ROOT; };
 		0DD3053925762BE90093E7B2 /* NMFPolygonOverlay+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NMFPolygonOverlay+.swift"; path = "BoostClusteringMaB/extension/NMFPolygonOverlay+.swift"; sourceTree = SOURCE_ROOT; };
 		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +108,7 @@
 		70BFFD5B256CB9360048CEA6 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
 		70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParserTests.swift; sourceTree = "<group>"; };
 		70BFFD7E256CD6120048CEA6 /* poi.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = poi.csv; sourceTree = "<group>"; };
+		70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RandomColor.swift"; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
 		9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C31435B3256BAA000066C423 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
@@ -384,9 +384,9 @@
 				F48E8ED6257036B300507D01 /* CGPoint+isValid.swift */,
 				0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */,
 				F496019025727ED500740523 /* String+Bundle.swift */,
-				0DD30535257614460093E7B2 /* UIColor+RandomColor.swift */,
 				0DD3053925762BE90093E7B2 /* NMFPolygonOverlay+.swift */,
 				F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */,
+				70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -653,7 +653,6 @@
 				708C08C1256258320072B1E0 /* MainViewController.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
-				0DD30536257614460093E7B2 /* UIColor+RandomColor.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				F4DB7C2A25767EFF00789E35 /* UIImageView+loadImage.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
@@ -667,6 +666,7 @@
 				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
 				709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */,
+				70E2A21125776ACB009A5ADC /* UIColor+RandomColor.swift in Sources */,
 				707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
 				F48E8ED7257036B300507D01 /* CGPoint+isValid.swift in Sources */,
