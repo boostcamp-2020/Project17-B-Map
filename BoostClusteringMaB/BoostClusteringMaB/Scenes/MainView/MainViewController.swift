@@ -9,17 +9,6 @@ import UIKit
 import NMapsMap
 import CoreData
 
-protocol ClusteringTool: class {
-    func convertLatLngToPoint(latLng: LatLng) -> CGPoint
-}
-
-protocol ClusteringData: class {
-    func redrawMap(_ latLngs: [LatLng],
-                   _ pointSizes: [Int],
-                   _ bounds: [(southWest: LatLng, northEast: LatLng)],
-                   _ convexHulls: [[LatLng]])
-}
-
 protocol NMFMapViewProtocol {
     var coveringBounds: NMGLatLngBounds { get }
     var projection: NMFProjection { get }
@@ -272,7 +261,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         CGSize(width: self.view.bounds.width - 20, height: 110)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         2
     }
     
@@ -300,13 +291,15 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                           withReuseIdentifier: "header",
+                                                                           for: indexPath)
                 as? DetailCollectionReusableView
         else { return UICollectionReusableView() }
         header.poiNumberLabel.text = "\(displayedData.count)개"
         return header
     }
-    
-    
 }
