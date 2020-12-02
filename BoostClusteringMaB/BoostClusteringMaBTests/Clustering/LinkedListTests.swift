@@ -85,7 +85,7 @@ class LinkedListTests: XCTestCase {
         // When
         list.add(1)
         list.setNowToHead()
-        list.remove()
+        _ = list.remove()
         
         // Then
         XCTAssertNil(list.tail)
@@ -125,7 +125,7 @@ class LinkedListTests: XCTestCase {
         XCTAssertEqual(list.size, 3)
         
         // When
-        list.remove()
+        _ = list.remove()
         
         // Then
         XCTAssertEqual(list.size, 2)

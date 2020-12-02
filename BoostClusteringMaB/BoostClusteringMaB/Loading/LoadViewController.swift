@@ -13,14 +13,12 @@ class LoadViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        coreDataLayer.fetch { result in
-            switch result {
-            case .failure(let error):
-                debugPrint("\(error) 알람창 만들기")
-            case .success(let pois):
-                self.fetchSuccess(count: pois.count)
-            }
+//        coreDataLayer.removeAll(completion: nil)
+        guard let pois = coreDataLayer.fetch() else {
+            debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
+            return
         }
+        self.fetchSuccess(count: pois.count)
     }
 
     private func fetchSuccess(count: Int) {
@@ -39,7 +37,7 @@ class LoadViewController: UIViewController {
     }
     
     private func loadData(completion handler: @escaping (Result<Void, CoreDataError>) -> Void) {
-        jsonParser.parse(fileName: "gangnam_8000") { [weak self] result in
+        jsonParser.parse(fileName: "restaurant") { [weak self] result in
             do {
                 let places = try result.get()
                 self?.coreDataLayer.add(places: places) { result in

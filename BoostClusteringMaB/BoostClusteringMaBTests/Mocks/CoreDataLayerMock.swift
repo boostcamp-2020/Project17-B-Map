@@ -6,6 +6,7 @@
 //
 
 @testable import BoostClusteringMaB
+import CoreData
 
 class CoreDataLayerMock: CoreDataManager {
     func add(place: Place, completion handler: CoreDataHandler?) {
@@ -16,26 +17,27 @@ class CoreDataLayerMock: CoreDataManager {
 
     }
 
-    func fetch(sorted: Bool, completion handler: (Result<[POI], CoreDataError>) -> Void) {
-
+    func fetch(sorted: Bool) -> [ManagedPOI]? {
+        return nil
     }
 
-    func fetch(by classification: String, sorted: Bool, completion handler: (Result<[POI], CoreDataError>) -> Void) {
-
+    func fetch(by classification: String, sorted: Bool) -> [ManagedPOI]? {
+        return nil
     }
 
-    func fetch(southWest: LatLng,
-               northEast: LatLng,
-               sorted: Bool,
-               completion handler: (Result<[POI], CoreDataError>) -> Void) {
-
+    func fetch(southWest: LatLng, northEast: LatLng, sorted: Bool) -> [ManagedPOI]? {
+        return nil
     }
 
-    func remove(poi: POI, completion handler: CoreDataHandler?) {
+    func remove(poi: ManagedPOI, completion handler: CoreDataHandler?) {
 
     }
 
     func removeAll(completion handler: CoreDataHandler?) {
 
+    }
+
+    func makeFetchResultsController(southWest: LatLng, northEast: LatLng) -> NSFetchedResultsController<ManagedPOI> {
+        return .init()
     }
 }
