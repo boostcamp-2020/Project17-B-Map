@@ -37,16 +37,39 @@ class JsonParser: DataParser {
         }
     }
     
-    func parse(address: Data) -> String {
-        let areas = ["area1", "area2", "area3", "area4"]
-        let jsonData = try? JSONSerialization.jsonObject(with: address, options: []) as? JsonDict
-        let jsonResults = jsonData?["results"] as? JsonArray
-        let jsonFirst = jsonResults?.first as? JsonDict
-        let jsonRegion = jsonFirst?["region"] as? JsonDict
-        
-        return areas.reduce("") { result, area in
-            guard let areaName = (jsonRegion?[area] as? [String: Any])?["name"] as? String else { return result }
-            return result + " " + areaName
+    // Return
+    // 도로명 주소가 있는 경우 : 서울 송파구 올림픽로 424
+    //            없는 경우 : 서울 송파구 방이동
+    func parse(address: Data) -> String? {
+        do {
+            let geocoding = try JSONDecoder().decode(Geocoding.self, from: address)
+                .results?
+                .first
+            let region = geocoding?.region
+            
+            let area1 = region?.area1?.name ?? ""
+            let area2 = region?.area2?.name ?? ""
+            let area3 = region?.area3?.name ?? ""
+            let area4 = region?.area4?.name ?? ""
+            
+            let land = geocoding?.land
+            let number1 = land?.number1 ?? ""
+            let number2 = land?.number2 ?? ""
+            
+            if let loadName = land?.name {
+                // 도로명 주소가 있는 경우
+                return "\(area1) \(area2) \(area3) \(loadName) \(number1)-\(number2)"
+            } else {
+                return "\(area1) \(area2) \(area3) \(area4)"
+            }
+            
+//            // 건물명 얻어오기 - 없는 경우가 더 많음
+//            if land?.addition0?.type == "building" {
+//                let buildingName = land?.addition0?.value
+//            }
+        } catch {
+            debugPrint(error.localizedDescription)
+            return nil
         }
     }
 }
