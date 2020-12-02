@@ -147,7 +147,7 @@ class CoreDataTests: XCTestCase {
     func testRemove() throws {
         // Given
         let layer = CoreDataLayer()
-        timeout(1) { expectation in
+        timeout(20) { expectation in
             layer.add(place: newPlace) { _ in
                 let pois = layer.fetch()
                 guard let poi = pois?.first(where: { poi -> Bool in
