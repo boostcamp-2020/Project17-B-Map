@@ -23,7 +23,9 @@ class Clustering {
     func findOptimalClustering(southWest: LatLng, northEast: LatLng) {
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
-        guard !pois.isEmpty else { return }
+        guard !pois.isEmpty else {
+            return
+        }
         runKMeans(pois: pois)
     }
 

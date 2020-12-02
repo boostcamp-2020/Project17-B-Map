@@ -39,6 +39,14 @@ final class MainViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     
+    var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
+        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
+        let southWest = LatLng(boundsLatLngs[0])
+        let northEast = LatLng(boundsLatLngs[1])
+        
+        return (southWest: southWest, northEast: northEast)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVIP()
@@ -104,20 +112,21 @@ final class MainViewController: UIViewController {
         sender.state = .ended
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showAlert(latlng: latlng)
+            self.showAlert(latlng: latlng, type: .append) {
+                self.interactor?.addLocation(LatLng(latlng),
+                                             southWest: self.boundsLatLng.southWest,
+                                             northEast: self.boundsLatLng.northEast)
+            }
         }
     }
     
-    private func showAlert(latlng: NMGLatLng) {
-        let alert = UIAlertController(title: "POI를 추가하시겠습니까?",
-                                      message: "OK를 누르면 추가합니다",
+    private func showAlert(latlng: NMGLatLng, type: AlertType, handler: @escaping () -> Void) {
+        let alert = UIAlertController(title: type.title,
+                                      message: type.message,
                                       preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
-            let marker = NMFMarker()
-            marker.position = latlng
-            marker.mapView = self.mapView
-            //coreData에 저장시켜 주세요
+            handler()
         })
         alert.addAction(cancelAction)
         alert.addAction(okAction)
@@ -164,7 +173,17 @@ private extension MainViewController {
     func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         zip(markers, bounds).forEach { marker, bound in
             marker.touchHandler = { _ in
-                self.touchedMarker(bounds: bound, insets: 0)
+                if marker.captionText == "1" {
+                    self.showAlert(latlng: marker.position, type: .delete) {
+                        marker.mapView = nil
+                        
+                        self.interactor?.deleteLocation(LatLng(marker.position),
+                                                        southWest: self.boundsLatLng.southWest,
+                                                        northEast: self.boundsLatLng.northEast)
+                    }
+                } else {
+                    self.touchedMarker(bounds: bound, insets: 0)
+                }
                 return true
             }
         }
@@ -198,10 +217,7 @@ private extension MainViewController {
 
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-        interactor?.fetchPOI(southWest: southWest, northEast: northEast)
+        interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
     }
 }
 
