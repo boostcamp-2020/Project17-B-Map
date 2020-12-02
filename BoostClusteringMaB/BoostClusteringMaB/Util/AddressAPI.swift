@@ -26,7 +26,7 @@ final class AddressAPI {
             "X-NCP-APIGW-API-KEY": secret
         ]
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion?(.failure(error))
                 return

@@ -37,7 +37,7 @@ class JsonParser: DataParser {
         }
     }
     
-    private func parse(address: Data) -> String {
+    func parse(address: Data) -> String {
         let areas = ["area1", "area2", "area3", "area4"]
         let jsonData = try? JSONSerialization.jsonObject(with: address, options: []) as? JsonDict
         let jsonResults = jsonData?["results"] as? JsonArray
