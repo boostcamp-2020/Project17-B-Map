@@ -24,11 +24,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v9C-RS-7El">
-                                <rect key="frame" x="0.0" y="696" width="414" height="200"/>
+                                <rect key="frame" x="0.0" y="732.5" width="414" height="163.5"/>
                                 <color key="backgroundColor" systemColor="systemGray2Color"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="vmN-nj-iBu"/>
-                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OZu-MC-jx4">
                                     <size key="itemSize" width="414" height="128"/>
                                     <size key="headerReferenceSize" width="50" height="20"/>
@@ -65,6 +62,7 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="jJd-zK-iLf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9jr-Fv-8b9" secondAttribute="trailing" constant="20" id="9Bv-3b-MZB"/>
                                                 <constraint firstItem="jJd-zK-iLf" firstAttribute="leading" secondItem="gX2-md-A1o" secondAttribute="trailing" constant="113" id="ExK-cB-Ke7"/>
                                                 <constraint firstAttribute="trailing" secondItem="jJd-zK-iLf" secondAttribute="trailing" constant="10" id="FbB-uI-VjR"/>
                                                 <constraint firstItem="9jr-Fv-8b9" firstAttribute="top" secondItem="psY-p1-UTh" secondAttribute="top" constant="20" id="HCB-Ng-1Wx"/>
@@ -114,6 +112,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="v9C-RS-7El" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="KYq-nj-DW4"/>
+                            <constraint firstItem="v9C-RS-7El" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="1/5" id="OHT-p5-ypX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="v9C-RS-7El" secondAttribute="trailing" id="VlS-eh-Dui"/>
                             <constraint firstAttribute="bottom" secondItem="v9C-RS-7El" secondAttribute="bottom" id="qIx-DM-BB2"/>
                         </constraints>

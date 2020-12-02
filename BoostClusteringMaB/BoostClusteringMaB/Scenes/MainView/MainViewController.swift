@@ -70,7 +70,6 @@ final class MainViewController: UIViewController {
     func setDetailView() {
         view.bringSubviewToFront(collectionView)
         collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
-        collectionView.heightAnchor.constraint(equalToConstant: self.view.bounds.height / 5).isActive = true
     }
 
     // MARK: - configure VIP
