@@ -8,8 +8,6 @@
 import Foundation
 
 class JsonParser: DataParser {
-    typealias JsonDict = [String: Any]
-    typealias JsonArray = [Any]
     typealias DataType = Place
     private let type = "json"
     
