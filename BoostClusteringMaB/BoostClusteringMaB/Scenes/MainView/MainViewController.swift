@@ -97,23 +97,28 @@ final class MainViewController: UIViewController {
         let point = sender.location(in: view)
         let latlng = point.convert(mapView: mapView)
         
-        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: NMF_MAX_ZOOM - 2)
+        var nowZoomLevel = mapView.zoomLevel
+        let stdZoomLevel = NMF_MAX_ZOOM - 2
+        if  nowZoomLevel < stdZoomLevel {
+            nowZoomLevel = stdZoomLevel
+        }
+        
+        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: nowZoomLevel)
         cameraUpdate.animation = .easeIn
         cameraUpdate.animationDuration = 0.8
-        mapView.moveCamera(cameraUpdate)
-        sender.state = .ended
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showAlert(latlng: latlng)
-        }
+        showAlert(latlng: latlng, cameraUpdate: cameraUpdate)
+        
+        sender.state = .ended
     }
     
-    private func showAlert(latlng: NMGLatLng) {
+    private func showAlert(latlng: NMGLatLng, cameraUpdate: NMFCameraUpdate) {
         let alert = UIAlertController(title: "POI를 추가하시겠습니까?",
                                       message: "OK를 누르면 추가합니다",
                                       preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+            self.mapView.moveCamera(cameraUpdate)
             let marker = NMFMarker()
             marker.position = latlng
             marker.mapView = self.mapView
