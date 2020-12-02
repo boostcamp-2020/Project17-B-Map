@@ -58,6 +58,7 @@
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
 		F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4A07BAD257118BF00B18415 /* Loading.storyboard */; };
 		F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A07BB125711B1900B18415 /* LoadViewController.swift */; };
+		F4AE15632577CB6600A2F473 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AE15622577CB6600A2F473 /* Geocoding.swift */; };
 		F4DB7C2A25767EFF00789E35 /* UIImageView+loadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */; };
 		F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E23D2A25727A5F008A9B4C /* DataParser.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
@@ -133,6 +134,7 @@
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
 		F4A07BAD257118BF00B18415 /* Loading.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		F4A07BB125711B1900B18415 /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
+		F4AE15622577CB6600A2F473 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+loadImage.swift"; sourceTree = "<group>"; };
 		F4E23D2A25727A5F008A9B4C /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				C3FB0859256B882200B93665 /* LatLng.swift */,
 				C3FB086A256B8D8D00B93665 /* POIModel.swift */,
 				C3FB0854256B87A200B93665 /* LinkedList.swift */,
+				F4AE15622577CB6600A2F473 /* Geocoding.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -648,6 +651,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				709707D12576047F00D3FC36 /* POI.swift in Sources */,
+				F4AE15632577CB6600A2F473 /* Geocoding.swift in Sources */,
 				70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */,
 				DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */,
 				70E2A21F25776C0D009A5ADC /* NMFPolygonOverlay+.swift in Sources */,
