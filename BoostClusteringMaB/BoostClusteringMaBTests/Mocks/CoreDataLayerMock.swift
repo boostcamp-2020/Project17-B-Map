@@ -33,6 +33,10 @@ class CoreDataLayerMock: CoreDataManager {
 
     }
 
+    func remove(location: LatLng, completion handler: CoreDataHandler?) {
+        
+    }
+    
     func removeAll(completion handler: CoreDataHandler?) {
 
     }
