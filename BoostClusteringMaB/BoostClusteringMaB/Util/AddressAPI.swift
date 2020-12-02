@@ -31,6 +31,14 @@ final class AddressAPI {
                 completion?(.failure(error))
                 return
             }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  200...299 ~= httpResponse.statusCode else {
+                completion?(.failure(AddressAPIError.nmfClientError))
+                debugPrint(response)
+                return
+            }
+            
             guard let data = data else { return }
             
             completion?(.success(data))
