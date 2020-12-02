@@ -8,16 +8,11 @@
 import Foundation
 
 final class AddressAPI {
-    typealias JsonDict = [String: Any]
-    typealias JsonArray = [Any]
-    
     enum AddressAPIError: Error {
         case nmfClientError
     }
     
-    static var shared = AddressAPI()
-    
-    func address(lat: Double, lng: Double, completion: ((Result<String, Error>) -> Void)?) {
+    func address(lat: Double, lng: Double, completion: ((Result<Data, Error>) -> Void)?) {
         let baseURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
         guard let url = URL(string: "\(baseURL)?coords=\(lng),\(lat)&output=json&orders=roadaddr") else { return }
         guard let id = Bundle.main.infoDictionary?["NMFClientId"] as? String,
@@ -38,20 +33,7 @@ final class AddressAPI {
             }
             guard let data = data else { return }
             
-            completion?(.success(self.parse(data: data)))
+            completion?(.success(data))
         }.resume()
-    }
-    
-    private func parse(data: Data) -> String {
-        let areas = ["area1", "area2", "area3", "area4"]
-        let jsonData = try? JSONSerialization.jsonObject(with: data, options: []) as? JsonDict
-        let jsonResults = jsonData?["results"] as? JsonArray
-        let jsonFirst = jsonResults?[0] as? JsonDict
-        let jsonRegion = jsonFirst?["region"] as? JsonDict
-        
-        return areas.reduce("") { result, area in
-            guard let areaName = (jsonRegion?[area] as? [String: Any])?["name"] as? String else { return result }
-            return result + " " + areaName
-        }
     }
 }

@@ -8,6 +8,8 @@
 import Foundation
 
 class JsonParser: DataParser {
+    typealias JsonDict = [String: Any]
+    typealias JsonArray = [Any]
     typealias DataType = Place
     private let type = "json"
     
@@ -32,6 +34,19 @@ class JsonParser: DataParser {
             } catch {
                 handler(.failure(error))
             }
+        }
+    }
+    
+    private func parse(address: Data) -> String {
+        let areas = ["area1", "area2", "area3", "area4"]
+        let jsonData = try? JSONSerialization.jsonObject(with: address, options: []) as? JsonDict
+        let jsonResults = jsonData?["results"] as? JsonArray
+        let jsonFirst = jsonResults?.first as? JsonDict
+        let jsonRegion = jsonFirst?["region"] as? JsonDict
+        
+        return areas.reduce("") { result, area in
+            guard let areaName = (jsonRegion?[area] as? [String: Any])?["name"] as? String else { return result }
+            return result + " " + areaName
         }
     }
 }
