@@ -18,10 +18,7 @@ class LoadViewController: UIViewController {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
             return
         }
-        print(ProcessInfo.processInfo.environment["TestScheme"])
-        if ProcessInfo.processInfo.environment["TestScheme"] != "true" {
-            self.fetchSuccess(count: pois.count)
-        }
+        self.fetchSuccess(count: pois.count)
     }
 
     private func fetchSuccess(count: Int) {

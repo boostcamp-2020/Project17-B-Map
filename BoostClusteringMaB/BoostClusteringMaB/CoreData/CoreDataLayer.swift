@@ -90,7 +90,7 @@ final class CoreDataLayer: CoreDataManager {
     }
 
     func add(place: Place, completion handler: CoreDataHandler? = nil) {
-        add(place: place, isSave: true, completion: handler)
+            add(place: place, isSave: true, completion: handler)
     }
 
     func add(places: [Place], completion handler: CoreDataHandler? = nil) {
