@@ -13,12 +13,14 @@ class LoadViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        coreDataLayer.removeAll(completion: nil)
+
         guard let pois = coreDataLayer.fetch() else {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
             return
         }
-        self.fetchSuccess(count: pois.count)
+        if ProcessInfo.processInfo.environment["TestScheme"] != "true" {
+            self.fetchSuccess(count: pois.count)
+        }
     }
 
     private func fetchSuccess(count: Int) {
