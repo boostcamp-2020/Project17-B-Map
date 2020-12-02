@@ -8,16 +8,7 @@
 import XCTest
 @testable import BoostClusteringMaB
 
-class KMeansTest: XCTestCase {
-    
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-    
+class KMeansTest: XCTestCase {  
     // MARK: - Cluster
     
     func test_클러스터_deviation() {
@@ -32,9 +23,11 @@ class KMeansTest: XCTestCase {
             LatLng(lat: 50, lng: 50),
             LatLng(lat: 60, lng: 60)
         ]
+
+        let pois = points.map({POI(category: nil, id: nil, imageURL: nil, latLng: $0, name: nil)})
         
-        points.forEach {
-            cluster.add(point: $0)
+        pois.forEach {
+            cluster.add(poi: $0)
         }
         
         let result = 25.9272486435

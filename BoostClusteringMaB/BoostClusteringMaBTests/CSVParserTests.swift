@@ -32,11 +32,9 @@ class CSVParserTests: XCTestCase {
         timeout(1) { expectation in
             // When
             csvParser.parse(fileName: "존재하지_않는_파일", completion: { result in
-                do {
                     // Then
-                    XCTAssertThrowsError(try result.get())
+                    XCTAssertNil(try? result.get())
                     expectation.fulfill()
-                } catch {}
             })
         }
     }

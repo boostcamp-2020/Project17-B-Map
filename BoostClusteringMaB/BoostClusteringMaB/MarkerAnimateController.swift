@@ -7,91 +7,108 @@
 import UIKit
 import NMapsMap
 
-class MarkerAnimateController {
-    private var animationView: UIView?
-    private weak var projection: NMFProjection?
-
-    init(view: UIView, projection: NMFProjection) {
-        configureAnimationView(view: view)
-
-        self.projection = projection
+final class MarkerAnimateController {
+    private let markerRadius: CGFloat
+    private let mapView: NMFMapViewProtocol
+    private var animator: UIViewPropertyAnimator?
+    var view: UIView?
+    
+    init(frame: CGRect, markerRadius: CGFloat, mapView: NMFMapViewProtocol) {
+        self.markerRadius = markerRadius
+        self.mapView = mapView
+        configureAnimationView(frame: frame)
     }
-
-    private func configureAnimationView(view: UIView) {
-        let animationView = UIView(frame: view.frame)
-        animationView.backgroundColor = .clear
-        view.addSubview(animationView)
-        animationView.isUserInteractionEnabled = false
-
-        self.animationView = animationView
+    
+    private func configureAnimationView(frame: CGRect) {
+        view = UIView(frame: frame)
+        view?.backgroundColor = .clear
+        view?.isUserInteractionEnabled = false
     }
-
-    func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: @escaping () -> Void) {
+    
+    func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: (() -> Void)?) {
         let upper = isMerge ? new : old
         let lower = isMerge ? old : new
-        let group = DispatchGroup()
-
-        lower.compactMap { lowerMarker in
+        
+        let animations = lower.compactMap { lowerMarker in
             guard let upperMarker = upper
                     .map({ upperMarker in
-                        (upperMarker, lowerMarker.distance(to: upperMarker))
+                        (cluster: upperMarker, distance: lowerMarker.distance(to: upperMarker))
                     })
                     .min(by: { (lhs, rhs) -> Bool in
-                        lhs.1 < rhs.1
+                        lhs.distance < rhs.distance
                     })?
-                    .0
+                    .cluster
             else { return nil }
-
+            
             return isMerge ? (lowerMarker, upperMarker) : (upperMarker, lowerMarker)
-        }.forEach { (from: NMGLatLng, to: NMGLatLng) -> Void in
-            group.enter()
-            moveWithAnimation(from: from, to: to, complete: {
-                group.leave()
-            })
+        }.compactMap { (from: NMGLatLng, to: NMGLatLng) in
+            moveWithAnimation(from: from, to: to)
         }
-
-        group.notify(queue: .main) {
-            completion()
-        }
+        
+        stop()
+        start(animations: animations, completion: completion)
     }
-
-    private func moveWithAnimation(from source: NMGLatLng, to destination: NMGLatLng, complete: (() -> Void)?) {
-        guard let sourcePoint = projection?.point(from: source),
-              let destinationPoint = projection?.point(from: destination),
-              sourcePoint.isValid,
-              destinationPoint.isValid else {
-            complete?()
-            return
-        }
-
-        // 애니메이션 마커의 크기, 마커의 지름을 따라감
-        let radius: CGFloat = 30
-
-        let sourcePointView = MarkerImageView(frame: CGRect(x: 0, y: 0, width: radius * 2, height: radius * 2))
-        sourcePointView.center = CGPoint(x: sourcePoint.x, y: sourcePoint.y - radius)
-        sourcePointView.transform = .identity
-        animationView?.addSubview(sourcePointView)
-
-        let destinationPointView = MarkerImageView(frame: CGRect(x: 0, y: 0, width: radius * 2, height: radius * 2))
-        destinationPointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius)
-        destinationPointView.alpha = 0
-        destinationPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
-        animationView?.addSubview(destinationPointView)
-
-        UIView.animate(
+    
+    private func start(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
+        animator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
+            delay: 0,
+            options: .curveEaseInOut,
             animations: {
-                sourcePointView.center = CGPoint(x: destinationPoint.x, y: destinationPoint.y - radius * 2)
-                sourcePointView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-                sourcePointView.alpha = 0
-
-                destinationPointView.transform = .identity
-                destinationPointView.alpha = 1
-            },
-            completion: { _ in
-                sourcePointView.removeFromSuperview()
-                destinationPointView.removeFromSuperview()
-                complete?()
+                animations.forEach {
+                    $0.animation()
+                }
+            }, completion: { finalPosition in
+                animations.forEach { $0.completion() }
+                guard finalPosition == .end else { return }
+                completion?()
             })
+    }
+    
+    private func stop() {
+        animator?.stopAnimation(false)
+        animator?.finishAnimation(at: .current)
+    }
+    
+    private func moveWithAnimation(from source: NMGLatLng, to destination: NMGLatLng) -> (() -> Void, () -> Void)? {
+        let srcPoint = mapView.projection.point(from: source)
+        let dstPoint = mapView.projection.point(from: destination)
+        
+        guard srcPoint.isValid, dstPoint.isValid else { return nil }
+        
+        guard srcPoint != dstPoint else { return nil }
+        
+        let srcPointView = MarkerImageView(
+            frame: CGRect(
+                x: srcPoint.x - markerRadius,
+                y: srcPoint.y - markerRadius * 2,
+                width: markerRadius * 2,
+                height: markerRadius * 2))
+        srcPointView.transform = .identity
+        view?.addSubview(srcPointView)
+        
+        let dstPointView = MarkerImageView(
+            frame: CGRect(
+                x: dstPoint.x - markerRadius,
+                y: dstPoint.y - markerRadius * 2,
+                width: markerRadius * 2,
+                height: markerRadius * 2
+            )
+        )
+        dstPointView.alpha = 0
+        dstPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        view?.addSubview(dstPointView)
+        
+        return (animation: {
+            srcPointView.center = dstPointView.center
+            srcPointView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            srcPointView.alpha = 0
+            
+            dstPointView.transform = .identity
+            dstPointView.alpha = 1
+        }, completion: {
+            srcPointView.removeFromSuperview()
+            dstPointView.removeFromSuperview()
+        })
     }
 }
