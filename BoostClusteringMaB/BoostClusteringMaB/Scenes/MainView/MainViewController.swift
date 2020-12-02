@@ -164,7 +164,7 @@ private extension MainViewController {
     func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         zip(markers, bounds).forEach { marker, bound in
             marker.touchHandler = { _ in
-                self.touchedMarker(bounds: bound, insets: 0)
+                self.touchedMarker(bounds: bound, insets: 5)
                 return true
             }
         }
@@ -201,7 +201,8 @@ extension MainViewController: NMFMapViewCameraDelegate {
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
-        interactor?.fetchPOI(southWest: southWest, northEast: northEast)
+        let zoomLevel = mapView.zoomLevel
+        interactor?.fetchPOI(southWest: southWest, northEast: northEast, zoomLevel: zoomLevel)
     }
 }
 
