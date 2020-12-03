@@ -61,7 +61,6 @@
 		F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A07BB125711B1900B18415 /* LoadViewController.swift */; };
 		F4AE15632577CB6600A2F473 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AE15622577CB6600A2F473 /* Geocoding.swift */; };
 		F4C31B50257779D100103E98 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C31B4F257779D100103E98 /* AlertType.swift */; };
-		F4DB7C2A25767EFF00789E35 /* UIImageView+loadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */; };
 		F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E23D2A25727A5F008A9B4C /* DataParser.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
@@ -139,7 +138,6 @@
 		F4A07BB125711B1900B18415 /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
 		F4AE15622577CB6600A2F473 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		F4C31B4F257779D100103E98 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
-		F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+loadImage.swift"; sourceTree = "<group>"; };
 		F4E23D2A25727A5F008A9B4C /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
@@ -395,7 +393,6 @@
 				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
 				0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */,
 				F496019025727ED500740523 /* String+Bundle.swift */,
-				F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */,
 				70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */,
 				70E2A21625776BED009A5ADC /* CGPoint+isValid.swift */,
 				70E2A21E25776C0D009A5ADC /* NMFPolygonOverlay+.swift */,
@@ -670,7 +667,6 @@
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
-				F4DB7C2A25767EFF00789E35 /* UIImageView+loadImage.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
 				7097080A2577228900D3FC36 /* MarkerAnimateController.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
