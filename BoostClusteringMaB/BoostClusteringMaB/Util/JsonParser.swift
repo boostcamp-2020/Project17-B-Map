@@ -7,7 +7,12 @@
 
 import Foundation
 
-class JsonParser: DataParser {
+protocol JsonParserService {
+    func parse(fileName: String, completion handler: @escaping (Result<[Place], Error>) -> Void)
+    func parse(address: Data) -> String?
+}
+
+class JsonParser: DataParser, JsonParserService {
     typealias DataType = Place
     private let type = "json"
     

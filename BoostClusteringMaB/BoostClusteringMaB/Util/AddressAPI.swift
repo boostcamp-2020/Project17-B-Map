@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class AddressAPI {
+protocol AddressAPIService {
+    func address(lat: Double, lng: Double, completion: ((Result<Data, Error>) -> Void)?)
+}
+
+final class AddressAPI: AddressAPIService {
     enum AddressAPIError: Error {
         case nmfClientError
     }
@@ -35,7 +39,7 @@ final class AddressAPI {
             guard let httpResponse = response as? HTTPURLResponse,
                   200...299 ~= httpResponse.statusCode else {
                 completion?(.failure(AddressAPIError.nmfClientError))
-                debugPrint(response)
+                debugPrint(response ?? "")
                 return
             }
             
