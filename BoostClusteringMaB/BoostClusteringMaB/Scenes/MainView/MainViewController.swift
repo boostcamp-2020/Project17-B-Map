@@ -35,7 +35,10 @@ final class MainViewController: UIViewController {
     var interactor: MainBusinessLogic?
     var mapView: NMFMapView { naverMapView.mapView }
     var projection: NMFProjection { naverMapView.mapView.projection }
-    
+
+    var dotView: UIView?
+    var prevDotView: UIView?
+
     private lazy var bottomSheetViewController: DetailViewController = {
         guard let bottom = storyboard?.instantiateViewController(withIdentifier: "DetailViewController")
                 as? DetailViewController else { return DetailViewController() }
@@ -228,10 +231,27 @@ extension MainViewController: ClusteringTool {
 }
 
 extension MainViewController: DetailViewControllerDelegate {
-    func didCellSelected(lat: Double, lng: Double) {
-        let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng), zoomTo: 20)
-        cameraUpdate.animation = .easeIn
-        cameraUpdate.animationDuration = 0.8
-        mapView.moveCamera(cameraUpdate)
+    func didCellSelected(lat: Double, lng: Double, isClicked: Bool) {
+        prevDotView?.layer.removeAllAnimations()
+        if isClicked {
+            let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng), zoomTo: 20)
+            cameraUpdate.animation = .easeIn
+            cameraUpdate.animationDuration = 0.8
+            mapView.moveCamera(cameraUpdate)
+        } else {
+            let point = convertLatLngToPoint(latLng: LatLng(lat: lat, lng: lng))
+            dotAnimation(point: point)
+        }
+    }
+
+    func dotAnimation(point: CGPoint) {
+        dotView = UIView(frame: .init(x: point.x, y: point.y, width: 4, height: 4))
+        dotView?.layer.cornerRadius = 2
+        dotView?.backgroundColor = .red
+        self.naverMapView.addSubview(dotView ?? UIView())
+        UIView.animate(withDuration: 0.3, delay: 0, options: .repeat) {
+            self.dotView?.alpha = 0
+        }
+        prevDotView = dotView
     }
 }

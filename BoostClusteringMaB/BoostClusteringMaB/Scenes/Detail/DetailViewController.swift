@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol DetailViewControllerDelegate: class {
-    func didCellSelected(lat: Double, lng: Double)
+    func didCellSelected(lat: Double, lng: Double, isClicked: Bool)
 }
 
 class DetailViewController: UIViewController {
@@ -58,7 +58,8 @@ class DetailViewController: UIViewController {
         }
     }
     private var currentState: State = .minimum
-    
+    private var prevClickedCell: DetailCollectionViewCell?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.cornerRadius = 10
@@ -238,6 +239,9 @@ extension DetailViewController: UICollectionViewDelegate {
               let lng = cell.poi?.longitude else {
             return
         }
-        delegate?.didCellSelected(lat: lat, lng: lng)
+        delegate?.didCellSelected(lat: lat, lng: lng, isClicked: cell.isClicked)
+        cell.isClicked = true
+        prevClickedCell?.isClicked = false
+        prevClickedCell = cell
     }
 }
