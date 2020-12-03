@@ -26,8 +26,7 @@ final class ConvexHull {
     }
     
     private func configureInfos() {
-        let stdPoint = points[0]
-        
+        guard let stdPoint = points.first else { return }
         relativePoints = points
             .dropFirst()
             .map { $0 - stdPoint }
