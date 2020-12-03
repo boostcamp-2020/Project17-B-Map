@@ -27,6 +27,8 @@
 	<true/>
 	<key>NMFClientId</key>
 	<string>$(CLIENT_ID)</string>
+	<key>NMFClientSecret</key>
+	<string>$(CLIENT_SECRET)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

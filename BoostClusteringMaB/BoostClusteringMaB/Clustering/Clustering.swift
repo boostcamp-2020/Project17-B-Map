@@ -20,15 +20,18 @@ class Clustering {
     
     let group = DispatchGroup.init()
 
-    func findOptimalClustering(southWest: LatLng, northEast: LatLng) {
+    func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
         guard !pois.isEmpty else { return }
-        runKMeans(pois: pois)
+        runKMeans(pois: pois, zoomLevel: zoomLevel)
     }
 
-    private func runKMeans(pois: [POI]) {
-        let kRange = (2...10)
+    private func runKMeans(pois: [POI], zoomLevel: Double) {
+        let integer = Int(zoomLevel)
+        let startRange = (integer - 10 <= 0) ? 2 : integer - 10
+        let kRange = (startRange...integer)
+
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
         let serialQueue = DispatchQueue.init(label: "serial")

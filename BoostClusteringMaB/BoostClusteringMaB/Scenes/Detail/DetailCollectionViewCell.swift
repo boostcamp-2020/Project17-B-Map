@@ -8,9 +8,10 @@
 import UIKit
 
 class DetailCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var categoryLabel: UILabel!
-    @IBOutlet var storeImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var storeImageView: UIImageView!
+    @IBOutlet weak var addressLabel: UILabel!
 
     override func prepareForReuse() {
         storeImageView.image = UIImage(named: "icon")
@@ -19,6 +20,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
     func configure(poi: ManagedPOI) {
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
+        addressLabel.text = poi.address
         storeImageView.loadImage(contentsOf: poi.imageURL)
     }
     

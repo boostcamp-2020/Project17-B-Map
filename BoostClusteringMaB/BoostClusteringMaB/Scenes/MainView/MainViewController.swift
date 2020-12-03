@@ -60,7 +60,6 @@ final class MainViewController: UIViewController {
         
         do {
             try fetchedResultsController?.performFetch()
-            //            collectionView.reloadData()
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
@@ -169,7 +168,7 @@ private extension MainViewController {
     func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         zip(markers, bounds).forEach { marker, bound in
             marker.touchHandler = { _ in
-                self.touchedMarker(bounds: bound, insets: 0)
+                self.touchedMarker(bounds: bound, insets: 5)
                 return true
             }
         }
@@ -206,7 +205,8 @@ extension MainViewController: NMFMapViewCameraDelegate {
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
-        interactor?.fetchPOI(southWest: southWest, northEast: northEast)
+        let zoomLevel = mapView.zoomLevel
+        interactor?.fetchPOI(southWest: southWest, northEast: northEast, zoomLevel: zoomLevel)
     }
 }
 
@@ -243,13 +243,13 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
                     newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            collectionView.insertItems(at: [newIndexPath!])
+            collectionView.insertItems(at: [newIndexPath ?? .init()])
         case .delete:
-            collectionView.deleteItems(at: [indexPath!])
+            collectionView.deleteItems(at: [indexPath ?? .init()])
         case .update:
-            collectionView.reloadItems(at: [indexPath!])
+            collectionView.reloadItems(at: [indexPath ?? .init()])
         case .move:
-            collectionView.moveItem(at: indexPath!, to: newIndexPath!)
+            collectionView.moveItem(at: indexPath ?? .init(), to: newIndexPath ?? .init())
         @unknown default:
             fatalError()
         }
