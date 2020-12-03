@@ -164,11 +164,14 @@ private extension MainViewController {
     
     func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         zip(markers, bounds).forEach { marker, bound in
-            marker.touchHandler = { _ in
+            marker.touchHandler = { [weak self] _ in
+                guard let self = self else {
+                    return true
+                }
+                
                 if marker.captionText == "1" {
                     self.showAlert(latlng: marker.position, type: .delete) {
                         marker.mapView = nil
-                        
                         self.interactor?.deleteLocation(LatLng(marker.position),
                                                         southWest: self.boundsLatLng.southWest,
                                                         northEast: self.boundsLatLng.northEast,

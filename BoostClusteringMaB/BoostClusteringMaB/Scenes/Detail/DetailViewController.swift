@@ -10,7 +10,7 @@ import CoreData
 
 class DetailViewController: UIViewController {
     
-    var fullViewYPosition: CGFloat { view.safeAreaLayoutGuide.layoutFrame.minY + 20 }
+    var fullViewYPosition: CGFloat = 44
     var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
     var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - searchBar.frame.height - 44 }
     
