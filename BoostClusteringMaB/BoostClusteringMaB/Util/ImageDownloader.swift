@@ -17,6 +17,7 @@ enum ImageDownloadError: Error {
 class ImageDownloader {
     static let shared = ImageDownloader()
     private init() {}
+    private let imageCache = NSCache<NSString, UIImage>()
     
     func fetch(imageURL urlString: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
         guard let url = URL(string: urlString) else {
@@ -25,7 +26,7 @@ class ImageDownloader {
         }
         
         // check cached image
-        if let cachedImage = imageCache.object(forKey: urlString as NSString) as? UIImage {
+        if let cachedImage = imageCache.object(forKey: urlString as NSString) {
             completion(.success(cachedImage))
             return
         }
@@ -50,7 +51,7 @@ class ImageDownloader {
             
             DispatchQueue.main.async {
                 if let image = UIImage(data: data) {
-                    imageCache.setObject(image, forKey: urlString as NSString)
+                    self.imageCache.setObject(image, forKey: urlString as NSString)
                     completion(.success(image))
                 } else {
                     completion(.failure(ImageDownloadError.dataIsInvalid))
