@@ -13,16 +13,17 @@ import CoreData
 public class ManagedPOI: NSManagedObject {
     func toPOI() -> POI {
         let latlng = LatLng(lat: latitude, lng: longitude)
-        let poi = POI(category: category, id: id, imageURL: imageURL, latLng: latlng, name: name)
+        let poi = POI(address: address, category: category, id: id, imageURL: imageURL, latLng: latlng, name: name)
         return poi
     }
 
-    func fromPOI(_ poi: POI) {
+    func fromPOI(_ poi: Place, _ addressPlace: String) {
+        address = addressPlace
         category = poi.category
         id = poi.id
         imageURL = poi.imageURL
-        latitude = poi.latLng.lat
-        longitude = poi.latLng.lng
+        latitude = Double(poi.y) ?? 0
+        longitude = Double(poi.x) ?? 0
         name = poi.name
     }
 }

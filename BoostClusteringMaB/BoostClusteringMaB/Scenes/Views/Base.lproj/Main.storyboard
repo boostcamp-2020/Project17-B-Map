@@ -60,21 +60,31 @@
                                                         <constraint firstAttribute="height" constant="98" id="mFq-Co-3o8"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejS-xO-Coy">
+                                                    <rect key="frame" x="20" y="88" width="47.5" height="25"/>
+                                                    <fontDescription key="fontDescription" name="BMEuljiro10yearslaterOTF" family="BM Euljiro 10 years later OTF" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="jJd-zK-iLf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9jr-Fv-8b9" secondAttribute="trailing" constant="20" id="9Bv-3b-MZB"/>
+                                                <constraint firstItem="ejS-xO-Coy" firstAttribute="top" secondItem="gX2-md-A1o" secondAttribute="bottom" constant="10" id="Cb0-ea-Diu"/>
                                                 <constraint firstItem="jJd-zK-iLf" firstAttribute="leading" secondItem="gX2-md-A1o" secondAttribute="trailing" constant="113" id="ExK-cB-Ke7"/>
                                                 <constraint firstAttribute="trailing" secondItem="jJd-zK-iLf" secondAttribute="trailing" constant="10" id="FbB-uI-VjR"/>
                                                 <constraint firstItem="9jr-Fv-8b9" firstAttribute="top" secondItem="psY-p1-UTh" secondAttribute="top" constant="20" id="HCB-Ng-1Wx"/>
                                                 <constraint firstAttribute="bottom" secondItem="gX2-md-A1o" secondAttribute="bottom" constant="50" id="Kbw-R4-Ed9"/>
+                                                <constraint firstItem="ejS-xO-Coy" firstAttribute="leading" secondItem="psY-p1-UTh" secondAttribute="leading" constant="20" id="L42-oj-trn"/>
                                                 <constraint firstItem="jJd-zK-iLf" firstAttribute="centerY" secondItem="psY-p1-UTh" secondAttribute="centerY" id="McI-AN-Kh4"/>
                                                 <constraint firstItem="9jr-Fv-8b9" firstAttribute="leading" secondItem="psY-p1-UTh" secondAttribute="leading" constant="20" id="ZPL-Hp-PLe"/>
                                                 <constraint firstItem="gX2-md-A1o" firstAttribute="leading" secondItem="psY-p1-UTh" secondAttribute="leading" constant="20" id="mgm-Q4-7Nk"/>
+                                                <constraint firstAttribute="bottom" secondItem="ejS-xO-Coy" secondAttribute="bottom" constant="15" id="oi9-7C-oVv"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                         <gestureRecognizers/>
                                         <connections>
+                                            <outlet property="addressLabel" destination="ejS-xO-Coy" id="t6y-BS-wSu"/>
                                             <outlet property="categoryLabel" destination="gX2-md-A1o" id="RuG-b7-SUQ"/>
                                             <outlet property="nameLabel" destination="9jr-Fv-8b9" id="jGq-HS-7FU"/>
                                             <outlet property="storeImageView" destination="jJd-zK-iLf" id="1uj-sC-CuZ"/>

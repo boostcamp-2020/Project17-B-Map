@@ -68,7 +68,6 @@ final class MainViewController: UIViewController {
         
         do {
             try fetchedResultsController?.performFetch()
-            //            collectionView.reloadData()
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
@@ -115,7 +114,8 @@ final class MainViewController: UIViewController {
             self.showAlert(latlng: latlng, type: .append) {
                 self.interactor?.addLocation(LatLng(latlng),
                                              southWest: self.boundsLatLng.southWest,
-                                             northEast: self.boundsLatLng.northEast)
+                                             northEast: self.boundsLatLng.northEast,
+                                             zoomLevel: self.mapView.zoomLevel)
             }
         }
     }
@@ -179,10 +179,11 @@ private extension MainViewController {
                         
                         self.interactor?.deleteLocation(LatLng(marker.position),
                                                         southWest: self.boundsLatLng.southWest,
-                                                        northEast: self.boundsLatLng.northEast)
+                                                        northEast: self.boundsLatLng.northEast,
+                                                        zoomLevel: self.mapView.zoomLevel)
                     }
                 } else {
-                    self.touchedMarker(bounds: bound, insets: 0)
+                    self.touchedMarker(bounds: bound, insets: 5)
                 }
                 return true
             }
@@ -217,7 +218,8 @@ private extension MainViewController {
 
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
+        let zoomLevel = mapView.zoomLevel
+        interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
     }
 }
 
@@ -254,13 +256,13 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
                     newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            collectionView.insertItems(at: [newIndexPath!])
+            collectionView.insertItems(at: [newIndexPath ?? .init()])
         case .delete:
-            collectionView.deleteItems(at: [indexPath!])
+            collectionView.deleteItems(at: [indexPath ?? .init()])
         case .update:
-            collectionView.reloadItems(at: [indexPath!])
+            collectionView.reloadItems(at: [indexPath ?? .init()])
         case .move:
-            collectionView.moveItem(at: indexPath!, to: newIndexPath!)
+            collectionView.moveItem(at: indexPath ?? .init(), to: newIndexPath ?? .init())
         @unknown default:
             fatalError()
         }

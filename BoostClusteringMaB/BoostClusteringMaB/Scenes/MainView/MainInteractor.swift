@@ -12,9 +12,9 @@ protocol MainDataStore {
 }
 
 protocol MainBusinessLogic {
-    func fetchPOI(southWest: LatLng, northEast: LatLng)
-    func addLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng)
-    func deleteLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng)
+    func fetchPOI(southWest: LatLng, northEast: LatLng, zoomLevel: Double)
+    func addLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng, zoomLevel: Double)
+    func deleteLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng, zoomLevel: Double)
 }
 
 final class MainInteractor: MainDataStore {
@@ -34,23 +34,23 @@ final class MainInteractor: MainDataStore {
 }
 
 extension MainInteractor: MainBusinessLogic {
-    func fetchPOI(southWest: LatLng, northEast: LatLng) {
-        clustering?.findOptimalClustering(southWest: southWest, northEast: northEast)
+    func fetchPOI(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
+        clustering?.findOptimalClustering(southWest: southWest, northEast: northEast, zoomLevel: zoomLevel)
     }
     
-    func addLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng) {
+    func addLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
         coreDataLayer.add(place: Place(id: "9999", name: "새로운 데이터",
                                        x: "\(latlng.lng)",
                                        y: "\(latlng.lat)",
                                        imageURL: nil,
                                        category: "new")) { _ in
-            self.fetchPOI(southWest: southWest, northEast: northEast)
+            self.fetchPOI(southWest: southWest, northEast: northEast, zoomLevel: zoomLevel)
         }
     }
     
-    func deleteLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng) {
+    func deleteLocation(_ latlng: LatLng, southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
         coreDataLayer.remove(location: latlng) { _ in
-            self.fetchPOI(southWest: southWest, northEast: northEast)
+            self.fetchPOI(southWest: southWest, northEast: northEast, zoomLevel: zoomLevel)
         }
     }
 }
