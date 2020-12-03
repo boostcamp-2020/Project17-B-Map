@@ -20,7 +20,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
         return indicator
     }()
     
-    private var task: URLSessionTask?
+    private weak var task: URLSessionTask?
     
     override func prepareForReuse() {
         storeImageView.image = UIImage(named: "icon")
