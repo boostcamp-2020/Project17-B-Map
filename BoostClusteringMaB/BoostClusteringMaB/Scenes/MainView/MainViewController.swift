@@ -18,7 +18,6 @@ extension NMFMapView: NMFMapViewProtocol { }
 
 protocol MainDisplayLogic: class {
     func displayFetch(viewModel: ViewModel)
-    func displayedCollectionViewCellData(southWest: LatLng, northEast: LatLng)
 }
 
 final class MainViewController: UIViewController {
@@ -29,9 +28,9 @@ final class MainViewController: UIViewController {
         naverMapView.addSubview(animationView)
         return controller
     }()
-//    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    //    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
     lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
-
+    
     var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     var interactor: MainBusinessLogic?
     var mapView: NMFMapView { naverMapView.mapView }
@@ -68,7 +67,7 @@ final class MainViewController: UIViewController {
         let maxY = view.frame.maxY
         bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
     }
-
+    
     // MARK: - configure VIP
     private func configureVIP() {
         let interactor = MainInteractor()
@@ -129,10 +128,6 @@ final class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainDisplayLogic {
-    func displayedCollectionViewCellData(southWest: LatLng, northEast: LatLng) {
-        bottomSheetViewController.reloadPOI(southWest: southWest, northEast: northEast)
-    }
-
     func displayFetch(viewModel: ViewModel) {
         let oldViewModel = displayedData
         displayedData = viewModel
@@ -144,9 +139,9 @@ extension MainViewController: MainDisplayLogic {
             self.configureFirstMarkers(newMarkers: newViewModel.markers, bounds: newViewModel.bounds)
             return
         }
-
+        
         self.setOveraysMapView(overlays: oldViewModel.polygons, mapView: nil)
-
+        
         self.markerChangeAnimation(
             oldMarkers: oldViewModel.markers,
             newMarkers: newViewModel.markers,
@@ -203,7 +198,7 @@ private extension MainViewController {
                                bounds: [NMGLatLngBounds],
                                completion: (() -> Void)?) {
         self.setOveraysMapView(overlays: oldMarkers, mapView: nil)
-
+        
         self.markerAnimationController.clusteringAnimation(
             old: oldMarkers.map { $0.position },
             new: newMarkers.map { $0.position },
@@ -221,7 +216,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
         let zoomLevel = mapView.zoomLevel
         interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
         if bottomSheetViewController.collectionView != nil {
-                interactor?.fetchPOICoverageArea(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
+            bottomSheetViewController.reloadPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
         }
     }
 }
