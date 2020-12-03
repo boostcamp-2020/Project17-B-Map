@@ -12,7 +12,9 @@ class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var storeImageView: UIImageView!
     @IBOutlet weak var addressLabel: UILabel!
-
+    // TODO : activity indicator 추가
+    var imageURL: String?
+    
     override func prepareForReuse() {
         storeImageView.image = UIImage(named: "icon")
     }
@@ -21,7 +23,19 @@ class DetailCollectionViewCell: UICollectionViewCell {
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
         addressLabel.text = poi.address
-        storeImageView.loadImage(contentsOf: poi.imageURL)
+        
+        guard let imageURL = poi.imageURL else {
+            return
+        }
+        
+        ImageDownloader.shared.fetch(imageURL: imageURL) { result in
+            guard let image = try? result.get() else {
+                return
+            }
+            
+            if imageURL == poi.imageURL {
+                self.storeImageView.image = image
+            }
+        }
     }
-    
 }
