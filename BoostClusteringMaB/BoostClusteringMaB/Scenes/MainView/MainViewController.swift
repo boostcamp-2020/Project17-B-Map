@@ -215,6 +215,10 @@ private extension MainViewController {
 }
 
 extension MainViewController: NMFMapViewCameraDelegate {
+    func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
+        prevDotView?.layer.removeAllAnimations()
+    }
+    
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let zoomLevel = mapView.zoomLevel
         interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
