@@ -255,9 +255,8 @@
 		707E63DF25749074003F0E10 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				C3A572E425787F9200C2B008 /* DetailView */,
+				C3A572E425787F9200C2B008 /* Detail */,
 				0DF97E34256B9F280007BCEE /* Views */,
-				709707F72577202200D3FC36 /* Detail */,
 				F4A07BBB2571203700B18415 /* Loading */,
 				709707F62577201600D3FC36 /* MainView */,
 			);
@@ -341,13 +340,13 @@
 			path = MainView;
 			sourceTree = "<group>";
 		};
-		709707F72577202200D3FC36 /* Detail */ = {
+		709707F72577202200D3FC36 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				DA805DB5257612890067325E /* DetailCollectionViewCell.swift */,
 				DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */,
 			);
-			path = Detail;
+			path = View;
 			sourceTree = "<group>";
 		};
 		70970808257721E300D3FC36 /* Models */ = {
@@ -403,12 +402,13 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		C3A572E425787F9200C2B008 /* DetailView */ = {
+		C3A572E425787F9200C2B008 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				709707F72577202200D3FC36 /* View */,
 				C3A572E525787FA300C2B008 /* DetailViewController.swift */,
 			);
-			path = DetailView;
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		C3FB084F256B873F00B93665 /* POIRawData */ = {
