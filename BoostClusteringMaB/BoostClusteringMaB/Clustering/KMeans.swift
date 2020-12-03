@@ -41,7 +41,7 @@ class KMeans {
     
     //시간은 maxK를 조정하는방식으로 줌레벨에 따라 + 애니메이션
     func run() {
-        let maxIteration = 5 // 없으면 2~30번 돈다.
+        let maxIteration = 100 // 없으면 2~30번 돈다.
         //		let initCenters = randomCenters(count: k, points: points)
         let initCenters = randomCentersByPointsIndex(count: k, pois: pois)
         clusters = generateClusters(centers: initCenters)
