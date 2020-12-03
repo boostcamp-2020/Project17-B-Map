@@ -69,10 +69,10 @@ class JsonParser: DataParser, JsonParserService {
                 return "\(area1) \(area2) \(area3) \(area4)"
             }
             
-//            // 건물명 얻어오기 - 없는 경우가 더 많음
-//            if land?.addition0?.type == "building" {
-//                let buildingName = land?.addition0?.value
-//            }
+            //            // 건물명 얻어오기 - 없는 경우가 더 많음
+            //            if land?.addition0?.type == "building" {
+            //                let buildingName = land?.addition0?.value
+            //            }
         } catch {
             debugPrint(error.localizedDescription)
             return nil

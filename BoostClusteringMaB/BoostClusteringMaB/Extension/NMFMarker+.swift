@@ -10,7 +10,7 @@ import NMapsMap
 
 extension NMFMarker {
     static let markerImageView = MarkerImageView(radius: 30)
-
+    
     /// 위치와 갯수를 입력하면 NMFMarker배열로 만들어줌
     /// - Parameters:
     ///   - latLngs: 클러스터 위치
@@ -26,7 +26,7 @@ extension NMFMarker {
             return marker
         }
     }
-
+    
     /// count를 입력하면 네이버 맵뷰에 마커 찍어줌
     /// - Parameters:
     ///   - view: MarkerImageView

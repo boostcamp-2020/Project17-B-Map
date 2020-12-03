@@ -16,7 +16,7 @@ public class ManagedPOI: NSManagedObject {
         let poi = POI(address: address, category: category, id: id, imageURL: imageURL, latLng: latlng, name: name)
         return poi
     }
-
+    
     func fromPOI(_ poi: Place, _ addressPlace: String) {
         address = addressPlace
         category = poi.category

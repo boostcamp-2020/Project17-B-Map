@@ -8,6 +8,10 @@
 import UIKit
 import CoreData
 
+protocol DetailViewControllerDelegate: class {
+    func didCellSelected(lat: Double, lng: Double)
+}
+
 class DetailViewController: UIViewController {
     
     var fullViewYPosition: CGFloat = 44
@@ -228,8 +232,4 @@ extension DetailViewController: UICollectionViewDelegate {
         }
         delegate?.didCellSelected(lat: lat, lng: lng)
     }
-}
-
-protocol DetailViewControllerDelegate: class {
-    func didCellSelected(lat: Double, lng: Double)
 }
