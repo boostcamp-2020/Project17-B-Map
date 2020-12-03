@@ -190,9 +190,17 @@ extension DetailViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(poi: object)
+//        cell.transform = .init(scaleX: 0, y: 0)
+//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
+//            cell.transform = .init(scaleX: 1.1, y: 1.1)
+//        }, completion: { _ in
+//            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+//                cell.transform = .identity
+//            })
+//        })
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
@@ -219,7 +227,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.bounds.width - 20, height: 110)
+        return CGSize(width: self.view.bounds.width - 40, height: 110)
     }
 }
 
