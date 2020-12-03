@@ -10,14 +10,96 @@ import CoreData
 
 class DetailViewController: UIViewController {
     
+    var fullViewYPosition: CGFloat { view.safeAreaLayoutGuide.layoutFrame.minY + 20 }
+    var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
+    var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - searchBar.frame.height - 44 }
+    
+    private enum State {
+        case minimum // 서치바만
+        case partial // 기본
+        case full
+        
+        var next: State {
+            switch self {
+            case .minimum:
+                return .partial
+            case .partial:
+                return .full
+            case .full:
+                return .full
+            }
+        }
+        
+        var prev: State {
+            switch self {
+            case .minimum:
+                return .minimum
+            case .partial:
+                return .minimum
+            case .full:
+                return .partial
+            }
+        }
+    }
+    
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet weak var dragBar: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var fetchedResultsController: NSFetchedResultsController<ManagedPOI>?
+    private var currentState: State = .minimum
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
+        view.layer.cornerRadius = 10
+        dragBar.layer.cornerRadius = 3
         initializeFetchedResultsController()
+        configureGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIView.animate(withDuration: 0.6) {
+            self.moveView(state: .minimum)
+        }
+    }
+    
+    private func configureGesture() {
+        let gesture = UIPanGestureRecognizer.init(target: self, action: #selector(panGesture))
+        view.addGestureRecognizer(gesture)
+    }
+    
+    private func moveView(state: State) {
+        let yPosition: CGFloat
+        switch state {
+        case .minimum:
+            yPosition = minimumViewYPosition
+        case .partial:
+            yPosition = partialViewYPosition
+        case .full:
+            yPosition = fullViewYPosition
+        }
+        view.frame = CGRect(x: 0, y: yPosition, width: view.frame.width, height: view.frame.height)
+        currentState = state
+    }
+    
+    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: view)
+        let minY = view.frame.minY
+        if (minY + translation.y >= fullViewYPosition) && (minY + translation.y <= minimumViewYPosition) {
+            view.frame = CGRect(x: 0, y: minY + translation.y, width: view.frame.width, height: view.frame.height)
+            recognizer.setTranslation(CGPoint.zero, in: view)
+        }
+    }
+    
+    @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
+        moveView(panGestureRecognizer: recognizer)
+        if recognizer.state == .ended {
+            UIView.animate(withDuration: 1, delay: 0, options: [.allowUserInteraction]) {
+                let nextState: State = recognizer.velocity(in: self.view).y >= 0 ? self.currentState.prev : self.currentState.next
+                self.moveView(state: nextState)
+            }
+        }
     }
     
     func initializeFetchedResultsController() {
@@ -37,6 +119,7 @@ class DetailViewController: UIViewController {
         }
     }
 }
+
 extension DetailViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
@@ -75,7 +158,6 @@ extension DetailViewController: NSFetchedResultsControllerDelegate {
             fatalError()
         }
     }
-    
 }
 
 extension DetailViewController: UICollectionViewDataSource {
@@ -97,9 +179,6 @@ extension DetailViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(poi: object)
-        cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 10
-        
         return cell
     }
     
@@ -121,12 +200,12 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        2
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: self.view.bounds.width - 20, height: 110)
+        return CGSize(width: self.view.bounds.width - 20, height: 110)
     }
 }

@@ -61,9 +61,9 @@ final class MainViewController: UIViewController {
         addChild(bottomSheetViewController)
         view.addSubview(bottomSheetViewController.view)
         bottomSheetViewController.didMove(toParent: self)
-        let height = view.frame.height / 5
+        let height = view.frame.height
         let width = view.frame.width
-        let maxY = view.frame.maxY - 100
+        let maxY = view.frame.maxY
         bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
     }
 

@@ -24,4 +24,23 @@ class DetailCollectionViewCell: UICollectionViewCell {
         storeImageView.loadImage(contentsOf: poi.imageURL)
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configureCell()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configureCell()
+    }
+    
+    func configureCell() {
+        layer.borderWidth = 1
+        layer.cornerRadius = 10
+    }
 }
