@@ -15,11 +15,11 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Main View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Detail View Controller-->
+        <scene sceneID="dOL-lg-49v">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="BoostClusteringMaB" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <viewController id="K5Z-gn-8um" customClass="DetailViewController" customModule="BoostClusteringMaB" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="05W-Bi-hBX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -38,7 +38,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="psY-p1-UTh">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="128"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jr-Fv-8b9">
                                                     <rect key="frame" x="20" y="20" width="41.5" height="20"/>
@@ -118,14 +118,29 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="iv3-Mm-XWP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="v9C-RS-7El" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="KYq-nj-DW4"/>
-                            <constraint firstItem="v9C-RS-7El" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="1/5" id="OHT-p5-ypX"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="v9C-RS-7El" secondAttribute="trailing" id="VlS-eh-Dui"/>
-                            <constraint firstAttribute="bottom" secondItem="v9C-RS-7El" secondAttribute="bottom" id="qIx-DM-BB2"/>
+                            <constraint firstAttribute="bottom" secondItem="v9C-RS-7El" secondAttribute="bottom" id="QEg-hc-wEq"/>
+                            <constraint firstItem="v9C-RS-7El" firstAttribute="leading" secondItem="iv3-Mm-XWP" secondAttribute="leading" id="fur-qa-9AM"/>
+                            <constraint firstItem="v9C-RS-7El" firstAttribute="trailing" secondItem="iv3-Mm-XWP" secondAttribute="trailing" id="lPX-KL-c8R"/>
+                            <constraint firstItem="v9C-RS-7El" firstAttribute="height" secondItem="iv3-Mm-XWP" secondAttribute="height" multiplier="1/5" id="n7d-xb-RrA"/>
                         </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hzQ-YD-kXu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="884" y="-10"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="BoostClusteringMaB" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="v9C-RS-7El" id="vlf-Xy-P6U"/>
