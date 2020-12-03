@@ -36,7 +36,7 @@ protocol CoreDataManager {
 final class CoreDataLayer: CoreDataManager {
     var addressAPI: AddressAPIService = AddressAPI()
     var jsonParser: JsonParserService = JsonParser()
-    
+
     private lazy var childContext: NSManagedObjectContext = {
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         
@@ -62,8 +62,6 @@ final class CoreDataLayer: CoreDataManager {
                                           cacheName: nil)
     }
 
-    private lazy var addressAPI = AddressAPI()
-    private lazy var jsonParser = JsonParser()
     private func add(place: Place, isSave: Bool, completion handler: CoreDataHandler? = nil) {
         guard let latitude = Double(place.y),
               let longitude = Double(place.x) else {

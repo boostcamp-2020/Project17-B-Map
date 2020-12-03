@@ -35,9 +35,12 @@ final class MainViewController: UIViewController {
     var interactor: MainBusinessLogic?
     var mapView: NMFMapView { naverMapView.mapView }
     var projection: NMFProjection { naverMapView.mapView.projection }
-    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>?
     
-    @IBOutlet var collectionView: UICollectionView!
+    private lazy var bottomSheetViewController: DetailViewController = {
+        guard let bottom = storyboard?.instantiateViewController(withIdentifier: "DetailViewController")
+                as? DetailViewController else { return DetailViewController() }
+        return bottom
+    }()
     
     var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
@@ -51,32 +54,17 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureVIP()
         configureMapView()
-        setDetailView()
-        initializeFetchedResultsController()
+        configureBottomSheetView()
     }
-
-    func initializeFetchedResultsController() {
-        
-        let coreDataLayer = CoreDataLayer()
-        
-        fetchedResultsController = coreDataLayer.makeFetchResultsController(
-            southWest: LatLng(lat: 30, lng: 120),
-            northEast: LatLng(lat: 45, lng: 135)
-        )
-        
-        fetchedResultsController?.delegate = self
-        
-        do {
-            try fetchedResultsController?.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-        
-    }
-
-    func setDetailView() {
-        view.bringSubviewToFront(collectionView)
-        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
+    
+    func configureBottomSheetView() {
+        addChild(bottomSheetViewController)
+        view.addSubview(bottomSheetViewController.view)
+        bottomSheetViewController.didMove(toParent: self)
+        let height = view.frame.height
+        let width = view.frame.width
+        let maxY = view.frame.maxY
+        bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
     }
 
     // MARK: - configure VIP
@@ -113,12 +101,14 @@ final class MainViewController: UIViewController {
         let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: nowZoomLevel)
         cameraUpdate.animation = .easeIn
         cameraUpdate.animationDuration = 0.8
+        sender.state = .ended
         
         self.showAlert(latlng: latlng, type: .append) {
             self.interactor?.addLocation(LatLng(latlng),
                                          southWest: self.boundsLatLng.southWest,
                                          northEast: self.boundsLatLng.northEast,
                                          zoomLevel: self.mapView.zoomLevel)
+            self.mapView.moveCamera(cameraUpdate)
         }
     }
     
@@ -141,7 +131,7 @@ extension MainViewController: MainDisplayLogic {
         let oldViewModel = displayedData
         displayedData = viewModel
         redrawMap(oldViewModel: oldViewModel, newViewModel: viewModel)
-        collectionView.reloadData()
+        //collectionView.reloadData()
     }
     
     private func redrawMap(oldViewModel: ViewModel?, newViewModel: ViewModel) {
@@ -231,97 +221,5 @@ extension MainViewController: NMFMapViewCameraDelegate {
 extension MainViewController: ClusteringTool {
     func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
         return projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-    }
-}
-
-extension MainViewController: NSFetchedResultsControllerDelegate {
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange sectionInfo: NSFetchedResultsSectionInfo,
-                    atSectionIndex sectionIndex: Int,
-                    for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            collectionView.insertSections(IndexSet(integer: sectionIndex))
-        case .delete:
-            collectionView.deleteSections(IndexSet(integer: sectionIndex))
-        case .move:
-            break
-        case .update:
-            break
-        @unknown default:
-            fatalError()
-        }
-    }
-
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            collectionView.insertItems(at: [newIndexPath ?? .init()])
-        case .delete:
-            collectionView.deleteItems(at: [indexPath ?? .init()])
-        case .update:
-            collectionView.reloadItems(at: [indexPath ?? .init()])
-        case .move:
-            collectionView.moveItem(at: indexPath ?? .init(), to: newIndexPath ?? .init())
-        @unknown default:
-            fatalError()
-        }
-    }
-
-}
-
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: self.view.bounds.width - 20, height: 110)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let fetchedResultsController = fetchedResultsController,
-              let sections = fetchedResultsController.sections
-        else { return 0 }
-        
-        return sections[section].numberOfObjects
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
-                                                            for: indexPath)
-                as? DetailCollectionViewCell,
-              let object = fetchedResultsController?.object(at: indexPath)
-        else {
-            return UICollectionViewCell()
-        }
-        cell.configure(poi: object)
-        cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 10
-
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: "header",
-                                                                           for: indexPath)
-                as? DetailCollectionReusableView
-        else { return UICollectionReusableView() }
-        header.poiNumberLabel.text = "\(displayedData.count)개"
-        return header
     }
 }

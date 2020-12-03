@@ -43,6 +43,7 @@
 		C3496436256CEBAE001F40AA /* KMeansTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3496435256CEBAE001F40AA /* KMeansTest.swift */; };
 		C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A28798256F986D00DF23B1 /* Clustering.swift */; };
 		C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */; };
+		C3A572E625787FA300C2B008 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A572E525787FA300C2B008 /* DetailViewController.swift */; };
 		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
 		C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB0850256B875800B93665 /* gangnam_8000.json */; };
 		C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0854256B87A200B93665 /* LinkedList.swift */; };
@@ -120,6 +121,7 @@
 		C3496435256CEBAE001F40AA /* KMeansTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeansTest.swift; sourceTree = "<group>"; };
 		C3A28798256F986D00DF23B1 /* Clustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clustering.swift; sourceTree = "<group>"; };
 		C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHull.swift; sourceTree = "<group>"; };
+		C3A572E525787FA300C2B008 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		C3FB084B256B873700B93665 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
 		C3FB0850256B875800B93665 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		C3FB0854256B87A200B93665 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
@@ -253,8 +255,8 @@
 		707E63DF25749074003F0E10 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C3A572E425787F9200C2B008 /* Detail */,
 				0DF97E34256B9F280007BCEE /* Views */,
-				709707F72577202200D3FC36 /* Detail */,
 				F4A07BBB2571203700B18415 /* Loading */,
 				709707F62577201600D3FC36 /* MainView */,
 			);
@@ -338,13 +340,13 @@
 			path = MainView;
 			sourceTree = "<group>";
 		};
-		709707F72577202200D3FC36 /* Detail */ = {
+		709707F72577202200D3FC36 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				DA805DB5257612890067325E /* DetailCollectionViewCell.swift */,
 				DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */,
 			);
-			path = Detail;
+			path = View;
 			sourceTree = "<group>";
 		};
 		70970808257721E300D3FC36 /* Models */ = {
@@ -398,6 +400,15 @@
 				70E2A21E25776C0D009A5ADC /* NMFPolygonOverlay+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		C3A572E425787F9200C2B008 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				709707F72577202200D3FC36 /* View */,
+				C3A572E525787FA300C2B008 /* DetailViewController.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		C3FB084F256B873F00B93665 /* POIRawData */ = {
@@ -682,6 +693,7 @@
 				707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
 				F496019125727ED500740523 /* String+Bundle.swift in Sources */,
+				C3A572E625787FA300C2B008 /* DetailViewController.swift in Sources */,
 				C3FB085A256B882200B93665 /* LatLng.swift in Sources */,
 				0DE756532577800F00CAB059 /* AddressAPI.swift in Sources */,
 				0D781E8025709E8D00D8A49E /* NMFMarker+.swift in Sources */,
