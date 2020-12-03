@@ -77,7 +77,7 @@ class Clustering {
     }
     
     func combineClusters(clusters: [Cluster]) -> [Cluster] {
-        let stdDistance: Double = 90
+        let stdDistance: Double = 60
         var newClusters = clusters
         
         for i in 0..<clusters.count {
