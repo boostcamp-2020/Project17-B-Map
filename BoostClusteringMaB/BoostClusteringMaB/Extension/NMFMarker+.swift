@@ -19,6 +19,8 @@ extension NMFMarker {
     static func markers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
         return zip(latLngs, pointSizes).map { latLng, pointSize in
             let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
+            marker.captionText = "\(pointSize)"
+            marker.captionTextSize = 0
             guard pointSize != 1 else { return marker }
             marker.setImageView(markerImageView, count: pointSize)
             return marker

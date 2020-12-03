@@ -26,6 +26,7 @@ protocol CoreDataManager {
                sorted: Bool
                 ) -> [ManagedPOI]?
     func remove(poi: ManagedPOI, completion handler: CoreDataHandler?)
+    func remove(location: LatLng, completion handler: CoreDataHandler?)
     func removeAll(completion handler: CoreDataHandler?)
     func makeFetchResultsController(southWest: LatLng,
                                     northEast: LatLng) -> NSFetchedResultsController<ManagedPOI>
@@ -155,6 +156,19 @@ final class CoreDataLayer: CoreDataManager {
         return try? childContext.fetch(request)
     }
     
+    private func fetch(location: LatLng) -> ManagedPOI? {
+        let latitudePredicate = NSPredicate(format: "latitude == %@",
+                                            argumentArray: [location.lat])
+        let longitudePredicate = NSPredicate(format: "longitude == %@",
+                                             argumentArray: [location.lng])
+        let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
+        
+        let request: NSFetchRequest = ManagedPOI.fetchRequest()
+        request.predicate = predicate
+        
+        return try? childContext.fetch(request).first
+    }
+    
     private func makeSortDescription(sorted: Bool) -> [NSSortDescriptor]? {
         let latitudeSort = NSSortDescriptor(key: "latitude", ascending: true)
         let longitudeSort = NSSortDescriptor(key: "longitude", ascending: true)
@@ -170,6 +184,15 @@ final class CoreDataLayer: CoreDataManager {
         } catch {
             handler?(.failure(.saveError))
         }
+    }
+    
+    func remove(location: LatLng, completion handler: CoreDataHandler?) {
+        guard let managedPOI = fetch(location: location) else {
+            handler?(.failure(.invalidFetch))
+            return
+        }
+        
+        remove(poi: managedPOI, completion: handler)
     }
     
     func removeAll(completion handler: CoreDataHandler?) {
