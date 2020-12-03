@@ -16,25 +16,43 @@ class CoreDataTests: XCTestCase {
                          y: "35.55532",
                          imageURL: nil,
                          category: "부스트캠프")
-    
+
+    class AddressAPIMock: AddressAPIService {
+        func address(lat: Double, lng: Double, completion: ((Result<Data, Error>) -> Void)?) {
+            completion?(.success(.init()))
+        }
+    }
+
+    class JSONParserMock: JsonParserService {
+        func parse(fileName: String, completion handler: @escaping (Result<[Place], Error>) -> Void) {
+            handler(.success([]))
+        }
+
+        func parse(address: Data) -> String? {
+            return ""
+        }
+    }
+
     func testAddPOI() throws {
-//        // Given
-//        let layer = CoreDataLayer()
-//
-//        timeout(1) { expectation in
-//            // When
-//            layer.add(place: newPlace) { _ in
-//                let poi = layer.fetch()?.first
-//                // Then
-//                XCTAssertEqual(poi?.id, "123321")
-//                XCTAssertEqual(poi?.category, "부스트캠프")
-//                XCTAssertEqual(poi?.imageURL, nil)
-//                XCTAssertEqual(poi?.name, "Mab")
-//                XCTAssertEqual(poi?.latitude, 35.55532)
-//                XCTAssertEqual(poi?.longitude, 124.323412)
-//                expectation.fulfill()
-//            }
-//        }
+        // Given
+        let layer = CoreDataLayer()
+        layer.addressAPI = AddressAPIMock()
+        layer.jsonParser = JSONParserMock()
+
+        timeout(1) { expectation in
+            // When
+            layer.add(place: newPlace) { _ in
+                let poi = layer.fetch()?.first
+                // Then
+                XCTAssertEqual(poi?.id, "123321")
+                XCTAssertEqual(poi?.category, "부스트캠프")
+                XCTAssertEqual(poi?.imageURL, nil)
+                XCTAssertEqual(poi?.name, "Mab")
+                XCTAssertEqual(poi?.latitude, 35.55532)
+                XCTAssertEqual(poi?.longitude, 124.323412)
+                expectation.fulfill()
+            }
+        }
     }
     
     func test_add_잘못된좌표를입력_invalidCoordinate() throws {
