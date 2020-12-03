@@ -19,37 +19,37 @@ class ImageDownloader {
     private init() {}
     private let imageCache = NSCache<NSString, UIImage>()
     
-    func fetch(imageURL urlString: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    func fetch(imageURL urlString: String, completion: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionTask? {
         guard let url = URL(string: urlString) else {
             completion(.failure(ImageDownloadError.invalidURL))
-            return
+            return nil
         }
         
         // check cached image
         if let cachedImage = imageCache.object(forKey: urlString as NSString) {
             completion(.success(cachedImage))
-            return
+            return nil
         }
         
         // if not, download image from url
-        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  200...299 ~= httpResponse.statusCode else {
-                completion(.failure(ImageDownloadError.statusCodeInvalid(response)))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(ImageDownloadError.dataIsNil))
-                return
-            }
-            
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                      200...299 ~= httpResponse.statusCode else {
+                    completion(.failure(ImageDownloadError.statusCodeInvalid(response)))
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(ImageDownloadError.dataIsNil))
+                    return
+                }
+                
                 if let image = UIImage(data: data) {
                     self.imageCache.setObject(image, forKey: urlString as NSString)
                     completion(.success(image))
@@ -57,6 +57,9 @@ class ImageDownloader {
                     completion(.failure(ImageDownloadError.dataIsInvalid))
                 }
             }
-        }).resume()
+        }
+        
+        task.resume()
+        return task
     }
 }

@@ -12,11 +12,20 @@ class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var storeImageView: UIImageView!
     @IBOutlet weak var addressLabel: UILabel!
-    // TODO : activity indicator 추가
-    var imageURL: String?
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(frame: storeImageView.frame)
+        indicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        indicator.style = .large
+        contentView.addSubview(indicator)
+        return indicator
+    }()
+    
+    private var task: URLSessionTask?
     
     override func prepareForReuse() {
         storeImageView.image = UIImage(named: "icon")
+        activityIndicator.startAnimating()
+        task?.cancel()
     }
 
     func configure(poi: ManagedPOI) {
@@ -25,17 +34,17 @@ class DetailCollectionViewCell: UICollectionViewCell {
         addressLabel.text = poi.address
         
         guard let imageURL = poi.imageURL else {
+            self.activityIndicator.stopAnimating()
             return
         }
         
-        ImageDownloader.shared.fetch(imageURL: imageURL) { result in
+        task = ImageDownloader.shared.fetch(imageURL: imageURL) { result in
+            self.activityIndicator.stopAnimating()
             guard let image = try? result.get() else {
                 return
             }
             
-            if imageURL == poi.imageURL {
-                self.storeImageView.image = image
-            }
+            self.storeImageView.image = image
         }
     }
 }
