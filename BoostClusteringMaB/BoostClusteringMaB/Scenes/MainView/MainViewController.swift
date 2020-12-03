@@ -18,6 +18,7 @@ extension NMFMapView: NMFMapViewProtocol { }
 
 protocol MainDisplayLogic: class {
     func displayFetch(viewModel: ViewModel)
+    func displayedCollectionViewCellData(southWest: LatLng, northEast: LatLng)
 }
 
 final class MainViewController: UIViewController {
@@ -28,7 +29,7 @@ final class MainViewController: UIViewController {
         naverMapView.addSubview(animationView)
         return controller
     }()
-    //lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+//    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
     lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
 
     var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
@@ -52,6 +53,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bottomSheetViewController.delegate = self
         configureVIP()
         configureMapView()
         configureBottomSheetView()
@@ -127,11 +129,14 @@ final class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainDisplayLogic {
+    func displayedCollectionViewCellData(southWest: LatLng, northEast: LatLng) {
+        bottomSheetViewController.reloadPOI(southWest: southWest, northEast: northEast)
+    }
+
     func displayFetch(viewModel: ViewModel) {
         let oldViewModel = displayedData
         displayedData = viewModel
         redrawMap(oldViewModel: oldViewModel, newViewModel: viewModel)
-        //collectionView.reloadData()
     }
     
     private func redrawMap(oldViewModel: ViewModel?, newViewModel: ViewModel) {
@@ -215,11 +220,23 @@ extension MainViewController: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let zoomLevel = mapView.zoomLevel
         interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
+        if bottomSheetViewController.collectionView != nil {
+                interactor?.fetchPOICoverageArea(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
+        }
     }
 }
 
 extension MainViewController: ClusteringTool {
     func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
         return projection.point(from: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
+    }
+}
+
+extension MainViewController: DetailViewControllerDelegate {
+    func didCellSelected(lat: Double, lng: Double) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng), zoomTo: 20)
+        cameraUpdate.animation = .easeIn
+        cameraUpdate.animationDuration = 0.8
+        mapView.moveCamera(cameraUpdate)
     }
 }
