@@ -35,9 +35,12 @@ final class MainViewController: UIViewController {
     var interactor: MainBusinessLogic?
     var mapView: NMFMapView { naverMapView.mapView }
     var projection: NMFProjection { naverMapView.mapView.projection }
-    //var fetchedResultsController: NSFetchedResultsController<ManagedPOI>?
     
-    //@IBOutlet var collectionView: UICollectionView!
+    private lazy var bottomSheetViewController: DetailViewController = {
+        guard let bottom = storyboard?.instantiateViewController(withIdentifier: "DetailViewController")
+                as? DetailViewController else { return DetailViewController() }
+        return bottom
+    }()
     
     var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
@@ -51,13 +54,17 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureVIP()
         configureMapView()
-        setDetailView()
-        //initializeFetchedResultsController()
+        configureBottomSheetView()
     }
-
-    func setDetailView() {
-        //view.bringSubviewToFront(collectionView)
-        //collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
+    
+    func configureBottomSheetView() {
+        addChild(bottomSheetViewController)
+        view.addSubview(bottomSheetViewController.view)
+        bottomSheetViewController.didMove(toParent: self)
+        let height = view.frame.height / 5
+        let width = view.frame.width
+        let maxY = view.frame.maxY - 100
+        bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
     }
 
     // MARK: - configure VIP

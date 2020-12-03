@@ -18,13 +18,13 @@
         <!--Detail View Controller-->
         <scene sceneID="dOL-lg-49v">
             <objects>
-                <viewController id="K5Z-gn-8um" customClass="DetailViewController" customModule="BoostClusteringMaB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="K5Z-gn-8um" customClass="DetailViewController" customModule="BoostClusteringMaB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="05W-Bi-hBX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v9C-RS-7El">
-                                <rect key="frame" x="0.0" y="732.5" width="414" height="163.5"/>
+                                <rect key="frame" x="0.0" y="54" width="414" height="842"/>
                                 <color key="backgroundColor" systemColor="systemGray2Color"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OZu-MC-jx4">
                                     <size key="itemSize" width="414" height="128"/>
@@ -124,13 +124,16 @@
                             <constraint firstAttribute="bottom" secondItem="v9C-RS-7El" secondAttribute="bottom" id="QEg-hc-wEq"/>
                             <constraint firstItem="v9C-RS-7El" firstAttribute="leading" secondItem="iv3-Mm-XWP" secondAttribute="leading" id="fur-qa-9AM"/>
                             <constraint firstItem="v9C-RS-7El" firstAttribute="trailing" secondItem="iv3-Mm-XWP" secondAttribute="trailing" id="lPX-KL-c8R"/>
-                            <constraint firstItem="v9C-RS-7El" firstAttribute="height" secondItem="iv3-Mm-XWP" secondAttribute="height" multiplier="1/5" id="n7d-xb-RrA"/>
+                            <constraint firstItem="v9C-RS-7El" firstAttribute="top" secondItem="iv3-Mm-XWP" secondAttribute="top" constant="10" id="ram-fg-FpB"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="v9C-RS-7El" id="8rg-Dn-Alq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hzQ-YD-kXu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="884" y="-10"/>
+            <point key="canvasLocation" x="822" y="-10"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">

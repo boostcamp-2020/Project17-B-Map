@@ -16,13 +16,11 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
         collectionView.dataSource = self
         initializeFetchedResultsController()
     }
     
     func initializeFetchedResultsController() {
-        
         let coreDataLayer = CoreDataLayer()
         
         fetchedResultsController = coreDataLayer.makeFetchResultsController(
@@ -37,7 +35,6 @@ class DetailViewController: UIViewController {
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
-
     }
 }
 extension DetailViewController: NSFetchedResultsControllerDelegate {
@@ -81,20 +78,7 @@ extension DetailViewController: NSFetchedResultsControllerDelegate {
     
 }
 
-extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: self.view.bounds.width - 20, height: 110)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        2
-    }
-    
+extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let fetchedResultsController = fetchedResultsController,
               let sections = fetchedResultsController.sections
@@ -130,5 +114,19 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
        // header.poiNumberLabel.text = "\(displayedData.count)개"
         //나중에 dataSource.count로 표기
         return header
+    }
+}
+
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: self.view.bounds.width - 20, height: 110)
     }
 }
