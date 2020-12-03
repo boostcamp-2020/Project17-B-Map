@@ -104,19 +104,21 @@ final class MainViewController: UIViewController {
         let point = sender.location(in: view)
         let latlng = point.convert(mapView: mapView)
         
-        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: NMF_MAX_ZOOM - 2)
+        var nowZoomLevel = mapView.zoomLevel
+        let stdZoomLevel = NMF_MAX_ZOOM - 2
+        if  nowZoomLevel < stdZoomLevel {
+            nowZoomLevel = stdZoomLevel
+        }
+        
+        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: nowZoomLevel)
         cameraUpdate.animation = .easeIn
         cameraUpdate.animationDuration = 0.8
-        mapView.moveCamera(cameraUpdate)
-        sender.state = .ended
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showAlert(latlng: latlng, type: .append) {
-                self.interactor?.addLocation(LatLng(latlng),
-                                             southWest: self.boundsLatLng.southWest,
-                                             northEast: self.boundsLatLng.northEast,
-                                             zoomLevel: self.mapView.zoomLevel)
-            }
+        self.showAlert(latlng: latlng, type: .append) {
+            self.interactor?.addLocation(LatLng(latlng),
+                                         southWest: self.boundsLatLng.southWest,
+                                         northEast: self.boundsLatLng.northEast,
+                                         zoomLevel: self.mapView.zoomLevel)
         }
     }
     
