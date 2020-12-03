@@ -62,6 +62,8 @@ final class CoreDataLayer: CoreDataManager {
                                           cacheName: nil)
     }
 
+    private lazy var addressAPI = AddressAPI()
+    private lazy var jsonParser = JsonParser()
     private func add(place: Place, isSave: Bool, completion handler: CoreDataHandler? = nil) {
         guard let latitude = Double(place.y),
               let longitude = Double(place.x) else {

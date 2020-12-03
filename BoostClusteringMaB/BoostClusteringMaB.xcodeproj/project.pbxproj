@@ -53,14 +53,14 @@
 		DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DB5257612890067325E /* DetailCollectionViewCell.swift */; };
 		DA805DD425767DFD0067325E /* BMEuljiro10yearslaterOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */; };
 		DA805DDA2576834E0067325E /* DetailCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */; };
+		F4151F4D25789064007E356F /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4151F4C25789064007E356F /* ImageDownloader.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
 		F496019125727ED500740523 /* String+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496019025727ED500740523 /* String+Bundle.swift */; };
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
 		F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4A07BAD257118BF00B18415 /* Loading.storyboard */; };
 		F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A07BB125711B1900B18415 /* LoadViewController.swift */; };
-		F4C31B50257779D100103E98 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C31B4F257779D100103E98 /* AlertType.swift */; };
 		F4AE15632577CB6600A2F473 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AE15622577CB6600A2F473 /* Geocoding.swift */; };
-		F4DB7C2A25767EFF00789E35 /* UIImageView+loadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */; };
+		F4C31B50257779D100103E98 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C31B4F257779D100103E98 /* AlertType.swift */; };
 		F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E23D2A25727A5F008A9B4C /* DataParser.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
@@ -131,13 +131,13 @@
 		DA805DB5257612890067325E /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
 		DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionReusableView.swift; sourceTree = "<group>"; };
+		F4151F4C25789064007E356F /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		F496019025727ED500740523 /* String+Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+Bundle.swift"; path = "BoostClusteringMaB/extension/String+Bundle.swift"; sourceTree = SOURCE_ROOT; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
 		F4A07BAD257118BF00B18415 /* Loading.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
 		F4A07BB125711B1900B18415 /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
-		F4C31B4F257779D100103E98 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		F4AE15622577CB6600A2F473 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
-		F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+loadImage.swift"; sourceTree = "<group>"; };
+		F4C31B4F257779D100103E98 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		F4E23D2A25727A5F008A9B4C /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
@@ -365,6 +365,7 @@
 				0D0172BF2570BF2A00A26886 /* JsonParser.swift */,
 				F4E23D2A25727A5F008A9B4C /* DataParser.swift */,
 				0DE756522577800F00CAB059 /* AddressAPI.swift */,
+				F4151F4C25789064007E356F /* ImageDownloader.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -392,7 +393,6 @@
 				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
 				0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */,
 				F496019025727ED500740523 /* String+Bundle.swift */,
-				F4DB7C2925767EFF00789E35 /* UIImageView+loadImage.swift */,
 				70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */,
 				70E2A21625776BED009A5ADC /* CGPoint+isValid.swift */,
 				70E2A21E25776C0D009A5ADC /* NMFPolygonOverlay+.swift */,
@@ -661,12 +661,12 @@
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
 				DA805DDA2576834E0067325E /* DetailCollectionReusableView.swift in Sources */,
 				F4C31B50257779D100103E98 /* AlertType.swift in Sources */,
+				F4151F4D25789064007E356F /* ImageDownloader.swift in Sources */,
 				F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */,
 				708C08C1256258320072B1E0 /* MainViewController.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
-				F4DB7C2A25767EFF00789E35 /* UIImageView+loadImage.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
 				7097080A2577228900D3FC36 /* MarkerAnimateController.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
