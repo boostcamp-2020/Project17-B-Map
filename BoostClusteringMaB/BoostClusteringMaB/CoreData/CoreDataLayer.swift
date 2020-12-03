@@ -34,9 +34,9 @@ protocol CoreDataManager {
 }
 
 final class CoreDataLayer: CoreDataManager {
-    private lazy var addressAPI: AddressAPIService = AddressAPI()
-    private lazy var jsonParser: JsonParserService = JsonParser()
-    
+    var addressAPI: AddressAPIService = AddressAPI()
+    var jsonParser: JsonParserService = JsonParser()
+
     private lazy var childContext: NSManagedObjectContext = {
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         

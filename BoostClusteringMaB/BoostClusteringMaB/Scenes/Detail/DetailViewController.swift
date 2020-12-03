@@ -96,7 +96,8 @@ class DetailViewController: UIViewController {
         moveView(panGestureRecognizer: recognizer)
         if recognizer.state == .ended {
             UIView.animate(withDuration: 1, delay: 0, options: [.allowUserInteraction]) {
-                let nextState: State = recognizer.velocity(in: self.view).y >= 0 ? self.currentState.prev : self.currentState.next
+                let nextState: State = recognizer.velocity(in: self.view).y >= 0
+                    ? self.currentState.prev : self.currentState.next
                 self.moveView(state: nextState)
             }
         }

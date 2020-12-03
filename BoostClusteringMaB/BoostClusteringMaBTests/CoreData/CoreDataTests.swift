@@ -39,7 +39,7 @@ class CoreDataTests: XCTestCase {
         layer.addressAPI = AddressAPIMock()
         layer.jsonParser = JSONParserMock()
 
-        timeout(1) { expectation in
+        timeout(10) { expectation in
             // When
             layer.add(place: newPlace) { _ in
                 let poi = layer.fetch()?.first
