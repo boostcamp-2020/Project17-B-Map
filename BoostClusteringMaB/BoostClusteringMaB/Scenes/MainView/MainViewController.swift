@@ -60,7 +60,6 @@ final class MainViewController: UIViewController {
         
         do {
             try fetchedResultsController?.performFetch()
-            //            collectionView.reloadData()
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
@@ -239,13 +238,13 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
                     newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            collectionView.insertItems(at: [newIndexPath!])
+            collectionView.insertItems(at: [newIndexPath ?? .init()])
         case .delete:
-            collectionView.deleteItems(at: [indexPath!])
+            collectionView.deleteItems(at: [indexPath ?? .init()])
         case .update:
-            collectionView.reloadItems(at: [indexPath!])
+            collectionView.reloadItems(at: [indexPath ?? .init()])
         case .move:
-            collectionView.moveItem(at: indexPath!, to: newIndexPath!)
+            collectionView.moveItem(at: indexPath ?? .init(), to: newIndexPath ?? .init())
         @unknown default:
             fatalError()
         }
