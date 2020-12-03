@@ -39,7 +39,7 @@ final class AddressAPI: AddressAPIService {
             guard let httpResponse = response as? HTTPURLResponse,
                   200...299 ~= httpResponse.statusCode else {
                 completion?(.failure(AddressAPIError.nmfClientError))
-                debugPrint(response)
+                debugPrint(response ?? "")
                 return
             }
             

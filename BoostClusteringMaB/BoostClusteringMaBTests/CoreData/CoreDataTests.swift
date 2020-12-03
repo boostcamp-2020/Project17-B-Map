@@ -142,49 +142,52 @@ class CoreDataTests: XCTestCase {
         XCTAssertTrue( pois.allSatisfy({ poi -> Bool in poi.category == "부스트캠프" }) )
     }
     
-    //    func testAdd10000POI() throws {
-    //        timeout(40) { expectation in
-    //            // Given
-    //            let numberOfRepeats = 10000
-    //            let layer = CoreDataLayer()
-    //            let places = (0..<numberOfRepeats).map { _ in newPlace }
-    //            let beforeCount = layer.fetch()?.count
-    //
-    //            // When
-    //            layer.add(places: places) { _ in
-    //                let afterCount = layer.fetch()?.count
-    //
-    //                // Then
-    //                XCTAssertNotNil(beforeCount)
-    //                XCTAssertEqual(beforeCount! + numberOfRepeats, afterCount)
-    //                expectation.fulfill()
-    //                }
-    //            }
-    //        }
-    
-    func testRemove() throws {
-//        // Given
-//        let layer = CoreDataLayer()
-//        timeout(20) { expectation in
-//            layer.add(place: newPlace) { _ in
-//                let pois = layer.fetch()
-//                guard let poi = pois?.first(where: { poi -> Bool in
-//                    poi.id == self.newPlace.id
-//                }),
-//                let beforeCount = pois?.count else {
-//                    XCTFail("data add fail")
-//                    return
-//                }
-//                
-//                // When
-//                layer.remove(poi: poi) { _ in }
-//                
-//                // Then
+//    func testAdd10000POI() throws {
+//        timeout(40) { expectation in
+//            // Given
+//            let numberOfRepeats = 10000
+//            let layer = CoreDataLayer()
+//            let places = (0..<numberOfRepeats).map { _ in newPlace }
+//            let beforeCount = layer.fetch()?.count
+//
+//            // When
+//            layer.add(places: places) { _ in
 //                let afterCount = layer.fetch()?.count
-//                XCTAssertEqual(beforeCount - 1, afterCount)
+//
+//                // Then
+//                XCTAssertNotNil(beforeCount)
+//                XCTAssertEqual(beforeCount! + numberOfRepeats, afterCount)
 //                expectation.fulfill()
 //            }
 //        }
+//    }
+    
+    func testRemove() throws {
+        // Given
+        let layer = CoreDataLayer()
+        layer.addressAPI = AddressAPIMock()
+        layer.jsonParser = JSONParserMock()
+        
+        timeout(20) { expectation in
+            layer.add(place: newPlace) { _ in
+                let pois = layer.fetch()
+                guard let poi = pois?.first(where: { poi -> Bool in
+                    poi.id == self.newPlace.id
+                }),
+                let beforeCount = pois?.count else {
+                    XCTFail("data add fail")
+                    return
+                }
+
+                // When
+                layer.remove(poi: poi) { _ in }
+
+                // Then
+                let afterCount = layer.fetch()?.count
+                XCTAssertEqual(beforeCount - 1, afterCount)
+                expectation.fulfill()
+            }
+        }
     }
     
     func testRemoveAll() throws {
