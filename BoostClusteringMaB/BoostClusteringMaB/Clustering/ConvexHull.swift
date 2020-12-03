@@ -90,6 +90,7 @@ final class ConvexHull {
         }
 
         var result = stack.map { infos[$0] }
+
         result.append(result[0])
 
         return result.map({LatLng(lat: $0.y, lng: $0.x)})
