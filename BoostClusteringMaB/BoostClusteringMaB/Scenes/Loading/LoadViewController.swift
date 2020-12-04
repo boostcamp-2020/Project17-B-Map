@@ -8,18 +8,39 @@
 import UIKit
 
 class LoadViewController: UIViewController {
+    @IBOutlet weak var leftMarker: UIImageView!
+    @IBOutlet weak var rightMarker: UIImageView!
+    
     private let coreDataLayer = CoreDataLayer()
     private let jsonParser = JsonParser()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        animate()
         guard let pois = coreDataLayer.fetch() else {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
             return
         }
         self.fetchSuccess(count: pois.count)
     }
-
+    
+    private func animate() {
+        let distance = view.frame.height * 0.08
+        addAnimation(distance: distance, to: leftMarker)
+        addAnimation(distance: distance * 0.6, to: rightMarker)
+    }
+    
+    func addAnimation(distance: CGFloat, to view: UIView) {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.45
+        animation.repeatCount = .infinity
+        animation.autoreverses = true
+        animation.fromValue = view.center
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        animation.toValue = CGPoint(x: view.center.x, y: view.center.y - distance)
+        view.layer.add(animation, forKey: "position")
+    }
+    
     private func fetchSuccess(count: Int) {
         guard count > 0 else {
             self.loadData { result in
