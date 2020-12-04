@@ -8,11 +8,6 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="NanumSquareRoundOTFR.otf">
-            <string>NanumSquareRoundOTFR</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Load View Controller-->
         <scene sceneID="9uS-oY-B8R">
@@ -22,64 +17,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="avn-df-QUx">
-                                <rect key="frame" x="52" y="80" width="310.5" height="310.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="avn-df-QUx" secondAttribute="height" id="cgg-AI-6AE"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaucnScreen" translatesAutoresizingMaskIntoConstraints="NO" id="Ri8-Lk-xi8">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MaB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cfr-Iv-7JS">
-                                <rect key="frame" x="174.5" y="430.5" width="65.5" height="35.5"/>
-                                <fontDescription key="fontDescription" name="NanumSquareRoundOTFR" family="NanumSquareRoundOTF" pointSize="32"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tNF-3A-HEl">
-                                <rect key="frame" x="20" y="525" width="374" height="317"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="wHM-wJ-kKz">
-                                        <rect key="frame" x="168.5" y="140" width="37" height="37"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="wHM-wJ-kKz" firstAttribute="centerY" secondItem="tNF-3A-HEl" secondAttribute="centerY" id="PnG-Kp-SaS"/>
-                                    <constraint firstItem="wHM-wJ-kKz" firstAttribute="centerX" secondItem="tNF-3A-HEl" secondAttribute="centerX" id="lMb-uK-3fJ"/>
-                                    <constraint firstItem="wHM-wJ-kKz" firstAttribute="centerX" secondItem="tNF-3A-HEl" secondAttribute="centerX" id="pte-Gr-FdT"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="당신을 좋은 곳으로 데려갈 지도" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LiU-58-8bp">
-                                <rect key="frame" x="98" y="486" width="218.5" height="19"/>
-                                <fontDescription key="fontDescription" name="NanumSquareRoundOTFR" family="NanumSquareRoundOTF" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="hBl-HM-oiv">
+                                <rect key="frame" x="172" y="461.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NIx-LZ-9Dy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="avn-df-QUx" firstAttribute="width" secondItem="NIx-LZ-9Dy" secondAttribute="width" multiplier="0.75" id="Cas-OL-1fH"/>
-                            <constraint firstItem="Cfr-Iv-7JS" firstAttribute="top" secondItem="avn-df-QUx" secondAttribute="bottom" priority="750" constant="40" id="ENi-VJ-Nl0"/>
-                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="bottom" secondItem="tNF-3A-HEl" secondAttribute="bottom" constant="20" id="O3A-ye-pd4"/>
-                            <constraint firstItem="Cfr-Iv-7JS" firstAttribute="centerX" secondItem="Usr-Rn-WLf" secondAttribute="centerX" id="Rau-ta-iIE"/>
-                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="trailing" secondItem="tNF-3A-HEl" secondAttribute="trailing" constant="20" id="YNc-o7-r7r"/>
-                            <constraint firstItem="LiU-58-8bp" firstAttribute="top" secondItem="Cfr-Iv-7JS" secondAttribute="bottom" constant="20" id="Zm9-3K-TFN"/>
-                            <constraint firstItem="Cfr-Iv-7JS" firstAttribute="centerY" secondItem="Usr-Rn-WLf" secondAttribute="centerY" id="czl-UI-Zha"/>
-                            <constraint firstItem="tNF-3A-HEl" firstAttribute="top" secondItem="LiU-58-8bp" secondAttribute="bottom" constant="20" id="eWG-Qm-PSd"/>
-                            <constraint firstItem="avn-df-QUx" firstAttribute="centerX" secondItem="Usr-Rn-WLf" secondAttribute="centerX" id="lxS-qy-TZu"/>
-                            <constraint firstItem="avn-df-QUx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="NIx-LZ-9Dy" secondAttribute="top" constant="20" id="rFh-0N-fzv"/>
-                            <constraint firstItem="tNF-3A-HEl" firstAttribute="leading" secondItem="NIx-LZ-9Dy" secondAttribute="leading" constant="20" id="sAW-fh-xOI"/>
-                            <constraint firstItem="LiU-58-8bp" firstAttribute="centerX" secondItem="Usr-Rn-WLf" secondAttribute="centerX" id="sUP-xK-MhY"/>
+                            <constraint firstAttribute="bottom" secondItem="Ri8-Lk-xi8" secondAttribute="bottom" id="Apx-RY-xU7"/>
+                            <constraint firstAttribute="trailing" secondItem="Ri8-Lk-xi8" secondAttribute="trailing" id="IH5-k7-rcU"/>
+                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="bottom" secondItem="hBl-HM-oiv" secondAttribute="bottom" multiplier="1.73" id="JQx-cw-e81"/>
+                            <constraint firstItem="Ri8-Lk-xi8" firstAttribute="top" secondItem="Usr-Rn-WLf" secondAttribute="top" id="Psf-LN-Wub"/>
+                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="trailing" secondItem="hBl-HM-oiv" secondAttribute="trailing" multiplier="1.98" id="c1M-jb-wX7"/>
+                            <constraint firstItem="Ri8-Lk-xi8" firstAttribute="leading" secondItem="Usr-Rn-WLf" secondAttribute="leading" id="r2J-rT-irp"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="geM-jG-P6m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="45" y="-61"/>
+            <point key="canvasLocation" x="44.927536231884062" y="-61.607142857142854"/>
         </scene>
     </scenes>
     <resources>
-        <image name="icon" width="541" height="540"/>
+        <image name="LaucnScreen" width="1285" height="2779"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
