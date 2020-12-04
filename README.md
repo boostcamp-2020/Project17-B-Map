@@ -24,6 +24,8 @@
 [![Releases](https://img.shields.io/github/v/release/boostcamp-2020/Project17-B-Map)](https://github.com/boostcamp-2020/Project17-B-Map/releases)
 [![build](https://github.com/boostcamp-2020/Project17-B-Map/workflows/iOS%20CI/badge.svg)](https://github.com/boostcamp-2020/Project17-B-Map/actions)
 
+배조주소🎯: [https://kr.object.ncloudstorage.com/mab/project/download.html](https://kr.object.ncloudstorage.com/mab/project/download.html)
+
 ## Author
 
 | <img src="https://avatars1.githubusercontent.com/u/19145853?s=400&v=4" width="150"> | <img src="https://avatars1.githubusercontent.com/u/45285737?s=400&u=f4cdb2b4602081bc3665ecc100f2d249fa42dafe&v=4" width="150"> | <img src="https://avatars3.githubusercontent.com/u/46857148?s=400&u=e0b8c5ad6bcffb03f70594ed53df88e2124f523c&v=4" width="150"> | <img src="https://avatars2.githubusercontent.com/u/23518265?s=400&u=6c665122d3ce7ab26433218d845c9f0170157d0f&v=4" width="150"> | <img src="https://avatars2.githubusercontent.com/u/16751025?s=400&v=4" width="150"> |
