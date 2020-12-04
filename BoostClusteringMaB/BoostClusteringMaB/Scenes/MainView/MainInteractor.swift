@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MainDataStore {
-//    var coreData: POI { get set }
+    //    var coreData: POI { get set }
 }
 
 protocol MainBusinessLogic {
@@ -30,7 +30,6 @@ final class MainInteractor: MainDataStore {
     private func configureClustering() {
         clustering = Clustering(coreDataLayer: coreDataLayer)
     }
-    
 }
 
 extension MainInteractor: MainBusinessLogic {

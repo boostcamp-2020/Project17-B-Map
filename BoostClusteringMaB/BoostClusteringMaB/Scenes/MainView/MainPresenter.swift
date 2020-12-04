@@ -9,7 +9,6 @@ import Foundation
 import NMapsMap
 
 protocol MainPresentationLogic {
-    
 }
 
 final class MainPresenter: MainPresentationLogic, ClusteringData {

@@ -20,6 +20,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
         return indicator
     }()
     
+    var poi: ManagedPOI?
     private weak var task: URLSessionTask?
     
     override func prepareForReuse() {
@@ -27,8 +28,9 @@ class DetailCollectionViewCell: UICollectionViewCell {
         activityIndicator.startAnimating()
         task?.cancel()
     }
-
+    
     func configure(poi: ManagedPOI) {
+        self.poi = poi
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
         addressLabel.text = poi.address
@@ -47,7 +49,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
             self.storeImageView.image = image
         }
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()

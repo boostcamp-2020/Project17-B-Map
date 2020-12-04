@@ -8,12 +8,18 @@
 import UIKit
 import CoreData
 
+protocol DetailViewControllerDelegate: class {
+    func didCellSelected(lat: Double, lng: Double)
+}
+
 class DetailViewController: UIViewController {
     
     var fullViewYPosition: CGFloat = 44
     var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
     var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - searchBar.frame.height - 44 }
-    
+    @IBOutlet weak var countLabel: UILabel!
+    weak var delegate: DetailViewControllerDelegate?
+
     private enum State {
         case minimum // 서치바만
         case partial // 기본
@@ -46,14 +52,17 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var dragBar: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>?
+    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>? {
+        didSet {
+            fetchedResultsController?.delegate = self
+        }
+    }
     private var currentState: State = .minimum
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.cornerRadius = 10
         dragBar.layer.cornerRadius = 3
-        initializeFetchedResultsController()
         configureGesture()
     }
     
@@ -62,6 +71,7 @@ class DetailViewController: UIViewController {
         UIView.animate(withDuration: 0.6) {
             self.moveView(state: .minimum)
         }
+        reloadPOI(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
     }
     
     private func configureGesture() {
@@ -102,23 +112,23 @@ class DetailViewController: UIViewController {
             }
         }
     }
-    
-    func initializeFetchedResultsController() {
+
+    func reloadPOI(southWest: LatLng, northEast: LatLng) {
         let coreDataLayer = CoreDataLayer()
-        
+
         fetchedResultsController = coreDataLayer.makeFetchResultsController(
-            southWest: LatLng(lat: 30, lng: 120),
-            northEast: LatLng(lat: 45, lng: 135)
+            southWest: southWest,
+            northEast: northEast
         )
-        
-        fetchedResultsController?.delegate = self
-        
+
         do {
             try fetchedResultsController?.performFetch()
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
+        collectionView.reloadData()
     }
+
 }
 
 extension DetailViewController: NSFetchedResultsControllerDelegate {
@@ -189,9 +199,11 @@ extension DetailViewController: UICollectionViewDataSource {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                            withReuseIdentifier: "header",
                                                                            for: indexPath)
-                as? DetailCollectionReusableView
+                as? DetailCollectionReusableView,
+              let poisCount = self.fetchedResultsController?.fetchedObjects?.count
         else { return UICollectionReusableView() }
-       // header.poiNumberLabel.text = "\(displayedData.count)개"
+
+        header.poiNumberLabel.text = "\(poisCount)개"
         //나중에 dataSource.count로 표기
         return header
     }
@@ -208,5 +220,16 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: self.view.bounds.width - 20, height: 110)
+    }
+}
+
+extension DetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else { return }
+        guard let lat = cell.poi?.latitude,
+              let lng = cell.poi?.longitude else {
+            return
+        }
+        delegate?.didCellSelected(lat: lat, lng: lng)
     }
 }

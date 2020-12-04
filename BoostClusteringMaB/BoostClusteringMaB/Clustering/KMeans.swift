@@ -58,16 +58,16 @@ class KMeans {
     }
     
     //1 임의로 중심점을 추출 + 그걸로 클러스터 생성
-//    private func randomCenters(count: Int, points: [LatLng]) -> [LatLng] {
-//        guard points.count > count else { return points }
-//
-//        var centers = Set<LatLng>()
-//        while centers.count < count {
-//            guard let random = points.randomElement() else { continue }
-//            centers.insert(random)
-//        }
-//        return Array(centers)
-//    }
+    //    private func randomCenters(count: Int, points: [LatLng]) -> [LatLng] {
+    //        guard points.count > count else { return points }
+    //
+    //        var centers = Set<LatLng>()
+    //        while centers.count < count {
+    //            guard let random = points.randomElement() else { continue }
+    //            centers.insert(random)
+    //        }
+    //        return Array(centers)
+    //    }
     
     //1 임의로 중심점을 추출 ( 좌표 정렬해서 적절한 간격으로 뽑음 )
     private func randomCentersByPointsIndex(count: Int, pois: [POI]) -> [POI] {
@@ -143,13 +143,13 @@ class KMeans {
     }
     
     //오차 제곱합
-//    func sumOfSquaredOfError() -> Double {
-//        var sum: Double = 0
-//        clusters.forEach {
-//            sum += $0.sumOfSquaredOfError()
-//        }
-//        return sum
-//    }
+    //    func sumOfSquaredOfError() -> Double {
+    //        var sum: Double = 0
+    //        clusters.forEach {
+    //            sum += $0.sumOfSquaredOfError()
+    //        }
+    //        return sum
+    //    }
     
     //Davies-Bouldin index (낮을수록 좋음)
     func daviesBouldinIndex() -> Double {
