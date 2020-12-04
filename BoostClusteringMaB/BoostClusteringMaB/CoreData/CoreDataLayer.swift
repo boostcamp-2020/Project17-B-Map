@@ -24,8 +24,9 @@ protocol CoreDataManager {
     func fetch(southWest: LatLng,
                northEast: LatLng,
                sorted: Bool
-                ) -> [ManagedPOI]?
+    ) -> [ManagedPOI]?
     func remove(poi: ManagedPOI, completion handler: CoreDataHandler?)
+    func remove(location: LatLng, completion handler: CoreDataHandler?)
     func removeAll(completion handler: CoreDataHandler?)
     func makeFetchResultsController(southWest: LatLng,
                                     northEast: LatLng) -> NSFetchedResultsController<ManagedPOI>
@@ -33,6 +34,9 @@ protocol CoreDataManager {
 }
 
 final class CoreDataLayer: CoreDataManager {
+    var addressAPI: AddressAPIService = AddressAPI()
+    var jsonParser: JsonParserService = JsonParser()
+    
     private lazy var childContext: NSManagedObjectContext = {
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         
@@ -65,33 +69,31 @@ final class CoreDataLayer: CoreDataManager {
             return
         }
         
-        childContext.perform { [weak self] in
-            guard let self = self else {
-                return
-            }
-            let poi = ManagedPOI(context: self.childContext)
-            poi.id = place.id
-            poi.category = place.category
-            poi.imageURL = place.imageURL
-            poi.latitude = latitude
-            poi.longitude = longitude
-            poi.name = place.name
-            if isSave {
-                do {
-                    try self.save()
-                } catch {
-                    handler?(.failure(.saveError))
+        addressAPI.address(lat: latitude, lng: longitude) { result in
+            guard let address = try? self.jsonParser.parse(address: result.get()) else { return }
+            self.childContext.perform { [weak self] in
+                guard let self = self else {
                     return
                 }
+                let poi = ManagedPOI(context: self.childContext)
+                poi.fromPOI(place, address)
+                if isSave {
+                    do {
+                        try self.save()
+                    } catch {
+                        handler?(.failure(.saveError))
+                        return
+                    }
+                }
+                handler?(.success(()))
             }
-            handler?(.success(()))
         }
     }
-
+    
     func add(place: Place, completion handler: CoreDataHandler? = nil) {
         add(place: place, isSave: true, completion: handler)
     }
-
+    
     func add(places: [Place], completion handler: CoreDataHandler? = nil) {
         let group = DispatchGroup()
         
@@ -107,7 +109,7 @@ final class CoreDataLayer: CoreDataManager {
                 }
             }
         }
-
+        
         group.notify(queue: .main) {
             do {
                 try self.save()
@@ -117,11 +119,11 @@ final class CoreDataLayer: CoreDataManager {
             }
         }
     }
-
+    
     func fetch(sorted: Bool = true) -> [ManagedPOI]? {
         let request: NSFetchRequest = ManagedPOI.fetchRequest()
         request.sortDescriptors = makeSortDescription(sorted: sorted)
-    
+        
         return try? childContext.fetch(request)
     }
     
@@ -150,8 +152,21 @@ final class CoreDataLayer: CoreDataManager {
         let request: NSFetchRequest = ManagedPOI.fetchRequest()
         request.predicate = predicate
         request.sortDescriptors = makeSortDescription(sorted: sorted)
-
+        
         return try? childContext.fetch(request)
+    }
+    
+    private func fetch(location: LatLng) -> ManagedPOI? {
+        let latitudePredicate = NSPredicate(format: "latitude == %@",
+                                            argumentArray: [location.lat])
+        let longitudePredicate = NSPredicate(format: "longitude == %@",
+                                             argumentArray: [location.lng])
+        let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
+        
+        let request: NSFetchRequest = ManagedPOI.fetchRequest()
+        request.predicate = predicate
+        
+        return try? childContext.fetch(request).first
     }
     
     private func makeSortDescription(sorted: Bool) -> [NSSortDescriptor]? {
@@ -171,10 +186,19 @@ final class CoreDataLayer: CoreDataManager {
         }
     }
     
+    func remove(location: LatLng, completion handler: CoreDataHandler?) {
+        guard let managedPOI = fetch(location: location) else {
+            handler?(.failure(.invalidFetch))
+            return
+        }
+        
+        remove(poi: managedPOI, completion: handler)
+    }
+    
     func removeAll(completion handler: CoreDataHandler?) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ManagedPOI")
         let removeAll = NSBatchDeleteRequest(fetchRequest: request)
-
+        
         do {
             try childContext.execute(removeAll)
             try self.save()

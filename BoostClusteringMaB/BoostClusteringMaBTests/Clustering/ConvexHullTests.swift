@@ -13,7 +13,6 @@ class ConvexHullTests: XCTestCase {
     func test_ConvexHull() {
         
         //Given
-        let stdPoint = LatLng(lat: 0.0, lng: 0.0)
         var points: [LatLng] = []
 
         points.append(LatLng(lat: 0.0, lng: 0.0))
@@ -23,7 +22,7 @@ class ConvexHullTests: XCTestCase {
         points.append(LatLng(lat: 0.6, lng: 0.7))
 
         //When
-        let convex = ConvexHull(stdPoint: stdPoint, points: points)
+        let convex = ConvexHull(poiPoints: points)
 
         //Then
         XCTAssertEqual(convex.run().count, 5)

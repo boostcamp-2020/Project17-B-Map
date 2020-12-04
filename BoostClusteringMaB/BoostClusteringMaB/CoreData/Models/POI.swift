@@ -8,6 +8,7 @@
 import Foundation
 
 struct POI: Equatable {
+    var address: String?
     var category: String?
     var id: String?
     var imageURL: String?

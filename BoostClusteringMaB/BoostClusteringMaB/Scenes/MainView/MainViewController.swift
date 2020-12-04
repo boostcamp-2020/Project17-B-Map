@@ -28,50 +28,49 @@ final class MainViewController: UIViewController {
         naverMapView.addSubview(animationView)
         return controller
     }()
-    //lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    //    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
     lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
-
+    
     var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     var interactor: MainBusinessLogic?
     var mapView: NMFMapView { naverMapView.mapView }
     var projection: NMFProjection { naverMapView.mapView.projection }
-    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>?
+
+    var dotView: UIView?
+    var prevDotView: UIView?
+
+    private lazy var bottomSheetViewController: DetailViewController = {
+        guard let bottom = storyboard?.instantiateViewController(withIdentifier: "DetailViewController")
+                as? DetailViewController else { return DetailViewController() }
+        return bottom
+    }()
     
-    @IBOutlet var collectionView: UICollectionView!
+    var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
+        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
+        let southWest = LatLng(boundsLatLngs[0])
+        let northEast = LatLng(boundsLatLngs[1])
+        
+        return (southWest: southWest, northEast: northEast)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bottomSheetViewController.delegate = self
         configureVIP()
         configureMapView()
-        setDetailView()
-        initializeFetchedResultsController()
+        configureBottomSheetView()
     }
-
-    func initializeFetchedResultsController() {
-        
-        let coreDataLayer = CoreDataLayer()
-        
-        fetchedResultsController = coreDataLayer.makeFetchResultsController(
-            southWest: LatLng(lat: 30, lng: 120),
-            northEast: LatLng(lat: 45, lng: 135)
-        )
-        
-        fetchedResultsController?.delegate = self
-        
-        do {
-            try fetchedResultsController?.performFetch()
-            //            collectionView.reloadData()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-        
+    
+    func configureBottomSheetView() {
+        addChild(bottomSheetViewController)
+        view.addSubview(bottomSheetViewController.view)
+        bottomSheetViewController.didMove(toParent: self)
+        let height = view.frame.height
+        let width = view.frame.width
+        let maxY = view.frame.maxY
+        bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
     }
-
-    func setDetailView() {
-        view.bringSubviewToFront(collectionView)
-        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
-    }
-
+    
     // MARK: - configure VIP
     private func configureVIP() {
         let interactor = MainInteractor()
@@ -97,27 +96,33 @@ final class MainViewController: UIViewController {
         let point = sender.location(in: view)
         let latlng = point.convert(mapView: mapView)
         
-        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: NMF_MAX_ZOOM - 2)
+        var nowZoomLevel = mapView.zoomLevel
+        let stdZoomLevel = NMF_MAX_ZOOM - 2
+        if  nowZoomLevel < stdZoomLevel {
+            nowZoomLevel = stdZoomLevel
+        }
+        
+        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: nowZoomLevel)
         cameraUpdate.animation = .easeIn
         cameraUpdate.animationDuration = 0.8
-        mapView.moveCamera(cameraUpdate)
         sender.state = .ended
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showAlert(latlng: latlng)
+        self.showAlert(latlng: latlng, type: .append) {
+            self.interactor?.addLocation(LatLng(latlng),
+                                         southWest: self.boundsLatLng.southWest,
+                                         northEast: self.boundsLatLng.northEast,
+                                         zoomLevel: self.mapView.zoomLevel)
+            self.mapView.moveCamera(cameraUpdate)
         }
     }
     
-    private func showAlert(latlng: NMGLatLng) {
-        let alert = UIAlertController(title: "POI를 추가하시겠습니까?",
-                                      message: "OK를 누르면 추가합니다",
+    private func showAlert(latlng: NMGLatLng, type: AlertType, handler: @escaping () -> Void) {
+        let alert = UIAlertController(title: type.title,
+                                      message: type.message,
                                       preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
-            let marker = NMFMarker()
-            marker.position = latlng
-            marker.mapView = self.mapView
-            //coreData에 저장시켜 주세요
+            handler()
         })
         alert.addAction(cancelAction)
         alert.addAction(okAction)
@@ -130,7 +135,6 @@ extension MainViewController: MainDisplayLogic {
         let oldViewModel = displayedData
         displayedData = viewModel
         redrawMap(oldViewModel: oldViewModel, newViewModel: viewModel)
-        collectionView.reloadData()
     }
     
     private func redrawMap(oldViewModel: ViewModel?, newViewModel: ViewModel) {
@@ -138,9 +142,9 @@ extension MainViewController: MainDisplayLogic {
             self.configureFirstMarkers(newMarkers: newViewModel.markers, bounds: newViewModel.bounds)
             return
         }
-
+        
         self.setOveraysMapView(overlays: oldViewModel.polygons, mapView: nil)
-
+        
         self.markerChangeAnimation(
             oldMarkers: oldViewModel.markers,
             newMarkers: newViewModel.markers,
@@ -163,8 +167,22 @@ private extension MainViewController {
     
     func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         zip(markers, bounds).forEach { marker, bound in
-            marker.touchHandler = { _ in
-                self.touchedMarker(bounds: bound, insets: 0)
+            marker.touchHandler = { [weak self] _ in
+                guard let self = self else {
+                    return true
+                }
+                
+                if marker.captionText == "1" {
+                    self.showAlert(latlng: marker.position, type: .delete) {
+                        marker.mapView = nil
+                        self.interactor?.deleteLocation(LatLng(marker.position),
+                                                        southWest: self.boundsLatLng.southWest,
+                                                        northEast: self.boundsLatLng.northEast,
+                                                        zoomLevel: self.mapView.zoomLevel)
+                    }
+                } else {
+                    self.touchedMarker(bounds: bound, insets: 5)
+                }
                 return true
             }
         }
@@ -183,7 +201,7 @@ private extension MainViewController {
                                bounds: [NMGLatLngBounds],
                                completion: (() -> Void)?) {
         self.setOveraysMapView(overlays: oldMarkers, mapView: nil)
-
+        
         self.markerAnimationController.clusteringAnimation(
             old: oldMarkers.map { $0.position },
             new: newMarkers.map { $0.position },
@@ -197,11 +215,16 @@ private extension MainViewController {
 }
 
 extension MainViewController: NMFMapViewCameraDelegate {
+    func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
+        prevDotView?.layer.removeAllAnimations()
+    }
+    
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
-        let northEast = LatLng(boundsLatLngs[1])
-        interactor?.fetchPOI(southWest: southWest, northEast: northEast)
+        let zoomLevel = mapView.zoomLevel
+        interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
+        if bottomSheetViewController.collectionView != nil {
+            bottomSheetViewController.reloadPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
+        }
     }
 }
 
@@ -211,94 +234,28 @@ extension MainViewController: ClusteringTool {
     }
 }
 
-extension MainViewController: NSFetchedResultsControllerDelegate {
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange sectionInfo: NSFetchedResultsSectionInfo,
-                    atSectionIndex sectionIndex: Int,
-                    for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            collectionView.insertSections(IndexSet(integer: sectionIndex))
-        case .delete:
-            collectionView.deleteSections(IndexSet(integer: sectionIndex))
-        case .move:
-            break
-        case .update:
-            break
-        @unknown default:
-            fatalError()
+extension MainViewController: DetailViewControllerDelegate {
+    func didCellSelected(lat: Double, lng: Double, isClicked: Bool) {
+        prevDotView?.layer.removeAllAnimations()
+        if isClicked {
+            let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng), zoomTo: 20)
+            cameraUpdate.animation = .easeIn
+            cameraUpdate.animationDuration = 0.8
+            mapView.moveCamera(cameraUpdate)
+        } else {
+            let point = convertLatLngToPoint(latLng: LatLng(lat: lat, lng: lng))
+            dotAnimation(point: point)
         }
     }
 
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            collectionView.insertItems(at: [newIndexPath!])
-        case .delete:
-            collectionView.deleteItems(at: [indexPath!])
-        case .update:
-            collectionView.reloadItems(at: [indexPath!])
-        case .move:
-            collectionView.moveItem(at: indexPath!, to: newIndexPath!)
-        @unknown default:
-            fatalError()
+    func dotAnimation(point: CGPoint) {
+        dotView = UIView(frame: .init(x: point.x, y: point.y, width: 4, height: 4))
+        dotView?.layer.cornerRadius = 2
+        dotView?.backgroundColor = .red
+        self.naverMapView.addSubview(dotView ?? UIView())
+        UIView.animate(withDuration: 0.3, delay: 0, options: .repeat) {
+            self.dotView?.alpha = 0
         }
-    }
-
-}
-
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: self.view.bounds.width - 20, height: 110)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let fetchedResultsController = fetchedResultsController,
-              let sections = fetchedResultsController.sections
-        else { return 0 }
-        
-        return sections[section].numberOfObjects
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
-                                                            for: indexPath)
-                as? DetailCollectionViewCell,
-              let object = fetchedResultsController?.object(at: indexPath)
-        else {
-            return UICollectionViewCell()
-        }
-        cell.configure(poi: object)
-        cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 10
-
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: "header",
-                                                                           for: indexPath)
-                as? DetailCollectionReusableView
-        else { return UICollectionReusableView() }
-        header.poiNumberLabel.text = "\(displayedData.count)개"
-        return header
+        prevDotView = dotView
     }
 }

@@ -7,30 +7,46 @@
 
 import Foundation
 
-struct Info {
-    let x: Double
-    let y: Double
-    let p: Double
-    let q: Double
-}
-
-class ConvexHull {
-    let stdPoint: LatLng
-    let points: [LatLng] // x,y
-    var relativePoints: [LatLng] // p,q
-    var infos: [Info] = []
+final class ConvexHull {
+    private var points = [LatLng]() // x,y
+    private var relativePoints = [LatLng]() // p,q
+    private var infos: [Info] = []
     
-    init(stdPoint: LatLng, points: [LatLng]) {
-        self.stdPoint = stdPoint
-        self.points = points
+    struct Info {
+        let x: Double
+        let y: Double
+        let p: Double
+        let q: Double
+    }
+    
+    init(poiPoints: [LatLng]) {
+        points = deduplication(points: poiPoints)
+        configureInfos()
+        infos = sortedPointsWithoutFirst()
+    }
+    
+    private func configureInfos() {
+        guard let stdPoint = points.first else { return }
+
         relativePoints = points
             .dropFirst()
             .map { $0 - stdPoint }
-        relativePoints.insert(LatLng(lat: 0, lng: 1), at: 0)
+        
+        relativePoints.insert(stdPoint, at: 0)
+        
         zip(points, relativePoints).forEach { point, reletivePoint in
             self.infos.append(Info(x: point.lng, y: point.lat, p: reletivePoint.lng, q: reletivePoint.lat))
         }
-        
+    }
+    
+    private func deduplication(points: [LatLng]) -> [LatLng] {
+        let setPoiPoints = Set(points)
+        return Array(setPoiPoints).sorted(by: {
+            ($0.lat, $0.lng) < ($1.lat, $1.lng)
+        })
+    }
+    
+    private func sortedPointsWithoutFirst() -> [Info] {
         var sortedPoints = infos.dropFirst().sorted(by: { left, right in
             if left.q * right.p != left.p * right.q {
                 return left.q * right.p < left.p * right.q
@@ -47,21 +63,7 @@ class ConvexHull {
             sortedPoints.insert(first, at: 0)
         }
         
-        infos = sortedPoints
-
-    }
-    
-    func ccw(point1: Info, point2: Info, point3: Info) -> Int {
-        var temp = point1.x * point2.y + point2.x * point3.y + point3.x * point1.y
-        temp = temp - point2.x * point1.y - point3.x * point2.y - point1.x * point3.y
-        
-        if temp > 0 {
-            return 1
-        } else if temp < 0 {
-            return -1
-        }
-        
-        return 0
+        return sortedPoints
     }
     
     func run() -> [LatLng] {
@@ -71,7 +73,7 @@ class ConvexHull {
         
         guard infos.count > 2 else { return [] }
         
-        var next: Int = 2
+        var next = 2
         
         while next < infos.count {
             while stack.count >= 2 {
@@ -86,8 +88,23 @@ class ConvexHull {
             stack.append(next)
             next += 1
         }
+        
         var result = stack.map { infos[$0] }
-        result.append(infos[0])
+        
+        result.append(result[0])
+        
         return result.map({LatLng(lat: $0.y, lng: $0.x)})
+    }
+    
+    private func ccw(point1: Info, point2: Info, point3: Info) -> Int {
+        var temp = point1.x * point2.y + point2.x * point3.y + point3.x * point1.y
+        temp = temp - point2.x * point1.y - point3.x * point2.y - point1.x * point3.y
+        
+        if temp > 0 {
+            return 1
+        } else if temp < 0 {
+            return -1
+        }
+        return 0
     }
 }

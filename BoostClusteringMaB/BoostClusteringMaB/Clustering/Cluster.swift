@@ -53,15 +53,15 @@ class Cluster: Equatable {
     }
     
     // 오차 제곱 합
-//    func sumOfSquaredOfError() -> Double {
-//        var sum: Double = 0
-//        points.setNowToHead()
-//        for _ in 0..<points.size {
-//            sum += center.squaredDistance(to: (points.now?.value ?? LatLng.zero))
-//            points.moveNowToNext()
-//        }
-//        return sum
-//    }
+    //    func sumOfSquaredOfError() -> Double {
+    //        var sum: Double = 0
+    //        points.setNowToHead()
+    //        for _ in 0..<points.size {
+    //            sum += center.squaredDistance(to: (points.now?.value ?? LatLng.zero))
+    //            points.moveNowToNext()
+    //        }
+    //        return sum
+    //    }
     
     //중심점과 클러스터내의 점들간의 거리의 평균
     func deviation() -> Double {
@@ -77,12 +77,11 @@ class Cluster: Equatable {
     }
     
     func area() -> [LatLng] {
-        let sortedPois = pois.allValues().sorted(by: {
-            ($0.latLng.lng, $0.latLng.lat) < ($1.latLng.lng, $1.latLng.lat)
-        })
-        let sortedPoints = sortedPois.map { LatLng(lat: $0.latLng.lat, lng: $0.latLng.lng) }
-        guard let first = sortedPoints.first else { return [] }
-        let convexHull = ConvexHull(stdPoint: first, points: sortedPoints)
+        let poisAllValues = pois.allValues()
+        
+        let points = poisAllValues.map { LatLng(lat: $0.latLng.lat, lng: $0.latLng.lng) }
+        
+        let convexHull = ConvexHull(poiPoints: points)
         let convexHullPoints = convexHull.run()
         return convexHullPoints
     }

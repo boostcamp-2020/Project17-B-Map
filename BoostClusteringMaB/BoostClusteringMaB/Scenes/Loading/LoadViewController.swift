@@ -13,7 +13,6 @@ class LoadViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        coreDataLayer.removeAll(completion: nil)
         guard let pois = coreDataLayer.fetch() else {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
             return
