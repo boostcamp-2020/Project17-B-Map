@@ -21,6 +21,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }()
     
     var poi: ManagedPOI?
+    var isClicked: Bool = false
     private weak var task: URLSessionTask?
     
     override func prepareForReuse() {

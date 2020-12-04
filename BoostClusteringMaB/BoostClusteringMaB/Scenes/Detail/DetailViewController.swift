@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol DetailViewControllerDelegate: class {
-    func didCellSelected(lat: Double, lng: Double)
+    func didCellSelected(lat: Double, lng: Double, isClicked: Bool)
 }
 
 class DetailViewController: UIViewController {
@@ -58,7 +58,8 @@ class DetailViewController: UIViewController {
         }
     }
     private var currentState: State = .minimum
-    
+    private var prevClickedCell: DetailCollectionViewCell?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.cornerRadius = 10
@@ -190,9 +191,17 @@ extension DetailViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(poi: object)
+//        cell.transform = .init(scaleX: 0, y: 0)
+//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
+//            cell.transform = .init(scaleX: 1.1, y: 1.1)
+//        }, completion: { _ in
+//            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+//                cell.transform = .identity
+//            })
+//        })
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
@@ -219,7 +228,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.bounds.width - 20, height: 110)
+        return CGSize(width: self.view.bounds.width - 40, height: 110)
     }
 }
 
@@ -230,6 +239,9 @@ extension DetailViewController: UICollectionViewDelegate {
               let lng = cell.poi?.longitude else {
             return
         }
-        delegate?.didCellSelected(lat: lat, lng: lng)
+        delegate?.didCellSelected(lat: lat, lng: lng, isClicked: cell.isClicked)
+        cell.isClicked = true
+        prevClickedCell?.isClicked = false
+        prevClickedCell = cell
     }
 }
