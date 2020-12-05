@@ -295,15 +295,12 @@
 				C31435B7256BB8010066C423 /* Extension */,
 				707942C8257027E0002AF718 /* Clustering */,
 				707E63DF25749074003F0E10 /* Scenes */,
-				C3FB084F256B873F00B93665 /* POIRawData */,
+				F456CB49257B74CB0095139A /* Resources */,
 				708C08BC256258320072B1E0 /* AppDelegate.swift */,
 				708C08BE256258320072B1E0 /* SceneDelegate.swift */,
 				708C08C8256258330072B1E0 /* Assets.xcassets */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
-				70573ABD25795EEA00C8C5BE /* NanumSquareRoundOTFR.otf */,
-				70573AC02579602800C8C5BE /* NanumSquareRoundOTFEB.otf */,
-				DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
@@ -422,6 +419,25 @@
 				0DE171D22574BBC70031DA8E /* csv */,
 			);
 			path = POIRawData;
+			sourceTree = "<group>";
+		};
+		F456CB49257B74CB0095139A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F456CB4A257B74E40095139A /* Fonts */,
+				C3FB084F256B873F00B93665 /* POIRawData */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F456CB4A257B74E40095139A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				70573ABD25795EEA00C8C5BE /* NanumSquareRoundOTFR.otf */,
+				70573AC02579602800C8C5BE /* NanumSquareRoundOTFEB.otf */,
+				DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		F45E25DF256CCB9000054D55 /* CoreData */ = {
