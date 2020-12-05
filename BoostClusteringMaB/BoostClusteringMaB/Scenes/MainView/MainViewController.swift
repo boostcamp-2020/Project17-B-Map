@@ -142,26 +142,26 @@ extension MainViewController: MainDisplayLogic {
             self.configureFirstMarkers(newMarkers: newViewModel.markers, bounds: newViewModel.bounds)
             return
         }
-        
-        self.setOveraysMapView(overlays: oldViewModel.polygons, mapView: nil)
+
+        self.setOverlaysMapView(overlays: oldViewModel.polygons, mapView: nil)
         
         self.markerChangeAnimation(
             oldMarkers: oldViewModel.markers,
             newMarkers: newViewModel.markers,
             bounds: newViewModel.bounds,
             completion: {
-                self.setOveraysMapView(overlays: newViewModel.polygons, mapView: self.mapView)
+                self.setOverlaysMapView(overlays: newViewModel.polygons, mapView: self.mapView)
             })
     }
 }
 
 private extension MainViewController {
     func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
-        self.setOveraysMapView(overlays: newMarkers, mapView: mapView)
+        self.setOverlaysMapView(overlays: newMarkers, mapView: mapView)
         self.setMarkersBounds(markers: newMarkers, bounds: bounds)
     }
     
-    func setOveraysMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
+    func setOverlaysMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
         return overlays.forEach { $0.mapView = mapView }
     }
     
@@ -200,14 +200,14 @@ private extension MainViewController {
                                newMarkers: [NMFMarker],
                                bounds: [NMGLatLngBounds],
                                completion: (() -> Void)?) {
-        self.setOveraysMapView(overlays: oldMarkers, mapView: nil)
+        self.setOverlaysMapView(overlays: oldMarkers, mapView: nil)
         
         self.markerAnimationController.clusteringAnimation(
             old: oldMarkers.map { $0.position },
             new: newMarkers.map { $0.position },
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
-                self.setOveraysMapView(overlays: newMarkers, mapView: self.mapView)
+                self.setOverlaysMapView(overlays: newMarkers, mapView: self.mapView)
                 self.setMarkersBounds(markers: newMarkers, bounds: bounds)
                 completion?()
             })
