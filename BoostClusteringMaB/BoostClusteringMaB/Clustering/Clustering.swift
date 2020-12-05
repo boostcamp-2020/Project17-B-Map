@@ -13,20 +13,21 @@ class Clustering {
     weak var tool: ClusteringTool?
     
     private let coreDataLayer: CoreDataManager
-    
+    private let queue = OperationQueue()
+
     init(coreDataLayer: CoreDataManager) {
         self.coreDataLayer = coreDataLayer
+        queue.qualityOfService = .userInteractive
     }
-    
-    let group = DispatchGroup.init()
-    
+
     func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
+        queue.cancelAllOperations()
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
         guard !pois.isEmpty else { return }
         runKMeans(pois: pois, zoomLevel: zoomLevel)
     }
-    
+
     private func runKMeans(pois: [POI], zoomLevel: Double) {
         let integer = Int(zoomLevel)
         let startRange = (integer - 10 <= 0) ? 2 : integer - 10
@@ -34,27 +35,48 @@ class Clustering {
         
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
-        let serialQueue = DispatchQueue.init(label: "serial")
-        
+
+        var operations = [Operation]()
+
         kRange.forEach { k in
-            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, pois: pois)
-                kMeans.run()
-                
+            let kMeans = KMeans(k: k, pois: pois)
+            kMeans.completionBlock = {
                 let DBI = kMeans.daviesBouldinIndex()
-                serialQueue.async(group: self.group) {
-                    if DBI <= minValue {
-                        minValue = DBI
-                        minKMeans = kMeans
-                    }
+                if DBI <= minValue {
+                    minValue = DBI
+                    minKMeans = kMeans
                 }
             }
+            operations.append(kMeans)
         }
-        
-        group.notify(queue: .main) { [weak self] in
+        queue.addOperations(operations, waitUntilFinished: false)
+
+        queue.addBarrierBlock {
             guard let minKMeans = minKMeans else { return }
-            self?.groupNotifyTasks(minKMeans)
+            DispatchQueue.main.async {
+                self.groupNotifyTasks(minKMeans)
+            }
         }
+        //
+        //        kRange.forEach { k in
+        //            DispatchQueue.global(qos: .userInteractive).async(group: group) {
+        //                let kMeans = KMeans(k: k, pois: pois)
+        //                kMeans.run()
+        //
+        //                let DBI = kMeans.daviesBouldinIndex()
+        //                serialQueue.async(group: self.group) {
+        //                    if DBI <= minValue {
+        //                        minValue = DBI
+        //                        minKMeans = kMeans
+        //                    }
+        //                }
+        //            }
+        //        }
+        //
+        //        group.notify(queue: .main) { [weak self] in
+        //            guard let minKMeans = minKMeans else { return }
+        //            self?.groupNotifyTasks(minKMeans)
+        //        }
     }
     
     private func groupNotifyTasks(_ minKMeans: KMeans) {

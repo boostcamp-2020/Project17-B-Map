@@ -23,7 +23,7 @@
 
 import Foundation
 
-class KMeans {
+class KMeans: Operation {
     let k: Int
     let pois: [POI] // 8000개 예상
     var clusters: [Cluster]
@@ -31,7 +31,12 @@ class KMeans {
     var centroids: [LatLng] {
         return clusters.map { $0.center }
     }
-    
+
+    override func main() {
+        guard !isCancelled else { return }
+            self.run()
+    }
+
     init(k: Int, pois: [POI]) {
         self.k = k
         self.pois = pois
@@ -41,13 +46,13 @@ class KMeans {
     
     //시간은 maxK를 조정하는방식으로 줌레벨에 따라 + 애니메이션
     func run() {
-        let maxIteration = 100 // 없으면 2~30번 돈다.
-        //		let initCenters = randomCenters(count: k, points: points)
+        let maxIteration = 10 // 없으면 2~30번 돈다.
+        //        let initCenters = randomCenters(count: k, points: points)
         let initCenters = randomCentersByPointsIndex(count: k, pois: pois)
         clusters = generateClusters(centers: initCenters)
         classifyPoints() // O(n)
         updateCenters() // O(n)
-        
+
         var iteration = 0
         //O(i)
         repeat {
