@@ -1,0 +1,10 @@
+// MARK: - MainViewController
+"OK" = "확인";
+"Cancel" = "취소";
+
+// MARK: - AlertType
+"appendPOITitle" = "POI를 추가하시겠습니까?";
+"deletePOITitle" = "POI를 제거하시겠습니까?";
+"appendPOIMessage" = "OK를 누르면 추가합니다.";
+"deletePOIMessage" = "OK를 누르면 제거합니다.";
+

@@ -14,18 +14,18 @@ enum AlertType {
     var title: String {
         switch self {
         case .append:
-            return "POI를 추가하시겠습니까?"
+            return "appendPOITitle".localized
         case .delete:
-            return "POI를 제거하시겠습니까?"
+            return "deletePOITitle".localized
         }
     }
     
     var message: String {
         switch self {
         case .append:
-            return "OK를 누르면 추가합니다."
+            return "appendPOIMessage".localized
         case .delete:
-            return "OK를 누르면 제거합니다."
+            return "deletePOIMessage".localized
         }
     }
 }

@@ -14,8 +14,9 @@ class LoadViewController: UIViewController {
     private let coreDataLayer = CoreDataLayer()
     private let jsonParser = JsonParser()
     
+    let defaultJSON = "restaurant"
+    
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         animate()
         guard let pois = coreDataLayer.fetch() else {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
@@ -57,7 +58,7 @@ class LoadViewController: UIViewController {
     }
     
     private func loadData(completion handler: @escaping (Result<Void, CoreDataError>) -> Void) {
-        jsonParser.parse(fileName: "restaurant") { [weak self] result in
+        jsonParser.parse(fileName: defaultJSON) { [weak self] result in
             do {
                 let places = try result.get()
                 self?.coreDataLayer.add(places: places) { result in
