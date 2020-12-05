@@ -78,6 +78,10 @@ class LoadViewController: UIViewController {
         viewController.modalPresentationStyle = .fullScreen
         viewController.modalTransitionStyle = .crossDissolve
         
-        present(viewController, animated: true, completion: nil)
+        let window = self.view.window
+        self.dismiss(animated: true) {
+            window?.rootViewController = viewController
+            window?.makeKeyAndVisible()
+        }
     }
 }
