@@ -31,6 +31,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(poi: ManagedPOI) {
+        self.poi = nil
         self.poi = poi
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
