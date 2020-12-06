@@ -28,6 +28,8 @@ class Clustering {
         runKMeans(pois: pois, zoomLevel: zoomLevel)
     }
 
+    let lock = NSLock()
+
     private func runKMeans(pois: [POI], zoomLevel: Double) {
         let integer = Int(zoomLevel)
         let startRange = (integer - 10 <= 0) ? 2 : integer - 10
@@ -42,10 +44,12 @@ class Clustering {
             let kMeans = KMeans(k: k, pois: pois)
             kMeans.completionBlock = {
                 let DBI = kMeans.daviesBouldinIndex()
+                self.lock.lock()
                 if DBI <= minValue {
                     minValue = DBI
                     minKMeans = kMeans
                 }
+                self.lock.unlock()
             }
             operations.append(kMeans)
         }

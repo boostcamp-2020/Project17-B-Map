@@ -34,7 +34,7 @@ class KMeans: Operation {
 
     override func main() {
         guard !isCancelled else { return }
-            self.run()
+        run()
     }
 
     init(k: Int, pois: [POI]) {
