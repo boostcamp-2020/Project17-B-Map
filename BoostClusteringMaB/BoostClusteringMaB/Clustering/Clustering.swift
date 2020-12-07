@@ -38,7 +38,6 @@ class Clustering {
         let integer = Int(zoomLevel)
         let startRange = (integer - 10 <= 0) ? 2 : integer - 10
         let kRange = (startRange...integer)
-
         let kMeansArr = kRange.map { k in
             KMeans(k: k, pois: pois)
         }
