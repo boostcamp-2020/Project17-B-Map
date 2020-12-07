@@ -32,6 +32,11 @@ class KMeans: Operation {
         return clusters.map { $0.center }
     }
 
+    override func cancel() {
+        super.cancel()
+        clusters = []
+    }
+
     override func main() {
         guard !isCancelled else { return }
         run()
@@ -43,21 +48,27 @@ class KMeans: Operation {
         self.clusters = []
         self.isChanged = false
     }
-    
+
+    func runOperation(_ operations: [() -> Void]) {
+        guard !isCancelled else { return }
+        operations.forEach({
+            $0()
+        })
+    }
+
     //시간은 maxK를 조정하는방식으로 줌레벨에 따라 + 애니메이션
     func run() {
         let maxIteration = 10 // 없으면 2~30번 돈다.
         //        let initCenters = randomCenters(count: k, points: points)
         let initCenters = randomCentersByPointsIndex(count: k, pois: pois)
         clusters = generateClusters(centers: initCenters)
-        classifyPoints() // O(n)
-        updateCenters() // O(n)
+         // O(n)
+        runOperation([classifyPoints, updateCenters])
 
         var iteration = 0
         //O(i)
         repeat {
-            updatePoints() // O(nk)
-            updateCenters() // O(n)
+            runOperation([updatePoints, updateCenters])
             iteration += 1
         } while isChanged && (iteration < maxIteration)
     }
