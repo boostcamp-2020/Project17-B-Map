@@ -70,7 +70,7 @@ class KMeans: Operation {
         repeat {
             runOperation([updatePoints, updateCenters])
             iteration += 1
-        } while isChanged && (iteration < maxIteration)
+        } while isChanged && (iteration < maxIteration) && !isCancelled
     }
     
     //1 임의로 중심점을 추출 + 그걸로 클러스터 생성
