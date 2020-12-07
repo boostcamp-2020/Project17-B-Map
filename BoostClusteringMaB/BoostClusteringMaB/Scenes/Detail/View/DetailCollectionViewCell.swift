@@ -8,10 +8,6 @@
 import UIKit
 
 class DetailCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var storeImageView: UIImageView!
-    @IBOutlet weak var addressLabel: UILabel!
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(frame: storeImageView.frame)
         indicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -19,6 +15,15 @@ class DetailCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(indicator)
         return indicator
     }()
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var storeImageView: UIImageView! {
+        didSet {
+            storeImageView.layer.cornerRadius = 10
+        }
+    }
+    @IBOutlet weak var addressLabel: UILabel!
     
     var latLng: LatLng?
     var isClicked: Bool = false
