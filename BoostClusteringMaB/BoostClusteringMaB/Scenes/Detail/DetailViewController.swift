@@ -235,8 +235,8 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 extension DetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else { return }
-        guard let lat = cell.poi?.latitude,
-              let lng = cell.poi?.longitude else {
+        guard let lat = cell.latLng?.lat,
+              let lng = cell.latLng?.lng else {
             return
         }
         delegate?.didCellSelected(lat: lat, lng: lng, isClicked: cell.isClicked)
