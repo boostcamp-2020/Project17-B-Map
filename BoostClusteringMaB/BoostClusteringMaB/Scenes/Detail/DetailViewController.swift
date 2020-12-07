@@ -14,7 +14,9 @@ protocol DetailViewControllerDelegate: class {
 
 final class DetailViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet { searchBar.delegate = self }
+    }
     @IBOutlet weak var dragBar: UIView!
     
     weak var delegate: DetailViewControllerDelegate?
@@ -266,5 +268,26 @@ extension DetailViewController: UICollectionViewDelegate {
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
+    }
+}
+
+extension DetailViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        UIView.animate(withDuration: 0.5) {
+            self.currentState = .full
+            self.moveView(state: self.currentState)
+        }
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        UIView.animate(withDuration: 0.5) {
+            self.currentState = .partial
+            self.moveView(state: self.currentState)
+            self.view.endEditing(true)
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBarTextDidEndEditing(searchBar)
     }
 }
