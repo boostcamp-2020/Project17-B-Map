@@ -116,7 +116,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLN-DG-maa">
-                                                <rect key="frame" x="8" y="2.5" width="31" height="15"/>
+                                                <rect key="frame" x="20" y="2.5" width="31" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -126,7 +126,7 @@
                                         <constraints>
                                             <constraint firstItem="gLN-DG-maa" firstAttribute="centerY" secondItem="wCy-ih-fgg" secondAttribute="centerY" id="JjC-mG-GAo"/>
                                             <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="gLN-DG-maa" secondAttribute="trailing" constant="375" id="Kev-Gn-qfj"/>
-                                            <constraint firstItem="gLN-DG-maa" firstAttribute="leading" secondItem="wCy-ih-fgg" secondAttribute="leading" constant="8" id="z3P-NN-ozz"/>
+                                            <constraint firstItem="gLN-DG-maa" firstAttribute="leading" secondItem="wCy-ih-fgg" secondAttribute="leading" constant="20" id="z3P-NN-ozz"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="poiNumberLabel" destination="gLN-DG-maa" id="rqy-DB-Q7T"/>
