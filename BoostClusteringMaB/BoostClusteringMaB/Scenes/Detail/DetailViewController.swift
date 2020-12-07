@@ -12,17 +12,67 @@ protocol DetailViewControllerDelegate: class {
     func didCellSelected(lat: Double, lng: Double, isClicked: Bool)
 }
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var dragBar: UIView!
     
-    var fullViewYPosition: CGFloat = 44
+    weak var delegate: DetailViewControllerDelegate?
+    
+    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>? {
+        didSet {
+            fetchedResultsController?.delegate = self
+        }
+    }
+    private var currentState: State = .minimum
+    private var prevClickedCell: DetailCollectionViewCell?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
+        configureGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIView.animate(withDuration: 0.6) {
+            self.moveView(state: .minimum)
+        }
+        reloadPOI(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
+    }
+    
+    private func configureView() {
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 10
+        dragBar.layer.cornerRadius = 3
+    }
+    
+    func reloadPOI(southWest: LatLng, northEast: LatLng) {
+        let coreDataLayer = CoreDataLayer()
+
+        fetchedResultsController = coreDataLayer.makeFetchResultsController(
+            southWest: southWest,
+            northEast: northEast
+        )
+
+        do {
+            try fetchedResultsController?.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+        collectionView.reloadData()
+    }
+}
+
+// MARK: Pan Gesture
+extension DetailViewController {
+    var fullViewYPosition: CGFloat { 44 }
     var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
     var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - searchBar.frame.height - 44 }
-    @IBOutlet weak var countLabel: UILabel!
-    weak var delegate: DetailViewControllerDelegate?
-
+    
     private enum State {
-        case minimum // 서치바만
-        case partial // 기본
+        case minimum
+        case partial
         case full
         
         var next: State {
@@ -46,33 +96,6 @@ class DetailViewController: UIViewController {
                 return .partial
             }
         }
-    }
-    
-    @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet weak var dragBar: UIView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    
-    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>? {
-        didSet {
-            fetchedResultsController?.delegate = self
-        }
-    }
-    private var currentState: State = .minimum
-    private var prevClickedCell: DetailCollectionViewCell?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.layer.cornerRadius = 10
-        dragBar.layer.cornerRadius = 3
-        configureGesture()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        UIView.animate(withDuration: 0.6) {
-            self.moveView(state: .minimum)
-        }
-        reloadPOI(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
     }
     
     private func configureGesture() {
@@ -128,27 +151,9 @@ class DetailViewController: UIViewController {
             }
         }
     }
-
-    func reloadPOI(southWest: LatLng, northEast: LatLng) {
-        let coreDataLayer = CoreDataLayer()
-
-        fetchedResultsController = coreDataLayer.makeFetchResultsController(
-            southWest: southWest,
-            northEast: northEast
-        )
-
-        do {
-            try fetchedResultsController?.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-        collectionView.reloadData()
-    }
-
 }
 
 extension DetailViewController: NSFetchedResultsControllerDelegate {
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
