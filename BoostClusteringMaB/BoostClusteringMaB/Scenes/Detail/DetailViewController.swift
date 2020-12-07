@@ -45,6 +45,7 @@ final class DetailViewController: UIViewController {
     
     private func configureView() {
         view.clipsToBounds = true
+        collectionView.isHidden = true
         view.layer.cornerRadius = 10
         dragBar.layer.cornerRadius = 3
     }
@@ -275,6 +276,7 @@ extension DetailViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         UIView.animate(withDuration: 0.5) {
             self.currentState = .full
+            self.collectionView.isHidden = false
             self.moveView(state: self.currentState)
         }
     }
@@ -282,6 +284,7 @@ extension DetailViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         UIView.animate(withDuration: 0.5) {
             self.currentState = .partial
+            self.collectionView.isHidden = false
             self.moveView(state: self.currentState)
             self.view.endEditing(true)
         }
