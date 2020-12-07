@@ -24,7 +24,10 @@ extension NMFMarker {
             marker.captionText = "\(pointCount)"
             marker.captionTextSize = 0
             guard pointCount != 1 else { return marker }
-            marker.setImageView(markerImageView, count: pointCount, size: CGFloat(pointCount) / CGFloat(maxSize))
+            marker.setImageView(
+                markerImageView,
+                count: pointCount,
+                sizeRatio: CGFloat(pointCount) / CGFloat(maxSize))
             return marker
         }
     }
@@ -33,9 +36,10 @@ extension NMFMarker {
     /// - Parameters:
     ///   - view: MarkerImageView
     ///   - count: 클러스터 안에 POI 갯수
-    func setImageView(_ view: MarkerImageView, count: Int, size: CGFloat) {
+    ///   - size: 클러스터 크기 비율
+    func setImageView(_ view: MarkerImageView, count: Int, sizeRatio: CGFloat) {
         view.text = "\(count)"
-        view.radius = NMFMarker.baseRadius + 15 * size
+        view.radius = NMFMarker.baseRadius + 15 * sizeRatio
         iconImage = .init(image: view.snapshot())
     }
 }
