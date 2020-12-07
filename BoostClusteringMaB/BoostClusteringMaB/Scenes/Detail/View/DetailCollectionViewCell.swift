@@ -20,7 +20,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
         return indicator
     }()
     
-    var poi: ManagedPOI?
+    var latLng: LatLng?
     var isClicked: Bool = false
     private weak var task: URLSessionTask?
     
@@ -31,7 +31,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(poi: ManagedPOI) {
-        self.poi = poi
+        self.latLng = LatLng(lat: poi.latitude, lng: poi.longitude)
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
         addressLabel.text = poi.address
