@@ -9,7 +9,7 @@ import Foundation
 import NMapsMap
 
 extension NMFMarker {
-    static let baseRadius: CGFloat = 20
+    static let baseRadius: CGFloat = 15
     static let markerImageView = MarkerImageView(radius: baseRadius)
     
     /// 위치와 갯수를 입력하면 NMFMarker배열로 만들어줌
@@ -18,12 +18,13 @@ extension NMFMarker {
     ///   - pointSizes: 클러스터 안에 POI 갯수
     /// - Returns: 입력된 값으로 만든 마커들
     static func markers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
-        return zip(latLngs, pointSizes).map { latLng, pointSize in
+        guard let maxSize = pointSizes.max() else { return [] }
+        return zip(latLngs, pointSizes).map { latLng, pointCount in
             let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-            marker.captionText = "\(pointSize)"
+            marker.captionText = "\(pointCount)"
             marker.captionTextSize = 0
-            guard pointSize != 1 else { return marker }
-            marker.setImageView(markerImageView, count: pointSize)
+            guard pointCount != 1 else { return marker }
+            marker.setImageView(markerImageView, count: pointCount, size: CGFloat(pointCount) / CGFloat(maxSize))
             return marker
         }
     }
@@ -32,9 +33,9 @@ extension NMFMarker {
     /// - Parameters:
     ///   - view: MarkerImageView
     ///   - count: 클러스터 안에 POI 갯수
-    func setImageView(_ view: MarkerImageView, count: Int) {
+    func setImageView(_ view: MarkerImageView, count: Int, size: CGFloat) {
         view.text = "\(count)"
-        view.radius = NMFMarker.baseRadius + sqrt(CGFloat(count))
+        view.radius = NMFMarker.baseRadius + 15 * size
         iconImage = .init(image: view.snapshot())
     }
 }
