@@ -18,6 +18,7 @@ final class MainPresenter: MainPresentationLogic, ClusteringData {
                    _ pointSizes: [Int],
                    _ bounds: [(southWest: LatLng, northEast: LatLng)],
                    _ convexHulls: [[LatLng]]) {
+
         let newMarkers = NMFMarker.markers(latLngs: latLngs, pointSizes: pointSizes)
         
         let newBounds = bounds.map {

@@ -37,50 +37,29 @@ class Clustering {
         
         var minValue = Double.greatestFiniteMagnitude
         var minKMeans: KMeans?
-
-        var operations = [Operation]()
-
+        
+        let group = DispatchGroup()
+        let serialQueue = DispatchQueue.init(label: "serial")
+        
         kRange.forEach { k in
-            let kMeans = KMeans(k: k, pois: pois)
-            kMeans.completionBlock = {
+            DispatchQueue.global(qos: .userInteractive).async(group: group) {
+                let kMeans = KMeans(k: k, pois: pois)
+                kMeans.run()
+                
                 let DBI = kMeans.daviesBouldinIndex()
-                self.lock.lock()
-                if DBI <= minValue {
-                    minValue = DBI
-                    minKMeans = kMeans
+                serialQueue.async(group: group) {
+                    if DBI <= minValue {
+                        minValue = DBI
+                        minKMeans = kMeans
+                    }
                 }
-                self.lock.unlock()
             }
-            operations.append(kMeans)
         }
-        queue.addOperations(operations, waitUntilFinished: false)
-
-        queue.addBarrierBlock {
+        
+        group.notify(queue: .main) { [weak self] in
             guard let minKMeans = minKMeans else { return }
-            DispatchQueue.main.async {
-                self.groupNotifyTasks(minKMeans)
-            }
+            self?.groupNotifyTasks(minKMeans)
         }
-        //
-        //        kRange.forEach { k in
-        //            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-        //                let kMeans = KMeans(k: k, pois: pois)
-        //                kMeans.run()
-        //
-        //                let DBI = kMeans.daviesBouldinIndex()
-        //                serialQueue.async(group: self.group) {
-        //                    if DBI <= minValue {
-        //                        minValue = DBI
-        //                        minKMeans = kMeans
-        //                    }
-        //                }
-        //            }
-        //        }
-        //
-        //        group.notify(queue: .main) { [weak self] in
-        //            guard let minKMeans = minKMeans else { return }
-        //            self?.groupNotifyTasks(minKMeans)
-        //        }
     }
     
     private func groupNotifyTasks(_ minKMeans: KMeans) {
