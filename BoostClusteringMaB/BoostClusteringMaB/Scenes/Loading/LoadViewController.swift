@@ -17,6 +17,7 @@ class LoadViewController: UIViewController {
     let defaultJSON = "restaurant"
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         animate()
         guard let pois = coreDataLayer.fetch() else {
             debugPrint("LoadViewController.viewDidAppear.load fail 알람창 만들기")
