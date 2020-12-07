@@ -148,6 +148,7 @@ extension DetailViewController {
     @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
         var nextState = moveView(panGestureRecognizer: recognizer)
         if recognizer.state == .ended {
+            self.view.endEditing(true)
             UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) {
                 if nextState == self.currentState {
                     nextState = recognizer.velocity(in: self.view).y >= 0
@@ -269,28 +270,33 @@ extension DetailViewController: UICollectionViewDelegate {
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
+        viewEndEditing(true)
     }
 }
 
 extension DetailViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        UIView.animate(withDuration: 0.5) {
-            self.currentState = .full
-            self.collectionView.isHidden = false
-            self.moveView(state: self.currentState)
-        }
+        viewEndEditing(false)
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        UIView.animate(withDuration: 0.5) {
-            self.currentState = .partial
-            self.collectionView.isHidden = false
-            self.moveView(state: self.currentState)
-            self.view.endEditing(true)
-        }
+        viewEndEditing(true)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarTextDidEndEditing(searchBar)
+    }
+
+    func viewEndEditing(_ endEditing: Bool) {
+        UIView.animate(withDuration: 0.5) {
+            if endEditing {
+                self.currentState = .partial
+                self.view.endEditing(endEditing)
+            } else {
+                self.currentState = .full
+            }
+            self.collectionView.isHidden = false
+            self.moveView(state: self.currentState)
+        }
     }
 }
