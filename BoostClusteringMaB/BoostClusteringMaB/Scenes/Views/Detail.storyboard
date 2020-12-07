@@ -69,7 +69,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="gLB-Nw-XXB">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="gLB-Nw-XXB">
                                                         <rect key="frame" x="306" y="15" width="98" height="98"/>
                                                         <color key="backgroundColor" red="0.38888341189999998" green="0.84166854619999998" blue="0.50189584490000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
@@ -164,7 +164,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Icon" width="541" height="540"/>
+        <image name="icon" width="541" height="540"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
