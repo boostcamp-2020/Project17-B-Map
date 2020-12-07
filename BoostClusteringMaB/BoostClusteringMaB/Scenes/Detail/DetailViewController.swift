@@ -76,7 +76,7 @@ class DetailViewController: UIViewController {
     }
     
     private func configureGesture() {
-        let gesture = UIPanGestureRecognizer.init(target: self, action: #selector(panGesture))
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
         view.addGestureRecognizer(gesture)
     }
     
@@ -94,21 +94,36 @@ class DetailViewController: UIViewController {
         currentState = state
     }
     
-    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) {
+    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) -> State {
         let translation = recognizer.translation(in: view)
         let minY = view.frame.minY
-        if (minY + translation.y >= fullViewYPosition) && (minY + translation.y <= minimumViewYPosition) {
-            view.frame = CGRect(x: 0, y: minY + translation.y, width: view.frame.width, height: view.frame.height)
+        let endedY = minY + translation.y
+        let fullAndPartialBound = (fullViewYPosition + (partialViewYPosition - fullViewYPosition) / 2)
+        let partialAndMinimumBound = (partialViewYPosition + (minimumViewYPosition - partialViewYPosition) / 2)
+        
+        if (endedY >= fullViewYPosition) && (endedY <= minimumViewYPosition) {
+            view.frame = CGRect(x: 0, y: endedY, width: view.frame.width, height: view.frame.height)
             recognizer.setTranslation(CGPoint.zero, in: view)
+        }
+        
+        switch endedY {
+        case ...fullAndPartialBound:
+            return .full
+        case ...partialAndMinimumBound:
+            return .partial
+        default:
+            return .minimum
         }
     }
     
     @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
-        moveView(panGestureRecognizer: recognizer)
+        var nextState = moveView(panGestureRecognizer: recognizer)
         if recognizer.state == .ended {
-            UIView.animate(withDuration: 1, delay: 0, options: [.allowUserInteraction]) {
-                let nextState: State = recognizer.velocity(in: self.view).y >= 0
-                    ? self.currentState.prev : self.currentState.next
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) {
+                if nextState == self.currentState {
+                    nextState = recognizer.velocity(in: self.view).y >= 0
+                        ? self.currentState.prev : self.currentState.next
+                }
                 self.moveView(state: nextState)
             }
         }
