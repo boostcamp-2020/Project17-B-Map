@@ -25,7 +25,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
     private weak var task: URLSessionTask?
     
     override func prepareForReuse() {
-        storeImageView.image = UIImage(named: "icon")
+        storeImageView.image = UIImage(named: "Icon")
         activityIndicator.startAnimating()
         task?.cancel()
     }

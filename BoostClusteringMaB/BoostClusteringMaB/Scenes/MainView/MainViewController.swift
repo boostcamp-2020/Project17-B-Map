@@ -40,7 +40,7 @@ final class MainViewController: UIViewController {
     var prevDotView: UIView?
 
     private lazy var bottomSheetViewController: DetailViewController = {
-        guard let bottom = storyboard?.instantiateViewController(withIdentifier: "DetailViewController")
+        guard let bottom = UIStoryboard(name: "Detail", bundle: nil).instantiateInitialViewController()
                 as? DetailViewController else { return DetailViewController() }
         return bottom
     }()
@@ -120,8 +120,8 @@ final class MainViewController: UIViewController {
         let alert = UIAlertController(title: type.title,
                                       message: type.message,
                                       preferredStyle: UIAlertController.Style.alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+        let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "OK".localized, style: .default, handler: { _ in
             handler()
         })
         alert.addAction(cancelAction)
