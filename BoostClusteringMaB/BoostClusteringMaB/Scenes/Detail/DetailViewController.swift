@@ -131,10 +131,13 @@ extension DetailViewController {
         
         switch endedY {
         case ...fullAndPartialBound:
+            collectionView.isHidden = false
             return .full
         case ...partialAndMinimumBound:
+            collectionView.isHidden = false
             return .partial
         default:
+            collectionView.isHidden = true
             return .minimum
         }
     }
