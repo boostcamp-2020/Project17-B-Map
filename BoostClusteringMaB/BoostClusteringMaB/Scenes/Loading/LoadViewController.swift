@@ -13,9 +13,8 @@ class LoadViewController: UIViewController {
     
     private let coreDataLayer = CoreDataLayer()
     private let jsonParser = JsonParser()
-    
     let defaultJSON = "restaurant"
-    
+  
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         animate()
@@ -57,7 +56,7 @@ class LoadViewController: UIViewController {
         }
         self.presentMainViewController()
     }
-    
+
     private func loadData(completion handler: @escaping (Result<Void, CoreDataError>) -> Void) {
         jsonParser.parse(fileName: defaultJSON) { [weak self] result in
             do {
@@ -78,7 +77,6 @@ class LoadViewController: UIViewController {
         }
         viewController.modalPresentationStyle = .fullScreen
         viewController.modalTransitionStyle = .crossDissolve
-        
         let window = self.view.window
         self.dismiss(animated: true) {
             window?.rootViewController = viewController

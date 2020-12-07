@@ -168,9 +168,7 @@ private extension MainViewController {
     func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         zip(markers, bounds).forEach { marker, bound in
             marker.touchHandler = { [weak self] _ in
-                guard let self = self else {
-                    return true
-                }
+                guard let self = self else { return true }
                 
                 if marker.captionText == "1" {
                     self.showAlert(latlng: marker.position, type: .delete) {
@@ -220,6 +218,9 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
+        displayedData.markers.forEach({
+            $0.touchHandler = nil
+        })
         let zoomLevel = mapView.zoomLevel
         interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
         if bottomSheetViewController.collectionView != nil {
