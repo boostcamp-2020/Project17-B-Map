@@ -18,13 +18,20 @@ final class MainPresenter: MainPresentationLogic, ClusteringData {
                    _ pointSizes: [Int],
                    _ bounds: [(southWest: LatLng, northEast: LatLng)],
                    _ convexHulls: [[LatLng]]) {
-        let newMarkers = NMFMarker.markers(latLngs: latLngs, pointSizes: pointSizes)
+
+        let centers = convexHulls.map { latLngs in
+            latLngs.reduce(LatLng(.init(lat: 0, lng: 0))) { $0 + $1 } / latLngs.count
+              }
+
+        let newMarkers = NMFMarker.markers(latLngs: centers, pointSizes: pointSizes)
         
         let newBounds = bounds.map {
             NMGLatLngBounds(southWest: NMGLatLng(lat: $0.lat, lng: $0.lng),
                             northEast: NMGLatLng(lat: $1.lat, lng: $1.lng))
         }
+
         let count = pointSizes.reduce(0) { $0 + $1 }
+
         let newPolygons = NMFPolygonOverlay.polygonOverlays(convexHulls: convexHulls)
         let newViewModel = ViewModel(markers: newMarkers, polygons: newPolygons, bounds: newBounds, count: count)
         
