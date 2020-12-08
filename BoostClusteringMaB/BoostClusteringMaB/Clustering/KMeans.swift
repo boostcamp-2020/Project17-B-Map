@@ -31,6 +31,13 @@ class KMeans: Operation {
     var centroids: [LatLng] {
         return clusters.map { $0.center }
     }
+    
+    init(k: Int, pois: [POI]) {
+        self.k = k
+        self.pois = pois
+        self.clusters = []
+        self.isChanged = false
+    }
 
     override var isAsynchronous: Bool {
         true
@@ -39,13 +46,6 @@ class KMeans: Operation {
     override func main() {
         guard !isCancelled else { return }
         run()
-    }
-
-    init(k: Int, pois: [POI]) {
-        self.k = k
-        self.pois = pois
-        self.clusters = []
-        self.isChanged = false
     }
 
     func runOperation(_ operations: [() -> Void]) {
@@ -58,7 +58,7 @@ class KMeans: Operation {
 
     //시간은 maxK를 조정하는방식으로 줌레벨에 따라 + 애니메이션
     func run() {
-        let maxIteration = 10 // 없으면 2~30번 돈다.
+        let maxIteration = 5 // 없으면 2~30번 돈다.
         //        let initCenters = randomCenters(count: k, points: points)
         let initCenters = randomCentersByPointsIndex(count: k, pois: pois)
         clusters = generateClusters(centers: initCenters)
@@ -158,26 +158,17 @@ class KMeans: Operation {
         return nearestCluster
     }
     
-    //오차 제곱합
-    //    func sumOfSquaredOfError() -> Double {
-    //        var sum: Double = 0
-    //        clusters.forEach {
-    //            sum += $0.sumOfSquaredOfError()
-    //        }
-    //        return sum
-    //    }
-    
     //Davies-Bouldin index (낮을수록 좋음)
     func daviesBouldinIndex() -> Double {
         var sum: Double = 0
+        let deviations = clusters.map { $0.deviation() }
         
         for i in 0..<clusters.count {
             var maxValue: Double = 0
-            for j in 0..<clusters.count {
-                if i == j { continue }
-                let deviations = clusters[i].deviation() + clusters[j].deviation()
+            for j in 0..<clusters.count where i != j {
+                let sumOfDeviations = deviations[i] + deviations[j]
                 let distanceCenters = clusters[i].center.distance(to: clusters[j].center)
-                maxValue = max(maxValue, deviations / distanceCenters)
+                maxValue = max(maxValue, sumOfDeviations / distanceCenters)
             }
             sum += maxValue
         }
