@@ -68,17 +68,6 @@ final class MainViewController: UIViewController {
         configureBottomSheetView()
     }
     
-    func configureBottomSheetView() {
-        addChild(bottomSheetViewController)
-        view.addSubview(bottomSheetViewController.view)
-        bottomSheetViewController.didMove(toParent: self)
-        let height = view.frame.height
-        let width = view.frame.width
-        let maxY = view.frame.maxY
-        bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
-    }
-    
-    // MARK: - configure VIP
     private func configureVIP() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
@@ -94,13 +83,28 @@ final class MainViewController: UIViewController {
         mapView.touchDelegate = self
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
-        
-        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(makeMarker(_:)))
-        naverMapView.addGestureRecognizer(gestureRecognizer)
         view.addSubview(naverMapView)
     }
     
-    @objc func makeMarker(_ sender: UILongPressGestureRecognizer) {
+    private func configureBottomSheetView() {
+        addChild(bottomSheetViewController)
+        view.addSubview(bottomSheetViewController.view)
+        bottomSheetViewController.didMove(toParent: self)
+        let height = view.frame.height
+        let width = view.frame.width
+        let maxY = view.frame.maxY
+        bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
+    }
+}
+
+// MARK: Gesture
+extension MainViewController {
+    private func configureGesture() {
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(makeMarker(_:)))
+        naverMapView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc private func makeMarker(_ sender: UILongPressGestureRecognizer) {
         let point = sender.location(in: view)
         let latlng = point.convert(mapView: mapView)
         
@@ -122,6 +126,50 @@ final class MainViewController: UIViewController {
                                          zoomLevel: self.mapView.zoomLevel)
             self.mapView.moveCamera(cameraUpdate)
         }
+    }
+    
+    private func setMarkersTouchHandler(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
+        zip(markers, bounds).forEach { [weak self] marker, bound in
+            guard let self = self,
+                  let pointCount = marker.userInfo["pointCount"] as? Int
+            else { return }
+            
+            guard pointCount == 1 else {
+                marker.touchHandler = { [weak self] _ in
+                    self?.touchedMarker(bounds: bound, insets: 5)
+                    return true
+                }
+                return
+            }
+            
+            guard marker == self.highlightMarker else {
+                marker.touchHandler = { [weak self] _ in
+                    self?.highlightMarker = marker
+                    return true
+                }
+                return
+            }
+            
+            marker.touchHandler = { [weak self] _ in
+                guard let self = self else { return true }
+                self.showAlert(latlng: marker.position, type: .delete) {
+                    marker.mapView = nil
+                    self.interactor?.deleteLocation(LatLng(marker.position),
+                                                    southWest: self.boundsLatLng.southWest,
+                                                    northEast: self.boundsLatLng.northEast,
+                                                    zoomLevel: self.mapView.zoomLevel)
+                }
+                return true
+            }
+        }
+    }
+    
+    private func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
+        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
+        let cameraUpdate = NMFCameraUpdate(fit: bounds, paddingInsets: edgeInsets)
+        cameraUpdate.animation = .easeIn
+        cameraUpdate.animationDuration = 0.8
+        mapView.moveCamera(cameraUpdate)
     }
     
     private func showAlert(latlng: NMGLatLng, type: AlertType, handler: @escaping () -> Void) {
@@ -169,46 +217,11 @@ extension MainViewController: MainDisplayLogic {
 private extension MainViewController {
     func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         self.setOverlaysMapView(overlays: newMarkers, mapView: mapView)
-        self.setMarkersBounds(markers: newMarkers, bounds: bounds)
+        self.setMarkersTouchHandler(markers: newMarkers, bounds: bounds)
     }
     
     func setOverlaysMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
         return overlays.forEach { $0.mapView = mapView }
-    }
-    
-    func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
-        zip(markers, bounds).forEach { marker, bound in
-            marker.touchHandler = { [weak self] _ in
-                guard let self = self else { return true }
-                guard let pointCount = marker.userInfo["pointCount"] as? Int else { return true }
-                guard pointCount == 1 else {
-                    self.touchedMarker(bounds: bound, insets: 5)
-                    return true
-                }
-                
-                guard marker == self.highlightMarker else {
-                    self.highlightMarker = marker
-                    return true
-                }
-                
-                self.showAlert(latlng: marker.position, type: .delete) {
-                    marker.mapView = nil
-                    self.interactor?.deleteLocation(LatLng(marker.position),
-                                                    southWest: self.boundsLatLng.southWest,
-                                                    northEast: self.boundsLatLng.northEast,
-                                                    zoomLevel: self.mapView.zoomLevel)
-                }
-                return true
-            }
-        }
-    }
-    
-    func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
-        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
-        let cameraUpdate = NMFCameraUpdate(fit: bounds, paddingInsets: edgeInsets)
-        cameraUpdate.animation = .easeIn
-        cameraUpdate.animationDuration = 0.8
-        mapView.moveCamera(cameraUpdate)
     }
     
     func markerChangeAnimation(oldMarkers: [NMFMarker],
@@ -227,7 +240,7 @@ private extension MainViewController {
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
                 self.setOverlaysMapView(overlays: newMarkers, mapView: self.mapView)
-                self.setMarkersBounds(markers: newMarkers, bounds: bounds)
+                self.setMarkersTouchHandler(markers: newMarkers, bounds: bounds)
                 completion?()
             })
     }
