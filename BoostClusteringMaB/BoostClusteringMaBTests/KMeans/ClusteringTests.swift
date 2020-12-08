@@ -80,10 +80,10 @@ class ClusteringTests: XCTestCase {
 //        let clustering = Clustering(naverMapView: mapViewMock, coreDataLayer: CoreDataLayerMock())
 //
 //        // When
-//        clustering.findOptimalClustering {latLngs, pointSizes, convexHullPoints in
+//        clustering.findOptimalClustering {latLngs, pointCount, convexHullPoints in
 //            // Then
 //            XCTAssertEqual(latLngs.count, 1)
-//            XCTAssertEqual(pointSizes.count, 1)
+//            XCTAssertEqual(pointCount.count, 1)
 //            XCTAssertEqual(convexHullPoints.count, 3)
 //
 //            expectaion.fulfill()
