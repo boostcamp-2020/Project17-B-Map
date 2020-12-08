@@ -28,9 +28,7 @@ protocol CoreDataManager {
     func remove(poi: ManagedPOI, completion handler: CoreDataHandler?)
     func remove(location: LatLng, completion handler: CoreDataHandler?)
     func removeAll(completion handler: CoreDataHandler?)
-    func makeFetchResultsController(southWest: LatLng,
-                                    northEast: LatLng) -> NSFetchedResultsController<ManagedPOI>
-    
+    func makeFetchResultsController() -> NSFetchedResultsController<ManagedPOI>
 }
 
 final class CoreDataLayer: CoreDataManager {
@@ -44,18 +42,10 @@ final class CoreDataLayer: CoreDataManager {
         return childContext
     }()
     
-    func makeFetchResultsController(southWest: LatLng,
-                                    northEast: LatLng) -> NSFetchedResultsController<ManagedPOI> {
+    func makeFetchResultsController() -> NSFetchedResultsController<ManagedPOI> {
         let request: NSFetchRequest = ManagedPOI.fetchRequest()
         request.sortDescriptors = makeSortDescription(sorted: true)
-        
-        let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}",
-                                            argumentArray: [southWest.lat, northEast.lat])
-        let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}",
-                                             argumentArray: [southWest.lng, northEast.lng])
-        let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
-        request.predicate = predicate
-        
+
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: childContext,
                                           sectionNameKeyPath: nil,
