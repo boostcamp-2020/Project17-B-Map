@@ -13,7 +13,7 @@ protocol ClusteringTool: class {
 
 protocol ClusteringData: class {
     func redrawMap(_ latLngs: [LatLng],
-                   _ pointSizes: [Int],
+                   _ pointCount: [Int],
                    _ bounds: [(southWest: LatLng, northEast: LatLng)],
                    _ convexHulls: [[LatLng]])
 }

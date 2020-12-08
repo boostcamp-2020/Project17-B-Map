@@ -10,17 +10,17 @@ import NMapsMap
 
 extension NMFMarker {
     static let maxBaseRadius: CGFloat = 15
-    static let markerImageView = MarkerImageView(radius: baseRadius)
+    static let markerImageView = MarkerImageView(radius: maxBaseRadius)
     
     /// 위치와 갯수를 입력하면 NMFMarker배열로 만들어줌
     /// - Parameters:
     ///   - latLngs: 클러스터 위치
-    ///   - pointSizes: 클러스터 안에 POI 갯수
+    ///   - pointCount: 클러스터 안에 POI 갯수
     /// - Returns: 입력된 값으로 만든 마커들
-    static func markers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
-        guard let maxSize = pointSizes.max() else { return [] }
+    static func markers(latLngs: [LatLng], pointCount: [Int]) -> [NMFMarker] {
+        guard let maxSize = pointCount.max() else { return [] }
         
-        return zip(latLngs, pointSizes).map { latLng, pointCount in
+        return zip(latLngs, pointCount).map { latLng, pointCount in
             let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
             marker.userInfo["pointCount"] = pointCount
             guard pointCount != 1 else {
