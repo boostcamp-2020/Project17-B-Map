@@ -28,6 +28,7 @@ final class MainViewController: UIViewController {
         naverMapView.addSubview(animationView)
         return controller
     }()
+
     private lazy var bottomSheetViewController: DetailViewController = {
         guard let bottom = UIStoryboard(name: "Detail", bundle: nil).instantiateInitialViewController()
                 as? DetailViewController else { return DetailViewController() }
