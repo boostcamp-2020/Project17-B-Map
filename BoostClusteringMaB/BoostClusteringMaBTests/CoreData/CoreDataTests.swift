@@ -16,28 +16,9 @@ class CoreDataTests: XCTestCase {
                          y: "35.55532",
                          imageURL: nil,
                          category: "부스트캠프")
-
-    class AddressAPIMock: AddressAPIService {
-        func address(lat: Double, lng: Double, completion: ((Result<Data, Error>) -> Void)?) {
-            completion?(.success(.init()))
-        }
-    }
-
-    class JSONParserMock: JsonParserService {
-        func parse(fileName: String, completion handler: @escaping (Result<[Place], Error>) -> Void) {
-            handler(.success([]))
-        }
-
-        func parse(address: Data) -> String? {
-            return ""
-        }
-    }
-
     func testAddPOI() throws {
         // Given
         let layer = CoreDataLayer()
-        layer.addressAPI = AddressAPIMock()
-        layer.jsonParser = JSONParserMock()
 
         timeout(10) { expectation in
             // When
@@ -165,8 +146,6 @@ class CoreDataTests: XCTestCase {
     func testRemove() throws {
         // Given
         let layer = CoreDataLayer()
-        layer.addressAPI = AddressAPIMock()
-        layer.jsonParser = JSONParserMock()
         
         timeout(20) { expectation in
             layer.add(place: newPlace) { _ in
