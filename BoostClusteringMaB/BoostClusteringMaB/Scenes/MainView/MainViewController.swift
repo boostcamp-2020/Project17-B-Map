@@ -28,8 +28,8 @@ final class MainViewController: UIViewController {
         naverMapView.addSubview(animationView)
         return controller
     }()
-    //    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
+        lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+//    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
     
     var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     var interactor: MainBusinessLogic?
@@ -132,6 +132,9 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: MainDisplayLogic {
     func displayFetch(viewModel: ViewModel) {
+        displayedData.markers.forEach({
+            $0.touchHandler = nil
+        })
         let oldViewModel = displayedData
         displayedData = viewModel
         redrawMap(oldViewModel: oldViewModel, newViewModel: viewModel)
@@ -218,9 +221,6 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        displayedData.markers.forEach({
-            $0.touchHandler = nil
-        })
         let zoomLevel = mapView.zoomLevel
         interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
         if bottomSheetViewController.collectionView != nil {
