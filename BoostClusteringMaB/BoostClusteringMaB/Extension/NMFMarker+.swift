@@ -9,7 +9,7 @@ import Foundation
 import NMapsMap
 
 extension NMFMarker {
-    static let maxBaseRadius: CGFloat = 15
+    static let maxBaseRadius: CGFloat = 20
     static let markerImageView = MarkerImageView(radius: maxBaseRadius)
     
     /// 위치와 갯수를 입력하면 NMFMarker배열로 만들어줌
