@@ -29,7 +29,7 @@ class Clustering {
     }
 
     func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
-        queue.isSuspended = true
+//        queue.isSuspended = true
         queue.cancelAllOperations()
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
@@ -43,35 +43,31 @@ class Clustering {
         var minKmeans: KMeans = .init(k: 0, pois: [])
         var minDBI: Double = .greatestFiniteMagnitude
 
-        let kMeansArr = kRange.map { k -> KMeans in
+        kRange.forEach { k in
             let kMeans = KMeans(k: k, pois: pois)
-            kMeans.completionBlock = {
-                self.dbiOperationQueue.addOperation {
-                    let dbi = kMeans.daviesBouldinIndex()
-                    if minDBI > dbi {
-                        minDBI = dbi
-                        minKmeans = kMeans
-                    }
+
+            let operation = BlockOperation {
+                let dbi = kMeans.daviesBouldinIndex()
+                if minDBI > dbi {
+                    minDBI = dbi
+                    minKmeans = kMeans
                 }
             }
-            return kMeans
+
+            operation.addDependency(kMeans)
+            queue.addOperations([kMeans, operation], waitUntilFinished: false)
         }
 
-        queue.addOperations(kMeansArr, waitUntilFinished: false)
+//        queue.addOperations(kMeansArr, waitUntilFinished: false)
 
         queue.addBarrierBlock { [weak self] in
-//            self?.processTime {
-//            let kMeansTuple = kMeansArr.map { (kMeans: $0, DBI: $0.daviesBouldinIndex()) }
-//                minKMeans = kMeansTuple.min(by: { lhs, rhs in lhs.DBI < rhs.DBI })?.kMeans ?? .init(k: 0, pois: [])
-//            }
             DispatchQueue.main.async {
                 self?.groupNotifyTasks(minKmeans)
             }
 
         }
 
-        queue.isSuspended = false
-
+//        queue.isSuspended = false
     }
 
     func processTime(blockFunction: () -> Void) {

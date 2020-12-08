@@ -32,10 +32,6 @@ class KMeans: Operation {
         return clusters.map { $0.center }
     }
 
-    override func cancel() {
-        super.cancel()
-    }
-
     override var isAsynchronous: Bool {
         true
     }
