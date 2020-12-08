@@ -23,7 +23,7 @@ protocol MainDisplayLogic: class {
 final class MainViewController: UIViewController {
     private lazy var naverMapView = NMFNaverMapView(frame: view.frame)
     private lazy var markerAnimationController: MarkerAnimateController = {
-        let controller = MarkerAnimateController(frame: view.frame, markerRadius: 30, mapView: mapView)
+        let controller = MarkerAnimateController(frame: view.frame, mapView: mapView)
         guard let animationView = controller.view else { return controller }
         naverMapView.addSubview(animationView)
         return controller
@@ -237,10 +237,10 @@ private extension MainViewController {
 
         self.markerAnimationController.clusteringAnimation(
             old: oldMarkers.map {
-                (latLng: $0.position, radius: $0.iconImage.imageWidth / 2)
+                (latLng: $0.position, size: $0.iconImage.imageWidth)
             },
             new: newMarkers.map {
-                (latLng: $0.position, radius: $0.iconImage.imageWidth / 2)
+                (latLng: $0.position, size: $0.iconImage.imageWidth)
             },
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {

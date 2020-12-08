@@ -8,19 +8,18 @@
 import UIKit
 
 class MarkerImageView: UILabel {
-    var radius: CGFloat {
+    var size: CGFloat {
         get {
-            return frame.width / 2
+            return frame.width
         }
         
         set {
-            frame = .init(x: 0, y: 0, width: newValue * 2, height: newValue * 2)
-            layer.cornerRadius = newValue
+            frame = .init(x: 0, y: 0, width: newValue, height: newValue)
         }
     }
     
-    init(radius: CGFloat) {
-        super.init(frame: .init(x: 0, y: 0, width: radius * 2, height: radius * 2))
+    init(size: CGFloat) {
+        super.init(frame: .init(x: 0, y: 0, width: size * 2, height: size * 2))
         configureView()
     }
     

@@ -8,14 +8,12 @@ import UIKit
 import NMapsMap
 
 final class MarkerAnimateController {
-    typealias AnimationModel = (latLng: NMGLatLng, radius: CGFloat)
-    private let markerRadius: CGFloat
+    typealias AnimationModel = (latLng: NMGLatLng, size: CGFloat)
     private let mapView: NMFMapViewProtocol
     private var animator: UIViewPropertyAnimator?
     var view: UIView?
     
-    init(frame: CGRect, markerRadius: CGFloat, mapView: NMFMapViewProtocol) {
-        self.markerRadius = markerRadius
+    init(frame: CGRect, mapView: NMFMapViewProtocol) {
         self.mapView = mapView
         configureAnimationView(frame: frame)
     }
@@ -82,26 +80,26 @@ final class MarkerAnimateController {
         
         let srcPointView = MarkerImageView(
             frame: CGRect(
-                x: srcPoint.x - srcModel.radius,
-                y: srcPoint.y - srcModel.radius * 2,
-                width: srcModel.radius * 2,
-                height: srcModel.radius * 2))
+                x: srcPoint.x - srcModel.size / 2,
+                y: srcPoint.y - srcModel.size,
+                width: srcModel.size,
+                height: srcModel.size))
         srcPointView.transform = .identity
         view?.addSubview(srcPointView)
         
         let dstPointView = MarkerImageView(
             frame: CGRect(
-                x: dstPoint.x - dstModel.radius,
-                y: dstPoint.y - dstModel.radius * 2,
-                width: dstModel.radius * 2,
-                height: dstModel.radius * 2
+                x: dstPoint.x - dstModel.size / 2,
+                y: dstPoint.y - dstModel.size,
+                width: dstModel.size,
+                height: dstModel.size
             )
         )
         dstPointView.alpha = 0
         dstPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
         view?.addSubview(dstPointView)
         
-        let scaleValue = dstModel.radius / srcModel.radius
+        let scaleValue = dstModel.size / srcModel.size
         
         return (animation: {
             srcPointView.center = dstPointView.center
