@@ -33,7 +33,15 @@ final class DetailViewController: UIViewController {
         return controller
     }()
 
-    private var currentState: State = .minimum
+    private var currentState: State = .minimum {
+        didSet {
+            if currentState == .minimum {
+                collectionView.isHidden = true
+            } else {
+                collectionView.isHidden = false
+            }
+        }
+    }
     private var prevClickedCell: DetailCollectionViewCell?
 
     override func viewDidLoad() {
@@ -52,7 +60,6 @@ final class DetailViewController: UIViewController {
     
     private func configureView() {
         view.clipsToBounds = true
-        collectionView.isHidden = true
         view.layer.cornerRadius = 10
         dragBar.layer.cornerRadius = 3
     }
@@ -140,7 +147,7 @@ extension DetailViewController: UICollectionViewDelegate {
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
-        viewEndEditing(true)
+        searchViewEditing(true)
     }
 }
 
@@ -150,26 +157,25 @@ extension DetailViewController: UISearchBarDelegate {
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        viewEndEditing(false)
+        searchViewEditing(true)
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        viewEndEditing(true)
+        searchViewEditing(false)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarTextDidEndEditing(searchBar)
     }
 
-    func viewEndEditing(_ endEditing: Bool) {
+    func searchViewEditing(_ isEditing: Bool) {
         UIView.animate(withDuration: 0.5) {
-            if endEditing {
-                self.currentState = .partial
-                self.view.endEditing(endEditing)
-            } else {
+            if isEditing {
                 self.currentState = .full
+            } else {
+                self.currentState = .partial
+                self.view.endEditing(isEditing)
             }
-            self.collectionView.isHidden = false
             self.moveView(state: self.currentState)
         }
     }
@@ -242,13 +248,10 @@ extension DetailViewController {
 
         switch endedY {
         case ...fullAndPartialBound:
-            collectionView.isHidden = false
             return .full
         case ...partialAndMinimumBound:
-            collectionView.isHidden = false
             return .partial
         default:
-            collectionView.isHidden = true
             return .minimum
         }
     }
