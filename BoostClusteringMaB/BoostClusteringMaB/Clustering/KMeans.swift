@@ -34,7 +34,6 @@ class KMeans: Operation {
 
     override func cancel() {
         super.cancel()
-        clusters = []
     }
 
     override func main() {
