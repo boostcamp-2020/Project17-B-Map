@@ -21,8 +21,11 @@ class Clustering {
         return queue
     }()
 
+    private let dbiOperationQueue = OperationQueue()
+
     init(coreDataLayer: CoreDataManager) {
         self.coreDataLayer = coreDataLayer
+        dbiOperationQueue.maxConcurrentOperationCount = 1
     }
 
     func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
@@ -36,23 +39,48 @@ class Clustering {
 
     private func runKMeans(pois: [POI], zoomLevel: Double) {
         let kRange = findKRange(zoomLevel: Int(zoomLevel))
-        let kMeansArr = kRange.map { k in
-            KMeans(k: k, pois: pois)
+
+        var minKmeans: KMeans = .init(k: 0, pois: [])
+        var minDBI: Double = .greatestFiniteMagnitude
+
+        let kMeansArr = kRange.map { k -> KMeans in
+            let kMeans = KMeans(k: k, pois: pois)
+            kMeans.completionBlock = {
+                self.dbiOperationQueue.addOperation {
+                    let dbi = kMeans.daviesBouldinIndex()
+                    if minDBI > dbi {
+                        minDBI = dbi
+                        minKmeans = kMeans
+                    }
+                }
+            }
+            return kMeans
         }
 
         queue.addOperations(kMeansArr, waitUntilFinished: false)
 
         queue.addBarrierBlock { [weak self] in
-            let kMeansTuple = kMeansArr.map { (kMeans: $0, DBI: $0.daviesBouldinIndex()) }
-            guard let minKMeans = kMeansTuple.min(by: { lhs, rhs in lhs.DBI < rhs.DBI })?.kMeans else { return }
+//            self?.processTime {
+//            let kMeansTuple = kMeansArr.map { (kMeans: $0, DBI: $0.daviesBouldinIndex()) }
+//                minKMeans = kMeansTuple.min(by: { lhs, rhs in lhs.DBI < rhs.DBI })?.kMeans ?? .init(k: 0, pois: [])
+//            }
             DispatchQueue.main.async {
-                self?.groupNotifyTasks(minKMeans)
+                self?.groupNotifyTasks(minKmeans)
             }
+
         }
 
         queue.isSuspended = false
+
     }
-    
+
+    func processTime(blockFunction: () -> Void) {
+        let startTime = CFAbsoluteTimeGetCurrent()
+        blockFunction()
+        let processTime = CFAbsoluteTimeGetCurrent() - startTime
+        print("걸린 시간 = \(processTime)")
+    }
+
     private func findKRange(zoomLevel: Int) -> ClosedRange<Int> {
         let start: Int
         let end: Int
@@ -75,13 +103,14 @@ class Clustering {
         var centroids = LatLngs()
         var convexHullPoints = [LatLngs]()
         var bounds = [(southWest: LatLng, northEast: LatLng)]()
-        
+
         combinedClusters.forEach({ cluster in
             points.append(cluster.pois.size)
             centroids.append(cluster.center)
             convexHullPoints.append(cluster.area())
-            bounds.append((southWest: cluster.southWest(),
-                           northEast: cluster.northEast()))
+            let cluster = cluster.southWestAndNorthEast()
+            bounds.append((southWest: cluster.southWest,
+                           northEast: cluster.northEast))
         })
         self.data?.redrawMap(centroids, points, bounds, convexHullPoints)
     }

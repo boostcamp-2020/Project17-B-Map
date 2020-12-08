@@ -34,6 +34,13 @@ class KMeans: Operation {
 
     override func cancel() {
         super.cancel()
+<<<<<<< Updated upstream
+=======
+    }
+
+    override var isAsynchronous: Bool {
+        true
+>>>>>>> Stashed changes
     }
 
     override func main() {
@@ -50,6 +57,7 @@ class KMeans: Operation {
 
     func runOperation(_ operations: [() -> Void]) {
         guard !isCancelled else { return }
+        self.queuePriority = QueuePriority(rawValue: k + 4) ?? .high
         operations.forEach({
             $0()
         })

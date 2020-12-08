@@ -13,7 +13,7 @@ class LoadViewController: UIViewController {
     
     private let coreDataLayer = CoreDataLayer()
     private let jsonParser = JsonParser()
-    let defaultJSON = "restaurant"
+    let defaultJSON = "gangnam_8000"
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

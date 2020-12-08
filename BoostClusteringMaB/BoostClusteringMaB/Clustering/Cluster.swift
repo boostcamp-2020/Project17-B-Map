@@ -16,7 +16,11 @@ class Cluster: Equatable {
     
     var center: LatLng
     var pois: LinkedList<POI>
-    
+
+    private var poisLatLng: LatLng {
+        self.pois.now?.value.latLng ?? .zero
+    }
+
     init(center: LatLng) {
         self.center = center
         self.pois = LinkedList<POI>()
@@ -36,7 +40,7 @@ class Cluster: Equatable {
         
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let nowPoint = LatLng(lat: pois.now?.value.latLng.lat ?? 0, lng: pois.now?.value.latLng.lng ?? 0)
+            let nowPoint = LatLng(lat: poisLatLng.lat, lng: poisLatLng.lng)
             newCenter += nowPoint
             //newCenter = newCenter + (points.now?.value ?? LatLng.zero)
             pois.moveNowToNext()
@@ -68,7 +72,7 @@ class Cluster: Equatable {
         var sum: Double = 0
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let nowPoint = LatLng(lat: pois.now?.value.latLng.lat ?? 0, lng: pois.now?.value.latLng.lng ?? 0)
+            let nowPoint = LatLng(lat: poisLatLng.lat, lng: poisLatLng.lng)
             sum += center.distance(to: nowPoint)
             pois.moveNowToNext()
         }
@@ -80,19 +84,52 @@ class Cluster: Equatable {
         let poisAllValues = pois.allValues()
         
         let points = poisAllValues.map { LatLng(lat: $0.latLng.lat, lng: $0.latLng.lng) }
-        
+
         let convexHull = ConvexHull(poiPoints: points)
         let convexHullPoints = convexHull.run()
         return convexHullPoints
     }
-    
+
+    func southWestAndNorthEast() -> (southWest: LatLng, northEast: LatLng) {
+        var minX = Double.greatestFiniteMagnitude
+        var minY = Double.greatestFiniteMagnitude
+        var maxX: Double = 0
+        var maxY: Double = 0
+
+        pois.setNowToHead()
+
+        for _ in 0..<pois.size {
+            let x = poisLatLng.lng
+            let y = poisLatLng.lat
+            if x < minX {
+                minX = x
+            }
+
+            if y < minY {
+                minY = y
+            }
+
+            if x > maxX {
+                maxX = x
+            }
+
+            if y > maxY {
+                maxY = y
+            }
+
+            pois.moveNowToNext()
+        }
+
+        return (LatLng(lat: minY, lng: minX), LatLng(lat: maxY, lng: maxX))
+    }
+
     func southWest() -> LatLng {
         var minX = Double.greatestFiniteMagnitude
         var minY = Double.greatestFiniteMagnitude
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let x = pois.now?.value.latLng.lng ?? Double.greatestFiniteMagnitude
-            let y = pois.now?.value.latLng.lat ?? Double.greatestFiniteMagnitude
+            let x = poisLatLng.lng
+            let y = poisLatLng.lat
             if x < minX {
                 minX = x
             }
@@ -109,8 +146,8 @@ class Cluster: Equatable {
         var maxY: Double = 0
         pois.setNowToHead()
         for _ in 0..<pois.size {
-            let x = pois.now?.value.latLng.lng ?? 0.0
-            let y = pois.now?.value.latLng.lat ?? 0.0
+            let x = poisLatLng.lng
+            let y = poisLatLng.lat
             if x > maxX {
                 maxX = x
             }
