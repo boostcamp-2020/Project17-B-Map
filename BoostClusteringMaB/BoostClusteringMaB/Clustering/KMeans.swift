@@ -34,13 +34,10 @@ class KMeans: Operation {
 
     override func cancel() {
         super.cancel()
-<<<<<<< Updated upstream
-=======
     }
 
     override var isAsynchronous: Bool {
         true
->>>>>>> Stashed changes
     }
 
     override func main() {
