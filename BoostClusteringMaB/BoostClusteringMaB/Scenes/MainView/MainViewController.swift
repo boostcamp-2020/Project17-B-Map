@@ -47,8 +47,13 @@ final class MainViewController: UIViewController {
     
     private var highlightMarker: NMFMarker? {
         didSet {
+            guard highlightMarker != oldValue else { return }
             highlightMarker?.iconTintColor = UIColor.red
+            if let position = highlightMarker?.position {
+                highlightMarker?.captionText = "\(position.lat),\n \(position.lng)"
+            }
             oldValue?.iconTintColor = UIColor.naverGreen
+            oldValue?.captionText = ""
         }
     }
     
