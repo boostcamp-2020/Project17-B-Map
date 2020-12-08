@@ -16,8 +16,8 @@ class Clustering {
 
     private let queue: OperationQueue = {
         let queue = OperationQueue()
+        queue.underlyingQueue = .global(qos: .userInteractive)
         queue.qualityOfService = .userInteractive
-        queue.underlyingQueue = .global()
         return queue
     }()
 
@@ -29,7 +29,6 @@ class Clustering {
     }
 
     func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
-//        queue.isSuspended = true
         queue.cancelAllOperations()
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
@@ -58,30 +57,18 @@ class Clustering {
             queue.addOperations([kMeans, operation], waitUntilFinished: false)
         }
 
-//        queue.addOperations(kMeansArr, waitUntilFinished: false)
-
         queue.addBarrierBlock { [weak self] in
             DispatchQueue.main.async {
                 self?.groupNotifyTasks(minKmeans)
             }
-
         }
-
-//        queue.isSuspended = false
     }
-
-    func processTime(blockFunction: () -> Void) {
-        let startTime = CFAbsoluteTimeGetCurrent()
-        blockFunction()
-        let processTime = CFAbsoluteTimeGetCurrent() - startTime
-        print("걸린 시간 = \(processTime)")
-    }
-
-    private func findKRange(zoomLevel: Int) -> ClosedRange<Int> {
+    
+    private func findKRange(zoomLevel: Int) -> Range<Int> {
         let start: Int
         let end: Int
         
-        let favorite = (14...17) // 사람들이 자주 쓰는 줌레벨
+        let favorite = (13...17) // 사람들이 자주 쓰는 줌레벨
         if favorite.contains(zoomLevel) {
             start = zoomLevel - 10
         } else {
@@ -89,7 +76,7 @@ class Clustering {
         }
         end = start + 10
         
-        return (start...end)
+        return (start..<end)
     }
     
     private func groupNotifyTasks(_ minKMeans: KMeans) {

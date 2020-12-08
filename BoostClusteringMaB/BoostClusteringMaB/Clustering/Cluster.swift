@@ -16,6 +16,7 @@ class Cluster: Equatable {
     
     var center: LatLng
     var pois: LinkedList<POI>
+    var sum: LatLng
 
     private var poisLatLng: LatLng {
         self.pois.now?.value.latLng ?? .zero
@@ -24,48 +25,33 @@ class Cluster: Equatable {
     init(center: LatLng) {
         self.center = center
         self.pois = LinkedList<POI>()
+        sum = .zero
     }
     
     func add(poi: POI) {
+        sum += poi.latLng
         pois.add(poi)
     }
     
     @discardableResult
     func remove(poi: POI) -> POI? {
+        sum -= poi.latLng
         return pois.remove()
     }
     
     func updateCenter() {
-        var newCenter = LatLng.zero
-        
-        pois.setNowToHead()
-        for _ in 0..<pois.size {
-            let nowPoint = LatLng(lat: poisLatLng.lat, lng: poisLatLng.lng)
-            newCenter += nowPoint
-            //newCenter = newCenter + (points.now?.value ?? LatLng.zero)
-            pois.moveNowToNext()
-        }
-        newCenter.lat /= Double(pois.size)
-        newCenter.lng /= Double(pois.size)
-        
-        center = newCenter
+        center = sum / Double(pois.size)
     }
     
     func combine(other: Cluster) {
         self.pois.merge(other: other.pois)
-        updateCenter()
+        updateCenter(with: other)
     }
     
-    // 오차 제곱 합
-    //    func sumOfSquaredOfError() -> Double {
-    //        var sum: Double = 0
-    //        points.setNowToHead()
-    //        for _ in 0..<points.size {
-    //            sum += center.squaredDistance(to: (points.now?.value ?? LatLng.zero))
-    //            points.moveNowToNext()
-    //        }
-    //        return sum
-    //    }
+    func updateCenter(with other: Cluster) {
+        sum += other.sum
+        center = sum / pois.size
+    }
     
     //중심점과 클러스터내의 점들간의 거리의 평균
     func deviation() -> Double {
@@ -121,41 +107,5 @@ class Cluster: Equatable {
         }
 
         return (LatLng(lat: minY, lng: minX), LatLng(lat: maxY, lng: maxX))
-    }
-
-    func southWest() -> LatLng {
-        var minX = Double.greatestFiniteMagnitude
-        var minY = Double.greatestFiniteMagnitude
-        pois.setNowToHead()
-        for _ in 0..<pois.size {
-            let x = poisLatLng.lng
-            let y = poisLatLng.lat
-            if x < minX {
-                minX = x
-            }
-            if y < minY {
-                minY = y
-            }
-            pois.moveNowToNext()
-        }
-        return LatLng(lat: minY, lng: minX)
-    }
-    
-    func northEast() -> LatLng {
-        var maxX: Double = 0
-        var maxY: Double = 0
-        pois.setNowToHead()
-        for _ in 0..<pois.size {
-            let x = poisLatLng.lng
-            let y = poisLatLng.lat
-            if x > maxX {
-                maxX = x
-            }
-            if y > maxY {
-                maxY = y
-            }
-            pois.moveNowToNext()
-        }
-        return LatLng(lat: maxY, lng: maxX)
     }
 }
