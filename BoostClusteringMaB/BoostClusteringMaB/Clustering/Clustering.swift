@@ -35,9 +35,7 @@ class Clustering {
     }
 
     private func runKMeans(pois: [POI], zoomLevel: Double) {
-        let integer = Int(zoomLevel)
-        let startRange = (integer - 10 <= 0) ? 2 : integer - 10
-        let kRange = (startRange...integer)
+        let kRange = findKRange(zoomLevel: Int(zoomLevel))
         let kMeansArr = kRange.map { k in
             KMeans(k: k, pois: pois)
         }
@@ -53,6 +51,21 @@ class Clustering {
         }
 
         queue.isSuspended = false
+    }
+    
+    private func findKRange(zoomLevel: Int) -> ClosedRange<Int> {
+        let start: Int
+        let end: Int
+        
+        let favorite = (14...17) // 사람들이 자주 쓰는 줌레벨
+        if favorite.contains(zoomLevel) {
+            start = zoomLevel - 10
+        } else {
+            start = 2
+        }
+        end = start + 10
+        
+        return (start...end)
     }
     
     private func groupNotifyTasks(_ minKMeans: KMeans) {
