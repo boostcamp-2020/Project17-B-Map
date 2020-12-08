@@ -8,6 +8,7 @@ import UIKit
 import NMapsMap
 
 final class MarkerAnimateController {
+    typealias AnimationModel = (latLng: NMGLatLng, radius: CGFloat)
     private let markerRadius: CGFloat
     private let mapView: NMFMapViewProtocol
     private var animator: UIViewPropertyAnimator?
@@ -25,14 +26,14 @@ final class MarkerAnimateController {
         view?.isUserInteractionEnabled = false
     }
     
-    func clusteringAnimation(old: [NMGLatLng], new: [NMGLatLng], isMerge: Bool, completion: (() -> Void)?) {
+    func clusteringAnimation(old: [AnimationModel], new: [AnimationModel], isMerge: Bool, completion: (() -> Void)?) {
         let upper = isMerge ? new : old
         let lower = isMerge ? old : new
         
-        let animations = lower.compactMap { lowerMarker in
-            guard let upperMarker = upper
+        let animations = lower.compactMap { lowerModel in
+            guard let upperModel = upper
                     .map({ upperMarker in
-                        (cluster: upperMarker, distance: lowerMarker.distance(to: upperMarker))
+                        (cluster: upperMarker, distance: lowerModel.latLng.distance(to: upperMarker.latLng))
                     })
                     .min(by: { (lhs, rhs) -> Bool in
                         lhs.distance < rhs.distance
@@ -40,8 +41,8 @@ final class MarkerAnimateController {
                     .cluster
             else { return nil }
             
-            return isMerge ? (lowerMarker, upperMarker) : (upperMarker, lowerMarker)
-        }.compactMap { (from: NMGLatLng, to: NMGLatLng) in
+            return isMerge ? (lowerModel, upperModel) : (upperModel, lowerModel)
+        }.compactMap { (from: AnimationModel, to: AnimationModel) in
             moveWithAnimation(from: from, to: to)
         }
         
@@ -70,9 +71,10 @@ final class MarkerAnimateController {
         animator?.finishAnimation(at: .current)
     }
     
-    private func moveWithAnimation(from source: NMGLatLng, to destination: NMGLatLng) -> (() -> Void, () -> Void)? {
-        let srcPoint = mapView.projection.point(from: source)
-        let dstPoint = mapView.projection.point(from: destination)
+    private func moveWithAnimation(from srcModel: AnimationModel,
+                                   to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
+        let srcPoint = mapView.projection.point(from: srcModel.latLng)
+        let dstPoint = mapView.projection.point(from: dstModel.latLng)
         
         guard srcPoint.isValid, dstPoint.isValid else { return nil }
         
@@ -80,28 +82,30 @@ final class MarkerAnimateController {
         
         let srcPointView = MarkerImageView(
             frame: CGRect(
-                x: srcPoint.x - markerRadius,
-                y: srcPoint.y - markerRadius * 2,
-                width: markerRadius * 2,
-                height: markerRadius * 2))
+                x: srcPoint.x - srcModel.radius,
+                y: srcPoint.y - srcModel.radius * 2,
+                width: srcModel.radius * 2,
+                height: srcModel.radius * 2))
         srcPointView.transform = .identity
         view?.addSubview(srcPointView)
         
         let dstPointView = MarkerImageView(
             frame: CGRect(
-                x: dstPoint.x - markerRadius,
-                y: dstPoint.y - markerRadius * 2,
-                width: markerRadius * 2,
-                height: markerRadius * 2
+                x: dstPoint.x - dstModel.radius,
+                y: dstPoint.y - dstModel.radius * 2,
+                width: dstModel.radius * 2,
+                height: dstModel.radius * 2
             )
         )
         dstPointView.alpha = 0
         dstPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
         view?.addSubview(dstPointView)
         
+        let scaleValue = dstModel.radius / srcModel.radius
+        
         return (animation: {
             srcPointView.center = dstPointView.center
-            srcPointView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            srcPointView.transform = CGAffineTransform(scaleX: scaleValue, y: scaleValue)
             srcPointView.alpha = 0
             
             dstPointView.transform = .identity

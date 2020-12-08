@@ -202,10 +202,14 @@ private extension MainViewController {
                                bounds: [NMGLatLngBounds],
                                completion: (() -> Void)?) {
         self.setOverlaysMapView(overlays: oldMarkers, mapView: nil)
-        
+
         self.markerAnimationController.clusteringAnimation(
-            old: oldMarkers.map { $0.position },
-            new: newMarkers.map { $0.position },
+            old: oldMarkers.map {
+                (latLng: $0.position, radius: $0.iconImage.imageWidth / 2)
+            },
+            new: newMarkers.map {
+                (latLng: $0.position, radius: $0.iconImage.imageWidth / 2)
+            },
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
                 self.setOverlaysMapView(overlays: newMarkers, mapView: self.mapView)
