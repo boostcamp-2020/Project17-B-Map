@@ -1,5 +1,5 @@
 //
-//  MarkerAnimator.swift
+//  MainAnimationController.swift
 //  BoostClusteringMaB
 //
 //  Created by 현기엽 on 2020/11/27.
@@ -7,10 +7,23 @@
 import UIKit
 import NMapsMap
 
-final class MarkerAnimateController {
+final class MainAnimationController {
     typealias AnimationModel = (latLng: NMGLatLng, size: CGFloat)
+    
+    private lazy var dotView: UIView = {
+        let dot = UIView(frame: .init(x: 0, y: 0, width: self.dotSize, height: self.dotSize))
+        dot.layer.cornerRadius = self.dotSize / 2
+        dot.backgroundColor = .red
+        view?.addSubview(dot)
+        return dot
+    }()
+    
+    private let dotSize: CGFloat = 4
     private let mapView: NMFMapViewProtocol
-    private var animator: UIViewPropertyAnimator?
+    
+    private var markerAnimator: UIViewPropertyAnimator?
+    private var dotAnimator: UIViewPropertyAnimator?
+    
     var view: UIView?
     
     init(frame: CGRect, mapView: NMFMapViewProtocol) {
@@ -48,8 +61,30 @@ final class MarkerAnimateController {
         start(animations: animations, completion: completion)
     }
     
+    func pointDotAnimation(point: CGPoint) {
+        dotView.center = .init(x: point.x, y: point.y)
+        self.dotView.isHidden = false
+        self.dotView.alpha = 1
+        dotAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.3,
+            delay: 0,
+            options: .repeat,
+            animations: {
+                UIView.setAnimationRepeatCount(.infinity)
+                self.dotView.alpha = 0
+            }, completion: { _ in
+                self.dotView.alpha = 1
+            })
+    }
+    
+    func removePointAnimation() {
+        dotAnimator?.stopAnimation(false)
+        dotAnimator?.finishAnimation(at: .current)
+        self.dotView.isHidden = true
+    }
+    
     private func start(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
-        animator = UIViewPropertyAnimator.runningPropertyAnimator(
+        markerAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
             options: .curveEaseInOut,
@@ -65,8 +100,8 @@ final class MarkerAnimateController {
     }
     
     private func stop() {
-        animator?.stopAnimation(false)
-        animator?.finishAnimation(at: .current)
+        markerAnimator?.stopAnimation(false)
+        markerAnimator?.finishAnimation(at: .current)
     }
     
     private func moveWithAnimation(from srcModel: AnimationModel,

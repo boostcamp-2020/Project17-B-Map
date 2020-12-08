@@ -22,8 +22,8 @@ protocol MainDisplayLogic: class {
 
 final class MainViewController: UIViewController {
     private lazy var naverMapView = NMFNaverMapView(frame: view.frame)
-    private lazy var markerAnimationController: MarkerAnimateController = {
-        let controller = MarkerAnimateController(frame: view.frame, mapView: mapView)
+    private lazy var animationController: MainAnimationController = {
+        let controller = MainAnimationController(frame: view.frame, mapView: mapView)
         guard let animationView = controller.view else { return controller }
         naverMapView.addSubview(animationView)
         return controller
@@ -42,9 +42,6 @@ final class MainViewController: UIViewController {
     private var interactor: MainBusinessLogic?
     private var mapView: NMFMapView { naverMapView.mapView }
     private var projection: NMFProjection { naverMapView.mapView.projection }
-
-    private var dotView: UIView?
-    private var prevDotView: UIView?
     
     private var highlightMarker: NMFMarker? {
         didSet {
@@ -235,7 +232,7 @@ private extension MainViewController {
                                completion: (() -> Void)?) {
         self.setOverlaysMapView(overlays: oldMarkers, mapView: nil)
 
-        self.markerAnimationController.clusteringAnimation(
+        self.animationController.clusteringAnimation(
             old: oldMarkers.map {
                 (latLng: $0.position, size: $0.iconImage.imageWidth)
             },
@@ -253,7 +250,7 @@ private extension MainViewController {
 
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
-        prevDotView?.layer.removeAllAnimations()
+        animationController.removePointAnimation()
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
@@ -273,27 +270,16 @@ extension MainViewController: ClusteringTool {
 
 extension MainViewController: DetailViewControllerDelegate {
     func didCellSelected(lat: Double, lng: Double, isClicked: Bool) {
-        prevDotView?.layer.removeAllAnimations()
         if isClicked {
             let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng), zoomTo: 20)
             cameraUpdate.animation = .easeIn
             cameraUpdate.animationDuration = 0.8
             mapView.moveCamera(cameraUpdate)
         } else {
+            animationController.removePointAnimation()
             let point = convertLatLngToPoint(latLng: LatLng(lat: lat, lng: lng))
-            dotAnimation(point: point)
+            animationController.pointDotAnimation(point: point)
         }
-    }
-
-    func dotAnimation(point: CGPoint) {
-        dotView = UIView(frame: .init(x: point.x, y: point.y, width: 4, height: 4))
-        dotView?.layer.cornerRadius = 2
-        dotView?.backgroundColor = .red
-        self.naverMapView.addSubview(dotView ?? UIView())
-        UIView.animate(withDuration: 0.3, delay: 0, options: .repeat) {
-            self.dotView?.alpha = 0
-        }
-        prevDotView = dotView
     }
 }
 
