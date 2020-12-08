@@ -27,32 +27,42 @@ class DetailCollectionViewCell: UICollectionViewCell {
     
     var latLng: LatLng?
     var isClicked: Bool = false
-    private weak var task: URLSessionTask?
+    private weak var imageTask: URLSessionTask?
+    private weak var addressTask: URLSessionTask?
+    
+    private let addressAPI = AddressAPI()
+    private let jsonParser = JsonParser()
     
     override func prepareForReuse() {
-        storeImageView.image = UIImage(named: "Icon")
+        storeImageView.image = UIImage(systemName: "slash.circle")
+        addressLabel.text = nil
         activityIndicator.startAnimating()
-        task?.cancel()
+        imageTask?.cancel()
+        addressTask?.cancel()
     }
     
     func configure(poi: ManagedPOI) {
         self.latLng = LatLng(lat: poi.latitude, lng: poi.longitude)
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
-        addressLabel.text = poi.address
+        
+        addressTask = addressAPI.address(lat: poi.latitude, lng: poi.longitude) { [weak self] result in
+            let address = try? self?.jsonParser.parse(address: result.get())
+            self?.addressLabel.text = address
+        }
         
         guard let imageURL = poi.imageURL else {
             self.activityIndicator.stopAnimating()
             return
         }
         
-        task = ImageDownloader.shared.fetch(imageURL: imageURL) { result in
-            self.activityIndicator.stopAnimating()
+        imageTask = ImageDownloader.shared.fetch(imageURL: imageURL) { [weak self] result in
+            self?.activityIndicator.stopAnimating()
             guard let image = try? result.get() else {
                 return
             }
             
-            self.storeImageView.image = image
+            self?.storeImageView.image = image
         }
     }
     
