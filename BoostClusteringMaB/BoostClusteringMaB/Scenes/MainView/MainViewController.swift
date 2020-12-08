@@ -46,12 +46,9 @@ final class MainViewController: UIViewController {
     private var prevDotView: UIView?
     
     private var highlightMarker: NMFMarker? {
-        willSet {
-            newValue?.iconTintColor = UIColor.magenta
-        }
-        
         didSet {
-            oldValue?.iconTintColor = UIColor.clear
+            highlightMarker?.iconTintColor = UIColor.red
+            oldValue?.iconTintColor = UIColor.naverGreen
         }
     }
     
