@@ -35,9 +35,7 @@ class MarkerImageView: UILabel {
     }
     
     private func configureView() {
-        layer.cornerRadius = frame.width / 2
         backgroundColor = UIColor.clear
-        clipsToBounds = true
         textAlignment = .center
         textColor = .naverGreen
     }
