@@ -28,8 +28,8 @@ final class MainViewController: UIViewController {
         naverMapView.addSubview(animationView)
         return controller
     }()
-        lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-//    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
+    // lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
     
     var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     var interactor: MainBusinessLogic?
@@ -172,17 +172,17 @@ private extension MainViewController {
         zip(markers, bounds).forEach { marker, bound in
             marker.touchHandler = { [weak self] _ in
                 guard let self = self else { return true }
-                
-                if marker.captionText == "1" {
-                    self.showAlert(latlng: marker.position, type: .delete) {
-                        marker.mapView = nil
-                        self.interactor?.deleteLocation(LatLng(marker.position),
-                                                        southWest: self.boundsLatLng.southWest,
-                                                        northEast: self.boundsLatLng.northEast,
-                                                        zoomLevel: self.mapView.zoomLevel)
-                    }
-                } else {
+                guard let pointCount = marker.userInfo["pointCount"] as? Int else { return true }
+                guard pointCount == 1 else {
                     self.touchedMarker(bounds: bound, insets: 5)
+                    return true
+                }
+                self.showAlert(latlng: marker.position, type: .delete) {
+                    marker.mapView = nil
+                    self.interactor?.deleteLocation(LatLng(marker.position),
+                                                    southWest: self.boundsLatLng.southWest,
+                                                    northEast: self.boundsLatLng.northEast,
+                                                    zoomLevel: self.mapView.zoomLevel)
                 }
                 return true
             }

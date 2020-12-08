@@ -21,8 +21,7 @@ extension NMFMarker {
         guard let maxSize = pointSizes.max() else { return [] }
         return zip(latLngs, pointSizes).map { latLng, pointCount in
             let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-            marker.captionText = "\(pointCount)"
-            marker.captionTextSize = 0
+            marker.userInfo["pointCount"] = pointCount
             guard pointCount != 1 else { return marker }
             marker.setImageView(
                 markerImageView,
