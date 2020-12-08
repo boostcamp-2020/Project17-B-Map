@@ -145,8 +145,10 @@ final class MainAnimationController {
             dstPointView.transform = .identity
             dstPointView.alpha = 1
         }, completion: {
-            srcPointView?.removeFromSuperview()
-            dstPointView.removeFromSuperview()
+            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
+                srcPointView?.removeFromSuperview()
+                dstPointView.removeFromSuperview()
+            }
         })
     }
 }
