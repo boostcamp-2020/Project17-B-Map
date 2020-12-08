@@ -15,7 +15,6 @@ extension ManagedPOI {
         return NSFetchRequest<ManagedPOI>(entityName: "ManagedPOI")
     }
     
-    @NSManaged public var address: String?
     @NSManaged public var category: String?
     @NSManaged public var id: String?
     @NSManaged public var imageURL: String?

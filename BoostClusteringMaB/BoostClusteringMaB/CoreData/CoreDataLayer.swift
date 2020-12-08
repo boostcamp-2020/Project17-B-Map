@@ -59,24 +59,26 @@ final class CoreDataLayer: CoreDataManager {
             return
         }
         
-        addressAPI.address(lat: latitude, lng: longitude) { result in
-            guard let address = try? self.jsonParser.parse(address: result.get()) else { return }
-            self.childContext.perform { [weak self] in
-                guard let self = self else {
+        childContext.perform { [weak self] in
+            guard let self = self else {
+                return
+            }
+            let poi = ManagedPOI(context: self.childContext)
+            poi.id = place.id
+            poi.category = place.category
+            poi.imageURL = place.imageURL
+            poi.latitude = latitude
+            poi.longitude = longitude
+            poi.name = place.name
+            if isSave {
+                do {
+                    try self.save()
+                } catch {
+                    handler?(.failure(.saveError))
                     return
                 }
-                let poi = ManagedPOI(context: self.childContext)
-                poi.fromPOI(place, address)
-                if isSave {
-                    do {
-                        try self.save()
-                    } catch {
-                        handler?(.failure(.saveError))
-                        return
-                    }
-                }
-                handler?(.success(()))
             }
+            handler?(.success(()))
         }
     }
     

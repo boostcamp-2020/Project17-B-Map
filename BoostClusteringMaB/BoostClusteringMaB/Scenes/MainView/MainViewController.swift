@@ -21,23 +21,13 @@ protocol MainDisplayLogic: class {
 }
 
 final class MainViewController: UIViewController {
-    lazy var naverMapView = NMFNaverMapView(frame: view.frame)
-    lazy var markerAnimationController: MarkerAnimateController = {
+    private lazy var naverMapView = NMFNaverMapView(frame: view.frame)
+    private lazy var markerAnimationController: MarkerAnimateController = {
         let controller = MarkerAnimateController(frame: view.frame, markerRadius: 30, mapView: mapView)
         guard let animationView = controller.view else { return controller }
         naverMapView.addSubview(animationView)
         return controller
     }()
-    //        lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
-    
-    var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
-    var interactor: MainBusinessLogic?
-    var mapView: NMFMapView { naverMapView.mapView }
-    var projection: NMFProjection { naverMapView.mapView.projection }
-
-    var dotView: UIView?
-    var prevDotView: UIView?
 
     private lazy var bottomSheetViewController: DetailViewController = {
         guard let bottom = UIStoryboard(name: "Detail", bundle: nil).instantiateInitialViewController()
@@ -45,7 +35,30 @@ final class MainViewController: UIViewController {
         return bottom
     }()
     
-    var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
+    // private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
+    
+    private var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
+    private var interactor: MainBusinessLogic?
+    private var mapView: NMFMapView { naverMapView.mapView }
+    private var projection: NMFProjection { naverMapView.mapView.projection }
+
+    private var dotView: UIView?
+    private var prevDotView: UIView?
+    
+    private var highlightMarker: NMFMarker? {
+        didSet {
+            guard highlightMarker != oldValue else { return }
+            highlightMarker?.iconTintColor = UIColor.red
+            if let position = highlightMarker?.position {
+                highlightMarker?.captionText = "\(position.lat),\n \(position.lng)"
+            }
+            oldValue?.iconTintColor = UIColor.naverGreen
+            oldValue?.captionText = ""
+        }
+    }
+    
+    private var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
         let southWest = LatLng(boundsLatLngs[0])
         let northEast = LatLng(boundsLatLngs[1])
@@ -61,17 +74,6 @@ final class MainViewController: UIViewController {
         configureBottomSheetView()
     }
     
-    func configureBottomSheetView() {
-        addChild(bottomSheetViewController)
-        view.addSubview(bottomSheetViewController.view)
-        bottomSheetViewController.didMove(toParent: self)
-        let height = view.frame.height
-        let width = view.frame.width
-        let maxY = view.frame.maxY
-        bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
-    }
-    
-    // MARK: - configure VIP
     private func configureVIP() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
@@ -84,15 +86,31 @@ final class MainViewController: UIViewController {
     
     private func configureMapView() {
         naverMapView.showZoomControls = true
+        mapView.touchDelegate = self
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
-        
-        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(makeMarker(_:)))
-        naverMapView.addGestureRecognizer(gestureRecognizer)
         view.addSubview(naverMapView)
     }
     
-    @objc func makeMarker(_ sender: UILongPressGestureRecognizer) {
+    private func configureBottomSheetView() {
+        addChild(bottomSheetViewController)
+        view.addSubview(bottomSheetViewController.view)
+        bottomSheetViewController.didMove(toParent: self)
+        let height = view.frame.height
+        let width = view.frame.width
+        let maxY = view.frame.maxY
+        bottomSheetViewController.view.frame = CGRect(x: 0, y: maxY, width: width, height: height)
+    }
+}
+
+// MARK: Gesture
+extension MainViewController {
+    private func configureGesture() {
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(makeMarker(_:)))
+        naverMapView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc private func makeMarker(_ sender: UILongPressGestureRecognizer) {
         let point = sender.location(in: view)
         let latlng = point.convert(mapView: mapView)
         
@@ -113,6 +131,49 @@ final class MainViewController: UIViewController {
                                          northEast: self.boundsLatLng.northEast,
                                          zoomLevel: self.mapView.zoomLevel)
             self.mapView.moveCamera(cameraUpdate)
+        }
+    }
+    
+    private func setMarkersTouchHandler(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
+        zip(markers, bounds).forEach { [weak self] marker, bound in
+            guard let self = self,
+                  let pointCount = marker.userInfo["pointCount"] as? Int
+            else { return }
+            
+            guard pointCount == 1 else {
+                marker.touchHandler = { [weak self] _ in
+                    self?.touchedClusterMarker(bounds: bound, insets: 5)
+                    return true
+                }
+                return
+            }
+            
+            marker.touchHandler = { [weak self] _ in
+                guard marker == self?.highlightMarker else {
+                    self?.highlightMarker = marker
+                    return true
+                }
+                self?.touchedLeafMarker(marker: marker)
+                return true
+            }
+        }
+    }
+    
+    private func touchedClusterMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
+        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
+        let cameraUpdate = NMFCameraUpdate(fit: bounds, paddingInsets: edgeInsets)
+        cameraUpdate.animation = .easeIn
+        cameraUpdate.animationDuration = 0.8
+        mapView.moveCamera(cameraUpdate)
+    }
+    
+    private func touchedLeafMarker(marker: NMFMarker) {
+        showAlert(latlng: marker.position, type: .delete) {
+            marker.mapView = nil
+            self.interactor?.deleteLocation(LatLng(marker.position),
+                                            southWest: self.boundsLatLng.southWest,
+                                            northEast: self.boundsLatLng.northEast,
+                                            zoomLevel: self.mapView.zoomLevel)
         }
     }
     
@@ -161,40 +222,11 @@ extension MainViewController: MainDisplayLogic {
 private extension MainViewController {
     func configureFirstMarkers(newMarkers: [NMFMarker], bounds: [NMGLatLngBounds]) {
         self.setOverlaysMapView(overlays: newMarkers, mapView: mapView)
-        self.setMarkersBounds(markers: newMarkers, bounds: bounds)
+        self.setMarkersTouchHandler(markers: newMarkers, bounds: bounds)
     }
     
     func setOverlaysMapView(overlays: [NMFOverlay], mapView: NMFMapView?) {
         return overlays.forEach { $0.mapView = mapView }
-    }
-    
-    func setMarkersBounds(markers: [NMFMarker], bounds: [NMGLatLngBounds]) {
-        zip(markers, bounds).forEach { marker, bound in
-            marker.touchHandler = { [weak self] _ in
-                guard let self = self else { return true }
-                
-                if marker.captionText == "1" {
-                    self.showAlert(latlng: marker.position, type: .delete) {
-                        marker.mapView = nil
-                        self.interactor?.deleteLocation(LatLng(marker.position),
-                                                        southWest: self.boundsLatLng.southWest,
-                                                        northEast: self.boundsLatLng.northEast,
-                                                        zoomLevel: self.mapView.zoomLevel)
-                    }
-                } else {
-                    self.touchedMarker(bounds: bound, insets: 5)
-                }
-                return true
-            }
-        }
-    }
-    
-    func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
-        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
-        let cameraUpdate = NMFCameraUpdate(fit: bounds, paddingInsets: edgeInsets)
-        cameraUpdate.animation = .easeIn
-        cameraUpdate.animationDuration = 0.8
-        mapView.moveCamera(cameraUpdate)
     }
     
     func markerChangeAnimation(oldMarkers: [NMFMarker],
@@ -213,7 +245,7 @@ private extension MainViewController {
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
                 self.setOverlaysMapView(overlays: newMarkers, mapView: self.mapView)
-                self.setMarkersBounds(markers: newMarkers, bounds: bounds)
+                self.setMarkersTouchHandler(markers: newMarkers, bounds: bounds)
                 completion?()
             })
     }
@@ -226,10 +258,10 @@ extension MainViewController: NMFMapViewCameraDelegate {
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let zoomLevel = mapView.zoomLevel
+        highlightMarker = nil
         interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
-        if bottomSheetViewController.collectionView != nil {
-            bottomSheetViewController.reloadPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
-        }
+        guard bottomSheetViewController.collectionView != nil else { return }
+        bottomSheetViewController.reloadPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast)
     }
 }
 
@@ -262,5 +294,11 @@ extension MainViewController: DetailViewControllerDelegate {
             self.dotView?.alpha = 0
         }
         prevDotView = dotView
+    }
+}
+
+extension MainViewController: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        highlightMarker = nil
     }
 }

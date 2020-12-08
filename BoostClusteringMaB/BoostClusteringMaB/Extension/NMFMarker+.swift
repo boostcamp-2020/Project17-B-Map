@@ -9,21 +9,25 @@ import Foundation
 import NMapsMap
 
 extension NMFMarker {
-    static let baseRadius: CGFloat = 15
-    static let markerImageView = MarkerImageView(radius: baseRadius)
+    static let maxBaseRadius: CGFloat = 15
+    static let markerImageView = MarkerImageView(radius: maxBaseRadius)
     
     /// 위치와 갯수를 입력하면 NMFMarker배열로 만들어줌
     /// - Parameters:
     ///   - latLngs: 클러스터 위치
-    ///   - pointSizes: 클러스터 안에 POI 갯수
+    ///   - pointCount: 클러스터 안에 POI 갯수
     /// - Returns: 입력된 값으로 만든 마커들
-    static func markers(latLngs: [LatLng], pointSizes: [Int]) -> [NMFMarker] {
-        guard let maxSize = pointSizes.max() else { return [] }
-        return zip(latLngs, pointSizes).map { latLng, pointCount in
+    static func markers(latLngs: [LatLng], pointCount: [Int]) -> [NMFMarker] {
+        guard let maxSize = pointCount.max() else { return [] }
+        
+        return zip(latLngs, pointCount).map { latLng, pointCount in
             let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
-            marker.captionText = "\(pointCount)"
-            marker.captionTextSize = 0
-            guard pointCount != 1 else { return marker }
+            marker.userInfo["pointCount"] = pointCount
+            guard pointCount != 1 else {
+                marker.iconImage = NMF_MARKER_IMAGE_BLACK
+                marker.iconTintColor = UIColor.naverGreen
+                return marker
+            }
             marker.setImageView(
                 markerImageView,
                 count: pointCount,
@@ -39,7 +43,7 @@ extension NMFMarker {
     ///   - size: 클러스터 크기 비율
     func setImageView(_ view: MarkerImageView, count: Int, sizeRatio: CGFloat) {
         view.text = "\(count)"
-        view.radius = NMFMarker.baseRadius + 15 * sizeRatio
+        view.radius = NMFMarker.maxBaseRadius * (1 + sizeRatio)
         iconImage = .init(image: view.snapshot())
     }
 }
