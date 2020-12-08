@@ -19,7 +19,7 @@ class MarkerImageView: UILabel {
     }
     
     init(size: CGFloat) {
-        super.init(frame: .init(x: 0, y: 0, width: size * 2, height: size * 2))
+        super.init(frame: .init(x: 0, y: 0, width: size, height: size))
         configureView()
     }
     
