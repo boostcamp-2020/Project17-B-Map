@@ -141,40 +141,39 @@ extension MainViewController {
             
             guard pointCount == 1 else {
                 marker.touchHandler = { [weak self] _ in
-                    self?.touchedMarker(bounds: bound, insets: 5)
-                    return true
-                }
-                return
-            }
-            
-            guard marker == self.highlightMarker else {
-                marker.touchHandler = { [weak self] _ in
-                    self?.highlightMarker = marker
+                    self?.touchedClusterMarker(bounds: bound, insets: 5)
                     return true
                 }
                 return
             }
             
             marker.touchHandler = { [weak self] _ in
-                guard let self = self else { return true }
-                self.showAlert(latlng: marker.position, type: .delete) {
-                    marker.mapView = nil
-                    self.interactor?.deleteLocation(LatLng(marker.position),
-                                                    southWest: self.boundsLatLng.southWest,
-                                                    northEast: self.boundsLatLng.northEast,
-                                                    zoomLevel: self.mapView.zoomLevel)
+                guard marker == self?.highlightMarker else {
+                    self?.highlightMarker = marker
+                    return true
                 }
+                self?.touchedLeafMarker(marker: marker)
                 return true
             }
         }
     }
     
-    private func touchedMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
+    private func touchedClusterMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
         let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
         let cameraUpdate = NMFCameraUpdate(fit: bounds, paddingInsets: edgeInsets)
         cameraUpdate.animation = .easeIn
         cameraUpdate.animationDuration = 0.8
         mapView.moveCamera(cameraUpdate)
+    }
+    
+    private func touchedLeafMarker(marker: NMFMarker) {
+        showAlert(latlng: marker.position, type: .delete) {
+            marker.mapView = nil
+            self.interactor?.deleteLocation(LatLng(marker.position),
+                                            southWest: self.boundsLatLng.southWest,
+                                            northEast: self.boundsLatLng.northEast,
+                                            zoomLevel: self.mapView.zoomLevel)
+        }
     }
     
     private func showAlert(latlng: NMGLatLng, type: AlertType, handler: @escaping () -> Void) {
