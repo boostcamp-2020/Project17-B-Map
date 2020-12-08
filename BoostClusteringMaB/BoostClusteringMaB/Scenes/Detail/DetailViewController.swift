@@ -12,17 +12,70 @@ protocol DetailViewControllerDelegate: class {
     func didCellSelected(lat: Double, lng: Double, isClicked: Bool)
 }
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet { searchBar.delegate = self }
+    }
+    @IBOutlet weak var dragBar: UIView!
     
-    var fullViewYPosition: CGFloat = 44
+    weak var delegate: DetailViewControllerDelegate?
+    
+    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>? {
+        didSet {
+            fetchedResultsController?.delegate = self
+        }
+    }
+    private var currentState: State = .minimum
+    private var prevClickedCell: DetailCollectionViewCell?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
+        configureGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIView.animate(withDuration: 0.6) {
+            self.moveView(state: .minimum)
+        }
+        reloadPOI(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
+    }
+    
+    private func configureView() {
+        view.clipsToBounds = true
+        collectionView.isHidden = true
+        view.layer.cornerRadius = 10
+        dragBar.layer.cornerRadius = 3
+    }
+    
+    func reloadPOI(southWest: LatLng, northEast: LatLng) {
+        let coreDataLayer = CoreDataLayer()
+
+        fetchedResultsController = coreDataLayer.makeFetchResultsController(
+            southWest: southWest,
+            northEast: northEast
+        )
+
+        do {
+            try fetchedResultsController?.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+        collectionView.reloadData()
+    }
+}
+
+// MARK: Pan Gesture
+extension DetailViewController {
+    var fullViewYPosition: CGFloat { 44 }
     var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
     var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - searchBar.frame.height - 44 }
-    @IBOutlet weak var countLabel: UILabel!
-    weak var delegate: DetailViewControllerDelegate?
-
+    
     private enum State {
-        case minimum // 서치바만
-        case partial // 기본
+        case minimum
+        case partial
         case full
         
         var next: State {
@@ -48,35 +101,8 @@ class DetailViewController: UIViewController {
         }
     }
     
-    @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet weak var dragBar: UIView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    
-    var fetchedResultsController: NSFetchedResultsController<ManagedPOI>? {
-        didSet {
-            fetchedResultsController?.delegate = self
-        }
-    }
-    private var currentState: State = .minimum
-    private var prevClickedCell: DetailCollectionViewCell?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.layer.cornerRadius = 10
-        dragBar.layer.cornerRadius = 3
-        configureGesture()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        UIView.animate(withDuration: 0.6) {
-            self.moveView(state: .minimum)
-        }
-        reloadPOI(southWest: LatLng(lat: 30, lng: 120), northEast: LatLng(lat: 45, lng: 135))
-    }
-    
     private func configureGesture() {
-        let gesture = UIPanGestureRecognizer.init(target: self, action: #selector(panGesture))
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
         view.addGestureRecognizer(gesture)
     }
     
@@ -94,46 +120,47 @@ class DetailViewController: UIViewController {
         currentState = state
     }
     
-    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) {
+    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) -> State {
         let translation = recognizer.translation(in: view)
         let minY = view.frame.minY
-        if (minY + translation.y >= fullViewYPosition) && (minY + translation.y <= minimumViewYPosition) {
-            view.frame = CGRect(x: 0, y: minY + translation.y, width: view.frame.width, height: view.frame.height)
+        let endedY = minY + translation.y
+        let fullAndPartialBound = (fullViewYPosition + (partialViewYPosition - fullViewYPosition) / 2)
+        let partialAndMinimumBound = (partialViewYPosition + (minimumViewYPosition - partialViewYPosition) / 2)
+        
+        if (endedY >= fullViewYPosition) && (endedY <= minimumViewYPosition) {
+            view.frame = CGRect(x: 0, y: endedY, width: view.frame.width, height: view.frame.height)
             recognizer.setTranslation(CGPoint.zero, in: view)
+        }
+        
+        switch endedY {
+        case ...fullAndPartialBound:
+            collectionView.isHidden = false
+            return .full
+        case ...partialAndMinimumBound:
+            collectionView.isHidden = false
+            return .partial
+        default:
+            collectionView.isHidden = true
+            return .minimum
         }
     }
     
     @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
-        moveView(panGestureRecognizer: recognizer)
+        var nextState = moveView(panGestureRecognizer: recognizer)
         if recognizer.state == .ended {
-            UIView.animate(withDuration: 1, delay: 0, options: [.allowUserInteraction]) {
-                let nextState: State = recognizer.velocity(in: self.view).y >= 0
-                    ? self.currentState.prev : self.currentState.next
+            self.view.endEditing(true)
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) {
+                if nextState == self.currentState {
+                    nextState = recognizer.velocity(in: self.view).y >= 0
+                        ? self.currentState.prev : self.currentState.next
+                }
                 self.moveView(state: nextState)
             }
         }
     }
-
-    func reloadPOI(southWest: LatLng, northEast: LatLng) {
-        let coreDataLayer = CoreDataLayer()
-
-        fetchedResultsController = coreDataLayer.makeFetchResultsController(
-            southWest: southWest,
-            northEast: northEast
-        )
-
-        do {
-            try fetchedResultsController?.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-        collectionView.reloadData()
-    }
-
 }
 
 extension DetailViewController: NSFetchedResultsControllerDelegate {
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
@@ -239,9 +266,38 @@ extension DetailViewController: UICollectionViewDelegate {
               let lng = cell.latLng?.lng else {
             return
         }
+        collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         delegate?.didCellSelected(lat: lat, lng: lng, isClicked: cell.isClicked)
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
+        viewEndEditing(true)
+    }
+}
+
+extension DetailViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        viewEndEditing(false)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        viewEndEditing(true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBarTextDidEndEditing(searchBar)
+    }
+
+    func viewEndEditing(_ endEditing: Bool) {
+        UIView.animate(withDuration: 0.5) {
+            if endEditing {
+                self.currentState = .partial
+                self.view.endEditing(endEditing)
+            } else {
+                self.currentState = .full
+            }
+            self.collectionView.isHidden = false
+            self.moveView(state: self.currentState)
+        }
     }
 }
