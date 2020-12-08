@@ -11,16 +11,22 @@ class Clustering {
     
     weak var data: ClusteringData?
     weak var tool: ClusteringTool?
-    
+
     private let coreDataLayer: CoreDataManager
-    private let queue = OperationQueue()
+
+    private let queue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.qualityOfService = .userInteractive
+        queue.underlyingQueue = .global()
+        return queue
+    }()
 
     init(coreDataLayer: CoreDataManager) {
         self.coreDataLayer = coreDataLayer
-        queue.qualityOfService = .userInteractive
     }
 
     func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
+        queue.isSuspended = true
         queue.cancelAllOperations()
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
@@ -28,38 +34,25 @@ class Clustering {
         runKMeans(pois: pois, zoomLevel: zoomLevel)
     }
 
-    let lock = NSLock()
-
     private func runKMeans(pois: [POI], zoomLevel: Double) {
         let integer = Int(zoomLevel)
         let startRange = (integer - 10 <= 0) ? 2 : integer - 10
         let kRange = (startRange...integer)
-        
-        var minValue = Double.greatestFiniteMagnitude
-        var minKMeans: KMeans?
-        
-        let group = DispatchGroup()
-        let serialQueue = DispatchQueue.init(label: "serial")
-        
-        kRange.forEach { k in
-            DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                let kMeans = KMeans(k: k, pois: pois)
-                kMeans.run()
-                
-                let DBI = kMeans.daviesBouldinIndex()
-                serialQueue.async(group: group) {
-                    if DBI <= minValue {
-                        minValue = DBI
-                        minKMeans = kMeans
-                    }
-                }
+        let kMeansArr = kRange.map { k in
+            KMeans(k: k, pois: pois)
+        }
+
+        queue.addOperations(kMeansArr, waitUntilFinished: false)
+
+        queue.addBarrierBlock { [weak self] in
+            let kMeansTuple = kMeansArr.map { (kMeans: $0, DBI: $0.daviesBouldinIndex()) }
+            guard let minKMeans = kMeansTuple.min(by: { lhs, rhs in lhs.DBI < rhs.DBI })?.kMeans else { return }
+            DispatchQueue.main.async {
+                self?.groupNotifyTasks(minKMeans)
             }
         }
-        
-        group.notify(queue: .main) { [weak self] in
-            guard let minKMeans = minKMeans else { return }
-            self?.groupNotifyTasks(minKMeans)
-        }
+
+        queue.isSuspended = false
     }
     
     private func groupNotifyTasks(_ minKMeans: KMeans) {
@@ -77,7 +70,6 @@ class Clustering {
             bounds.append((southWest: cluster.southWest(),
                            northEast: cluster.northEast()))
         })
-        
         self.data?.redrawMap(centroids, points, bounds, convexHullPoints)
     }
     

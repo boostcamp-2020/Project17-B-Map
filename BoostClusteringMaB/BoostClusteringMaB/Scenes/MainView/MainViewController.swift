@@ -28,8 +28,8 @@ final class MainViewController: UIViewController {
         naverMapView.addSubview(animationView)
         return controller
     }()
-    //    lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
+        lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+//    lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
     
     var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     var interactor: MainBusinessLogic?
@@ -132,6 +132,9 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: MainDisplayLogic {
     func displayFetch(viewModel: ViewModel) {
+        displayedData.markers.forEach({
+            $0.touchHandler = nil
+        })
         let oldViewModel = displayedData
         displayedData = viewModel
         redrawMap(oldViewModel: oldViewModel, newViewModel: viewModel)
@@ -199,10 +202,14 @@ private extension MainViewController {
                                bounds: [NMGLatLngBounds],
                                completion: (() -> Void)?) {
         self.setOverlaysMapView(overlays: oldMarkers, mapView: nil)
-        
+
         self.markerAnimationController.clusteringAnimation(
-            old: oldMarkers.map { $0.position },
-            new: newMarkers.map { $0.position },
+            old: oldMarkers.map {
+                (latLng: $0.position, radius: $0.iconImage.imageWidth / 2)
+            },
+            new: newMarkers.map {
+                (latLng: $0.position, radius: $0.iconImage.imageWidth / 2)
+            },
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
                 self.setOverlaysMapView(overlays: newMarkers, mapView: self.mapView)
@@ -218,9 +225,6 @@ extension MainViewController: NMFMapViewCameraDelegate {
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
-        displayedData.markers.forEach({
-            $0.touchHandler = nil
-        })
         let zoomLevel = mapView.zoomLevel
         interactor?.fetchPOI(southWest: boundsLatLng.southWest, northEast: boundsLatLng.northEast, zoomLevel: zoomLevel)
         if bottomSheetViewController.collectionView != nil {

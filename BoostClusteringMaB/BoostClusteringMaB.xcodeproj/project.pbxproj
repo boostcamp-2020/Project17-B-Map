@@ -13,6 +13,8 @@
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		4A3C8021232DFCF9C5E93307 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */; };
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		7017B9FB257E162E005D1512 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = 7017B9F9257E162E005D1512 /* gangnam_8000.json */; };
+		7017B9FC257E162E005D1512 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = 7017B9FA257E162E005D1512 /* restaurant.json */; };
 		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
 		70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD0256DEB9900F138CB /* CoreDataContainer.swift */; };
 		70672319257205B000CF68FD /* ClusteringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70672318257205B000CF68FD /* ClusteringTests.swift */; };
@@ -44,8 +46,6 @@
 		C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A28798256F986D00DF23B1 /* Clustering.swift */; };
 		C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */; };
 		C3A572E625787FA300C2B008 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A572E525787FA300C2B008 /* DetailViewController.swift */; };
-		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
-		C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB0850256B875800B93665 /* gangnam_8000.json */; };
 		C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0854256B87A200B93665 /* LinkedList.swift */; };
 		C3FB085A256B882200B93665 /* LatLng.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0859256B882200B93665 /* LatLng.swift */; };
 		C3FB085E256B887300B93665 /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB085D256B887300B93665 /* Cluster.swift */; };
@@ -89,6 +89,8 @@
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7017B9F9257E162E005D1512 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
+		7017B9FA257E162E005D1512 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
 		70387DCF256DEB9900F138CB /* CoreDataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
 		70387DD0256DEB9900F138CB /* CoreDataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		70573ABD25795EEA00C8C5BE /* NanumSquareRoundOTFR.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundOTFR.otf; sourceTree = "<group>"; };
@@ -127,8 +129,6 @@
 		C3A28798256F986D00DF23B1 /* Clustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clustering.swift; sourceTree = "<group>"; };
 		C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHull.swift; sourceTree = "<group>"; };
 		C3A572E525787FA300C2B008 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		C3FB084B256B873700B93665 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
-		C3FB0850256B875800B93665 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		C3FB0854256B87A200B93665 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		C3FB0859256B882200B93665 /* LatLng.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatLng.swift; sourceTree = "<group>"; };
 		C3FB085D256B887300B93665 /* Cluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cluster.swift; sourceTree = "<group>"; };
@@ -136,7 +136,7 @@
 		C3FB086A256B8D8D00B93665 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
 		CAB19DF55A4260D7147166CE /* Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB-BoostClusteringMaBTests/Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; sourceTree = "<group>"; };
 		DA805DB5257612890067325E /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
+		DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = text; path = BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
 		DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionReusableView.swift; sourceTree = "<group>"; };
 		F4151F4C25789064007E356F /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		F456CB4B257B75530095139A /* String+Localize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localize.swift"; sourceTree = "<group>"; };
@@ -193,8 +193,8 @@
 		0DE171D32574BBD00031DA8E /* json */ = {
 			isa = PBXGroup;
 			children = (
-				C3FB084B256B873700B93665 /* restaurant.json */,
-				C3FB0850256B875800B93665 /* gangnam_8000.json */,
+				7017B9F9257E162E005D1512 /* gangnam_8000.json */,
+				7017B9FA257E162E005D1512 /* restaurant.json */,
 			);
 			path = json;
 			sourceTree = "<group>";
@@ -561,14 +561,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				70BA50F02562B0950076920D /* .swiftlint.yml in Resources */,
-				C3FB084C256B873700B93665 /* restaurant.json in Resources */,
 				708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */,
-				C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */,
+				7017B9FC257E162E005D1512 /* restaurant.json in Resources */,
 				F456CB5B257B7B990095139A /* Detail.storyboard in Resources */,
 				708C08C9256258330072B1E0 /* Assets.xcassets in Resources */,
 				F456CB55257B75F30095139A /* Localizable.strings in Resources */,
 				DA805DD425767DFD0067325E /* BMEuljiro10yearslaterOTF.otf in Resources */,
 				70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */,
+				7017B9FB257E162E005D1512 /* gangnam_8000.json in Resources */,
 				708C08C4256258320072B1E0 /* Main.storyboard in Resources */,
 				F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */,
 			);
