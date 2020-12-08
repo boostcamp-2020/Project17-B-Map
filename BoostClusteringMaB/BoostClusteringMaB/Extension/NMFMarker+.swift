@@ -40,7 +40,7 @@ extension NMFMarker {
     /// - Parameters:
     ///   - view: MarkerImageView
     ///   - count: 클러스터 안에 POI 갯수
-    ///   - size: 클러스터 크기 비율
+    ///   - sizeRatio: 클러스터 크기 비율
     func setImageView(_ view: MarkerImageView, count: Int, sizeRatio: CGFloat) {
         view.text = "\(count)"
         view.size = NMFMarker.maxSize * (1 + sizeRatio) / 2

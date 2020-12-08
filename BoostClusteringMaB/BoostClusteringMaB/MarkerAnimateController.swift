@@ -71,22 +71,13 @@ final class MarkerAnimateController {
     
     private func moveWithAnimation(from srcModel: AnimationModel,
                                    to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
+        let scale = dstModel.size / srcModel.size
         let srcPoint = mapView.projection.point(from: srcModel.latLng)
         let dstPoint = mapView.projection.point(from: dstModel.latLng)
         
-        guard srcPoint.isValid, dstPoint.isValid else { return nil }
+        guard srcPoint != dstPoint, dstPoint.isValid else { return nil }
         
-        guard srcPoint != dstPoint else { return nil }
-        
-        let srcPointView = MarkerImageView(
-            frame: CGRect(
-                x: srcPoint.x - srcModel.size / 2,
-                y: srcPoint.y - srcModel.size,
-                width: srcModel.size,
-                height: srcModel.size))
-        srcPointView.transform = .identity
-        view?.addSubview(srcPointView)
-        
+        var srcPointView: MarkerImageView?
         let dstPointView = MarkerImageView(
             frame: CGRect(
                 x: dstPoint.x - dstModel.size / 2,
@@ -99,17 +90,27 @@ final class MarkerAnimateController {
         dstPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
         view?.addSubview(dstPointView)
         
-        let scaleValue = dstModel.size / srcModel.size
+        if srcPoint.isValid {
+            let pointView = MarkerImageView(
+                frame: CGRect(
+                    x: srcPoint.x - srcModel.size / 2,
+                    y: srcPoint.y - srcModel.size,
+                    width: srcModel.size,
+                    height: srcModel.size))
+            pointView.transform = .identity
+            view?.addSubview(pointView)
+            srcPointView = pointView
+        }
         
         return (animation: {
-            srcPointView.center = dstPointView.center
-            srcPointView.transform = CGAffineTransform(scaleX: scaleValue, y: scaleValue)
-            srcPointView.alpha = 0
+            srcPointView?.center = dstPointView.center
+            srcPointView?.transform = CGAffineTransform(scaleX: scale, y: scale)
+            srcPointView?.alpha = 0
             
             dstPointView.transform = .identity
             dstPointView.alpha = 1
         }, completion: {
-            srcPointView.removeFromSuperview()
+            srcPointView?.removeFromSuperview()
             dstPointView.removeFromSuperview()
         })
     }
