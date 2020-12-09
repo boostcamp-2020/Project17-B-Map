@@ -33,7 +33,7 @@
                                         <constraint firstAttribute="width" constant="40" id="uYB-88-XdR"/>
                                     </constraints>
                                 </view>
-                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="카테고리 검색" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ipo-Rl-NBk">
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="가게명 검색" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ipo-Rl-NBk">
                                     <rect key="frame" x="0.0" y="14" width="414" height="56"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="tintColor" systemColor="labelColor"/>

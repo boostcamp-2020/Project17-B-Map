@@ -86,31 +86,39 @@ final class DetailViewController: UIViewController {
     private var southWest: LatLng = .zero
     private var northEast: LatLng = .zero
 
-    func reloadPOI(southWest: LatLng = .zero, northEast: LatLng = .zero, _ searchText: String? = nil) {
+    func reloadPOI(southWest: LatLng = .zero, northEast: LatLng = .zero, _ searchText: String = "") {
+        let subpredicates = makeSubPredicates(southWest: southWest, northEast: northEast, searchText)
+        let predicate = NSCompoundPredicate(type: .and, subpredicates: subpredicates)
+
+        fetchedResultsController?.fetchRequest.predicate = predicate
+        try? fetchedResultsController?.performFetch()
+        updateSnapshot()
+    }
+
+    func makeSubPredicates(southWest: LatLng,
+                           northEast: LatLng,
+                           _ searchText: String) -> [NSPredicate] {
         if southWest != .zero && northEast != .zero {
             self.southWest = southWest
             self.northEast = northEast
+            searchBar.text = ""
         }
-        
+
+        var subPredicates = [NSPredicate]()
+
         let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}",
                                             argumentArray: [self.southWest.lat, self.northEast.lat])
 
         let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}",
                                              argumentArray: [self.southWest.lng, self.northEast.lng])
 
-        var searchPredicate: NSPredicate?
+        subPredicates.append(contentsOf: [latitudePredicate, longitudePredicate])
 
-        if let searchText = searchText {
-            searchPredicate = NSPredicate(format: "name CONTAINS[c] %@", searchText)
+        if !searchText.isEmpty {
+            let searchPredicate = NSPredicate(format: "name CONTAINS[c] %@", searchText)
+            subPredicates.append(searchPredicate)
         }
-
-        let subpredicates = [latitudePredicate, longitudePredicate, searchPredicate].compactMap {$0}
-
-        let predicate = NSCompoundPredicate(type: .and, subpredicates: subpredicates)
-
-        fetchedResultsController?.fetchRequest.predicate = predicate
-        try? fetchedResultsController?.performFetch()
-        updateSnapshot()
+        return subPredicates
     }
 
     func updateSnapshot() {
@@ -166,6 +174,7 @@ extension DetailViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarTextDidEndEditing(searchBar)
+        reloadPOI()
     }
 
     func searchViewEditing(_ isEditing: Bool) {
