@@ -69,6 +69,7 @@ final class MainViewController: UIViewController {
         configureVIP()
         configureMapView()
         configureBottomSheetView()
+        configureGesture()
     }
     
     private func configureVIP() {
