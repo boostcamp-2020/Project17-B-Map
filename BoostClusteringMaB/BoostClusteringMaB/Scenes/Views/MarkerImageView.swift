@@ -37,6 +37,7 @@ class MarkerImageView: UILabel {
         backgroundColor = UIColor.clear
         textAlignment = .center
         textColor = .naverGreen
+        numberOfLines = 0
     }
     
     override func draw(_ rect: CGRect) {
@@ -68,11 +69,15 @@ class MarkerImageView: UILabel {
         semiCircle.fill()
         semiCircle.close()
         
+        let textCount: CGFloat = CGFloat(text?.count ?? 1)
+        let fontSize: CGFloat = rect.width / (textCount * 1.5)
+        font = .boldSystemFont(ofSize: fontSize)
+        
         drawText(in: .init(
-            x: rect.minX,
-            y: rect.minY - rect.height / 6,
-            width: rect.width,
-            height: rect.height
+            x: rect.minX + rect.width / 4,
+            y: rect.minY - rect.height / 6 + rect.height / 4,
+            width: rect.width / 2,
+            height: rect.height / 2
         ))
     }
 }
