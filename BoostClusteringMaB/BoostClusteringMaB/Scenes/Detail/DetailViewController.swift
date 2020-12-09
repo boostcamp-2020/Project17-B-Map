@@ -91,8 +91,11 @@ final class DetailViewController: UIViewController {
         let predicate = NSCompoundPredicate(type: .and, subpredicates: subpredicates)
 
         fetchedResultsController?.fetchRequest.predicate = predicate
-        try? fetchedResultsController?.performFetch()
-        updateSnapshot()
+
+        DispatchQueue.init(label: "coredata").async { [weak self] in
+            try? self?.fetchedResultsController?.performFetch()
+            self?.updateSnapshot()
+        }
     }
 
     func makeSubPredicates(southWest: LatLng,
