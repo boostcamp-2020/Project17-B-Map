@@ -18,7 +18,8 @@ final class DetailViewController: UIViewController {
         didSet { searchBar.delegate = self }
     }
     @IBOutlet weak var dragBar: UIView!
-
+    @IBOutlet weak var resultLabel: UILabel!
+    
     enum Section {
         case main
     }
@@ -123,9 +124,15 @@ final class DetailViewController: UIViewController {
 
     func updateSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ManagedPOI>()
+        let pois = fetchedResultsController?.fetchedObjects ?? []
         snapshot.appendSections([.main])
-        snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [], toSection: .main)
+        snapshot.appendItems(pois, toSection: .main)
         diffableDataSource?.apply(snapshot)
+        updateResultCount(count: pois.count)
+    }
+    
+    func updateResultCount(count: Int) {
+        resultLabel.text = "\(count)개"
     }
 }
 
