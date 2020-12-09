@@ -116,11 +116,11 @@
                                         <outlet property="delegate" destination="eWu-xG-s1L" id="opm-V9-hvV"/>
                                     </connections>
                                 </collectionView>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76A-h6-Kve" userLabel="Result View" customClass="DetailResultView" customModule="BoostClusteringMaB" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76A-h6-Kve" userLabel="Result View">
                                     <rect key="frame" x="0.0" y="70" width="414" height="18"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uO3-sx-Uhd">
-                                            <rect key="frame" x="8" y="0.0" width="398" height="18"/>
+                                            <rect key="frame" x="20" y="0.0" width="386" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="18" id="VPQ-t3-FSr"/>
                                             </constraints>
@@ -132,7 +132,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="uO3-sx-Uhd" secondAttribute="bottom" id="W7A-BE-BlT"/>
-                                        <constraint firstItem="uO3-sx-Uhd" firstAttribute="leading" secondItem="76A-h6-Kve" secondAttribute="leading" constant="8" id="dj5-Ud-dJf"/>
+                                        <constraint firstItem="uO3-sx-Uhd" firstAttribute="leading" secondItem="76A-h6-Kve" secondAttribute="leading" constant="20" id="dj5-Ud-dJf"/>
                                         <constraint firstItem="uO3-sx-Uhd" firstAttribute="top" secondItem="76A-h6-Kve" secondAttribute="top" id="oPI-Zp-2Fs"/>
                                         <constraint firstAttribute="trailing" secondItem="uO3-sx-Uhd" secondAttribute="trailing" constant="8" id="ph3-KT-5x9"/>
                                     </constraints>
