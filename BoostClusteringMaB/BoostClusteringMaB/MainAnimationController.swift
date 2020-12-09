@@ -78,14 +78,14 @@ extension MainAnimationController {
             
             return isMerge ? (lowerModel, upperModel) : (upperModel, lowerModel)
         }.compactMap { (from: AnimationModel, to: AnimationModel) in
-            moveWithAnimation(from: from, to: to)
+            makeMarkerAnimation(from: from, to: to)
         }
         
-        stop()
-        start(animations: animations, completion: completion)
+        makerAnimationStop()
+        markerAnimationStart(animations: animations, completion: completion)
     }
     
-    private func start(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
+    private func markerAnimationStart(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
         markerAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
@@ -101,7 +101,7 @@ extension MainAnimationController {
             })
     }
     
-    private func stop() {
+    private func makerAnimationStop() {
         markerAnimator?.stopAnimation(false)
         markerAnimator?.finishAnimation(at: .current)
     }
@@ -132,7 +132,7 @@ extension MainAnimationController {
         return dstPointView
     }
     
-    private func moveWithAnimation(from srcModel: AnimationModel,
+    private func makeMarkerAnimation(from srcModel: AnimationModel,
                                    to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
         let srcPoint = mapView.projection.point(from: srcModel.latLng)
         let dstPoint = mapView.projection.point(from: dstModel.latLng)
