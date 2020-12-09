@@ -9,18 +9,21 @@ import NMapsMap
 
 final class MainAnimationController {
     typealias AnimationModel = (latLng: NMGLatLng, size: CGFloat)
-    
+
     private lazy var dotView: UIView = {
         let dot = UIView(frame: .init(x: 0, y: 0, width: self.dotSize, height: self.dotSize))
         dot.layer.cornerRadius = self.dotSize / 2
         dot.backgroundColor = .red
+        dot.alpha = 0
         view?.addSubview(dot)
+
         return dot
     }()
-    
-    private let dotSize: CGFloat = 4
+
+    private let dotSize: CGFloat = 30
     private let mapView: NMFMapViewProtocol
-    
+    private let animationDurtaion = 1.5
+
     private var markerAnimator: UIViewPropertyAnimator?
     private var dotAnimator: UIViewPropertyAnimator?
     
@@ -59,28 +62,6 @@ final class MainAnimationController {
         
         stop()
         start(animations: animations, completion: completion)
-    }
-    
-    func pointDotAnimation(point: CGPoint) {
-        dotView.center = .init(x: point.x, y: point.y)
-        self.dotView.isHidden = false
-        self.dotView.alpha = 1
-        dotAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.3,
-            delay: 0,
-            options: .repeat,
-            animations: {
-                UIView.setAnimationRepeatCount(.infinity)
-                self.dotView.alpha = 0
-            }, completion: { _ in
-                self.dotView.alpha = 1
-            })
-    }
-    
-    func removePointAnimation() {
-        dotAnimator?.stopAnimation(false)
-        dotAnimator?.finishAnimation(at: .current)
-        self.dotView.isHidden = true
     }
     
     private func start(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
@@ -150,5 +131,51 @@ final class MainAnimationController {
                 dstPointView.removeFromSuperview()
             }
         })
+    }
+}
+
+// MARK: - Dot Animation
+extension MainAnimationController {
+    func pointDotAnimation(point: CGPoint) {
+        self.dotView.center = .init(x: point.x, y: point.y)
+        self.startAnimation()
+    }
+
+    func startAnimation() {
+        let animationGroup = self.setupAnimationGroup()
+        self.dotView.layer.add(animationGroup, forKey: "dotAnimation")
+    }
+
+    func removePointAnimation() {
+        self.dotView.layer.removeAnimation(forKey: "dotAnimation")
+        dotView.alpha = 0
+    }
+
+    // MARK: - Dot Animation Group
+    private func setupAnimationGroup() -> CAAnimationGroup {
+        let animationGroup = CAAnimationGroup()
+        animationGroup.duration = animationDurtaion
+        animationGroup.repeatCount = .infinity
+        animationGroup.animations = [makeScaleAnimation(), makeOpacityAnimation()]
+
+        return animationGroup
+    }
+
+    private func makeScaleAnimation() -> CABasicAnimation {
+        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale.xy")
+        scaleAnimation.fromValue = 0
+        scaleAnimation.toValue = 1.0
+        scaleAnimation.duration = animationDurtaion
+
+        return scaleAnimation
+    }
+
+    private func makeOpacityAnimation() -> CAKeyframeAnimation {
+        let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
+        opacityAnimation.values = [0.45, 0.8, 0]
+        opacityAnimation.keyTimes = [0, 0.2, 1.3]
+        opacityAnimation.duration = animationDurtaion
+
+        return opacityAnimation
     }
 }
