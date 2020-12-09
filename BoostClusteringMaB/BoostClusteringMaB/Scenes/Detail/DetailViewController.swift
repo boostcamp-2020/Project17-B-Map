@@ -275,7 +275,7 @@ extension DetailViewController {
             var duration = abs(distance / recognizer.velocity(in: view).y)
             
             // 애니메이션이 너무 길어서 지루하게 느끼지 않도록 최대 값 설정
-            duration = duration > 1 ? 1 : duration
+            duration = (duration > 1) ? 1 : duration
             
             UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.allowUserInteraction]) {
                 self.moveView(state: self.nextState(recognizer))
