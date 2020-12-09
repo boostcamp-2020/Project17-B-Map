@@ -16,17 +16,19 @@ class Clustering {
 
     private let queue: OperationQueue = {
         let queue = OperationQueue()
+        queue.underlyingQueue = .global(qos: .userInteractive)
         queue.qualityOfService = .userInteractive
-        queue.underlyingQueue = .global()
         return queue
     }()
 
+    private let dbiOperationQueue = OperationQueue()
+
     init(coreDataLayer: CoreDataManager) {
         self.coreDataLayer = coreDataLayer
+        dbiOperationQueue.maxConcurrentOperationCount = 1
     }
 
     func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double) {
-        queue.isSuspended = true
         queue.cancelAllOperations()
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
@@ -36,28 +38,37 @@ class Clustering {
 
     private func runKMeans(pois: [POI], zoomLevel: Double) {
         let kRange = findKRange(zoomLevel: Int(zoomLevel))
-        let kMeansArr = kRange.map { k in
-            KMeans(k: k, pois: pois)
-        }
 
-        queue.addOperations(kMeansArr, waitUntilFinished: false)
+        var minKmeans: KMeans = .init(k: 0, pois: [])
+        var minDBI: Double = .greatestFiniteMagnitude
+
+        kRange.forEach { k in
+            let kMeans = KMeans(k: k, pois: pois)
+
+            let operation = BlockOperation {
+                let dbi = kMeans.daviesBouldinIndex()
+                if minDBI > dbi {
+                    minDBI = dbi
+                    minKmeans = kMeans
+                }
+            }
+
+            operation.addDependency(kMeans)
+            queue.addOperations([kMeans, operation], waitUntilFinished: false)
+        }
 
         queue.addBarrierBlock { [weak self] in
-            let kMeansTuple = kMeansArr.map { (kMeans: $0, DBI: $0.daviesBouldinIndex()) }
-            guard let minKMeans = kMeansTuple.min(by: { lhs, rhs in lhs.DBI < rhs.DBI })?.kMeans else { return }
             DispatchQueue.main.async {
-                self?.groupNotifyTasks(minKMeans)
+                self?.groupNotifyTasks(minKmeans)
             }
         }
-
-        queue.isSuspended = false
     }
     
-    private func findKRange(zoomLevel: Int) -> ClosedRange<Int> {
+    private func findKRange(zoomLevel: Int) -> Range<Int> {
         let start: Int
         let end: Int
         
-        let favorite = (14...17) // 사람들이 자주 쓰는 줌레벨
+        let favorite = (13...17) // 사람들이 자주 쓰는 줌레벨
         if favorite.contains(zoomLevel) {
             start = zoomLevel - 10
         } else {
@@ -65,7 +76,7 @@ class Clustering {
         }
         end = start + 10
         
-        return (start...end)
+        return (start..<end)
     }
     
     private func groupNotifyTasks(_ minKMeans: KMeans) {
@@ -75,13 +86,14 @@ class Clustering {
         var centroids = LatLngs()
         var convexHullPoints = [LatLngs]()
         var bounds = [(southWest: LatLng, northEast: LatLng)]()
-        
+
         combinedClusters.forEach({ cluster in
             points.append(cluster.pois.size)
             centroids.append(cluster.center)
             convexHullPoints.append(cluster.area())
-            bounds.append((southWest: cluster.southWest(),
-                           northEast: cluster.northEast()))
+            let cluster = cluster.southWestAndNorthEast()
+            bounds.append((southWest: cluster.southWest,
+                           northEast: cluster.northEast))
         })
         self.data?.redrawMap(centroids, points, bounds, convexHullPoints)
     }

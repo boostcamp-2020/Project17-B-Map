@@ -22,7 +22,6 @@ class LinkedList<T: Equatable> {
     }
     
     deinit {
-        //계속 불림
         prepareForDeinit()
     }
     
