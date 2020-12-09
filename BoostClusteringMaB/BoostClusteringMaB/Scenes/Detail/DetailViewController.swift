@@ -162,7 +162,6 @@ extension DetailViewController: UICollectionViewDelegate {
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
-        searchViewEditing(true)
     }
 }
 
