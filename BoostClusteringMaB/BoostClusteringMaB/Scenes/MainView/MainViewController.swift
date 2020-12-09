@@ -25,7 +25,10 @@ final class MainViewController: UIViewController {
     private lazy var animationController: MainAnimationController = {
         let controller = MainAnimationController(frame: view.frame, mapView: mapView)
         guard let animationView = controller.view else { return controller }
-        naverMapView.addSubview(animationView)
+        mapView.addSubview(animationView)
+        if let mapController = mapView.subviews.first(where: { $0 is UIImageView }) {
+            mapView.bringSubviewToFront(mapController)
+        }
         return controller
     }()
 
