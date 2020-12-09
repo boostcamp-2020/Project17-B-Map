@@ -8,19 +8,18 @@
 import UIKit
 
 class MarkerImageView: UILabel {
-    var radius: CGFloat {
+    var size: CGFloat {
         get {
-            return frame.width / 2
+            return frame.width
         }
         
         set {
-            frame = .init(x: 0, y: 0, width: newValue * 2, height: newValue * 2)
-            layer.cornerRadius = newValue
+            frame = .init(x: 0, y: 0, width: newValue, height: newValue)
         }
     }
     
-    init(radius: CGFloat) {
-        super.init(frame: .init(x: 0, y: 0, width: radius * 2, height: radius * 2))
+    init(size: CGFloat) {
+        super.init(frame: .init(x: 0, y: 0, width: size, height: size))
         configureView()
     }
     
@@ -35,10 +34,46 @@ class MarkerImageView: UILabel {
     }
     
     private func configureView() {
-        layer.cornerRadius = frame.width / 2
-        backgroundColor = UIColor.naverGreen
-        clipsToBounds = true
+        backgroundColor = UIColor.clear
         textAlignment = .center
+        textColor = .naverGreen
+    }
+    
+    override func draw(_ rect: CGRect) {
+        let center = CGPoint(x: rect.midX, y: rect.minY + rect.height / 3)
+        
+        let path = UIBezierPath()
+        path.move(to: .init(x: rect.midX, y: rect.maxY))
+        path.addLine(to: .init(x: rect.midX + rect.width / 4, y: rect.minY + rect.height / 3))
+        path.addLine(to: .init(x: rect.midX - rect.width / 4, y: rect.minY + rect.height / 3))
+        UIColor.naverGreen.set()
+        path.fill()
+        path.close()
+        
+        let mainCircle = UIBezierPath(arcCenter: center,
+                                      radius: rect.width / 3,
+                                      startAngle: 0,
+                                      endAngle: .pi * 2,
+                                      clockwise: true)
+        UIColor.naverGreen.set()
+        mainCircle.fill()
+        mainCircle.close()
+        
+        let semiCircle = UIBezierPath(arcCenter: center,
+                                      radius: rect.width / 4,
+                                      startAngle: 0,
+                                      endAngle: .pi * 2,
+                                      clockwise: true)
+        UIColor.white.set()
+        semiCircle.fill()
+        semiCircle.close()
+        
+        drawText(in: .init(
+            x: rect.minX,
+            y: rect.minY - rect.height / 6,
+            width: rect.width,
+            height: rect.height
+        ))
     }
 }
 

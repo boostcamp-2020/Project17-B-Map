@@ -9,8 +9,8 @@ import Foundation
 import NMapsMap
 
 extension NMFMarker {
-    static let maxBaseRadius: CGFloat = 15
-    static let markerImageView = MarkerImageView(radius: maxBaseRadius)
+    static let maxSize: CGFloat = 80
+    static let markerImageView = MarkerImageView(size: maxSize)
     
     /// 위치와 갯수를 입력하면 NMFMarker배열로 만들어줌
     /// - Parameters:
@@ -40,10 +40,10 @@ extension NMFMarker {
     /// - Parameters:
     ///   - view: MarkerImageView
     ///   - count: 클러스터 안에 POI 갯수
-    ///   - size: 클러스터 크기 비율
+    ///   - sizeRatio: 클러스터 크기 비율
     func setImageView(_ view: MarkerImageView, count: Int, sizeRatio: CGFloat) {
         view.text = "\(count)"
-        view.radius = NMFMarker.maxBaseRadius * (1 + sizeRatio)
+        view.size = NMFMarker.maxSize * (1 + sizeRatio) / 2
         iconImage = .init(image: view.snapshot())
     }
 }

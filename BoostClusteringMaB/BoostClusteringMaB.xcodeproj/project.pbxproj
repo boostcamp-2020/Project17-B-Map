@@ -33,7 +33,7 @@
 		709707D825760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */; };
 		709707D925760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */; };
 		709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708042577219700D3FC36 /* ClusteringProtocol.swift */; };
-		7097080A2577228900D3FC36 /* MarkerAnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708092577228900D3FC36 /* MarkerAnimateController.swift */; };
+		7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708092577228900D3FC36 /* MainAnimationController.swift */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD5B256CB9360048CEA6 /* CSVParser.swift */; };
 		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; };
@@ -114,7 +114,7 @@
 		709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataClass.swift"; sourceTree = "<group>"; };
 		709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		709708042577219700D3FC36 /* ClusteringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusteringProtocol.swift; sourceTree = "<group>"; };
-		709708092577228900D3FC36 /* MarkerAnimateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MarkerAnimateController.swift; path = BoostClusteringMaB/MarkerAnimateController.swift; sourceTree = SOURCE_ROOT; };
+		709708092577228900D3FC36 /* MainAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainAnimationController.swift; path = BoostClusteringMaB/MainAnimationController.swift; sourceTree = SOURCE_ROOT; };
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		70BFFD5B256CB9360048CEA6 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
 		70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParserTests.swift; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 		0D0172CD2570C15100A26886 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				709708092577228900D3FC36 /* MarkerAnimateController.swift */,
+				709708092577228900D3FC36 /* MainAnimationController.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -710,7 +710,7 @@
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
-				7097080A2577228900D3FC36 /* MarkerAnimateController.swift in Sources */,
+				7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
