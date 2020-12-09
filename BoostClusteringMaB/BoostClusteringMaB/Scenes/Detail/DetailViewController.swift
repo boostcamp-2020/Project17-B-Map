@@ -251,10 +251,33 @@ extension DetailViewController {
         }
     }
     
+    private func distance(y: CGFloat, to state: State) -> CGFloat {
+        var destination: CGFloat!
+        
+        switch state {
+        case .minimum:
+            destination = minimumViewYPosition
+        case .partial:
+            destination = partialViewYPosition
+        case .full:
+            destination = fullViewYPosition
+        }
+        
+        return destination - y
+    }
+    
     @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
         moveView(panGestureRecognizer: recognizer)
         if recognizer.state == .ended {
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) {
+            let nextState = self.nextState(recognizer)
+            let endedY = view.frame.minY + recognizer.translation(in: view).y
+            let distance = self.distance(y: endedY, to: nextState)
+            var duration = abs(distance / recognizer.velocity(in: view).y)
+            
+            // 애니메이션이 너무 길어서 지루하게 느끼지 않도록 최대 값 설정
+            duration = duration > 1 ? 1 : duration
+            
+            UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.allowUserInteraction]) {
                 self.moveView(state: self.nextState(recognizer))
             }
             
