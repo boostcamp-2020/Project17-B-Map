@@ -37,6 +37,30 @@ final class MainAnimationController {
         view?.isUserInteractionEnabled = false
     }
     
+    func pointDotAnimation(point: CGPoint) {
+        dotView.center = .init(x: point.x, y: point.y)
+        self.dotView.isHidden = false
+        self.dotView.alpha = 1
+        dotAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.3,
+            delay: 0,
+            options: .repeat,
+            animations: {
+                UIView.setAnimationRepeatCount(.infinity)
+                self.dotView.alpha = 0
+            }, completion: { _ in
+                self.dotView.alpha = 1
+            })
+    }
+    
+    func removePointAnimation() {
+        dotAnimator?.stopAnimation(false)
+        dotAnimator?.finishAnimation(at: .current)
+        self.dotView.isHidden = true
+    }
+}
+    
+extension MainAnimationController {
     func clusteringAnimation(old: [AnimationModel], new: [AnimationModel], isMerge: Bool, completion: (() -> Void)?) {
         let upper = isMerge ? new : old
         let lower = isMerge ? old : new
@@ -59,28 +83,6 @@ final class MainAnimationController {
         
         stop()
         start(animations: animations, completion: completion)
-    }
-    
-    func pointDotAnimation(point: CGPoint) {
-        dotView.center = .init(x: point.x, y: point.y)
-        self.dotView.isHidden = false
-        self.dotView.alpha = 1
-        dotAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.3,
-            delay: 0,
-            options: .repeat,
-            animations: {
-                UIView.setAnimationRepeatCount(.infinity)
-                self.dotView.alpha = 0
-            }, completion: { _ in
-                self.dotView.alpha = 1
-            })
-    }
-    
-    func removePointAnimation() {
-        dotAnimator?.stopAnimation(false)
-        dotAnimator?.finishAnimation(at: .current)
-        self.dotView.isHidden = true
     }
     
     private func start(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
@@ -115,17 +117,17 @@ final class MainAnimationController {
         return markerImageView
     }
     
-    private func makeDestinationMarkerView(point: CGPoint, image: UIImage) -> UIImageView {
+    private func makeSourceMarkerView(point: CGPoint, image: UIImage) -> UIImageView {
         let dstPointView = makeMarkerImageView(point: point, image: image)
-        dstPointView.alpha = 0
-        dstPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        dstPointView.transform = .identity
         view?.addSubview(dstPointView)
         return dstPointView
     }
     
-    private func makeSourceMarkerView(point: CGPoint, image: UIImage) -> UIImageView {
+    private func makeDestinationMarkerView(point: CGPoint, image: UIImage) -> UIImageView {
         let dstPointView = makeMarkerImageView(point: point, image: image)
-        dstPointView.transform = .identity
+        dstPointView.alpha = 0
+        dstPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
         view?.addSubview(dstPointView)
         return dstPointView
     }
