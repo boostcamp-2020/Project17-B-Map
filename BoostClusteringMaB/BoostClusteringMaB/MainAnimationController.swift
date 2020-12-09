@@ -85,7 +85,8 @@ extension MainAnimationController {
         markerAnimationStart(animations: animations, completion: completion)
     }
     
-    private func markerAnimationStart(animations: [(animation: () -> Void, completion: () -> Void)], completion: (() -> Void)?) {
+    private func markerAnimationStart(animations: [(animation: () -> Void, completion: () -> Void)],
+                                      completion: (() -> Void)?) {
         markerAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
@@ -133,7 +134,7 @@ extension MainAnimationController {
     }
     
     private func makeMarkerAnimation(from srcModel: AnimationModel,
-                                   to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
+                                     to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
         let srcPoint = mapView.projection.point(from: srcModel.latLng)
         let dstPoint = mapView.projection.point(from: dstModel.latLng)
         
