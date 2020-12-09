@@ -200,30 +200,8 @@ extension DetailViewController {
         case minimum
         case partial
         case full
-
-        var next: State {
-            switch self {
-            case .minimum:
-                return .partial
-            case .partial:
-                return .full
-            case .full:
-                return .full
-            }
-        }
-
-        var prev: State {
-            switch self {
-            case .minimum:
-                return .minimum
-            case .partial:
-                return .minimum
-            case .full:
-                return .partial
-            }
-        }
     }
-
+    
     private func configureGesture() {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
         view.addGestureRecognizer(gesture)
@@ -243,39 +221,44 @@ extension DetailViewController {
         currentState = state
     }
 
-    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) -> State {
+    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: view)
-        let minY = view.frame.minY
-        let endedY = minY + translation.y
-        let fullAndPartialBound = (fullViewYPosition + (partialViewYPosition - fullViewYPosition) / 2)
-        let partialAndMinimumBound = (partialViewYPosition + (minimumViewYPosition - partialViewYPosition) / 2)
-
+        let endedY = view.frame.minY + translation.y
+        
         if (endedY >= fullViewYPosition) && (endedY <= minimumViewYPosition) {
             view.frame = CGRect(x: 0, y: endedY, width: view.frame.width, height: view.frame.height)
             recognizer.setTranslation(CGPoint.zero, in: view)
         }
-
-        switch endedY {
-        case ...fullAndPartialBound:
-            return .full
-        case ...partialAndMinimumBound:
-            return .partial
-        default:
-            return .minimum
-        }
     }
 
-    @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
-        var nextState = moveView(panGestureRecognizer: recognizer)
-        if recognizer.state == .ended {
-            self.view.endEditing(true)
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) {
-                if nextState == self.currentState {
-                    nextState = recognizer.velocity(in: self.view).y >= 0
-                        ? self.currentState.prev : self.currentState.next
-                }
-                self.moveView(state: nextState)
+    private func nextState(_ recognizer: UIPanGestureRecognizer) -> State {
+        let endedY = view.frame.minY + recognizer.translation(in: view).y
+        let velocity = recognizer.velocity(in: view).y
+        
+        switch endedY {
+        case ...partialViewYPosition:
+            if velocity >= 0 {
+                return .partial
+            } else {
+                return .full
             }
+        default:
+            if velocity >= 0 {
+                return .minimum
+            } else {
+                return .partial
+            }
+        }
+    }
+    
+    @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
+        moveView(panGestureRecognizer: recognizer)
+        if recognizer.state == .ended {
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) {
+                self.moveView(state: self.nextState(recognizer))
+            }
+            
+            self.view.endEditing(true)
         }
     }
 }
