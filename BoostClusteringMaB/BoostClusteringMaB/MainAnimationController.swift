@@ -8,7 +8,7 @@ import UIKit
 import NMapsMap
 
 final class MainAnimationController {
-    typealias AnimationModel = (latLng: NMGLatLng, size: CGFloat)
+    typealias AnimationModel = (latLng: NMGLatLng, image: UIImage)
     
     private lazy var dotView: UIView = {
         let dot = UIView(frame: .init(x: 0, y: 0, width: self.dotSize, height: self.dotSize))
@@ -104,50 +104,54 @@ final class MainAnimationController {
         markerAnimator?.finishAnimation(at: .current)
     }
     
-    private func moveWithAnimation(from srcModel: AnimationModel,
-                                   to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
-        let scale = dstModel.size / srcModel.size
-        let srcPoint = mapView.projection.point(from: srcModel.latLng)
-        let dstPoint = mapView.projection.point(from: dstModel.latLng)
-        
-        guard srcPoint != dstPoint, dstPoint.isValid else { return nil }
-        
-        var srcPointView: MarkerImageView?
-        let dstPointView = MarkerImageView(
-            frame: CGRect(
-                x: dstPoint.x - dstModel.size / 2,
-                y: dstPoint.y - dstModel.size,
-                width: dstModel.size,
-                height: dstModel.size
-            )
+    private func makeMarkerImageView(point: CGPoint, image: UIImage) -> UIImageView {
+        let markerImageView = UIImageView(image: image)
+        markerImageView.frame = CGRect(
+            x: point.x - image.size.width / 2,
+            y: point.y - image.size.height,
+            width: image.size.width,
+            height: image.size.height
         )
+        return markerImageView
+    }
+    
+    private func makeDestinationMarkerView(point: CGPoint, image: UIImage) -> UIImageView {
+        let dstPointView = makeMarkerImageView(point: point, image: image)
         dstPointView.alpha = 0
         dstPointView.transform = CGAffineTransform(scaleX: 0, y: 0)
         view?.addSubview(dstPointView)
+        return dstPointView
+    }
+    
+    private func makeSourceMarkerView(point: CGPoint, image: UIImage) -> UIImageView {
+        let dstPointView = makeMarkerImageView(point: point, image: image)
+        dstPointView.transform = .identity
+        view?.addSubview(dstPointView)
+        return dstPointView
+    }
+    
+    private func moveWithAnimation(from srcModel: AnimationModel,
+                                   to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
+        let srcPoint = mapView.projection.point(from: srcModel.latLng)
+        let dstPoint = mapView.projection.point(from: dstModel.latLng)
         
-        if srcPoint.isValid {
-            let pointView = MarkerImageView(
-                frame: CGRect(
-                    x: srcPoint.x - srcModel.size / 2,
-                    y: srcPoint.y - srcModel.size,
-                    width: srcModel.size,
-                    height: srcModel.size))
-            pointView.transform = .identity
-            view?.addSubview(pointView)
-            srcPointView = pointView
-        }
+        guard srcPoint != dstPoint else { return nil }
+        
+        let srcView = (srcPoint.isValid) ? makeSourceMarkerView(point: srcPoint, image: srcModel.image) : nil
+        let dstView = (dstPoint.isValid) ? makeDestinationMarkerView(point: dstPoint, image: dstModel.image) : nil
         
         return (animation: {
-            srcPointView?.center = dstPointView.center
-            srcPointView?.transform = CGAffineTransform(scaleX: scale, y: scale)
-            srcPointView?.alpha = 0
+            dstView?.transform = .identity
+            dstView?.alpha = 1
             
-            dstPointView.transform = .identity
-            dstPointView.alpha = 1
+            srcView?.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            srcView?.alpha = 0
+            guard let dstCenter = dstView?.center else { return }
+            srcView?.center = dstCenter
         }, completion: {
             Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
-                srcPointView?.removeFromSuperview()
-                dstPointView.removeFromSuperview()
+                srcView?.removeFromSuperview()
+                dstView?.removeFromSuperview()
             }
         })
     }
