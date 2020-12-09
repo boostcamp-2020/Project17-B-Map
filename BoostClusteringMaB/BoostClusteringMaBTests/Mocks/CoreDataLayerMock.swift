@@ -9,6 +9,10 @@
 import CoreData
 
 class CoreDataLayerMock: CoreDataManager {
+    func makeFetchResultsController() -> NSFetchedResultsController<ManagedPOI> {
+        .init()
+    }
+
     func add(place: Place, completion handler: CoreDataHandler?) {
 
     }
@@ -39,9 +43,5 @@ class CoreDataLayerMock: CoreDataManager {
     
     func removeAll(completion handler: CoreDataHandler?) {
 
-    }
-
-    func makeFetchResultsController(southWest: LatLng, northEast: LatLng) -> NSFetchedResultsController<ManagedPOI> {
-        return .init()
     }
 }
