@@ -8,6 +8,7 @@
 import UIKit
 
 class MarkerImageView: UILabel {
+    let maxFontSize: CGFloat = 20
     var size: CGFloat {
         get {
             return frame.width
@@ -69,9 +70,8 @@ class MarkerImageView: UILabel {
         semiCircle.fill()
         semiCircle.close()
         
-        let textCount: CGFloat = CGFloat(text?.count ?? 1)
-        let fontSize: CGFloat = rect.width / (textCount * 1.5)
-        font = .boldSystemFont(ofSize: fontSize)
+        let fontSize: CGFloat = rect.width / (CGFloat(text?.count ?? 1) * 1.5)
+        font = .boldSystemFont(ofSize: (fontSize < maxFontSize) ? fontSize : maxFontSize)
         
         drawText(in: .init(
             x: rect.minX + rect.width / 4,
