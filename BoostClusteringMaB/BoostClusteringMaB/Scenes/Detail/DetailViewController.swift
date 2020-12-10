@@ -18,7 +18,8 @@ final class DetailViewController: UIViewController {
         didSet { searchBar.delegate = self }
     }
     @IBOutlet weak var dragBar: UIView!
-
+    @IBOutlet var cancelButton: UIButton!
+    
     enum Section {
         case main
     }
@@ -127,6 +128,12 @@ final class DetailViewController: UIViewController {
         snapshot.appendItems(fetchedResultsController?.fetchedObjects ?? [], toSection: .main)
         diffableDataSource?.apply(snapshot)
     }
+    
+    @IBAction func cancelButtonTouched(_ sender: Any) {
+        searchBar.text = ""
+        searchViewEditing(false)
+    }
+    
 }
 
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
@@ -155,7 +162,6 @@ extension DetailViewController: UICollectionViewDelegate {
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
-        searchViewEditing(true)
     }
 }
 
@@ -174,6 +180,7 @@ extension DetailViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarTextDidEndEditing(searchBar)
+        searchBar.text = ""
         reloadPOI()
     }
 
@@ -212,15 +219,24 @@ extension DetailViewController {
         switch state {
         case .minimum:
             yPosition = minimumViewYPosition
+            setCancelButtonEnable(false)
         case .partial:
             yPosition = partialViewYPosition
+            setCancelButtonEnable(false)
         case .full:
             yPosition = fullViewYPosition
+            setCancelButtonEnable(true)
         }
         view.frame = CGRect(x: 0, y: yPosition, width: view.frame.width, height: view.frame.height)
         currentState = state
     }
 
+
+    private func setCancelButtonEnable(_ isEnable: Bool) {
+        cancelButton.isUserInteractionEnabled = isEnable
+        cancelButton.setTitleColor(isEnable ? .black : .gray, for: .normal)
+    }
+    
     private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: view)
         let endedY = view.frame.minY + translation.y
@@ -284,4 +300,5 @@ extension DetailViewController {
             self.view.endEditing(true)
         }
     }
+    
 }
