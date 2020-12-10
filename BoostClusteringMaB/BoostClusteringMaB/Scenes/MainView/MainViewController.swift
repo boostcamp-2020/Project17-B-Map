@@ -25,7 +25,10 @@ final class MainViewController: UIViewController {
     private lazy var animationController: MainAnimationController = {
         let controller = MainAnimationController(frame: view.frame, mapView: mapView)
         guard let animationView = controller.view else { return controller }
-        naverMapView.addSubview(animationView)
+        mapView.addSubview(animationView)
+        if let mapController = mapView.subviews.first(where: { $0 is UIImageView }) {
+            mapView.bringSubviewToFront(mapController)
+        }
         return controller
     }()
 
@@ -35,8 +38,8 @@ final class MainViewController: UIViewController {
         return bottom
     }()
     
-     private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-//    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
+//     private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
     
     private var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     private var interactor: MainBusinessLogic?
@@ -46,11 +49,11 @@ final class MainViewController: UIViewController {
     private var highlightMarker: NMFMarker? {
         didSet {
             guard highlightMarker != oldValue else { return }
-            highlightMarker?.iconTintColor = UIColor.red
+            highlightMarker?.iconImage = NMF_MARKER_IMAGE_RED
             if let position = highlightMarker?.position {
                 highlightMarker?.captionText = "\(position.lat),\n \(position.lng)"
             }
-            oldValue?.iconTintColor = UIColor.naverGreen
+            oldValue?.iconImage = NMF_MARKER_IMAGE_GREEN
             oldValue?.captionText = ""
         }
     }
@@ -234,10 +237,10 @@ private extension MainViewController {
 
         self.animationController.clusteringAnimation(
             old: oldMarkers.map {
-                (latLng: $0.position, size: $0.iconImage.imageWidth)
+                (latLng: $0.position, size: $0.iconImage.image)
             },
             new: newMarkers.map {
-                (latLng: $0.position, size: $0.iconImage.imageWidth)
+                (latLng: $0.position, size: $0.iconImage.image)
             },
             isMerge: oldMarkers.count > newMarkers.count,
             completion: {
