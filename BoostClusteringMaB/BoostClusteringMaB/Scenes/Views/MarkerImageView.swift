@@ -37,7 +37,7 @@ class MarkerImageView: UILabel {
     }
     
     private func configureView() {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         textAlignment = .center
         textColor = .naverGreen
         numberOfLines = 0
