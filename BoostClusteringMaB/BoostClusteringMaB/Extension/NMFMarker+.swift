@@ -24,8 +24,7 @@ extension NMFMarker {
             let marker = NMFMarker(position: NMGLatLng(lat: latLng.lat, lng: latLng.lng))
             marker.userInfo["pointCount"] = pointCount
             guard pointCount != 1 else {
-                marker.iconImage = NMF_MARKER_IMAGE_BLACK
-                marker.iconTintColor = UIColor.naverGreen
+                marker.iconImage = NMF_MARKER_IMAGE_GREEN
                 return marker
             }
             marker.setImageView(
