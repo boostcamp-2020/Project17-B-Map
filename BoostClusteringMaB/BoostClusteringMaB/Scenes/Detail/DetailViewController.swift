@@ -25,10 +25,14 @@ final class DetailViewController: UIViewController {
         case main
     }
 
-    var diffableDataSource: UICollectionViewDiffableDataSource<Section, ManagedPOI>?
-
     weak var delegate: DetailViewControllerDelegate?
     
+    private var diffableDataSource: UICollectionViewDiffableDataSource<Section, ManagedPOI>?
+
+    private var southWest: LatLng = .zero
+    private var northEast: LatLng = .zero
+    private let performFetchQueue = DispatchQueue.init(label: "coredata")
+
     var fetchedResultsController: NSFetchedResultsController<ManagedPOI>? = {
         let coreDataLayer = CoreDataLayer()
         let controller = coreDataLayer.makeFetchResultsController()
@@ -85,16 +89,16 @@ final class DetailViewController: UIViewController {
         collectionView.dataSource = diffableDataSource
     }
 
-    private var southWest: LatLng = .zero
-    private var northEast: LatLng = .zero
-
     func reloadPOI(southWest: LatLng = .zero, northEast: LatLng = .zero, _ searchText: String = "") {
         let subpredicates = makeSubPredicates(southWest: southWest, northEast: northEast, searchText)
         let predicate = NSCompoundPredicate(type: .and, subpredicates: subpredicates)
 
         fetchedResultsController?.fetchRequest.predicate = predicate
-        try? fetchedResultsController?.performFetch()
-        updateSnapshot()
+
+        performFetchQueue.async { [weak self] in
+            try? self?.fetchedResultsController?.performFetch()
+            self?.updateSnapshot()
+        }
     }
 
     func makeSubPredicates(southWest: LatLng,
