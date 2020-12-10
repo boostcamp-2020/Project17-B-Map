@@ -136,7 +136,6 @@ final class DetailViewController: UIViewController {
         DispatchQueue.main.async {
             self.updateResultCount(count: pois.count)
         }
-
     }
     
     func updateResultCount(count: Int) {
@@ -144,10 +143,10 @@ final class DetailViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTouched(_ sender: Any) {
+        reloadPOI()
         searchBar.text = ""
         searchViewEditing(false)
     }
-    
 }
 
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
