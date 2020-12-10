@@ -44,8 +44,4 @@ class CoreDataLayerMock: CoreDataManager {
     func removeAll(completion handler: CoreDataHandler?) {
 
     }
-
-    func makeFetchResultsController(southWest: LatLng, northEast: LatLng) -> NSFetchedResultsController<ManagedPOI> {
-        return .init()
-    }
 }
