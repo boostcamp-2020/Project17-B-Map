@@ -68,6 +68,7 @@ extension MainAnimationController {
     
     private func markerAnimationStart(animations: [(animation: () -> Void, completion: () -> Void)],
                                       completion: (() -> Void)?) {
+        view?.isHidden = false
         markerAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
@@ -77,6 +78,7 @@ extension MainAnimationController {
                     $0.animation()
                 }
             }, completion: { finalPosition in
+                self.view?.isHidden = true
                 animations.forEach { $0.completion() }
                 guard finalPosition == .end else { return }
                 completion?()
@@ -133,10 +135,8 @@ extension MainAnimationController {
             guard let dstCenter = dstView?.center else { return }
             srcView?.center = dstCenter
         }, completion: {
-            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
                 srcView?.removeFromSuperview()
                 dstView?.removeFromSuperview()
-            }
         })
     }
 }
