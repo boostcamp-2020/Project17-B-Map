@@ -133,7 +133,10 @@ final class DetailViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(pois, toSection: .main)
         diffableDataSource?.apply(snapshot)
-        updateResultCount(count: pois.count)
+        DispatchQueue.main.async {
+            self.updateResultCount(count: pois.count)
+        }
+
     }
     
     func updateResultCount(count: Int) {
@@ -241,7 +244,6 @@ extension DetailViewController {
         view.frame = CGRect(x: 0, y: yPosition, width: view.frame.width, height: view.frame.height)
         currentState = state
     }
-
 
     private func setCancelButtonEnable(_ isEnable: Bool) {
         cancelButton.isUserInteractionEnabled = isEnable

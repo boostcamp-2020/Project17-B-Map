@@ -39,28 +39,6 @@ final class MainAnimationController {
         view?.backgroundColor = .clear
         view?.isUserInteractionEnabled = false
     }
-    
-    func pointDotAnimation(point: CGPoint) {
-        dotView.center = .init(x: point.x, y: point.y)
-        self.dotView.isHidden = false
-        self.dotView.alpha = 1
-        dotAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.3,
-            delay: 0,
-            options: .repeat,
-            animations: {
-                UIView.setAnimationRepeatCount(.infinity)
-                self.dotView.alpha = 0
-            }, completion: { _ in
-                self.dotView.alpha = 1
-            })
-    }
-    
-    func removePointAnimation() {
-        dotAnimator?.stopAnimation(false)
-        dotAnimator?.finishAnimation(at: .current)
-        self.dotView.isHidden = true
-    }
 }
     
 extension MainAnimationController {
