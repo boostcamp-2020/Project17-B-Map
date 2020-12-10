@@ -164,11 +164,11 @@ extension DetailViewController: UICollectionViewDelegate {
               let lng = cell.latLng?.lng else {
             return
         }
-        collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         delegate?.didCellSelected(lat: lat, lng: lng, isClicked: cell.isClicked)
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
+        searchViewEditing(false)
     }
 }
 
