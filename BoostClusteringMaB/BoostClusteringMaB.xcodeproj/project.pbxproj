@@ -34,6 +34,7 @@
 		709707D925760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */; };
 		709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708042577219700D3FC36 /* ClusteringProtocol.swift */; };
 		7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708092577228900D3FC36 /* MainAnimationController.swift */; };
+		70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD5B256CB9360048CEA6 /* CSVParser.swift */; };
 		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; };
@@ -114,6 +115,7 @@
 		709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		709708042577219700D3FC36 /* ClusteringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusteringProtocol.swift; sourceTree = "<group>"; };
 		709708092577228900D3FC36 /* MainAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainAnimationController.swift; path = BoostClusteringMaB/MainAnimationController.swift; sourceTree = SOURCE_ROOT; };
+		70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFCameraUpdate+.swift"; sourceTree = "<group>"; };
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		70BFFD5B256CB9360048CEA6 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
 		70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParserTests.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				70E2A21625776BED009A5ADC /* CGPoint+isValid.swift */,
 				70E2A21E25776C0D009A5ADC /* NMFPolygonOverlay+.swift */,
 				F456CB4B257B75530095139A /* String+Localize.swift */,
+				70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
 				709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */,
 				70E2A21125776ACB009A5ADC /* UIColor+.swift in Sources */,
+				70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */,
 				F456CB4C257B75530095139A /* String+Localize.swift in Sources */,
 				707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
