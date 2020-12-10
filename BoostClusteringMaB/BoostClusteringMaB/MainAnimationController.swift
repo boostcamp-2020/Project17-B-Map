@@ -9,6 +9,7 @@ import NMapsMap
 
 final class MainAnimationController {
     typealias AnimationModel = (latLng: NMGLatLng, image: UIImage)
+    typealias AnimationClosure = (animation: (() -> Void)?, completion: (() -> Void)?)
     
     private lazy var dotView: UIView = {
         let dot = UIView(frame: .init(x: 0, y: 0, width: self.dotSize, height: self.dotSize))
@@ -66,20 +67,18 @@ extension MainAnimationController {
         markerAnimationStart(animations: animations, completion: completion)
     }
     
-    private func markerAnimationStart(animations: [(animation: () -> Void, completion: () -> Void)],
+    private func markerAnimationStart(animations: [AnimationClosure],
                                       completion: (() -> Void)?) {
-        view?.isHidden = false
         markerAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5,
             delay: 0,
             options: .curveEaseInOut,
             animations: {
                 animations.forEach {
-                    $0.animation()
+                    $0.animation?()
                 }
             }, completion: { finalPosition in
-                self.view?.isHidden = true
-                animations.forEach { $0.completion() }
+                animations.forEach { $0.completion?() }
                 guard finalPosition == .end else { return }
                 completion?()
             })
@@ -117,11 +116,19 @@ extension MainAnimationController {
     }
     
     private func makeMarkerAnimation(from srcModel: AnimationModel,
-                                     to dstModel: AnimationModel) -> (() -> Void, () -> Void)? {
+                                     to dstModel: AnimationModel) -> AnimationClosure? {
         let srcPoint = mapView.projection.point(from: srcModel.latLng)
         let dstPoint = mapView.projection.point(from: dstModel.latLng)
         
-        guard srcPoint != dstPoint else { return nil }
+        guard srcPoint != dstPoint else {
+            let dstView = makeDestinationMarkerView(point: srcPoint, image: dstModel.image)
+            dstView.transform = .identity
+            dstView.alpha = 1
+            return (
+                animation: nil, completion: {
+                    dstView.removeFromSuperview()
+                }
+            ) }
         
         let srcView = (srcPoint.isValid) ? makeSourceMarkerView(point: srcPoint, image: srcModel.image) : nil
         let dstView = (dstPoint.isValid) ? makeDestinationMarkerView(point: dstPoint, image: dstModel.image) : nil
