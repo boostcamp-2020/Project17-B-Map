@@ -19,6 +19,7 @@ final class DetailViewController: UIViewController {
     }
     @IBOutlet weak var dragBar: UIView!
     @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet var cancelButton: UIButton!
     
     enum Section {
         case main
@@ -134,6 +135,12 @@ final class DetailViewController: UIViewController {
     func updateResultCount(count: Int) {
         resultLabel.text = "\(count)개"
     }
+    
+    @IBAction func cancelButtonTouched(_ sender: Any) {
+        searchBar.text = ""
+        searchViewEditing(false)
+    }
+    
 }
 
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
@@ -162,7 +169,6 @@ extension DetailViewController: UICollectionViewDelegate {
         cell.isClicked = true
         prevClickedCell?.isClicked = false
         prevClickedCell = cell
-        searchViewEditing(true)
     }
 }
 
@@ -181,6 +187,7 @@ extension DetailViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarTextDidEndEditing(searchBar)
+        searchBar.text = ""
         reloadPOI()
     }
 
@@ -207,30 +214,8 @@ extension DetailViewController {
         case minimum
         case partial
         case full
-
-        var next: State {
-            switch self {
-            case .minimum:
-                return .partial
-            case .partial:
-                return .full
-            case .full:
-                return .full
-            }
-        }
-
-        var prev: State {
-            switch self {
-            case .minimum:
-                return .minimum
-            case .partial:
-                return .minimum
-            case .full:
-                return .partial
-            }
-        }
     }
-
+    
     private func configureGesture() {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
         view.addGestureRecognizer(gesture)
@@ -241,48 +226,86 @@ extension DetailViewController {
         switch state {
         case .minimum:
             yPosition = minimumViewYPosition
+            setCancelButtonEnable(false)
         case .partial:
             yPosition = partialViewYPosition
+            setCancelButtonEnable(false)
         case .full:
             yPosition = fullViewYPosition
+            setCancelButtonEnable(true)
         }
         view.frame = CGRect(x: 0, y: yPosition, width: view.frame.width, height: view.frame.height)
         currentState = state
     }
 
-    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) -> State {
-        let translation = recognizer.translation(in: view)
-        let minY = view.frame.minY
-        let endedY = minY + translation.y
-        let fullAndPartialBound = (fullViewYPosition + (partialViewYPosition - fullViewYPosition) / 2)
-        let partialAndMinimumBound = (partialViewYPosition + (minimumViewYPosition - partialViewYPosition) / 2)
 
+    private func setCancelButtonEnable(_ isEnable: Bool) {
+        cancelButton.isUserInteractionEnabled = isEnable
+        cancelButton.setTitleColor(isEnable ? .black : .gray, for: .normal)
+    }
+    
+    private func moveView(panGestureRecognizer recognizer: UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: view)
+        let endedY = view.frame.minY + translation.y
+        
         if (endedY >= fullViewYPosition) && (endedY <= minimumViewYPosition) {
             view.frame = CGRect(x: 0, y: endedY, width: view.frame.width, height: view.frame.height)
             recognizer.setTranslation(CGPoint.zero, in: view)
         }
-
-        switch endedY {
-        case ...fullAndPartialBound:
-            return .full
-        case ...partialAndMinimumBound:
-            return .partial
-        default:
-            return .minimum
-        }
     }
 
-    @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
-        var nextState = moveView(panGestureRecognizer: recognizer)
-        if recognizer.state == .ended {
-            self.view.endEditing(true)
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) {
-                if nextState == self.currentState {
-                    nextState = recognizer.velocity(in: self.view).y >= 0
-                        ? self.currentState.prev : self.currentState.next
-                }
-                self.moveView(state: nextState)
+    private func nextState(_ recognizer: UIPanGestureRecognizer) -> State {
+        let endedY = view.frame.minY + recognizer.translation(in: view).y
+        let velocity = recognizer.velocity(in: view).y
+        
+        switch endedY {
+        case ...partialViewYPosition:
+            if velocity >= 0 {
+                return .partial
+            } else {
+                return .full
+            }
+        default:
+            if velocity >= 0 {
+                return .minimum
+            } else {
+                return .partial
             }
         }
     }
+    
+    private func distance(y: CGFloat, to state: State) -> CGFloat {
+        var destination: CGFloat!
+        
+        switch state {
+        case .minimum:
+            destination = minimumViewYPosition
+        case .partial:
+            destination = partialViewYPosition
+        case .full:
+            destination = fullViewYPosition
+        }
+        
+        return destination - y
+    }
+    
+    @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
+        moveView(panGestureRecognizer: recognizer)
+        if recognizer.state == .ended {
+            let nextState = self.nextState(recognizer)
+            let endedY = view.frame.minY + recognizer.translation(in: view).y
+            let distance = self.distance(y: endedY, to: nextState)
+            var duration = abs(distance / recognizer.velocity(in: view).y)
+            
+            // 애니메이션이 너무 길어서 지루하게 느끼지 않도록 최대 값 설정
+            duration = (duration > 1) ? 1 : duration
+            
+            UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.allowUserInteraction]) {
+                self.moveView(state: self.nextState(recognizer))
+            }
+            
+            self.view.endEditing(true)
+        }
+    }
+    
 }

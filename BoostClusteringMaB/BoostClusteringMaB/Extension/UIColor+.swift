@@ -23,6 +23,7 @@ extension UIColor {
                        blue: CGFloat.random(in: 0.0...1.0),
                        alpha: 31.0/255.0)
     }
-    
+
+    /// Naver Color
     static let naverGreen = UIColor(named: "NaverColor") ?? UIColor.systemGreen
 }

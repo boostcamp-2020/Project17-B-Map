@@ -8,12 +8,15 @@
 import UIKit
 
 class MarkerImageView: UILabel {
+    let maxFontSize: CGFloat = 20
     var size: CGFloat {
         get {
             return frame.width
         }
         
         set {
+            let fontSize: CGFloat = newValue / (CGFloat(text?.count ?? 1) * 1.5)
+            font = .boldSystemFont(ofSize: (fontSize < maxFontSize) ? fontSize : maxFontSize)
             frame = .init(x: 0, y: 0, width: newValue, height: newValue)
         }
     }
@@ -34,9 +37,10 @@ class MarkerImageView: UILabel {
     }
     
     private func configureView() {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         textAlignment = .center
         textColor = .naverGreen
+        numberOfLines = 0
     }
     
     override func draw(_ rect: CGRect) {
@@ -69,10 +73,10 @@ class MarkerImageView: UILabel {
         semiCircle.close()
         
         drawText(in: .init(
-            x: rect.minX,
-            y: rect.minY - rect.height / 6,
-            width: rect.width,
-            height: rect.height
+            x: rect.minX + rect.width / 4,
+            y: rect.minY - rect.height / 6 + rect.height / 4,
+            width: rect.width / 2,
+            height: rect.height / 2
         ))
     }
 }

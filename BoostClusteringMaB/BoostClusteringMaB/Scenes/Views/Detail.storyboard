@@ -33,8 +33,8 @@
                                         <constraint firstAttribute="width" constant="40" id="uYB-88-XdR"/>
                                     </constraints>
                                 </view>
-                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="가게명 검색" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ipo-Rl-NBk">
-                                    <rect key="frame" x="0.0" y="14" width="414" height="56"/>
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="가게명 검색" translatesAutoresizingMaskIntoConstraints="NO" id="Ipo-Rl-NBk">
+                                    <rect key="frame" x="0.0" y="14" width="364" height="56"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="tintColor" systemColor="labelColor"/>
                                     <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -137,17 +137,37 @@
                                         <constraint firstAttribute="trailing" secondItem="uO3-sx-Uhd" secondAttribute="trailing" constant="8" id="ph3-KT-5x9"/>
                                     </constraints>
                                 </view>
+
+                          
+                          <!--
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S2e-GU-5uK">
+                                    <rect key="frame" x="364" y="14" width="50" height="56"/>
+                                    <state key="normal" title="Cancel">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="cancelButtonTouched:" destination="eWu-xG-s1L" eventType="touchUpInside" id="JNq-Kx-hsD"/>
+                                    </connections>
+                                </button>
+                           -->
                             </subviews>
                             <constraints>
+                                <constraint firstAttribute="trailing" secondItem="S2e-GU-5uK" secondAttribute="trailing" id="2W5-Dd-jo9"/>
                                 <constraint firstItem="UYY-E1-BjH" firstAttribute="top" secondItem="4rf-8i-P0F" secondAttribute="top" constant="8" id="6NC-hZ-ad5"/>
                                 <constraint firstAttribute="trailing" secondItem="76A-h6-Kve" secondAttribute="trailing" id="8Ei-Gr-OMw"/>
                                 <constraint firstAttribute="trailing" secondItem="Ipo-Rl-NBk" secondAttribute="trailing" id="LbK-F9-meN"/>
                                 <constraint firstItem="76A-h6-Kve" firstAttribute="leading" secondItem="4rf-8i-P0F" secondAttribute="leading" id="OGD-Sm-1J4"/>
+<!--
+                                <constraint firstItem="S2e-GU-5uK" firstAttribute="top" secondItem="Ipo-Rl-NBk" secondAttribute="top" id="JK7-k7-RtY"/>
+                                <constraint firstAttribute="trailing" secondItem="Ipo-Rl-NBk" secondAttribute="trailing" constant="50" id="LbK-F9-meN"/>
+-->
                                 <constraint firstAttribute="bottom" secondItem="Uhn-bq-GyL" secondAttribute="bottom" id="P9Q-bV-PL2"/>
+                                <constraint firstItem="S2e-GU-5uK" firstAttribute="leading" secondItem="Ipo-Rl-NBk" secondAttribute="trailing" id="XMa-I0-cN1"/>
                                 <constraint firstItem="UYY-E1-BjH" firstAttribute="centerX" secondItem="4rf-8i-P0F" secondAttribute="centerX" id="ZkW-ju-mHu"/>
                                 <constraint firstItem="76A-h6-Kve" firstAttribute="top" secondItem="Ipo-Rl-NBk" secondAttribute="bottom" id="bve-js-e2S"/>
                                 <constraint firstAttribute="trailing" secondItem="Uhn-bq-GyL" secondAttribute="trailing" id="g0f-Yq-jkQ"/>
                                 <constraint firstItem="Ipo-Rl-NBk" firstAttribute="leading" secondItem="4rf-8i-P0F" secondAttribute="leading" id="lLh-AW-JOF"/>
+                                <constraint firstItem="Uhn-bq-GyL" firstAttribute="top" secondItem="S2e-GU-5uK" secondAttribute="bottom" id="mLq-7M-e1U"/>
                                 <constraint firstItem="Ipo-Rl-NBk" firstAttribute="top" secondItem="UYY-E1-BjH" secondAttribute="bottom" id="q3j-RH-QLS"/>
                                 <constraint firstItem="Uhn-bq-GyL" firstAttribute="leading" secondItem="4rf-8i-P0F" secondAttribute="leading" id="tTw-No-t97"/>
                                 <constraint firstItem="Uhn-bq-GyL" firstAttribute="top" secondItem="76A-h6-Kve" secondAttribute="bottom" id="zv1-j2-MLa"/>
@@ -157,6 +177,7 @@
                     </visualEffectView>
                     <size key="freeformSize" width="414" height="896"/>
                     <connections>
+                        <outlet property="cancelButton" destination="S2e-GU-5uK" id="2kx-Fp-Fc7"/>
                         <outlet property="collectionView" destination="Uhn-bq-GyL" id="ZkL-iY-TlX"/>
                         <outlet property="dragBar" destination="UYY-E1-BjH" id="ZuV-mW-y29"/>
                         <outlet property="resultLabel" destination="uO3-sx-Uhd" id="tEE-Qu-Q9A"/>
