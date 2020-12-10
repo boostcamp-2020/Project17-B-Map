@@ -38,8 +38,8 @@ final class MainViewController: UIViewController {
         return bottom
     }()
     
-//     private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
+     private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+//    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
     
     private var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     private var interactor: MainBusinessLogic?
@@ -255,6 +255,7 @@ private extension MainViewController {
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
         animationController.removePointAnimation()
+        bottomSheetViewController.prevClickedCell?.isClicked = false
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {

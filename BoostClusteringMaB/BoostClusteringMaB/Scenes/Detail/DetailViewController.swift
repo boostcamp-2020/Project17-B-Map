@@ -48,7 +48,8 @@ final class DetailViewController: UIViewController {
             }
         }
     }
-    private var prevClickedCell: DetailCollectionViewCell?
+    
+    var prevClickedCell: DetailCollectionViewCell?
 
     override func viewDidLoad() {
         super.viewDidLoad()

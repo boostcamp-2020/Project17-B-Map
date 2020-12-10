@@ -17,7 +17,6 @@ final class MainAnimationController {
         dot.backgroundColor = .red
         dot.alpha = 0
         view?.addSubview(dot)
-
         return dot
     }()
 
