@@ -13,6 +13,8 @@
 		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
 		4A3C8021232DFCF9C5E93307 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */; };
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		7017B9FB257E162E005D1512 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = 7017B9F9257E162E005D1512 /* gangnam_8000.json */; };
+		7017B9FC257E162E005D1512 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = 7017B9FA257E162E005D1512 /* restaurant.json */; };
 		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
 		70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD0256DEB9900F138CB /* CoreDataContainer.swift */; };
 		70672319257205B000CF68FD /* ClusteringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70672318257205B000CF68FD /* ClusteringTests.swift */; };
@@ -31,12 +33,13 @@
 		709707D825760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */; };
 		709707D925760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */; };
 		709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708042577219700D3FC36 /* ClusteringProtocol.swift */; };
-		7097080A2577228900D3FC36 /* MarkerAnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708092577228900D3FC36 /* MarkerAnimateController.swift */; };
+		7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708092577228900D3FC36 /* MainAnimationController.swift */; };
+		70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD5B256CB9360048CEA6 /* CSVParser.swift */; };
 		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; };
 		70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */ = {isa = PBXBuildFile; fileRef = 70BFFD7E256CD6120048CEA6 /* poi.csv */; };
-		70E2A21125776ACB009A5ADC /* UIColor+RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */; };
+		70E2A21125776ACB009A5ADC /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E2A21025776ACB009A5ADC /* UIColor+.swift */; };
 		70E2A21725776BED009A5ADC /* CGPoint+isValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E2A21625776BED009A5ADC /* CGPoint+isValid.swift */; };
 		70E2A21F25776C0D009A5ADC /* NMFPolygonOverlay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E2A21E25776C0D009A5ADC /* NMFPolygonOverlay+.swift */; };
 		C31435B4256BAA000066C423 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31435B3256BAA000066C423 /* CGPoint+Distance.swift */; };
@@ -44,8 +47,6 @@
 		C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A28798256F986D00DF23B1 /* Clustering.swift */; };
 		C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */; };
 		C3A572E625787FA300C2B008 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A572E525787FA300C2B008 /* DetailViewController.swift */; };
-		C3FB084C256B873700B93665 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB084B256B873700B93665 /* restaurant.json */; };
-		C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = C3FB0850256B875800B93665 /* gangnam_8000.json */; };
 		C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0854256B87A200B93665 /* LinkedList.swift */; };
 		C3FB085A256B882200B93665 /* LatLng.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB0859256B882200B93665 /* LatLng.swift */; };
 		C3FB085E256B887300B93665 /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB085D256B887300B93665 /* Cluster.swift */; };
@@ -53,9 +54,11 @@
 		C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FB086A256B8D8D00B93665 /* POIModel.swift */; };
 		DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DB5257612890067325E /* DetailCollectionViewCell.swift */; };
 		DA805DD425767DFD0067325E /* BMEuljiro10yearslaterOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */; };
-		DA805DDA2576834E0067325E /* DetailCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */; };
 		F4151F4D25789064007E356F /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4151F4C25789064007E356F /* ImageDownloader.swift */; };
 		F419BC99518E6B0E18A11C1D /* Pods_BoostClusteringMaB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */; };
+		F456CB4C257B75530095139A /* String+Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456CB4B257B75530095139A /* String+Localize.swift */; };
+		F456CB55257B75F30095139A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F456CB57257B75F30095139A /* Localizable.strings */; };
+		F456CB5B257B7B990095139A /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F456CB5A257B7B990095139A /* Detail.storyboard */; };
 		F496019125727ED500740523 /* String+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496019025727ED500740523 /* String+Bundle.swift */; };
 		F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */; };
 		F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4A07BAD257118BF00B18415 /* Loading.storyboard */; };
@@ -86,6 +89,8 @@
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7017B9F9257E162E005D1512 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
+		7017B9FA257E162E005D1512 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
 		70387DCF256DEB9900F138CB /* CoreDataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
 		70387DD0256DEB9900F138CB /* CoreDataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataContainer.swift; sourceTree = "<group>"; };
 		70573ABD25795EEA00C8C5BE /* NanumSquareRoundOTFR.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundOTFR.otf; sourceTree = "<group>"; };
@@ -109,12 +114,13 @@
 		709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataClass.swift"; sourceTree = "<group>"; };
 		709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		709708042577219700D3FC36 /* ClusteringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusteringProtocol.swift; sourceTree = "<group>"; };
-		709708092577228900D3FC36 /* MarkerAnimateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MarkerAnimateController.swift; path = BoostClusteringMaB/MarkerAnimateController.swift; sourceTree = SOURCE_ROOT; };
+		709708092577228900D3FC36 /* MainAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainAnimationController.swift; path = BoostClusteringMaB/MainAnimationController.swift; sourceTree = SOURCE_ROOT; };
+		70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFCameraUpdate+.swift"; sourceTree = "<group>"; };
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		70BFFD5B256CB9360048CEA6 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
 		70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParserTests.swift; sourceTree = "<group>"; };
 		70BFFD7E256CD6120048CEA6 /* poi.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = poi.csv; sourceTree = "<group>"; };
-		70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RandomColor.swift"; sourceTree = "<group>"; };
+		70E2A21025776ACB009A5ADC /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		70E2A21625776BED009A5ADC /* CGPoint+isValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+isValid.swift"; sourceTree = "<group>"; };
 		70E2A21E25776C0D009A5ADC /* NMFPolygonOverlay+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFPolygonOverlay+.swift"; sourceTree = "<group>"; };
 		90CCC0D0D44B5BD82EC0AA53 /* Pods-BoostClusteringMaB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.debug.xcconfig"; sourceTree = "<group>"; };
@@ -124,8 +130,6 @@
 		C3A28798256F986D00DF23B1 /* Clustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clustering.swift; sourceTree = "<group>"; };
 		C3A287A0256FA33A00DF23B1 /* ConvexHull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHull.swift; sourceTree = "<group>"; };
 		C3A572E525787FA300C2B008 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		C3FB084B256B873700B93665 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
-		C3FB0850256B875800B93665 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		C3FB0854256B87A200B93665 /* LinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		C3FB0859256B882200B93665 /* LatLng.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatLng.swift; sourceTree = "<group>"; };
 		C3FB085D256B887300B93665 /* Cluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cluster.swift; sourceTree = "<group>"; };
@@ -133,9 +137,11 @@
 		C3FB086A256B8D8D00B93665 /* POIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIModel.swift; sourceTree = "<group>"; };
 		CAB19DF55A4260D7147166CE /* Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB-BoostClusteringMaBTests/Pods-BoostClusteringMaB-BoostClusteringMaBTests.release.xcconfig"; sourceTree = "<group>"; };
 		DA805DB5257612890067325E /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
-		DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionReusableView.swift; sourceTree = "<group>"; };
+		DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = text; path = BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
 		F4151F4C25789064007E356F /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		F456CB4B257B75530095139A /* String+Localize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localize.swift"; sourceTree = "<group>"; };
+		F456CB56257B75F30095139A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F456CB5A257B7B990095139A /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		F496019025727ED500740523 /* String+Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+Bundle.swift"; path = "BoostClusteringMaB/extension/String+Bundle.swift"; sourceTree = SOURCE_ROOT; };
 		F49A2927256BEE2F0039998F /* XCTestCase+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+timeout.swift"; sourceTree = "<group>"; };
 		F4A07BAD257118BF00B18415 /* Loading.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Loading.storyboard; sourceTree = "<group>"; };
@@ -171,7 +177,7 @@
 		0D0172CD2570C15100A26886 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				709708092577228900D3FC36 /* MarkerAnimateController.swift */,
+				709708092577228900D3FC36 /* MainAnimationController.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -187,8 +193,8 @@
 		0DE171D32574BBD00031DA8E /* json */ = {
 			isa = PBXGroup;
 			children = (
-				C3FB084B256B873700B93665 /* restaurant.json */,
-				C3FB0850256B875800B93665 /* gangnam_8000.json */,
+				7017B9F9257E162E005D1512 /* gangnam_8000.json */,
+				7017B9FA257E162E005D1512 /* restaurant.json */,
 			);
 			path = json;
 			sourceTree = "<group>";
@@ -200,6 +206,7 @@
 				708C08C2256258320072B1E0 /* Main.storyboard */,
 				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
 				F4A07BAD257118BF00B18415 /* Loading.storyboard */,
+				F456CB5A257B7B990095139A /* Detail.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -295,15 +302,13 @@
 				C31435B7256BB8010066C423 /* Extension */,
 				707942C8257027E0002AF718 /* Clustering */,
 				707E63DF25749074003F0E10 /* Scenes */,
-				C3FB084F256B873F00B93665 /* POIRawData */,
+				F456CB49257B74CB0095139A /* Resources */,
 				708C08BC256258320072B1E0 /* AppDelegate.swift */,
 				708C08BE256258320072B1E0 /* SceneDelegate.swift */,
 				708C08C8256258330072B1E0 /* Assets.xcassets */,
 				708C08CD256258330072B1E0 /* Info.plist */,
 				708C08C5256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld */,
-				70573ABD25795EEA00C8C5BE /* NanumSquareRoundOTFR.otf */,
-				70573AC02579602800C8C5BE /* NanumSquareRoundOTFEB.otf */,
-				DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */,
+				F456CB57257B75F30095139A /* Localizable.strings */,
 			);
 			path = BoostClusteringMaB;
 			sourceTree = "<group>";
@@ -348,7 +353,6 @@
 			isa = PBXGroup;
 			children = (
 				DA805DB5257612890067325E /* DetailCollectionViewCell.swift */,
-				DA805DD92576834E0067325E /* DetailCollectionReusableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -399,9 +403,11 @@
 				C31435B3256BAA000066C423 /* CGPoint+Distance.swift */,
 				0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */,
 				F496019025727ED500740523 /* String+Bundle.swift */,
-				70E2A21025776ACB009A5ADC /* UIColor+RandomColor.swift */,
+				70E2A21025776ACB009A5ADC /* UIColor+.swift */,
 				70E2A21625776BED009A5ADC /* CGPoint+isValid.swift */,
 				70E2A21E25776C0D009A5ADC /* NMFPolygonOverlay+.swift */,
+				F456CB4B257B75530095139A /* String+Localize.swift */,
+				70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -422,6 +428,25 @@
 				0DE171D22574BBC70031DA8E /* csv */,
 			);
 			path = POIRawData;
+			sourceTree = "<group>";
+		};
+		F456CB49257B74CB0095139A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F456CB4A257B74E40095139A /* Fonts */,
+				C3FB084F256B873F00B93665 /* POIRawData */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F456CB4A257B74E40095139A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				70573ABD25795EEA00C8C5BE /* NanumSquareRoundOTFR.otf */,
+				70573AC02579602800C8C5BE /* NanumSquareRoundOTFEB.otf */,
+				DA805DD325767DFD0067325E /* BMEuljiro10yearslaterOTF.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		F45E25DF256CCB9000054D55 /* CoreData */ = {
@@ -536,12 +561,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				70BA50F02562B0950076920D /* .swiftlint.yml in Resources */,
-				C3FB084C256B873700B93665 /* restaurant.json in Resources */,
 				708C08CC256258330072B1E0 /* LaunchScreen.storyboard in Resources */,
-				C3FB0851256B875800B93665 /* gangnam_8000.json in Resources */,
+				7017B9FC257E162E005D1512 /* restaurant.json in Resources */,
+				F456CB5B257B7B990095139A /* Detail.storyboard in Resources */,
 				708C08C9256258330072B1E0 /* Assets.xcassets in Resources */,
+				F456CB55257B75F30095139A /* Localizable.strings in Resources */,
 				DA805DD425767DFD0067325E /* BMEuljiro10yearslaterOTF.otf in Resources */,
 				70BFFD7F256CD6120048CEA6 /* poi.csv in Resources */,
+				7017B9FB257E162E005D1512 /* gangnam_8000.json in Resources */,
 				708C08C4256258320072B1E0 /* Main.storyboard in Resources */,
 				F4A07BAE257118BF00B18415 /* Loading.storyboard in Resources */,
 			);
@@ -674,7 +701,6 @@
 				DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */,
 				70E2A21F25776C0D009A5ADC /* NMFPolygonOverlay+.swift in Sources */,
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
-				DA805DDA2576834E0067325E /* DetailCollectionReusableView.swift in Sources */,
 				F4C31B50257779D100103E98 /* AlertType.swift in Sources */,
 				F4151F4D25789064007E356F /* ImageDownloader.swift in Sources */,
 				F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */,
@@ -683,7 +709,7 @@
 				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
-				7097080A2577228900D3FC36 /* MarkerAnimateController.swift in Sources */,
+				7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
@@ -693,7 +719,9 @@
 				C3FB0855256B87A200B93665 /* LinkedList.swift in Sources */,
 				708C08C7256258320072B1E0 /* BoostClusteringMaB.xcdatamodeld in Sources */,
 				709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */,
-				70E2A21125776ACB009A5ADC /* UIColor+RandomColor.swift in Sources */,
+				70E2A21125776ACB009A5ADC /* UIColor+.swift in Sources */,
+				70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */,
+				F456CB4C257B75530095139A /* String+Localize.swift in Sources */,
 				707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
 				F496019125727ED500740523 /* String+Bundle.swift in Sources */,
@@ -734,6 +762,14 @@
 				708C08CB256258330072B1E0 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F456CB57257B75F30095139A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F456CB56257B75F30095139A /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

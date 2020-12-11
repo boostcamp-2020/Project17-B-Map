@@ -8,10 +8,6 @@
 import UIKit
 
 class DetailCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var storeImageView: UIImageView!
-    @IBOutlet weak var addressLabel: UILabel!
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(frame: storeImageView.frame)
         indicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -20,34 +16,50 @@ class DetailCollectionViewCell: UICollectionViewCell {
         return indicator
     }()
     
-    var poi: ManagedPOI?
-    var isClicked: Bool = false
-    private weak var task: URLSessionTask?
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var storeImageView: UIImageView! {
+        didSet {
+            storeImageView.layer.cornerRadius = 10
+        }
+    }
+    @IBOutlet weak var addressLabel: UILabel!
     
+    var latLng: LatLng?
+    var isClicked: Bool = false
+    private weak var imageTask: URLSessionTask?
+    private weak var addressTask: URLSessionTask?
+
     override func prepareForReuse() {
-        storeImageView.image = UIImage(named: "icon")
+        storeImageView.image = UIImage(systemName: "slash.circle")
+        addressLabel.text = nil
         activityIndicator.startAnimating()
-        task?.cancel()
+        imageTask?.cancel()
+        addressTask?.cancel()
     }
     
     func configure(poi: ManagedPOI) {
-        self.poi = poi
+        self.latLng = LatLng(lat: poi.latitude, lng: poi.longitude)
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
-        addressLabel.text = poi.address
+        
+        addressTask = AddressAPI.shared.address(lat: poi.latitude, lng: poi.longitude) { [weak self] result in
+            let address = try? JsonParser.shared.parse(address: result.get())
+            self?.addressLabel.text = address
+        }
         
         guard let imageURL = poi.imageURL else {
             self.activityIndicator.stopAnimating()
             return
         }
         
-        task = ImageDownloader.shared.fetch(imageURL: imageURL) { result in
-            self.activityIndicator.stopAnimating()
+        imageTask = ImageDownloader.shared.fetch(imageURL: imageURL) { [weak self] result in
+            self?.activityIndicator.stopAnimating()
             guard let image = try? result.get() else {
                 return
             }
             
-            self.storeImageView.image = image
+            self?.storeImageView.image = image
         }
     }
     

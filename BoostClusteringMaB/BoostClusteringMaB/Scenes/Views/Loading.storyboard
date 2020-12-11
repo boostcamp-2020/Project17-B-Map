@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="elS-ju-eYX">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
@@ -14,27 +14,73 @@
             <objects>
                 <viewController id="elS-ju-eYX" customClass="LoadViewController" customModule="BoostClusteringMaB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Usr-Rn-WLf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaucnScreen" translatesAutoresizingMaskIntoConstraints="NO" id="Ri8-Lk-xi8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading_Background" translatesAutoresizingMaskIntoConstraints="NO" id="dXV-X8-3ow">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                             </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="hBl-HM-oiv">
-                                <rect key="frame" x="172" y="461.5" width="37" height="37"/>
-                            </activityIndicatorView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading_Background2" translatesAutoresizingMaskIntoConstraints="NO" id="Pr2-CV-7Rb">
+                                <rect key="frame" x="0.0" y="420" width="390" height="424"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Pr2-CV-7Rb" secondAttribute="height" multiplier="13.8:15" id="eq3-NN-xSi"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading_Marker1" translatesAutoresizingMaskIntoConstraints="NO" id="yBo-30-LG9">
+                                <rect key="frame" x="79.666666666666686" y="383.33333333333326" width="199" height="264.66666666666674"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yBo-30-LG9" secondAttribute="height" multiplier="211:281" id="P5j-pg-hvc"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading_Marker2" translatesAutoresizingMaskIntoConstraints="NO" id="Tr2-Mj-FTy">
+                                <rect key="frame" x="213" y="513.33333333333337" width="112" height="134.66666666666663"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Tr2-Mj-FTy" secondAttribute="height" multiplier="119:143" id="q27-un-xEX"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading_Title" translatesAutoresizingMaskIntoConstraints="NO" id="vAb-TD-GtT">
+                                <rect key="frame" x="44.666666666666657" y="245.33333333333337" width="331.66666666666674" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Q1f-gJ-Sjv"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading_MaB" translatesAutoresizingMaskIntoConstraints="NO" id="k5s-bB-XgQ">
+                                <rect key="frame" x="58.666666666666657" y="167.33333333333334" width="273" height="78"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="k5s-bB-XgQ" secondAttribute="height" multiplier="3.5:1" id="PPi-6L-oYX"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NIx-LZ-9Dy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Ri8-Lk-xi8" secondAttribute="bottom" id="Apx-RY-xU7"/>
-                            <constraint firstAttribute="trailing" secondItem="Ri8-Lk-xi8" secondAttribute="trailing" id="IH5-k7-rcU"/>
-                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="bottom" secondItem="hBl-HM-oiv" secondAttribute="bottom" multiplier="1.73" id="JQx-cw-e81"/>
-                            <constraint firstItem="Ri8-Lk-xi8" firstAttribute="top" secondItem="Usr-Rn-WLf" secondAttribute="top" id="Psf-LN-Wub"/>
-                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="trailing" secondItem="hBl-HM-oiv" secondAttribute="trailing" multiplier="1.98" id="c1M-jb-wX7"/>
-                            <constraint firstItem="Ri8-Lk-xi8" firstAttribute="leading" secondItem="Usr-Rn-WLf" secondAttribute="leading" id="r2J-rT-irp"/>
+                            <constraint firstItem="yBo-30-LG9" firstAttribute="width" secondItem="NIx-LZ-9Dy" secondAttribute="width" multiplier="0.509662" id="462-Ba-UBH"/>
+                            <constraint firstItem="k5s-bB-XgQ" firstAttribute="centerX" secondItem="Usr-Rn-WLf" secondAttribute="centerX" id="5Ge-PV-2gY"/>
+                            <constraint firstItem="vAb-TD-GtT" firstAttribute="width" secondItem="NIx-LZ-9Dy" secondAttribute="width" multiplier="0.85" id="AGS-Ti-wZO"/>
+                            <constraint firstItem="k5s-bB-XgQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="NIx-LZ-9Dy" secondAttribute="top" constant="20" id="GuD-gl-tvn"/>
+                            <constraint firstItem="Tr2-Mj-FTy" firstAttribute="width" secondItem="NIx-LZ-9Dy" secondAttribute="width" multiplier="0.28744" id="HIM-95-Wu9"/>
+                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="bottom" secondItem="k5s-bB-XgQ" secondAttribute="bottom" multiplier="3.3" priority="750" id="HTc-l0-DF3"/>
+                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="trailing" secondItem="dXV-X8-3ow" secondAttribute="trailing" id="LJT-TB-lMi"/>
+                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="trailing" secondItem="Tr2-Mj-FTy" secondAttribute="trailing" multiplier="1.2" id="SDx-WJ-Q06"/>
+                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="bottom" secondItem="yBo-30-LG9" secondAttribute="bottom" multiplier="1.25" id="TSk-Gx-yCg"/>
+                            <constraint firstItem="Tr2-Mj-FTy" firstAttribute="bottom" secondItem="yBo-30-LG9" secondAttribute="bottom" id="TqQ-Nu-yFQ"/>
+                            <constraint firstAttribute="bottom" secondItem="dXV-X8-3ow" secondAttribute="bottom" id="WQo-M0-D24"/>
+                            <constraint firstItem="dXV-X8-3ow" firstAttribute="leading" secondItem="Usr-Rn-WLf" secondAttribute="leading" id="amY-g9-66b"/>
+                            <constraint firstItem="NIx-LZ-9Dy" firstAttribute="trailing" secondItem="yBo-30-LG9" secondAttribute="trailing" multiplier="1.4" id="bIg-Qv-7Ra"/>
+                            <constraint firstItem="k5s-bB-XgQ" firstAttribute="width" secondItem="NIx-LZ-9Dy" secondAttribute="width" multiplier="0.7" id="fKf-ZG-ZwA"/>
+                            <constraint firstItem="vAb-TD-GtT" firstAttribute="top" secondItem="k5s-bB-XgQ" secondAttribute="bottom" id="h90-ZP-Fwy"/>
+                            <constraint firstItem="yBo-30-LG9" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vAb-TD-GtT" secondAttribute="bottom" constant="12" id="jYv-CW-E4b"/>
+                            <constraint firstItem="vAb-TD-GtT" firstAttribute="centerX" secondItem="Usr-Rn-WLf" secondAttribute="centerX" constant="15.5" id="o0G-I9-lDX"/>
+                            <constraint firstAttribute="bottom" secondItem="Pr2-CV-7Rb" secondAttribute="bottom" id="sOm-Ci-FfK"/>
+                            <constraint firstItem="Pr2-CV-7Rb" firstAttribute="leading" secondItem="NIx-LZ-9Dy" secondAttribute="leading" id="tJP-s7-jOY"/>
+                            <constraint firstItem="dXV-X8-3ow" firstAttribute="top" secondItem="Usr-Rn-WLf" secondAttribute="top" id="tmf-yh-2Zu"/>
+                            <constraint firstItem="Pr2-CV-7Rb" firstAttribute="trailing" secondItem="NIx-LZ-9Dy" secondAttribute="trailing" id="tpD-0r-ytX"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="leftMarker" destination="yBo-30-LG9" id="OdO-nH-I5q"/>
+                        <outlet property="rightMarker" destination="Tr2-Mj-FTy" id="cdN-d4-rRL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="geM-jG-P6m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -42,7 +88,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaucnScreen" width="1285" height="2779"/>
+        <image name="Loading_Background" width="1231" height="2685"/>
+        <image name="Loading_Background2" width="1291" height="1394"/>
+        <image name="Loading_MaB" width="932" height="267"/>
+        <image name="Loading_Marker1" width="668" height="871"/>
+        <image name="Loading_Marker2" width="332" height="447"/>
+        <image name="Loading_Title" width="1148" height="154"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

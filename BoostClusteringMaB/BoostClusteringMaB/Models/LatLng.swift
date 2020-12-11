@@ -58,4 +58,18 @@ extension LatLng: Hashable {
     static func += (lhs: inout LatLng, rhs: LatLng) {
         lhs = lhs + rhs
     }
+    
+    static func -= (lhs: inout LatLng, rhs: LatLng) {
+        lhs = lhs - rhs
+    }
+
+    static func / (lhs: LatLng, count: Int) -> LatLng {
+        return lhs / Double(count)
+    }
+    
+    static func / (lhs: LatLng, count: Double) -> LatLng {
+        let lng = lhs.lng / count
+        let lat = lhs.lat / count
+        return LatLng(lat: lat, lng: lng)
+    }
 }

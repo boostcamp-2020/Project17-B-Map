@@ -28,15 +28,15 @@ protocol CoreDataManager {
     func remove(poi: ManagedPOI, completion handler: CoreDataHandler?)
     func remove(location: LatLng, completion handler: CoreDataHandler?)
     func removeAll(completion handler: CoreDataHandler?)
-    func makeFetchResultsController(southWest: LatLng,
-                                    northEast: LatLng) -> NSFetchedResultsController<ManagedPOI>
-    
+    func makeFetchResultsController() -> NSFetchedResultsController<ManagedPOI>
 }
 
 final class CoreDataLayer: CoreDataManager {
     var addressAPI: AddressAPIService = AddressAPI()
     var jsonParser: JsonParserService = JsonParser()
-    
+
+    private let request: NSFetchRequest = ManagedPOI.fetchRequest()
+
     private lazy var childContext: NSManagedObjectContext = {
         let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         
@@ -44,18 +44,9 @@ final class CoreDataLayer: CoreDataManager {
         return childContext
     }()
     
-    func makeFetchResultsController(southWest: LatLng,
-                                    northEast: LatLng) -> NSFetchedResultsController<ManagedPOI> {
-        let request: NSFetchRequest = ManagedPOI.fetchRequest()
+    func makeFetchResultsController() -> NSFetchedResultsController<ManagedPOI> {
         request.sortDescriptors = makeSortDescription(sorted: true)
-        
-        let latitudePredicate = NSPredicate(format: "latitude BETWEEN {%@, %@}",
-                                            argumentArray: [southWest.lat, northEast.lat])
-        let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}",
-                                             argumentArray: [southWest.lng, northEast.lng])
-        let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
-        request.predicate = predicate
-        
+
         return NSFetchedResultsController(fetchRequest: request,
                                           managedObjectContext: childContext,
                                           sectionNameKeyPath: nil,
@@ -69,24 +60,26 @@ final class CoreDataLayer: CoreDataManager {
             return
         }
         
-        addressAPI.address(lat: latitude, lng: longitude) { result in
-            guard let address = try? self.jsonParser.parse(address: result.get()) else { return }
-            self.childContext.perform { [weak self] in
-                guard let self = self else {
+        childContext.perform { [weak self] in
+            guard let self = self else {
+                return
+            }
+            let poi = ManagedPOI(context: self.childContext)
+            poi.id = place.id
+            poi.category = place.category
+            poi.imageURL = place.imageURL
+            poi.latitude = latitude
+            poi.longitude = longitude
+            poi.name = place.name
+            if isSave {
+                do {
+                    try self.save()
+                } catch {
+                    handler?(.failure(.saveError))
                     return
                 }
-                let poi = ManagedPOI(context: self.childContext)
-                poi.fromPOI(place, address)
-                if isSave {
-                    do {
-                        try self.save()
-                    } catch {
-                        handler?(.failure(.saveError))
-                        return
-                    }
-                }
-                handler?(.success(()))
             }
+            handler?(.success(()))
         }
     }
     
@@ -121,7 +114,6 @@ final class CoreDataLayer: CoreDataManager {
     }
     
     func fetch(sorted: Bool = true) -> [ManagedPOI]? {
-        let request: NSFetchRequest = ManagedPOI.fetchRequest()
         request.sortDescriptors = makeSortDescription(sorted: sorted)
         
         return try? childContext.fetch(request)
@@ -129,7 +121,6 @@ final class CoreDataLayer: CoreDataManager {
     
     func fetch(by classification: String,
                sorted: Bool = true) -> [ManagedPOI]? {
-        let request: NSFetchRequest = ManagedPOI.fetchRequest()
         request.predicate = NSPredicate(format: "category == %@", classification)
         request.sortDescriptors = makeSortDescription(sorted: sorted)
         return try? childContext.fetch(request)
@@ -148,8 +139,7 @@ final class CoreDataLayer: CoreDataManager {
         let longitudePredicate = NSPredicate(format: "longitude BETWEEN {%@, %@}",
                                              argumentArray: [southWest.lng, northEast.lng])
         let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
-        
-        let request: NSFetchRequest = ManagedPOI.fetchRequest()
+
         request.predicate = predicate
         request.sortDescriptors = makeSortDescription(sorted: sorted)
         
@@ -162,8 +152,7 @@ final class CoreDataLayer: CoreDataManager {
         let longitudePredicate = NSPredicate(format: "longitude == %@",
                                              argumentArray: [location.lng])
         let predicate = NSCompoundPredicate(type: .and, subpredicates: [latitudePredicate, longitudePredicate])
-        
-        let request: NSFetchRequest = ManagedPOI.fetchRequest()
+
         request.predicate = predicate
         
         return try? childContext.fetch(request).first

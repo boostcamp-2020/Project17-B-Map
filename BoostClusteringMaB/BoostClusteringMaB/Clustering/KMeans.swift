@@ -23,7 +23,7 @@
 
 import Foundation
 
-class KMeans {
+class KMeans: Operation {
     let k: Int
     let pois: [POI] // 8000개 예상
     var clusters: [Cluster]
@@ -38,23 +38,39 @@ class KMeans {
         self.clusters = []
         self.isChanged = false
     }
-    
+
+    override var isAsynchronous: Bool {
+        true
+    }
+
+    override func main() {
+        guard !isCancelled else { return }
+        run()
+    }
+
+    func runOperation(_ operations: [() -> Void]) {
+        guard !isCancelled else { return }
+        self.queuePriority = QueuePriority(rawValue: k + 4) ?? .high
+        operations.forEach({
+            $0()
+        })
+    }
+
     //시간은 maxK를 조정하는방식으로 줌레벨에 따라 + 애니메이션
     func run() {
-        let maxIteration = 100 // 없으면 2~30번 돈다.
-        //		let initCenters = randomCenters(count: k, points: points)
+        let maxIteration = 5 // 없으면 2~30번 돈다.
+        //        let initCenters = randomCenters(count: k, points: points)
         let initCenters = randomCentersByPointsIndex(count: k, pois: pois)
         clusters = generateClusters(centers: initCenters)
-        classifyPoints() // O(n)
-        updateCenters() // O(n)
-        
+         // O(n)
+        runOperation([classifyPoints, updateCenters])
+
         var iteration = 0
         //O(i)
         repeat {
-            updatePoints() // O(nk)
-            updateCenters() // O(n)
+            runOperation([updatePoints, updateCenters])
             iteration += 1
-        } while isChanged && (iteration < maxIteration)
+        } while isChanged && (iteration < maxIteration) && !isCancelled
     }
     
     //1 임의로 중심점을 추출 + 그걸로 클러스터 생성
@@ -142,26 +158,17 @@ class KMeans {
         return nearestCluster
     }
     
-    //오차 제곱합
-    //    func sumOfSquaredOfError() -> Double {
-    //        var sum: Double = 0
-    //        clusters.forEach {
-    //            sum += $0.sumOfSquaredOfError()
-    //        }
-    //        return sum
-    //    }
-    
     //Davies-Bouldin index (낮을수록 좋음)
     func daviesBouldinIndex() -> Double {
         var sum: Double = 0
+        let deviations = clusters.map { $0.deviation() }
         
         for i in 0..<clusters.count {
             var maxValue: Double = 0
-            for j in 0..<clusters.count {
-                if i == j { continue }
-                let deviations = clusters[i].deviation() + clusters[j].deviation()
+            for j in 0..<clusters.count where i != j {
+                let sumOfDeviations = deviations[i] + deviations[j]
                 let distanceCenters = clusters[i].center.distance(to: clusters[j].center)
-                maxValue = max(maxValue, deviations / distanceCenters)
+                maxValue = max(maxValue, sumOfDeviations / distanceCenters)
             }
             sum += maxValue
         }
