@@ -59,7 +59,7 @@ extension MainAnimationController {
             
             return isMerge ? (lowerModel, upperModel) : (upperModel, lowerModel)
         }.compactMap { (from: AnimationModel, to: AnimationModel) in
-            makeMarkerAnimation(from: from, to: to)
+            makeMarkerAnimation(from: from, to: to, isMerge: isMerge)
         }
         
         makerAnimationStop()
@@ -115,7 +115,7 @@ extension MainAnimationController {
     }
     
     private func makeMarkerAnimation(from srcModel: AnimationModel,
-                                     to dstModel: AnimationModel) -> AnimationClosure? {
+                                     to dstModel: AnimationModel, isMerge: Bool) -> AnimationClosure? {
         let srcPoint = mapView.projection.point(from: srcModel.latLng)
         let dstPoint = mapView.projection.point(from: dstModel.latLng)
         
@@ -124,7 +124,9 @@ extension MainAnimationController {
             dstView.transform = .identity
             dstView.alpha = 1
             return (
-                animation: nil, completion: {
+                animation: {
+                    dstView.alpha = 0.5
+                }, completion: {
                     dstView.removeFromSuperview()
                 }
             ) }
@@ -138,7 +140,9 @@ extension MainAnimationController {
             
             srcView?.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             srcView?.alpha = 0
-            guard let dstCenter = dstView?.center else { return }
+            guard let dstCenter = dstView?.center,
+                  isMerge && (dstModel.image.size.width == dstModel.image.size.height) ||
+                  !isMerge && (srcModel.image.size.width == srcModel.image.size.height) else { return }
             srcView?.center = dstCenter
         }, completion: {
                 srcView?.removeFromSuperview()
