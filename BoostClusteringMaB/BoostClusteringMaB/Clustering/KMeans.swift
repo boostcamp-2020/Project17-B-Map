@@ -32,6 +32,8 @@ class KMeans: Operation {
         return clusters.map { $0.center }
     }
     
+    var dbi = Double.greatestFiniteMagnitude
+
     init(k: Int, pois: [POI]) {
         self.k = k
         self.pois = pois
@@ -46,6 +48,7 @@ class KMeans: Operation {
     override func main() {
         guard !isCancelled else { return }
         run()
+        daviesBouldinIndex()
     }
 
     func runOperation(_ operations: [() -> Void]) {
@@ -157,9 +160,9 @@ class KMeans: Operation {
         }
         return nearestCluster
     }
-    
+
     //Davies-Bouldin index (낮을수록 좋음)
-    func daviesBouldinIndex() -> Double {
+    func daviesBouldinIndex() {
         var sum: Double = 0
         let deviations = clusters.map { $0.deviation() }
         
@@ -174,6 +177,6 @@ class KMeans: Operation {
         }
         
         let result = sum / Double(clusters.count)
-        return result
+        dbi = result
     }
 }
