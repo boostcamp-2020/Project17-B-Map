@@ -117,21 +117,26 @@ extension MainViewController {
         
         var nowZoomLevel = mapView.zoomLevel
         let stdZoomLevel = NMF_MAX_ZOOM - 2
+
         if  nowZoomLevel < stdZoomLevel {
             nowZoomLevel = stdZoomLevel
         }
         
-        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng, zoomTo: nowZoomLevel)
-        cameraUpdate.animation = .easeIn
-        cameraUpdate.animationDuration = 0.8
+        let cameraUpdate = NMFCameraUpdate(scrollTo: latlng,
+                                           zoomTo: nowZoomLevel,
+                                           cameraAnimation: .easeIn,
+                                           duration: 0.8)
         sender.state = .ended
         
-        self.showAlert(latlng: latlng, type: .append) {
-            self.interactor?.addLocation(LatLng(latlng),
-                                         southWest: self.boundsLatLng.southWest,
-                                         northEast: self.boundsLatLng.northEast,
-                                         zoomLevel: self.mapView.zoomLevel)
-            self.mapView.moveCamera(cameraUpdate)
+        showAlert(latlng: latlng, type: .append) { [weak self] in
+            guard let self = self else { return }
+            
+            self.mapView.moveCamera(cameraUpdate) { _ in
+                self.interactor?.addLocation(LatLng(latlng),
+                                             southWest: self.boundsLatLng.southWest,
+                                             northEast: self.boundsLatLng.northEast,
+                                             zoomLevel: self.mapView.zoomLevel)
+            }
         }
     }
     
@@ -162,9 +167,10 @@ extension MainViewController {
     
     private func touchedClusterMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
         let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
-        let cameraUpdate = NMFCameraUpdate(fit: bounds, paddingInsets: edgeInsets)
-        cameraUpdate.animation = .easeIn
-        cameraUpdate.animationDuration = 0.8
+        let cameraUpdate = NMFCameraUpdate(fit: bounds,
+                                           paddingInsets: edgeInsets,
+                                           cameraAnimation: .easeIn,
+                                           duration: 0.8)
         mapView.moveCamera(cameraUpdate)
     }
     
@@ -276,9 +282,10 @@ extension MainViewController: ClusteringTool {
 extension MainViewController: DetailViewControllerDelegate {
     func didCellSelected(lat: Double, lng: Double, isClicked: Bool) {
         if isClicked {
-            let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng), zoomTo: 20)
-            cameraUpdate.animation = .easeIn
-            cameraUpdate.animationDuration = 0.8
+            let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng),
+                                               zoomTo: 20,
+                                               cameraAnimation: .easeIn,
+                                               duration: 0.8)
             mapView.moveCamera(cameraUpdate)
         } else {
             animationController.removePointAnimation()
