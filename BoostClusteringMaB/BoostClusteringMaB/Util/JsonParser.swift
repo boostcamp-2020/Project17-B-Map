@@ -14,6 +14,8 @@ protocol JsonParserService {
 
 class JsonParser: DataParser, JsonParserService {
     typealias DataType = Place
+    static let shared = JsonParser()
+
     private let type = "json"
     
     enum JsonParserError: Error {

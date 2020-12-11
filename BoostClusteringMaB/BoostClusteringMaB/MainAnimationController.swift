@@ -40,7 +40,7 @@ final class MainAnimationController {
         view?.isUserInteractionEnabled = false
     }
 }
-    
+
 extension MainAnimationController {
     func clusteringAnimation(old: [AnimationModel], new: [AnimationModel], isMerge: Bool, completion: (() -> Void)?) {
         let upper = isMerge ? new : old

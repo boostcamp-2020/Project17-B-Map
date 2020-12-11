@@ -15,6 +15,8 @@ final class AddressAPI: AddressAPIService {
     enum AddressAPIError: Error {
         case nmfClientError
     }
+    static let shared = AddressAPI()
+
     private let addressCache = NSCache<NSURL, NSData>()
     
     let NMFClientId = "NMFClientId"

@@ -29,10 +29,7 @@ class DetailCollectionViewCell: UICollectionViewCell {
     var isClicked: Bool = false
     private weak var imageTask: URLSessionTask?
     private weak var addressTask: URLSessionTask?
-    
-    private let addressAPI = AddressAPI()
-    private let jsonParser = JsonParser()
-    
+
     override func prepareForReuse() {
         storeImageView.image = UIImage(systemName: "slash.circle")
         addressLabel.text = nil
@@ -46,8 +43,8 @@ class DetailCollectionViewCell: UICollectionViewCell {
         nameLabel.text = poi.name
         categoryLabel.text = poi.category
         
-        addressTask = addressAPI.address(lat: poi.latitude, lng: poi.longitude) { [weak self] result in
-            let address = try? self?.jsonParser.parse(address: result.get())
+        addressTask = AddressAPI.shared.address(lat: poi.latitude, lng: poi.longitude) { [weak self] result in
+            let address = try? JsonParser.shared.parse(address: result.get())
             self?.addressLabel.text = address
         }
         

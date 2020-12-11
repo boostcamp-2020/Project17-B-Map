@@ -12,8 +12,7 @@ class LoadViewController: UIViewController {
     @IBOutlet weak var rightMarker: UIImageView!
     
     private let coreDataLayer = CoreDataLayer()
-    private let jsonParser = JsonParser()
-    let defaultJSON = "gangnam_8000"
+    let defaultJSON = "restaurant"
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -58,7 +57,7 @@ class LoadViewController: UIViewController {
     }
 
     private func loadData(completion handler: @escaping (Result<Void, CoreDataError>) -> Void) {
-        jsonParser.parse(fileName: defaultJSON) { [weak self] result in
+        JsonParser.shared.parse(fileName: defaultJSON) { [weak self] result in
             do {
                 let places = try result.get()
                 self?.coreDataLayer.add(places: places) { result in
