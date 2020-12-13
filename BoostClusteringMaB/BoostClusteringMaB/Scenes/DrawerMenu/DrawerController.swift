@@ -29,6 +29,8 @@ final class DrawerController: UIViewController, MapSettingsDelegate {
 
     private let mapView: NMFMapView
 
+    private var prevRow: Int = -1
+
     init(mapView: NMFMapView) {
         self.mapView = mapView
         super.init(nibName: nil, bundle: nil)
@@ -160,25 +162,24 @@ final class DrawerController: UIViewController, MapSettingsDelegate {
 }
 
 extension DrawerController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        if indexPath.section == 0 {
-            let row = mapTypes[indexPath.row]
-            mapTypes.toggle(key: row)
-            cell?.accessoryType = .none
-        }
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
-
         let section = indexPath.section
         let row = indexPath.row
 
         if section == 0 {
+            guard prevRow != row else { return }
+            prevRow = row
             let row = mapTypes[row]
-            cell.accessoryType = !mapTypes.isCheck(key: "\(row)") ? .checkmark : .none
+
             mapTypes.toggle(key: row)
+
+            for (index, section) in mapTypes.sections.enumerated() {
+                let indexPath = IndexPath(row: index, section: 0)
+                guard let cell = tableView.cellForRow(at: indexPath) else { return }
+                let isCheck = mapTypes.isCheck(key: section)
+                cell.accessoryType = isCheck ? .checkmark : .none
+            }
 
             if row == "일반지도" {
                 mapView.mapType = .basic
@@ -225,7 +226,7 @@ extension DrawerController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
+        cell.isMultipleTouchEnabled = true
         let section = indexPath.section
         let row = indexPath.row
 
@@ -235,6 +236,7 @@ extension DrawerController: UITableViewDataSource {
             cell.textLabel?.text = mapTypesRow
             cell.accessoryType = isCheck ? .checkmark : .none
             if isCheck {
+                prevRow = indexPath.row
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             } else {
                 tableView.deselectRow(at: indexPath, animated: false)
