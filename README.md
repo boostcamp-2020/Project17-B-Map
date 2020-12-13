@@ -217,9 +217,10 @@ $ pod install --repo-update
 | <img src="img/collectionview.gif" width="200"> | - 화면 하단의 Collection View를 통해 **POI를 리스트** 형식으로 볼 수 있습니다. <br/> - Colletion View는 사용자의 드래그를 통해 크기를 **3단계**로 조절할 수 있습니다.  |
 
 
-||  📙 Drawer   ||
-| :--: | :--: | :--: | :--: |
+|| 📙 Drawer |||
+| :-: | :-: | :-: | :-: |
 | <img src="img/layergroup.gif" width="200"> | <img src="img/setting.gif" width="200">  | <img src="img/maptype.gif" width="200"> | <img src="img/userDefault.gif" width="200"> |
+
 
 ## 기술
 
