@@ -37,7 +37,10 @@ final class MainViewController: UIViewController {
                 as? DetailViewController else { return DetailViewController() }
         return bottom
     }()
-    
+
+    private lazy var drawerController = DrawerController(mapView: mapView)
+    @IBOutlet weak var drawerButton: UIButton!
+
      private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
 //    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
     
@@ -45,7 +48,7 @@ final class MainViewController: UIViewController {
     private var interactor: MainBusinessLogic?
     private var mapView: NMFMapView { naverMapView.mapView }
     private var projection: NMFProjection { naverMapView.mapView.projection }
-    
+
     private var highlightMarker: NMFMarker? {
         didSet {
             guard highlightMarker != oldValue else { return }
@@ -70,11 +73,35 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         bottomSheetViewController.delegate = self
         configureVIP()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configureMapView()
         configureBottomSheetView()
+        configureDrawerController()
         configureGesture()
     }
-    
+
+    @IBOutlet weak var drawerToggleButton: UIButton!
+
+    private func configureDrawerController() {
+        view.bringSubviewToFront(drawerToggleButton)
+        drawerButton.layer.cornerRadius = drawerButton.frame.height / 2
+
+        addChild(drawerController)
+        view.addSubview(drawerController.view)
+        drawerController.view.frame = .init(x: view.frame.width,
+                                            y: 0,
+                                            width: view.frame.width,
+                                            height: view.frame.height)
+
+    }
+
+    @IBAction func drawerToggleTouched(_ sender: UIButton) {
+        drawerController.toggleMenu()
+    }
+
     private func configureVIP() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
@@ -87,6 +114,11 @@ final class MainViewController: UIViewController {
     
     private func configureMapView() {
         naverMapView.showZoomControls = true
+        naverMapView.showLocationButton = true
+
+        mapView.logoInteractionEnabled = false
+        mapView.logoAlign = .rightTop
+
         mapView.touchDelegate = self
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
