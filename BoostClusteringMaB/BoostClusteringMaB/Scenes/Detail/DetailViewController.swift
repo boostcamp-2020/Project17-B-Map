@@ -187,6 +187,7 @@ final class DetailViewController: UIViewController {
         reloadPOI()
         searchBar.text = ""
         searchViewEditing(false)
+        self.view.endEditing(true)
     }
 }
 
@@ -205,6 +206,10 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension DetailViewController: UICollectionViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.endEditing(true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else { return }
         guard let lat = cell.latLng?.lat,
@@ -229,12 +234,7 @@ extension DetailViewController: UISearchBarDelegate {
         searchViewEditing(true)
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchViewEditing(false)
-    }
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBarTextDidEndEditing(searchBar)
         searchBar.text = ""
         reloadPOI()
     }
@@ -244,7 +244,6 @@ extension DetailViewController: UISearchBarDelegate {
                 self.currentState = .full
             } else {
                 self.currentState = .partial
-                self.view.endEditing(isEditing)
             }
             self.moveView(state: self.currentState)
     }
