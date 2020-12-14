@@ -41,8 +41,8 @@ final class MainViewController: UIViewController {
     private lazy var drawerController = DrawerController(mapView: mapView)
     @IBOutlet weak var drawerButton: UIButton!
 
-     private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-//    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
+//     private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
+    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
 
     private var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
     private var interactor: MainBusinessLogic?
@@ -186,7 +186,7 @@ extension MainViewController {
             
             guard pointCount == 1 else {
                 marker.touchHandler = { [weak self] _ in
-                    self?.touchedClusterMarker(bounds: bound, insets: 5)
+                    self?.touchedClusterMarker(bounds: bound, insets: 10)
                     return true
                 }
                 return
@@ -204,7 +204,8 @@ extension MainViewController {
     }
     
     private func touchedClusterMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
-        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
+        let bottomInset = bottomSheetViewController.minimumHeight
+        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets + bottomInset, right: insets)
         let cameraUpdate = NMFCameraUpdate(fit: bounds,
                                            paddingInsets: edgeInsets,
                                            cameraAnimation: .easeIn,
