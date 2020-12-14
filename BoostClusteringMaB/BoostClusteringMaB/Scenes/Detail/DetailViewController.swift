@@ -218,6 +218,7 @@ extension DetailViewController: UICollectionViewDelegate {
         
         collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         searchViewEditing(false)
+        self.view.endEditing(true)
         
         if let checkedIndexPath = checkedIndexPath,
            checkedIndexPath == indexPath {
@@ -302,6 +303,7 @@ extension DetailViewController {
             yPosition = fullViewYPosition
             switchButton.isHidden = true
             setCancelButtonEnable(true)
+            view.frame.size.height = UIScreen.main.bounds.height
         }
         UIView.transition(with: view, duration: 0.5, options: .curveEaseOut) {
             self.view.frame = CGRect(x: 0, y: yPosition, width: self.view.frame.width, height: self.view.frame.height)
