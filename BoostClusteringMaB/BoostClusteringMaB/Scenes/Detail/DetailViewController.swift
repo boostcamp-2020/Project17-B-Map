@@ -247,6 +247,10 @@ extension DetailViewController: UISearchBarDelegate {
             }
             self.moveView(state: self.currentState)
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 }
 
 // MARK: Pan Gesture
