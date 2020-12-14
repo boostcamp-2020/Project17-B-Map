@@ -222,7 +222,7 @@ $ pod install --repo-update
 | <img src="img/layergroup.gif" width="200"> | <img src="img/setting.gif" width="200">  | <img src="img/maptype.gif" width="200"> | <img src="img/userDefault.gif" width="200"> |
 
 ### 📙 BottomSheet Up & Down Button
- > 이미지 모양이 다릅니다.  
+ > Up, Down의 버튼 이미지 모양이 다릅니다.  
  
 | Down | Up |
 | :-: | :-: |
