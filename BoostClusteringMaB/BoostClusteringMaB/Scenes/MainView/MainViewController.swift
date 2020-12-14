@@ -64,7 +64,9 @@ final class MainViewController: UIViewController {
     
     private var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
+        let point = CGPoint(x: 0, y: bottomSheetViewController.minimumViewYPosition)
+        
+        let southWest = LatLng(mapView.projection.latlng(from: point))
         let northEast = LatLng(boundsLatLngs[1])
         
         return (southWest: southWest, northEast: northEast)
@@ -78,8 +80,8 @@ final class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureMapView()
         configureBottomSheetView()
+        configureMapView()
         configureDrawerController()
         configureGesture()
     }
@@ -124,6 +126,8 @@ final class MainViewController: UIViewController {
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
         view.addSubview(naverMapView)
+        
+        view.bringSubviewToFront(bottomSheetViewController.view)
     }
     
     private func configureBottomSheetView() {
