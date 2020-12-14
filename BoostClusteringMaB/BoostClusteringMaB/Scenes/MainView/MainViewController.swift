@@ -85,19 +85,24 @@ final class MainViewController: UIViewController {
         configureGesture()
     }
 
-    @IBOutlet weak var drawerToggleButton: UIButton!
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        view.bringSubviewToFront(drawerButton)
+        view.bringSubviewToFront(bottomSheetViewController.switchButton)
+        view.bringSubviewToFront(bottomSheetViewController.view)
+        view.bringSubviewToFront(drawerController.view)
+    }
 
     private func configureDrawerController() {
-        view.bringSubviewToFront(drawerToggleButton)
         drawerButton.layer.cornerRadius = drawerButton.frame.height / 2
-
         addChild(drawerController)
         view.addSubview(drawerController.view)
+        drawerController.didMove(toParent: self)
+
         drawerController.view.frame = .init(x: view.frame.width,
                                             y: 0,
                                             width: view.frame.width,
                                             height: view.frame.height)
-
     }
 
     @IBAction func drawerToggleTouched(_ sender: UIButton) {
@@ -116,7 +121,6 @@ final class MainViewController: UIViewController {
     
     private func configureMapView() {
         naverMapView.showZoomControls = true
-        naverMapView.showLocationButton = true
 
         mapView.logoInteractionEnabled = false
         mapView.logoAlign = .rightTop
@@ -125,8 +129,6 @@ final class MainViewController: UIViewController {
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
         view.addSubview(naverMapView)
-        
-        view.bringSubviewToFront(bottomSheetViewController.view)
     }
     
     private func configureBottomSheetView() {

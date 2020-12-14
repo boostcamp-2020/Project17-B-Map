@@ -50,6 +50,13 @@ final class DetailViewController: UIViewController {
     }
 
     var prevClickedCell: DetailCollectionViewCell?
+    var switchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "minimum"), for: .normal)
+        button.layer.cornerRadius = 5.0
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,29 +64,15 @@ final class DetailViewController: UIViewController {
         configureGesture()
         configureDataSource()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-           moveView(state: .minimum)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         configureButton()
+        moveView(state: .minimum)
     }
-
-    @IBOutlet weak var contentView: UIView!
-    private var switchButton: UIButton!
 
     private func configureButton() {
-        switchButton = UIButton()
-        switchButton.imageView?.contentMode = .scaleAspectFill
-        switchButton.setImage(UIImage(named: "minimum"), for: .normal)
-        switchButton.layer.cornerRadius = 5.0
-        switchButton.translatesAutoresizingMaskIntoConstraints = false
-
         guard let superView = view.superview else { return }
-
         superView.addSubview(switchButton)
 
         NSLayoutConstraint.activate([
@@ -93,16 +86,16 @@ final class DetailViewController: UIViewController {
     }
 
     @objc private func toggle() {
-            switch self.currentState {
-            case .full:
-                return
-            case .minimum:
-                self.moveView(state: .partial)
-                return
-            case .partial:
-                self.moveView(state: .minimum)
-                return
-            }
+        switch self.currentState {
+        case .full:
+            return
+        case .minimum:
+            self.moveView(state: .partial)
+            return
+        case .partial:
+            self.moveView(state: .minimum)
+            return
+        }
     }
 
     private func configureView() {
@@ -240,12 +233,12 @@ extension DetailViewController: UISearchBarDelegate {
     }
 
     func searchViewEditing(_ isEditing: Bool) {
-            if isEditing {
-                self.currentState = .full
-            } else {
-                self.currentState = .partial
-            }
-            self.moveView(state: self.currentState)
+        if isEditing {
+            self.currentState = .full
+        } else {
+            self.currentState = .partial
+        }
+        self.moveView(state: self.currentState)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -276,28 +269,24 @@ extension DetailViewController {
         switch state {
         case .minimum:
             yPosition = minimumViewYPosition
-            switchButton?.isHidden = false
-            switchButton?.setImage(UIImage(named: "minimum"), for: .normal)
+            switchButton.isHidden = false
+            switchButton.setImage(UIImage(named: "minimum"), for: .normal)
             setCancelButtonEnable(false)
         case .partial:
             yPosition = partialViewYPosition
-            switchButton?.isHidden = false
-            switchButton?.setImage(UIImage(named: "partial"), for: .normal)
+            switchButton.isHidden = false
+            switchButton.setImage(UIImage(named: "partial"), for: .normal)
             setCancelButtonEnable(false)
         case .full:
             yPosition = fullViewYPosition
-            switchButton?.isHidden = true
+            switchButton.isHidden = true
             setCancelButtonEnable(true)
         }
         UIView.transition(with: view, duration: 0.5, options: .curveEaseOut) {
             self.view.frame = CGRect(x: 0, y: yPosition, width: self.view.frame.width, height: self.view.frame.height)
-            self.switchButton?.frame = self.view.bounds
+            self.switchButton.frame = self.view.bounds
         }
-//
-//
-//        UIView.animate(withDuration: 0.5) {
-//            self.view.frame = CGRect(x: 0, y: yPosition, width: self.view.frame.width, height: self.view.frame.height)
-//        }
+
         currentState = state
     }
 
