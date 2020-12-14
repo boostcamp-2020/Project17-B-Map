@@ -20,6 +20,117 @@
 
 </div>
 
+## 디렉토리 구조
+<details>
+  <summary>파일 구조 :file_cabinet: </summary>
+    <div markdown=“1”>
+      <pre>
+Mab_Project
+├── AppDelegate.swift
+│   ├── Contents.json
+│   ├── LaunchScreen
+│   │   ├── Contents.json
+│   │   ├── Loading_Background.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Loading_Background.png
+│   │   ├── Loading_Background2.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Loading_Background2.png
+│   │   ├── Loading_MaB.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Loading_MaB.png
+│   │   ├── Loading_Marker1.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Loading_Marker1.png
+│   │   ├── Loading_Marker2.imageset
+│   │   │   ├── Contents.json
+│   │   │   └── Loading_Marker2.png
+│   │   └── Loading_Title.imageset
+│   │       ├── Contents.json
+│   │       └── Loading_Title.png
+│   ├── NaverColor.colorset
+│   │   └── Contents.json
+│   └── icon.imageset
+│       ├── Contents.json
+│       └── icon.png
+├── BoostClusteringMaB.xcdatamodeld
+│   └── BoostClusteringMaB.xcdatamodel
+│       └── contents
+├── Clustering
+│   ├── Cluster.swift
+│   ├── Clustering.swift
+│   ├── ClusteringProtocol.swift
+│   ├── ConvexHull.swift
+│   └── KMeans.swift
+├── CoreData
+│   ├── CoreDataContainer.swift
+│   ├── CoreDataLayer.swift
+│   └── Models
+│       ├── ManagedPOI+CoreDataClass.swift
+│       ├── ManagedPOI+CoreDataProperties.swift
+│       └── POI.swift
+├── Extension
+│   ├── CGPoint+Distance.swift
+│   ├── CGPoint+isValid.swift
+│   ├── NMFCameraUpdate+.swift
+│   ├── NMFMarker+.swift
+│   ├── NMFMarker+Animation.swift
+│   ├── NMFPolygonOverlay+.swift
+│   ├── String+Bundle.swift
+│   ├── String+Localize.swift
+│   └── UIColor+.swift
+├── Info.plist
+├── MainAnimationController.swift
+├── Models
+│   ├── Geocoding.swift
+│   ├── LatLng.swift
+│   ├── LinkedList.swift
+│   └── POIModel.swift
+├── Resources
+│   ├── Fonts
+│   │   ├── BMEuljiro10yearslaterOTF.otf
+│   │   ├── NanumSquareRoundOTFEB.otf
+│   │   └── NanumSquareRoundOTFR.otf
+│   └── POIRawData
+│       ├── csv
+│       │   └── poi.csv
+│       └── json
+│           ├── gangnam_8000.json
+│           └── restaurant.json
+├── SceneDelegate.swift
+├── Scenes
+│   ├── Detail
+│   │   ├── DetailViewController.swift
+│   │   └── View
+│   │       └── DetailCollectionViewCell.swift
+│   ├── Loading
+│   │   └── LoadViewController.swift
+│   ├── MainView
+│   │   ├── AlertType.swift
+│   │   ├── Animations
+│   │   │   └── MarkerAnimateController.swift
+│   │   ├── MainInteractor.swift
+│   │   ├── MainPresenter.swift
+│   │   └── MainViewController.swift
+│   └── Views
+│       ├── Base.lproj
+│       │   ├── LaunchScreen.storyboard
+│       │   └── Main.storyboard
+│       ├── Detail.storyboard
+│       ├── Loading.storyboard
+│       └── MarkerImageView.swift
+├── Util
+│   ├── AddressAPI.swift
+│   ├── CSVParser.swift
+│   ├── DataParser.swift
+│   ├── ImageDownloader.swift
+│   └── JsonParser.swift
+└── en.lproj
+    └── Localizable.strings
+         </pre>
+    </div>
+</details>
+
 # Map App 
 [![Releases](https://img.shields.io/github/v/release/boostcamp-2020/Project17-B-Map)](https://github.com/boostcamp-2020/Project17-B-Map/releases)
 [![build](https://github.com/boostcamp-2020/Project17-B-Map/workflows/iOS%20CI/badge.svg)](https://github.com/boostcamp-2020/Project17-B-Map/actions)
