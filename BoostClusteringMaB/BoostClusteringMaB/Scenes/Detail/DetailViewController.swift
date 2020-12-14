@@ -216,7 +216,8 @@ extension DetailViewController: UISearchBarDelegate {
 extension DetailViewController {
     var fullViewYPosition: CGFloat { 44 }
     var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
-    var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - searchBar.frame.height - 44 }
+    var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - minimumHeight }
+    var minimumHeight: CGFloat { searchBar.frame.height + 44  }
 
     private enum State {
         case minimum
