@@ -139,10 +139,7 @@ final class DrawerController: UIViewController {
 
     func toggleMenu() {
         isMenuExpanded = !isMenuExpanded
-
-        if !isMenuExpanded {
-            visualEffectView.effect = nil
-        }
+        visualEffectView.effect = nil
 
         let width = isMenuExpanded ? 0.0 : UIScreen.main.bounds.width
 
