@@ -305,15 +305,16 @@ extension DetailViewController {
             setCancelButtonEnable(true)
             view.frame.size.height = UIScreen.main.bounds.height
         }
-        UIView.transition(with: view, duration: 0.5, options: .curveEaseOut) {
+        
+        self.switchButton?.isHidden = true
+        UIView.transition(with: view, duration: 0.5, options: .curveEaseOut, animations: {
             self.view.frame = CGRect(x: 0, y: yPosition, width: self.view.frame.width, height: self.view.frame.height)
-            self.switchButton.frame = self.view.bounds
         } completion: { _ in
+            self.switchButton?.isHidden = false
             if state == .partial {
                 self.view.frame.size.height = self.partialHeight
             }
         }
-
         currentState = state
     }
 
