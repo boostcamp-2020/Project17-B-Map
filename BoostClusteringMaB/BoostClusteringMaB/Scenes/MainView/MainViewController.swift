@@ -300,7 +300,7 @@ private extension MainViewController {
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
         animationController.removePointAnimation()
-        bottomSheetViewController.prevClickedCell?.isClicked = false
+        bottomSheetViewController.checkedIndexPath = nil
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
@@ -319,18 +319,22 @@ extension MainViewController: ClusteringTool {
 }
 
 extension MainViewController: DetailViewControllerDelegate {
-    func didCellSelected(lat: Double, lng: Double, isClicked: Bool) {
-        if isClicked {
-            let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng),
-                                               zoomTo: 20,
-                                               cameraAnimation: .easeIn,
-                                               duration: 0.8)
-            mapView.moveCamera(cameraUpdate)
-        } else {
-            animationController.removePointAnimation()
-            let point = convertLatLngToPoint(latLng: LatLng(lat: lat, lng: lng))
-            animationController.pointDotAnimation(point: point)
-        }
+    func moveCamera(to position: LatLng) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: position.lat, lng: position.lng),
+                                           zoomTo: 20,
+                                           cameraAnimation: .easeIn,
+                                           duration: 0.8)
+        mapView.moveCamera(cameraUpdate)
+    }
+    
+    func dotAnimation(at position: LatLng) {
+        removeDotAnimation()
+        let point = convertLatLngToPoint(latLng: position)
+        animationController.pointDotAnimation(point: point)
+    }
+    
+    func removeDotAnimation() {
+        animationController.removePointAnimation()
     }
 }
 
