@@ -8,7 +8,7 @@
 import UIKit
 import NMapsMap
 
-final class DrawerController: UIViewController, MapSettingsDelegate {
+final class DrawerController: UIViewController {
     private var isMenuExpanded = false
     private let tableView = UITableView()
     private var visualEffectView: UIVisualEffectView = {
@@ -17,20 +17,20 @@ final class DrawerController: UIViewController, MapSettingsDelegate {
         return visualEffect
     }()
 
+    private var mapTypes = MapTypes()
+    private var layerGroup = LayerGroup()
+    private var mapSettings = MapSettings()
+
+    private let mapView: NMFMapView
+    private var prevRow: Int = -1
+
     enum Sections: String, CaseIterable {
         case mapType = "MapType"
         case layerGroup = "LayerGroup"
         case setting = "Setting"
     }
 
-    private var mapTypes = MapTypes()
-    private var layerGroup = LayerGroup()
-    private var mapSettings = MapSettings()
-
-    private let mapView: NMFMapView
-
-    private var prevRow: Int = -1
-
+    // MARK: - Initial
     init(mapView: NMFMapView) {
         self.mapView = mapView
         super.init(nibName: nil, bundle: nil)
@@ -53,7 +53,8 @@ final class DrawerController: UIViewController, MapSettingsDelegate {
         configureNaverMapView()
     }
 
-    func configureNaverMapView() {
+    // MARK: - Configure
+    private func configureNaverMapView() {
         let mapTypesRow = mapTypes.sections.filter({ mapTypes.isCheck(key: $0) }).first
 
         if mapTypesRow == "일반지도" {
@@ -89,21 +90,6 @@ final class DrawerController: UIViewController, MapSettingsDelegate {
         mapView.symbolScale = CGFloat(mapSettings.valueSymbolScale)
     }
 
-    func onChangedBrightness(_ value: Float) {
-        mapSettings.valueLightness = value
-        mapView.lightness = CGFloat(value)
-    }
-
-    func onChangedBuildingHeight(_ value: Float) {
-        mapSettings.valueBuildingHeight = value
-        mapView.buildingHeight = value
-    }
-
-    func onChangedSignSize(_ value: Float) {
-        mapSettings.valueSymbolScale = value
-        mapView.symbolScale = CGFloat(value)
-    }
-
     private func configureVisualEffectView() {
         view.addSubview(visualEffectView)
 
@@ -134,6 +120,16 @@ final class DrawerController: UIViewController, MapSettingsDelegate {
         ])
     }
 
+    private func configureGestures() {
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+        swipeLeftGesture.direction = .right
+        self.visualEffectView.addGestureRecognizer(swipeLeftGesture)
+    }
+
+    @objc private func didSwipeLeft() {
+        toggleMenu()
+    }
+
     func toggleMenu() {
         isMenuExpanded = !isMenuExpanded
 
@@ -149,15 +145,23 @@ final class DrawerController: UIViewController, MapSettingsDelegate {
             self.visualEffectView.effect = UIBlurEffect(style: .dark)
         }
     }
+}
 
-    private func configureGestures() {
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
-        swipeLeftGesture.direction = .right
-        self.visualEffectView.addGestureRecognizer(swipeLeftGesture)
+// MARK: - MapSettingsDelegate
+extension DrawerController: MapSettingsDelegate {
+    func onChangedBrightness(_ value: Float) {
+        mapSettings.valueLightness = value
+        mapView.lightness = CGFloat(value)
     }
 
-    @objc fileprivate func didSwipeLeft() {
-        toggleMenu()
+    func onChangedBuildingHeight(_ value: Float) {
+        mapSettings.valueBuildingHeight = value
+        mapView.buildingHeight = value
+    }
+
+    func onChangedSignSize(_ value: Float) {
+        mapSettings.valueSymbolScale = value
+        mapView.symbolScale = CGFloat(value)
     }
 }
 
@@ -194,9 +198,10 @@ extension DrawerController: UITableViewDelegate {
             }
         } else if section == 1 {
             let row = layerGroup[row]
-            let isCheck = !layerGroup.isCheck(key: "\(row)")
-            cell.accessoryType = isCheck ? .checkmark : .none
             layerGroup.toggle(key: row)
+
+            let isCheck = layerGroup.isCheck(key: "\(row)")
+            cell.accessoryType = isCheck ? .checkmark : .none
 
             if row == "교통정보" {
                 mapView.setLayerGroup(NMF_LAYER_GROUP_TRAFFIC, isEnabled: isCheck)

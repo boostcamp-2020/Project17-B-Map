@@ -12,7 +12,14 @@ class MapTypes {
     var count: Int {
         sections.count
     }
-    
+
+    enum Section: String {
+        case base = "일반지도"
+        case satellite = "위성지도"
+        case hybrid = "하이브리드"
+        case terrain = "지형도"
+    }
+
     @IsCheck(key: "Base") var isCheckBase: Bool
     @IsCheck(key: "Satellite") var isCheckSatellite: Bool
     @IsCheck(key: "Hybrid") var isCheckHybrid: Bool
