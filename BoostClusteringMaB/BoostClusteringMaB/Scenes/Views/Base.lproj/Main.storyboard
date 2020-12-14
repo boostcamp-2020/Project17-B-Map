@@ -41,7 +41,6 @@
                     </view>
                     <connections>
                         <outlet property="drawerButton" destination="NEE-Yp-iPv" id="EgZ-Aa-ED8"/>
-                        <outlet property="drawerToggleButton" destination="NEE-Yp-iPv" id="7jw-hw-VYA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

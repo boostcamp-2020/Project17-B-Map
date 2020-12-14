@@ -123,10 +123,17 @@ final class DrawerController: UIViewController {
     private func configureGestures() {
         let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
         swipeLeftGesture.direction = .right
-        self.visualEffectView.addGestureRecognizer(swipeLeftGesture)
+        self.view.addGestureRecognizer(swipeLeftGesture)
+
+        let overlayGesture = UITapGestureRecognizer(target: self, action: #selector(didClickOverlay))
+        self.visualEffectView.addGestureRecognizer(overlayGesture)
     }
 
     @objc private func didSwipeLeft() {
+        toggleMenu()
+    }
+
+    @objc private func didClickOverlay() {
         toggleMenu()
     }
 
