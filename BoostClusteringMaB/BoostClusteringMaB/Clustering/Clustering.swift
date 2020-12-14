@@ -39,25 +39,14 @@ class Clustering {
     private func runKMeans(pois: [POI], zoomLevel: Double) {
         let kRange = findKRange(zoomLevel: Int(zoomLevel))
 
-        var minKmeans: KMeans = .init(k: 0, pois: [])
-        var minDBI: Double = .greatestFiniteMagnitude
-
-        kRange.forEach { k in
+        let kMeansArr = kRange.map { k -> KMeans in
             let kMeans = KMeans(k: k, pois: pois)
-
-            let operation = BlockOperation {
-                let dbi = kMeans.daviesBouldinIndex()
-                if minDBI > dbi {
-                    minDBI = dbi
-                    minKmeans = kMeans
-                }
-            }
-
-            operation.addDependency(kMeans)
-            queue.addOperations([kMeans, operation], waitUntilFinished: false)
+            queue.addOperation(kMeans)
+            return kMeans
         }
 
         queue.addBarrierBlock { [weak self] in
+            guard let minKmeans = kMeansArr.min(by: { $0.dbi < $1.dbi }) else { return }
             DispatchQueue.main.async {
                 self?.groupNotifyTasks(minKmeans)
             }
