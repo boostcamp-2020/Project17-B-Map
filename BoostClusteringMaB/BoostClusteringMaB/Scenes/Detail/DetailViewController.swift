@@ -9,7 +9,8 @@ import UIKit
 import CoreData
 
 protocol DetailViewControllerDelegate: class {
-    func didCellSelected(lat: Double, lng: Double, isClicked: Bool)
+    func moveCamera(to position: LatLng)
+    func dotAnimation(at position: LatLng)
 }
 
 final class DetailViewController: UIViewController {
@@ -49,8 +50,9 @@ final class DetailViewController: UIViewController {
         }
     }
 
-    var prevClickedCell: DetailCollectionViewCell?
-
+    // 이전에 선택된 셀의 indexPath (두번 터치시 확대를 위해 사용)
+    var checkedIndexPath: IndexPath?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -206,17 +208,25 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 
 extension DetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else { return }
-        guard let lat = cell.latLng?.lat,
-              let lng = cell.latLng?.lng else {
+        guard let cell = collectionView.cellForItem(at: indexPath)
+                as? DetailCollectionViewCell,
+              let latLng = cell.latLng else {
             return
         }
+        
         collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
-        delegate?.didCellSelected(lat: lat, lng: lng, isClicked: cell.isClicked)
-        cell.isClicked = true
-        prevClickedCell?.isClicked = false
-        prevClickedCell = cell
         searchViewEditing(false)
+        
+        if let checkedIndexPath = checkedIndexPath,
+           checkedIndexPath == indexPath {
+            // 두번 누른 경우 -> 확대
+            delegate?.moveCamera(to: latLng)
+            self.checkedIndexPath = nil
+        } else {
+            // 셀 애니메이션 이동 후 indexPath 교체
+            delegate?.dotAnimation(at: latLng)
+            self.checkedIndexPath = indexPath
+        }
     }
 }
 
