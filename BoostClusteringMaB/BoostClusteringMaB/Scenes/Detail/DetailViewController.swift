@@ -183,6 +183,7 @@ final class DetailViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -197,6 +198,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension DetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else { return }
@@ -213,6 +215,7 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - UISearchBarDelegate
 extension DetailViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         reloadPOI(searchText)
@@ -241,14 +244,18 @@ extension DetailViewController: UISearchBarDelegate {
         }
         self.moveView(state: self.currentState)
     }
+    
 }
 
-// MARK: Pan Gesture
+// MARK: - Pan Gesture
 extension DetailViewController {
-    var fullViewYPosition: CGFloat { 44 }
-    var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
+    private var safeLayoutSize: CGFloat { 44 }
+    private var partialHeight: CGFloat { 200 }
+
+    var fullViewYPosition: CGFloat { safeLayoutSize }
+    var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - partialHeight }
     var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - minimumHeight }
-    var minimumHeight: CGFloat { searchBar.frame.height + 44  }
+    var minimumHeight: CGFloat { searchBar.frame.height + safeLayoutSize  }
 
     private enum State {
         case minimum
@@ -263,6 +270,7 @@ extension DetailViewController {
 
     private func moveView(state: State) {
         let yPosition: CGFloat
+
         switch state {
         case .minimum:
             yPosition = minimumViewYPosition
@@ -282,6 +290,10 @@ extension DetailViewController {
         UIView.transition(with: view, duration: 0.5, options: .curveEaseOut) {
             self.view.frame = CGRect(x: 0, y: yPosition, width: self.view.frame.width, height: self.view.frame.height)
             self.switchButton.frame = self.view.bounds
+        } completion: { _ in
+            if state == .partial {
+                self.view.frame.size.height = self.partialHeight
+            }
         }
 
         currentState = state
@@ -339,20 +351,21 @@ extension DetailViewController {
     
     @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
         moveView(panGestureRecognizer: recognizer)
+
         if recognizer.state == .ended {
             let nextState = self.nextState(recognizer)
+
             let endedY = view.frame.minY + recognizer.translation(in: view).y
             let distance = self.distance(y: endedY, to: nextState)
             var duration = abs(distance / recognizer.velocity(in: view).y)
             
-            // 애니메이션이 너무 길어서 지루하게 느끼지 않도록 최대 값 설정
             duration = (duration > 1) ? 1 : duration
             
-            UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.allowUserInteraction]) {
-                self.moveView(state: self.nextState(recognizer))
-            }
-            
-            self.view.endEditing(true)
+            moveView(state: self.nextState(recognizer))
+
+            view.endEditing(true)
+        } else if recognizer.state == .began {
+            view.frame.size.height = UIScreen.main.bounds.height
         }
     }
     
