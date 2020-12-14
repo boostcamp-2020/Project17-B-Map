@@ -185,7 +185,7 @@ extension MainViewController {
             
             guard pointCount == 1 else {
                 marker.touchHandler = { [weak self] _ in
-                    self?.touchedClusterMarker(bounds: bound, insets: 5)
+                    self?.touchedClusterMarker(bounds: bound, insets: 10)
                     return true
                 }
                 return
@@ -203,7 +203,8 @@ extension MainViewController {
     }
     
     private func touchedClusterMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
-        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
+        let bottomInset = bottomSheetViewController.minimumHeight
+        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets + bottomInset, right: insets)
         let cameraUpdate = NMFCameraUpdate(fit: bounds,
                                            paddingInsets: edgeInsets,
                                            cameraAnimation: .easeIn,
