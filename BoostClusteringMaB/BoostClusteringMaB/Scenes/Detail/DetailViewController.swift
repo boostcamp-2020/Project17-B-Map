@@ -50,6 +50,13 @@ final class DetailViewController: UIViewController {
     }
 
     var prevClickedCell: DetailCollectionViewCell?
+    var switchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "minimum"), for: .normal)
+        button.layer.cornerRadius = 5.0
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,29 +64,15 @@ final class DetailViewController: UIViewController {
         configureGesture()
         configureDataSource()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-           moveView(state: .minimum)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         configureButton()
+        moveView(state: .minimum)
     }
-
-    @IBOutlet weak var contentView: UIView!
-    private var switchButton: UIButton!
 
     private func configureButton() {
-        switchButton = UIButton()
-        switchButton.imageView?.contentMode = .scaleAspectFill
-        switchButton.setImage(UIImage(named: "minimum"), for: .normal)
-        switchButton.layer.cornerRadius = 5.0
-        switchButton.translatesAutoresizingMaskIntoConstraints = false
-
         guard let superView = view.superview else { return }
-
         superView.addSubview(switchButton)
 
         NSLayoutConstraint.activate([
@@ -93,16 +86,16 @@ final class DetailViewController: UIViewController {
     }
 
     @objc private func toggle() {
-            switch self.currentState {
-            case .full:
-                return
-            case .minimum:
-                self.moveView(state: .partial)
-                return
-            case .partial:
-                self.moveView(state: .minimum)
-                return
-            }
+        switch self.currentState {
+        case .full:
+            return
+        case .minimum:
+            self.moveView(state: .partial)
+            return
+        case .partial:
+            self.moveView(state: .minimum)
+            return
+        }
     }
 
     private func configureView() {
@@ -187,9 +180,11 @@ final class DetailViewController: UIViewController {
         reloadPOI()
         searchBar.text = ""
         searchViewEditing(false)
+        self.view.endEditing(true)
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -204,7 +199,12 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension DetailViewController: UICollectionViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.endEditing(true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell else { return }
         guard let lat = cell.latLng?.lat,
@@ -220,6 +220,7 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - UISearchBarDelegate
 extension DetailViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         reloadPOI(searchText)
@@ -229,33 +230,34 @@ extension DetailViewController: UISearchBarDelegate {
         searchViewEditing(true)
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchViewEditing(false)
-    }
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBarTextDidEndEditing(searchBar)
         searchBar.text = ""
         reloadPOI()
     }
 
     func searchViewEditing(_ isEditing: Bool) {
-            if isEditing {
-                self.currentState = .full
-            } else {
-                self.currentState = .partial
-                self.view.endEditing(isEditing)
-            }
-            self.moveView(state: self.currentState)
+        if isEditing {
+            self.currentState = .full
+        } else {
+            self.currentState = .partial
+        }
+        self.moveView(state: self.currentState)
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 
-// MARK: Pan Gesture
+// MARK: - Pan Gesture
 extension DetailViewController {
-    var fullViewYPosition: CGFloat { 44 }
-    var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - 200 }
+    private var safeLayoutSize: CGFloat { 44 }
+    private var partialHeight: CGFloat { 200 }
+
+    var fullViewYPosition: CGFloat { safeLayoutSize }
+    var partialViewYPosition: CGFloat { UIScreen.main.bounds.height - partialHeight }
     var minimumViewYPosition: CGFloat { UIScreen.main.bounds.height - minimumHeight }
-    var minimumHeight: CGFloat { searchBar.frame.height + 44  }
+    var minimumHeight: CGFloat { searchBar.frame.height + safeLayoutSize  }
 
     private enum State {
         case minimum
@@ -270,30 +272,33 @@ extension DetailViewController {
 
     private func moveView(state: State) {
         let yPosition: CGFloat
+
         switch state {
         case .minimum:
             yPosition = minimumViewYPosition
-            switchButton?.isHidden = false
-            switchButton?.setImage(UIImage(named: "minimum"), for: .normal)
+            switchButton.isHidden = false
+            switchButton.setImage(UIImage(named: "minimum"), for: .normal)
             setCancelButtonEnable(false)
         case .partial:
             yPosition = partialViewYPosition
-            switchButton?.isHidden = false
-            switchButton?.setImage(UIImage(named: "partial"), for: .normal)
+            switchButton.isHidden = false
+            switchButton.setImage(UIImage(named: "partial"), for: .normal)
             setCancelButtonEnable(false)
         case .full:
             yPosition = fullViewYPosition
-            switchButton?.isHidden = true
+            switchButton.isHidden = true
             setCancelButtonEnable(true)
         }
         
         self.switchButton?.isHidden = true
         UIView.transition(with: view, duration: 0.5, options: .curveEaseOut, animations: {
             self.view.frame = CGRect(x: 0, y: yPosition, width: self.view.frame.width, height: self.view.frame.height)
-        }, completion: { _ in
+        } completion: { _ in
             self.switchButton?.isHidden = false
-        })
-        
+            if state == .partial {
+                self.view.frame.size.height = self.partialHeight
+            }
+        }
         currentState = state
     }
 
@@ -349,20 +354,21 @@ extension DetailViewController {
     
     @objc private func panGesture(_ recognizer: UIPanGestureRecognizer) {
         moveView(panGestureRecognizer: recognizer)
+
         if recognizer.state == .ended {
             let nextState = self.nextState(recognizer)
+
             let endedY = view.frame.minY + recognizer.translation(in: view).y
             let distance = self.distance(y: endedY, to: nextState)
             var duration = abs(distance / recognizer.velocity(in: view).y)
             
-            // 애니메이션이 너무 길어서 지루하게 느끼지 않도록 최대 값 설정
             duration = (duration > 1) ? 1 : duration
             
-            UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.allowUserInteraction]) {
-                self.moveView(state: self.nextState(recognizer))
-            }
-            
-            self.view.endEditing(true)
+            moveView(state: self.nextState(recognizer))
+
+            view.endEditing(true)
+        } else if recognizer.state == .began {
+            view.frame.size.height = UIScreen.main.bounds.height
         }
     }
     
