@@ -328,9 +328,13 @@ extension MainViewController: DetailViewControllerDelegate {
     }
     
     func dotAnimation(at position: LatLng) {
-        animationController.removePointAnimation()
+        removeDotAnimation()
         let point = convertLatLngToPoint(latLng: position)
         animationController.pointDotAnimation(point: point)
+    }
+    
+    func removeDotAnimation() {
+        animationController.removePointAnimation()
     }
 }
 

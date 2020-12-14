@@ -11,6 +11,7 @@ import CoreData
 protocol DetailViewControllerDelegate: class {
     func moveCamera(to position: LatLng)
     func dotAnimation(at position: LatLng)
+    func removeDotAnimation()
 }
 
 final class DetailViewController: UIViewController {
@@ -235,6 +236,8 @@ extension DetailViewController: UICollectionViewDelegate {
 extension DetailViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         reloadPOI(searchText)
+        checkedIndexPath = nil
+        delegate?.removeDotAnimation()
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
