@@ -221,6 +221,12 @@ $ pod install --repo-update
 | :-: | :-: | :-: | :-: |
 | <img src="img/layergroup.gif" width="200"> | <img src="img/setting.gif" width="200">  | <img src="img/maptype.gif" width="200"> | <img src="img/userDefault.gif" width="200"> |
 
+### 📙 BottomSheet Up & Down Button
+ > 이미지 모양이 다릅니다.  
+ 
+| Down | Up |
+| :-: | :-: |
+| <img src="https://user-images.githubusercontent.com/46857148/102038648-26b6ab00-3e0b-11eb-8725-c0a1510edf3e.png" width="200"> | <img src="https://user-images.githubusercontent.com/46857148/102038650-27e7d800-3e0b-11eb-8701-1fdc221ae514.png" width="200"> |
 
 ## 기술
 
