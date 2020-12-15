@@ -107,7 +107,6 @@ class MapSettings {
         }
         
         delegate?.onChangedSignSize(valueSymbolScale)
-        print(sender.selectedSegmentIndex)
     }
     
     func view(key: String) -> UIView {

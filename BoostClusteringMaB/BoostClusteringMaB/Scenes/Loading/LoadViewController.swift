@@ -64,8 +64,7 @@ class LoadViewController: UIViewController {
                     handler(result)
                 }
             } catch {
-                print(error)
-                // 예외처리
+                debugPrint(error.localizedDescription)
             }
         }
     }

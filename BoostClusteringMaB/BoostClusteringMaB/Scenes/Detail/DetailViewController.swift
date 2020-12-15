@@ -51,7 +51,6 @@ final class DetailViewController: UIViewController {
         }
     }
 
-    // 이전에 선택된 셀의 indexPath (두번 터치시 확대를 위해 사용)
     var checkedIndexPath: IndexPath?
     
     var switchButton: UIButton = {
@@ -222,11 +221,9 @@ extension DetailViewController: UICollectionViewDelegate {
         
         if let checkedIndexPath = checkedIndexPath,
            checkedIndexPath == indexPath {
-            // 두번 누른 경우 -> 확대
             delegate?.moveCamera(to: latLng)
             self.checkedIndexPath = nil
         } else {
-            // 셀 애니메이션 이동 후 indexPath 교체
             delegate?.dotAnimation(at: latLng)
             self.checkedIndexPath = indexPath
         }

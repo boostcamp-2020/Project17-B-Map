@@ -123,26 +123,6 @@ class CoreDataTests: XCTestCase {
         XCTAssertTrue( pois.allSatisfy({ poi -> Bool in poi.category == "부스트캠프" }) )
     }
     
-//    func testAdd10000POI() throws {
-//        timeout(40) { expectation in
-//            // Given
-//            let numberOfRepeats = 10000
-//            let layer = CoreDataLayer()
-//            let places = (0..<numberOfRepeats).map { _ in newPlace }
-//            let beforeCount = layer.fetch()?.count
-//
-//            // When
-//            layer.add(places: places) { _ in
-//                let afterCount = layer.fetch()?.count
-//
-//                // Then
-//                XCTAssertNotNil(beforeCount)
-//                XCTAssertEqual(beforeCount! + numberOfRepeats, afterCount)
-//                expectation.fulfill()
-//            }
-//        }
-//    }
-    
     func testRemove() throws {
         // Given
         let layer = CoreDataLayer()

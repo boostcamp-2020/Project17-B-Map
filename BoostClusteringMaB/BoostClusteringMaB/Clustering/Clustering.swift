@@ -60,7 +60,7 @@ class Clustering {
         let start: Int
         let end: Int
         
-        let favorite = (13...17) // 사람들이 자주 쓰는 줌레벨
+        let favorite = (13...17)
         if favorite.contains(zoomLevel) {
             start = zoomLevel - 10
         } else {

@@ -25,13 +25,11 @@ class ImageDownloader {
             return nil
         }
         
-        // check cached image
         if let cachedImage = imageCache.object(forKey: urlString as NSString) {
             completion(.success(cachedImage))
             return nil
         }
         
-        // if not, download image from url
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
                 if let error = error {

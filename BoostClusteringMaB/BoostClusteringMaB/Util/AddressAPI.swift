@@ -43,7 +43,6 @@ final class AddressAPI: AddressAPIService {
             return nil
         }
         
-        // check cached address
         if let cached = addressCache.object(forKey: url as NSURL) {
             completion?(.success(cached as Data))
             return nil
@@ -66,7 +65,6 @@ final class AddressAPI: AddressAPIService {
                 guard let httpResponse = response as? HTTPURLResponse,
                       200...299 ~= httpResponse.statusCode else {
                     completion?(.failure(AddressAPIError.nmfClientError))
-                    debugPrint(response ?? "")
                     return
                 }
                 
