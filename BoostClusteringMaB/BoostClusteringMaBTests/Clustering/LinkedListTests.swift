@@ -53,7 +53,7 @@ class LinkedListTests: XCTestCase {
         let removeData = list.remove()
         let size = list.size
 
-        //Then
+        // Then
         XCTAssertEqual(removeData, 1)
         XCTAssertEqual(size, 4)
     }
