@@ -32,7 +32,10 @@ class Clustering {
         queue.cancelAllOperations()
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
-        guard !pois.isEmpty else { return }
+        guard !pois.isEmpty else {
+            self.data?.redrawMap([], [], [], [])
+            return
+        }
         runKMeans(pois: pois, zoomLevel: zoomLevel)
     }
 
