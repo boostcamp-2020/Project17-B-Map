@@ -32,9 +32,6 @@ protocol CoreDataManager {
 }
 
 final class CoreDataLayer: CoreDataManager {
-    var addressAPI: AddressAPIService = AddressAPI()
-    var jsonParser: JsonParserService = JsonParser()
-
     private let request: NSFetchRequest = ManagedPOI.fetchRequest()
 
     private lazy var childContext: NSManagedObjectContext = {

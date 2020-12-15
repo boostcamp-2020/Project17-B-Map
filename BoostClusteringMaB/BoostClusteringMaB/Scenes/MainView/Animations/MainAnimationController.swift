@@ -25,7 +25,6 @@ final class MainAnimationController {
     private let animationDurtaion = 1.5
 
     private var markerAnimator: UIViewPropertyAnimator?
-    private var dotAnimator: UIViewPropertyAnimator?
     
     var view: UIView?
     

@@ -19,7 +19,6 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var latLng: LatLng?
-    var isClicked: Bool = false
     private weak var imageTask: URLSessionTask?
     private weak var addressTask: URLSessionTask?
 
