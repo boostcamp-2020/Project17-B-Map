@@ -1,5 +1,5 @@
 //
-//  MarkerImageView.swift
+//  MarkerLayerFactory.swift
 //  BoostClusteringMaB
 //
 //  Created by 김석호 on 2020/11/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MarkerImageView {
+class MarkerLayerFactory {
     let maxFontSize: CGFloat = 20
     var size: CGFloat
     var text: String = ""
@@ -80,7 +80,7 @@ class MarkerImageView {
 }
 
 // MARK: View to UIImage
-extension MarkerImageView {
+extension MarkerLayerFactory {
     func snapshot() -> UIImage {
         let marker = makeLayer(size)
         let renderer = UIGraphicsImageRenderer(bounds: marker.bounds)
