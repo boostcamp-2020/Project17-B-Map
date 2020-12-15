@@ -296,7 +296,7 @@ $ pod install --repo-update
 
 ### VIP
 ```markdown
-### 채택한 이유
+채택한 이유
 
 - 단순하게 MVC 패턴으로 구현하게 되면 View Controller 가 갖는 책임이 비대하게 되고 모듈 간 분리가 쉽지 않음
 - 특히 Swift 에서는 VIew 와 Controller 간의 결합도가 높기 때문에, 자칫하면 Massive View Controller 가 될 가능성이 높다고 판단함
@@ -305,7 +305,7 @@ $ pod install --repo-update
 - VIPER 패턴과 같이 로직이 양방향으로 순환하게 되면 Retain Cycle 에 의한 메모리 누수가 일어날 가능성이 존재
 - 위와 같은 이유로 우리 팀은 단방향 플로우를 가지는 VIP 패턴을 선택하여 적용하기로 결정
 
-### 각각의 역할
+각각의 역할
 
 - View
     Storyboard 내부에서 User와 상호작용 하는 컴포넌트들
