@@ -176,46 +176,54 @@ extension DrawerController: UITableViewDelegate {
         let row = indexPath.row
 
         if section == 0 {
-            guard prevRow != row else { return }
-            prevRow = row
-            let row = mapTypes[row]
-
-            mapTypes.toggle(key: row)
-
-            for (index, section) in mapTypes.sections.enumerated() {
-                let indexPath = IndexPath(row: index, section: 0)
-                guard let cell = tableView.cellForRow(at: indexPath) else { return }
-                let isCheck = mapTypes.isCheck(key: section)
-                cell.accessoryType = isCheck ? .checkmark : .none
-            }
-
-            if row == "일반지도" {
-                mapView.mapType = .basic
-            } else if row == "위성지도" {
-                mapView.mapType = .satellite
-            } else if row == "하이브리드" {
-                mapView.mapType = .hybrid
-            } else if row == "지형도" {
-                mapView.mapType = .terrain
-            } else {
-                mapView.mapType = .none
-            }
+            changeMapType(cell, row)
         } else if section == 1 {
-            let row = layerGroup[row]
-            layerGroup.toggle(key: row)
+            changeLayerGroup(cell, row)
+        }
+    }
+    
+    private func changeMapType(_ cell: UITableViewCell, _ row: Int) {
+        guard prevRow != row else { return }
+        prevRow = row
+        let row = mapTypes[row]
 
-            let isCheck = layerGroup.isCheck(key: "\(row)")
+        mapTypes.toggle(key: row)
+
+        for (index, section) in mapTypes.sections.enumerated() {
+            let indexPath = IndexPath(row: index, section: 0)
+            guard let cell = tableView.cellForRow(at: indexPath) else { return }
+            let isCheck = mapTypes.isCheck(key: section)
             cell.accessoryType = isCheck ? .checkmark : .none
+        }
 
-            if row == "교통정보" {
-                mapView.setLayerGroup(NMF_LAYER_GROUP_TRAFFIC, isEnabled: isCheck)
-            } else if row == "자전거" {
-                mapView.setLayerGroup(NMF_LAYER_GROUP_BICYCLE, isEnabled: isCheck)
-            } else if row == "등산로" {
-                mapView.setLayerGroup(NMF_LAYER_GROUP_MOUNTAIN, isEnabled: isCheck)
-            } else if row == "지적편집도" {
-                mapView.setLayerGroup(NMF_LAYER_GROUP_CADASTRAL, isEnabled: isCheck)
-            }
+        if row == "일반지도" {
+            mapView.mapType = .basic
+        } else if row == "위성지도" {
+            mapView.mapType = .satellite
+        } else if row == "하이브리드" {
+            mapView.mapType = .hybrid
+        } else if row == "지형도" {
+            mapView.mapType = .terrain
+        } else {
+            mapView.mapType = .none
+        }
+    }
+    
+    private func changeLayerGroup(_ cell: UITableViewCell, _ row: Int) {
+        let row = layerGroup[row]
+        layerGroup.toggle(key: row)
+
+        let isCheck = layerGroup.isCheck(key: "\(row)")
+        cell.accessoryType = isCheck ? .checkmark : .none
+
+        if row == "교통정보" {
+            mapView.setLayerGroup(NMF_LAYER_GROUP_TRAFFIC, isEnabled: isCheck)
+        } else if row == "자전거" {
+            mapView.setLayerGroup(NMF_LAYER_GROUP_BICYCLE, isEnabled: isCheck)
+        } else if row == "등산로" {
+            mapView.setLayerGroup(NMF_LAYER_GROUP_MOUNTAIN, isEnabled: isCheck)
+        } else if row == "지적편집도" {
+            mapView.setLayerGroup(NMF_LAYER_GROUP_CADASTRAL, isEnabled: isCheck)
         }
     }
 }
