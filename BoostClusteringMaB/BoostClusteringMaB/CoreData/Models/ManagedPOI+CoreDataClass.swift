@@ -16,13 +16,4 @@ public class ManagedPOI: NSManagedObject {
         let poi = POI(category: category, id: id, imageURL: imageURL, latLng: latlng, name: name)
         return poi
     }
-    
-    func fromPOI(_ poi: Place) {
-        category = poi.category
-        id = poi.id
-        imageURL = poi.imageURL
-        latitude = Double(poi.y) ?? 0
-        longitude = Double(poi.x) ?? 0
-        name = poi.name
-    }
 }

@@ -13,10 +13,6 @@ final class LayerGroup {
         sections.count
     }
     
-    private var isChecks: [Bool] {
-        return [isCheckTraffic, isCheckBicycle, isCheckHikingTrail, isCheckCadastralEditing]
-    }
-    
     @IsCheck(key: "Traffic") var isCheckTraffic: Bool
     @IsCheck(key: "Bicycle") var isCheckBicycle: Bool
     @IsCheck(key: "HikingTrail") var isCheckHikingTrail: Bool

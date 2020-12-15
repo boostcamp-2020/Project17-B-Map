@@ -51,8 +51,8 @@ final class AddressAPI: AddressAPIService {
         var request = URLRequest(url: url)
         
         request.allHTTPHeaderFields = [
-            "X-NCP-APIGW-API-KEY-ID": id,
-            "X-NCP-APIGW-API-KEY": secret
+            apiKeyID: id,
+            apiKey: secret
         ]
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in

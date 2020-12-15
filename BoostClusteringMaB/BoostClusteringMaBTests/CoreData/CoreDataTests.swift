@@ -9,7 +9,7 @@ import XCTest
 import CoreData
 @testable import BoostClusteringMaB
 
-class CoreDataTests: XCTestCase {
+final class CoreDataTests: XCTestCase {
     let newPlace = Place(id: "123321",
                          name: "Mab",
                          x: "124.323412",

@@ -9,7 +9,7 @@ import XCTest
 import NMapsMap
 @testable import BoostClusteringMaB
 
-class MapViewMock: NMFMapViewProtocol {
+final class MapViewMock: NMFMapViewProtocol {
     var coveringBounds: NMGLatLngBounds
     var projection: NMFProjection
 
@@ -19,25 +19,13 @@ class MapViewMock: NMFMapViewProtocol {
     }
 }
 
-class NMFProjectionMock: NMFProjection {
+final class NMFProjectionMock: NMFProjection {
     override func point(from coord: NMGLatLng) -> CGPoint {
         return CGPoint(x: coord.lat, y: coord.lng)
     }
 }
 
-class ClusterMock: Cluster {
-    override func combine(other: Cluster) {
-        self.center += other.center
-    }
-
-    override func area() -> [LatLng] {
-        return [.init(lat: 30, lng: 40),
-                .init(lat: 40, lng: 50),
-                .init(lat: 50, lng: 60)]
-    }
-}
-
-class ClusteringTests: XCTestCase {
+final class ClusteringTests: XCTestCase {
     func test_init() {
         // Given
         let coreDataLayerMock = CoreDataLayerMock()

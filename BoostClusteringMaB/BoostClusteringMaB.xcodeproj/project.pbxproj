@@ -34,7 +34,6 @@
 		709707D825760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */; };
 		709707D925760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */; };
 		709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708042577219700D3FC36 /* ClusteringProtocol.swift */; };
-		7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708092577228900D3FC36 /* MainAnimationController.swift */; };
 		70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */; };
 		70AA4C692586663C00620D1F /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C682586663C00620D1F /* MapSettings.swift */; };
 		70AA4C6F2586665700620D1F /* LayerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C6E2586665700620D1F /* LayerGroup.swift */; };
@@ -72,6 +71,7 @@
 		F4AE15632577CB6600A2F473 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AE15622577CB6600A2F473 /* Geocoding.swift */; };
 		F4C31B50257779D100103E98 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C31B4F257779D100103E98 /* AlertType.swift */; };
 		F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E23D2A25727A5F008A9B4C /* DataParser.swift */; };
+		F4E3512325887B2E004EBFCB /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E3511925887668004EBFCB /* MainAnimationController.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
 /* End PBXBuildFile section */
@@ -121,7 +121,6 @@
 		709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataClass.swift"; sourceTree = "<group>"; };
 		709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		709708042577219700D3FC36 /* ClusteringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusteringProtocol.swift; sourceTree = "<group>"; };
-		709708092577228900D3FC36 /* MainAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainAnimationController.swift; path = BoostClusteringMaB/MainAnimationController.swift; sourceTree = SOURCE_ROOT; };
 		70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFCameraUpdate+.swift"; sourceTree = "<group>"; };
 		70AA4C682586663C00620D1F /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		70AA4C6E2586665700620D1F /* LayerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerGroup.swift; sourceTree = "<group>"; };
@@ -161,6 +160,7 @@
 		F4AE15622577CB6600A2F473 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		F4C31B4F257779D100103E98 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		F4E23D2A25727A5F008A9B4C /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		F4E3511925887668004EBFCB /* MainAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAnimationController.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 		FA651F4D9DA7AEB78F2F730D /* Pods-BoostClusteringMaB-BoostClusteringMaBTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB-BoostClusteringMaBTests.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB-BoostClusteringMaBTests/Pods-BoostClusteringMaB-BoostClusteringMaBTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 		0D0172CD2570C15100A26886 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				709708092577228900D3FC36 /* MainAnimationController.swift */,
+				F4E3511925887668004EBFCB /* MainAnimationController.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -753,7 +753,6 @@
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
 				70AA4C692586663C00620D1F /* MapSettings.swift in Sources */,
-				7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
@@ -769,6 +768,7 @@
 				70AA4C6F2586665700620D1F /* LayerGroup.swift in Sources */,
 				707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
+				F4E3512325887B2E004EBFCB /* MainAnimationController.swift in Sources */,
 				70AA4C7E258666A700620D1F /* Value.swift in Sources */,
 				F496019125727ED500740523 /* String+Bundle.swift in Sources */,
 				C3A572E625787FA300C2B008 /* DetailViewController.swift in Sources */,
