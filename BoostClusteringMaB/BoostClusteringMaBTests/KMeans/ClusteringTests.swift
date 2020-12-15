@@ -25,18 +25,6 @@ class NMFProjectionMock: NMFProjection {
     }
 }
 
-class ClusterMock: Cluster {
-    override func combine(other: Cluster) {
-        self.center += other.center
-    }
-
-    override func area() -> [LatLng] {
-        return [.init(lat: 30, lng: 40),
-                .init(lat: 40, lng: 50),
-                .init(lat: 50, lng: 60)]
-    }
-}
-
 class ClusteringTests: XCTestCase {
     func test_init() {
         // Given
