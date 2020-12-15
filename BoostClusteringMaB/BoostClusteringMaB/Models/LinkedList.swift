@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LinkedList<T: Equatable> {
+final class LinkedList<T: Equatable> {
     var size: Int
     var head: Node<T>?
     var tail: Node<T>?

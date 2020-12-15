@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LayerGroup {
+final class LayerGroup {
     let sections = ["교통정보", "자전거", "등산로", "지적편집도"]
     var count: Int {
         sections.count

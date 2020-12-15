@@ -14,7 +14,7 @@ enum ImageDownloadError: Error {
     case invalidURL
 }
 
-class ImageDownloader {
+final class ImageDownloader {
     static let shared = ImageDownloader()
     private init() {}
     private let imageCache = NSCache<NSString, UIImage>()

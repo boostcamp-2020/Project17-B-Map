@@ -7,7 +7,7 @@
 
 import Foundation
 
-class KMeans: Operation {
+final class KMeans: Operation {
     let k: Int
     let pois: [POI]
     var clusters: [Cluster]

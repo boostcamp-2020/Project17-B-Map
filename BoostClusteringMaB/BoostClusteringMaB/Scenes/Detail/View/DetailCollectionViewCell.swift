@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailCollectionViewCell: UICollectionViewCell {
+final class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var storeImageView: UIImageView! {

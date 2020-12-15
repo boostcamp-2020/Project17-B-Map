@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadViewController: UIViewController {
+final class LoadViewController: UIViewController {
     @IBOutlet weak var leftMarker: UIImageView!
     @IBOutlet weak var rightMarker: UIImageView!
     

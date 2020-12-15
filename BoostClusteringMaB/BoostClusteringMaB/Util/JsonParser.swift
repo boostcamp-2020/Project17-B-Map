@@ -12,7 +12,7 @@ protocol JsonParserService {
     func parse(address: Data) -> String?
 }
 
-class JsonParser: DataParser, JsonParserService {
+final class JsonParser: DataParser, JsonParserService {
     typealias DataType = Place
     static let shared = JsonParser()
 

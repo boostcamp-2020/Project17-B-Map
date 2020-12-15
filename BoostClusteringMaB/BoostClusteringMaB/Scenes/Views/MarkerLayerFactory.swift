@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MarkerLayerFactory {
+final class MarkerLayerFactory {
     let maxFontSize: CGFloat = 20
     var size: CGFloat
     var text: String = ""

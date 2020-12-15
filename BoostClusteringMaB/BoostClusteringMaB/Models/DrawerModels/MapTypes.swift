@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MapTypes {
+final class MapTypes {
     let sections = ["일반지도", "위성지도", "하이브리드", "지형도"]
     var count: Int {
         sections.count

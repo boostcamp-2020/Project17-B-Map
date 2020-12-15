@@ -13,7 +13,7 @@ protocol MapSettingsDelegate: class {
     func onChangedSignSize(_ value: Float)
 }
 
-class MapSettings {
+final class MapSettings {
     let sections = ["밝기", "건물 높이", "기호 크기"]
     var count: Int {
         sections.count

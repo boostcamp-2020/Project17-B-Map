@@ -6,7 +6,7 @@
 //
 import Foundation
 
-class Clustering {
+final class Clustering {
     typealias LatLngs = [LatLng]
     
     weak var data: ClusteringData?

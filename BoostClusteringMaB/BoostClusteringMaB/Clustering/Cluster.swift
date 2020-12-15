@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Cluster: Equatable {
+final class Cluster: Equatable {
     static func == (lhs: Cluster, rhs: Cluster) -> Bool {
         return lhs.center == rhs.center
     }
