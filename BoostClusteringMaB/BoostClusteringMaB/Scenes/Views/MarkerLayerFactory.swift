@@ -90,7 +90,7 @@ extension MarkerLayerFactory {
     }
 }
 
-class MarkerTextLayer: CATextLayer {
+final class MarkerTextLayer: CATextLayer {
     override func draw(in context: CGContext) {
         let height = self.bounds.size.height
         let fontSize = self.fontSize

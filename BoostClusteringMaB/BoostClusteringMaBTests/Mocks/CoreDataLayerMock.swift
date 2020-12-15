@@ -8,7 +8,7 @@
 @testable import BoostClusteringMaB
 import CoreData
 
-class CoreDataLayerMock: CoreDataManager {
+final class CoreDataLayerMock: CoreDataManager {
     func makeFetchResultsController() -> NSFetchedResultsController<ManagedPOI> {
         return .init()
     }

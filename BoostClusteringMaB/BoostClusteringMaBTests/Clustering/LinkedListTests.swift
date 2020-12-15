@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoostClusteringMaB
 
-class LinkedListTests: XCTestCase {
+final class LinkedListTests: XCTestCase {
 
     func test_Init() {
         // Given

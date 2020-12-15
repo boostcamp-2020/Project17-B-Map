@@ -71,7 +71,7 @@
 		F4AE15632577CB6600A2F473 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AE15622577CB6600A2F473 /* Geocoding.swift */; };
 		F4C31B50257779D100103E98 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C31B4F257779D100103E98 /* AlertType.swift */; };
 		F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E23D2A25727A5F008A9B4C /* DataParser.swift */; };
-		F4E3511A25887668004EBFCB /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E3511925887668004EBFCB /* MainAnimationController.swift */; };
+		F4E3512325887B2E004EBFCB /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E3511925887668004EBFCB /* MainAnimationController.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
 /* End PBXBuildFile section */
@@ -768,7 +768,7 @@
 				70AA4C6F2586665700620D1F /* LayerGroup.swift in Sources */,
 				707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
-				F4E3511A25887668004EBFCB /* MainAnimationController.swift in Sources */,
+				F4E3512325887B2E004EBFCB /* MainAnimationController.swift in Sources */,
 				70AA4C7E258666A700620D1F /* Value.swift in Sources */,
 				F496019125727ED500740523 /* String+Bundle.swift in Sources */,
 				C3A572E625787FA300C2B008 /* DetailViewController.swift in Sources */,

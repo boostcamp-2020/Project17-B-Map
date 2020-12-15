@@ -129,7 +129,7 @@ final class LinkedList<T: Equatable> {
     }
 }
 
-class Node<T: Equatable>: Equatable {
+final class Node<T: Equatable>: Equatable {
     static func == (lhs: Node<T>, rhs: Node<T>) -> Bool {
         return lhs.value == rhs.value
     }
