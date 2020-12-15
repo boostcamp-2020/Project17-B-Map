@@ -103,7 +103,7 @@ final class MapSettings {
         case 2:
             valueSymbolScale = 2.0
         default:
-            valueSymbolScale = 0.5
+            valueSymbolScale = 1.0
         }
         
         delegate?.onChangedSignSize(valueSymbolScale)
