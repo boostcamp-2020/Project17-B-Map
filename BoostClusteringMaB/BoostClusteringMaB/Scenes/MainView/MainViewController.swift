@@ -123,8 +123,7 @@ final class MainViewController: UIViewController {
 
         mapView.logoInteractionEnabled = false
         mapView.logoAlign = .rightTop
-
-        mapView.touchDelegate = self
+        
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
         view.addSubview(naverMapView)
@@ -298,6 +297,7 @@ private extension MainViewController {
 
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
+        highlightMarker = nil
         animationController.makerAnimationStop()
         animationController.removePointAnimation()
         displayedData.markers.forEach {
@@ -338,11 +338,5 @@ extension MainViewController: DetailViewControllerDelegate {
     
     func removeDotAnimation() {
         animationController.removePointAnimation()
-    }
-}
-
-extension MainViewController: NMFMapViewTouchDelegate {
-    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        highlightMarker = nil
     }
 }
