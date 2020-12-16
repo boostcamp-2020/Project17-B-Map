@@ -120,10 +120,10 @@ final class MainViewController: UIViewController {
     
     private func configureMapView() {
         naverMapView.showZoomControls = true
-        naverMapView.showCompass = false
 
         mapView.logoInteractionEnabled = false
         mapView.logoAlign = .rightTop
+        mapView.isRotateGestureEnabled = false
         
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
