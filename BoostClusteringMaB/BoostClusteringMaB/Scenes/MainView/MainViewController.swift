@@ -323,12 +323,12 @@ extension MainViewController: ClusteringTool {
 }
 
 extension MainViewController: DetailViewControllerDelegate {
-    func moveCamera(to position: LatLng) {
+    func moveCamera(to position: LatLng, _ completion: ((Bool) -> Void)?) {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: position.lat, lng: position.lng),
                                            zoomTo: 20,
                                            cameraAnimation: .easeIn,
                                            duration: 0.8)
-        mapView.moveCamera(cameraUpdate)
+        mapView.moveCamera(cameraUpdate, completion: completion)
     }
     
     func dotAnimation(at position: LatLng) {

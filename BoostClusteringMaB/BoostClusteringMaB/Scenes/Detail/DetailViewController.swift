@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol DetailViewControllerDelegate: class {
-    func moveCamera(to position: LatLng)
+    func moveCamera(to position: LatLng, _ completion: ((Bool) -> Void)?)
     func dotAnimation(at position: LatLng)
     func removeDotAnimation()
 }
@@ -34,6 +34,7 @@ final class DetailViewController: UIViewController {
     private var southWest: LatLng = .zero
     private var northEast: LatLng = .zero
     private let performFetchQueue = DispatchQueue.init(label: "coredata")
+    private var isTouchEventing = false
 
     var fetchedResultsController: NSFetchedResultsController<ManagedPOI>? = {
         let coreDataLayer = CoreDataLayer()
@@ -209,11 +210,9 @@ extension DetailViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath)
-                as? DetailCollectionViewCell,
-              let latLng = cell.latLng else {
-            return
-        }
+        guard isTouchEventing == false,
+              let cell = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell,
+              let latLng = cell.latLng else { return }
         
         collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         searchViewEditing(false)
@@ -221,7 +220,10 @@ extension DetailViewController: UICollectionViewDelegate {
         
         if let checkedIndexPath = checkedIndexPath,
            checkedIndexPath == indexPath {
-            delegate?.moveCamera(to: latLng)
+            isTouchEventing = true
+            delegate?.moveCamera(to: latLng) { _ in
+                self.isTouchEventing = false
+            }
             self.checkedIndexPath = nil
         } else {
             delegate?.dotAnimation(at: latLng)
