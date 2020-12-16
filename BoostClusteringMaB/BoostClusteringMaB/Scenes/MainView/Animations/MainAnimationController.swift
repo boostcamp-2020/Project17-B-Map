@@ -82,7 +82,7 @@ extension MainAnimationController {
             })
     }
     
-    private func makerAnimationStop() {
+    func makerAnimationStop() {
         markerAnimator?.stopAnimation(false)
         markerAnimator?.finishAnimation(at: .current)
     }

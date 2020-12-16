@@ -298,7 +298,11 @@ private extension MainViewController {
 
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
+        animationController.makerAnimationStop()
         animationController.removePointAnimation()
+        displayedData.markers.forEach {
+            $0.mapView = mapView
+        }
         bottomSheetViewController.checkedIndexPath = nil
     }
     
