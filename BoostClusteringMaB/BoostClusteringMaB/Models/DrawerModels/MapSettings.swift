@@ -23,7 +23,7 @@ final class MapSettings {
     
     @Value(key: "Brightness") var valueLightness: Float
     @Value(key: "BuildingHeight") var valueBuildingHeight: Float
-    @Value(key: "SignSize") var valueSymbolScale: Float
+    @Value(key: "SignSize", defaultValue: 1.0) var valueSymbolScale: Float
     
     func isCheck(key: String) -> Float {
         switch key {
