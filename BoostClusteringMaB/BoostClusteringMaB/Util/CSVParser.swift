@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CSVParser: DataParser {
+final class CSVParser: DataParser {
     typealias DataType = Place
     private let type = "csv"
     

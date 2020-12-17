@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadViewController: UIViewController {
+final class LoadViewController: UIViewController {
     @IBOutlet weak var leftMarker: UIImageView!
     @IBOutlet weak var rightMarker: UIImageView!
     
@@ -64,8 +64,7 @@ class LoadViewController: UIViewController {
                     handler(result)
                 }
             } catch {
-                print(error)
-                // 예외처리
+                debugPrint(error.localizedDescription)
             }
         }
     }

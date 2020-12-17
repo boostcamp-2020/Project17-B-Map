@@ -88,7 +88,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Loading_Background" width="1231" height="2685"/>
+        <image name="Loading_Background" width="1212" height="2686"/>
         <image name="Loading_Background2" width="1291" height="1394"/>
         <image name="Loading_MaB" width="932" height="267"/>
         <image name="Loading_Marker1" width="668" height="871"/>

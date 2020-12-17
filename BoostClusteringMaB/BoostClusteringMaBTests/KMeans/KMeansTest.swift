@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoostClusteringMaB
 
-class KMeansTest: XCTestCase {  
+final class KMeansTest: XCTestCase {  
     // MARK: - Cluster
     
     func test_클러스터_deviation() {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LinkedList<T: Equatable> {
+final class LinkedList<T: Equatable> {
     var size: Int
     var head: Node<T>?
     var tail: Node<T>?
@@ -129,7 +129,7 @@ class LinkedList<T: Equatable> {
     }
 }
 
-class Node<T: Equatable>: Equatable {
+final class Node<T: Equatable>: Equatable {
     static func == (lhs: Node<T>, rhs: Node<T>) -> Bool {
         return lhs.value == rhs.value
     }

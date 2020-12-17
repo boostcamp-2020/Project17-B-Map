@@ -32,20 +32,22 @@ final class MainViewController: UIViewController {
         return controller
     }()
 
-    private lazy var bottomSheetViewController: DetailViewController = {
+    lazy var bottomSheetViewController: DetailViewController = {
         guard let bottom = UIStoryboard(name: "Detail", bundle: nil).instantiateInitialViewController()
                 as? DetailViewController else { return DetailViewController() }
         return bottom
     }()
+
+    lazy var drawerController = DrawerController(mapView: mapView)
+    @IBOutlet weak var drawerButton: UIButton!
     
-     private lazy var startPoint = NMGLatLng(lat: 37.50378338836959, lng: 127.05559154398587) // 강남
-//    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829) // 을지로
-    
+    private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)
+
+    var interactor: MainBusinessLogic?
     private var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
-    private var interactor: MainBusinessLogic?
     private var mapView: NMFMapView { naverMapView.mapView }
     private var projection: NMFProjection { naverMapView.mapView.projection }
-    
+
     private var highlightMarker: NMFMarker? {
         didSet {
             guard highlightMarker != oldValue else { return }
@@ -60,7 +62,9 @@ final class MainViewController: UIViewController {
     
     private var boundsLatLng: (southWest: LatLng, northEast: LatLng) {
         let boundsLatLngs = mapView.coveringBounds.boundsLatLngs
-        let southWest = LatLng(boundsLatLngs[0])
+        let point = CGPoint(x: 0, y: bottomSheetViewController.minimumViewYPosition)
+        
+        let southWest = LatLng(mapView.projection.latlng(from: point))
         let northEast = LatLng(boundsLatLngs[1])
         
         return (southWest: southWest, northEast: northEast)
@@ -70,11 +74,40 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         bottomSheetViewController.delegate = self
         configureVIP()
-        configureMapView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configureBottomSheetView()
+        configureMapView()
+        configureDrawerController()
         configureGesture()
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        view.bringSubviewToFront(drawerButton)
+        view.bringSubviewToFront(bottomSheetViewController.switchButton)
+        view.bringSubviewToFront(bottomSheetViewController.view)
+        view.bringSubviewToFront(drawerController.view)
+    }
+
+    private func configureDrawerController() {
+        drawerButton.layer.cornerRadius = drawerButton.frame.height / 2
+        addChild(drawerController)
+        view.addSubview(drawerController.view)
+        drawerController.didMove(toParent: self)
+
+        drawerController.view.frame = .init(x: view.frame.width,
+                                            y: 0,
+                                            width: view.frame.width,
+                                            height: view.frame.height)
+    }
+
+    @IBAction func drawerToggleTouched(_ sender: UIButton) {
+        drawerController.toggleMenu()
+    }
+
     private func configureVIP() {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
@@ -87,7 +120,11 @@ final class MainViewController: UIViewController {
     
     private func configureMapView() {
         naverMapView.showZoomControls = true
-        mapView.touchDelegate = self
+
+        mapView.logoInteractionEnabled = false
+        mapView.logoAlign = .rightTop
+        mapView.isRotateGestureEnabled = false
+        
         mapView.addCameraDelegate(delegate: self)
         mapView.moveCamera(.init(scrollTo: startPoint))
         view.addSubview(naverMapView)
@@ -148,7 +185,7 @@ extension MainViewController {
             
             guard pointCount == 1 else {
                 marker.touchHandler = { [weak self] _ in
-                    self?.touchedClusterMarker(bounds: bound, insets: 5)
+                    self?.touchedClusterMarker(bounds: bound, insets: 10)
                     return true
                 }
                 return
@@ -166,7 +203,8 @@ extension MainViewController {
     }
     
     private func touchedClusterMarker(bounds: NMGLatLngBounds, insets: CGFloat) {
-        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
+        let bottomInset = bottomSheetViewController.minimumHeight
+        let edgeInsets = UIEdgeInsets(top: insets, left: insets, bottom: insets + bottomInset, right: insets)
         let cameraUpdate = NMFCameraUpdate(fit: bounds,
                                            paddingInsets: edgeInsets,
                                            cameraAnimation: .easeIn,
@@ -260,8 +298,13 @@ private extension MainViewController {
 
 extension MainViewController: NMFMapViewCameraDelegate {
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
+        highlightMarker = nil
+        animationController.makerAnimationStop()
         animationController.removePointAnimation()
-        bottomSheetViewController.prevClickedCell?.isClicked = false
+        displayedData.markers.forEach {
+            $0.mapView = mapView
+        }
+        bottomSheetViewController.checkedIndexPath = nil
     }
     
     func mapViewCameraIdle(_ mapView: NMFMapView) {
@@ -280,23 +323,21 @@ extension MainViewController: ClusteringTool {
 }
 
 extension MainViewController: DetailViewControllerDelegate {
-    func didCellSelected(lat: Double, lng: Double, isClicked: Bool) {
-        if isClicked {
-            let cameraUpdate = NMFCameraUpdate(scrollTo: .init(lat: lat, lng: lng),
-                                               zoomTo: 20,
-                                               cameraAnimation: .easeIn,
-                                               duration: 0.8)
-            mapView.moveCamera(cameraUpdate)
-        } else {
-            animationController.removePointAnimation()
-            let point = convertLatLngToPoint(latLng: LatLng(lat: lat, lng: lng))
-            animationController.pointDotAnimation(point: point)
-        }
+    func moveCamera(to position: LatLng, _ completion: ((Bool) -> Void)?) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: position.lat, lng: position.lng),
+                                           zoomTo: 20,
+                                           cameraAnimation: .easeIn,
+                                           duration: 0.8)
+        mapView.moveCamera(cameraUpdate, completion: completion)
     }
-}
-
-extension MainViewController: NMFMapViewTouchDelegate {
-    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        highlightMarker = nil
+    
+    func dotAnimation(at position: LatLng) {
+        removeDotAnimation()
+        let point = convertLatLngToPoint(latLng: position)
+        animationController.pointDotAnimation(point: point)
+    }
+    
+    func removeDotAnimation() {
+        animationController.removePointAnimation()
     }
 }

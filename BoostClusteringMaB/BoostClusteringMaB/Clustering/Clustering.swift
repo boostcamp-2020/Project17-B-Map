@@ -6,7 +6,14 @@
 //
 import Foundation
 
-class Clustering {
+protocol ClusteringService {
+    var data: ClusteringData? { get set }
+    var tool: ClusteringTool? { get set }
+    func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double)
+    func combineClusters(clusters: [Cluster]) -> [Cluster]
+}
+
+final class Clustering: ClusteringService {
     typealias LatLngs = [LatLng]
     
     weak var data: ClusteringData?
@@ -32,32 +39,24 @@ class Clustering {
         queue.cancelAllOperations()
         let poi = coreDataLayer.fetch(southWest: southWest, northEast: northEast, sorted: true)
         guard let pois = poi?.map({$0.toPOI()}) else { return }
-        guard !pois.isEmpty else { return }
+        guard !pois.isEmpty else {
+            self.data?.redrawMap([], [], [], [])
+            return
+        }
         runKMeans(pois: pois, zoomLevel: zoomLevel)
     }
 
     private func runKMeans(pois: [POI], zoomLevel: Double) {
         let kRange = findKRange(zoomLevel: Int(zoomLevel))
 
-        var minKmeans: KMeans = .init(k: 0, pois: [])
-        var minDBI: Double = .greatestFiniteMagnitude
-
-        kRange.forEach { k in
+        let kMeansArr = kRange.map { k -> KMeans in
             let kMeans = KMeans(k: k, pois: pois)
-
-            let operation = BlockOperation {
-                let dbi = kMeans.daviesBouldinIndex()
-                if minDBI > dbi {
-                    minDBI = dbi
-                    minKmeans = kMeans
-                }
-            }
-
-            operation.addDependency(kMeans)
-            queue.addOperations([kMeans, operation], waitUntilFinished: false)
+            queue.addOperation(kMeans)
+            return kMeans
         }
 
         queue.addBarrierBlock { [weak self] in
+            guard let minKmeans = kMeansArr.min(by: { $0.dbi < $1.dbi }) else { return }
             DispatchQueue.main.async {
                 self?.groupNotifyTasks(minKmeans)
             }
@@ -68,7 +67,7 @@ class Clustering {
         let start: Int
         let end: Int
         
-        let favorite = (13...17) // 사람들이 자주 쓰는 줌레벨
+        let favorite = (13...17)
         if favorite.contains(zoomLevel) {
             start = zoomLevel - 10
         } else {

@@ -8,7 +8,7 @@
 import XCTest
 @testable import BoostClusteringMaB
 
-class CSVParserTests: XCTestCase {
+final class CSVParserTests: XCTestCase {
     func test_parseCSV_poi_count_equal_21() throws {
         // Given
         let csvParser = CSVParser()

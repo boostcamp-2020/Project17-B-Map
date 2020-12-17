@@ -8,8 +8,8 @@
 import Foundation
 
 final class ConvexHull {
-    private var points = [LatLng]() // x,y
-    private var relativePoints = [LatLng]() // p,q
+    private var points = [LatLng]()
+    private var relativePoints = [LatLng]()
     private var infos: [Info] = []
     
     struct Info {

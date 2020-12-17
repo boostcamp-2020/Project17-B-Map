@@ -17,7 +17,7 @@ final class MainInteractor {
     var presenter: MainPresentationLogic?
     
     let coreDataLayer: CoreDataManager = CoreDataLayer()
-    var clustering: Clustering?
+    var clustering: ClusteringService?
     
     init() {
         configureClustering()
