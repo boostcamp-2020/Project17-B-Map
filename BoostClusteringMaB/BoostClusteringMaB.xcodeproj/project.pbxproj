@@ -35,6 +35,9 @@
 		709707D925760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */; };
 		709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708042577219700D3FC36 /* ClusteringProtocol.swift */; };
 		70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */; };
+		709D96FD258B6065003C8C93 /* MainViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709D96FC258B6065003C8C93 /* MainViewControllerTests.swift */; };
+		709D9701258B6A4C003C8C93 /* MainInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709D9700258B6A4C003C8C93 /* MainInteractorTests.swift */; };
+		709D9706258B7835003C8C93 /* MainPreseterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709D9705258B7835003C8C93 /* MainPreseterTests.swift */; };
 		70AA4C692586663C00620D1F /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C682586663C00620D1F /* MapSettings.swift */; };
 		70AA4C6F2586665700620D1F /* LayerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C6E2586665700620D1F /* LayerGroup.swift */; };
 		70AA4C732586666800620D1F /* MapTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C722586666800620D1F /* MapTypes.swift */; };
@@ -122,6 +125,9 @@
 		709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		709708042577219700D3FC36 /* ClusteringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusteringProtocol.swift; sourceTree = "<group>"; };
 		70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFCameraUpdate+.swift"; sourceTree = "<group>"; };
+		709D96FC258B6065003C8C93 /* MainViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewControllerTests.swift; sourceTree = "<group>"; };
+		709D9700258B6A4C003C8C93 /* MainInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractorTests.swift; sourceTree = "<group>"; };
+		709D9705258B7835003C8C93 /* MainPreseterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPreseterTests.swift; sourceTree = "<group>"; };
 		70AA4C682586663C00620D1F /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		70AA4C6E2586665700620D1F /* LayerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerGroup.swift; sourceTree = "<group>"; };
 		70AA4C722586666800620D1F /* MapTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypes.swift; sourceTree = "<group>"; };
@@ -344,6 +350,9 @@
 				70BFFD84256CE5F40048CEA6 /* CoreData */,
 				70BFFD85256CE6040048CEA6 /* Clustering */,
 				708C08DD25625C830072B1E0 /* Info.plist */,
+				709D96FC258B6065003C8C93 /* MainViewControllerTests.swift */,
+				709D9700258B6A4C003C8C93 /* MainInteractorTests.swift */,
+				709D9705258B7835003C8C93 /* MainPreseterTests.swift */,
 			);
 			path = BoostClusteringMaBTests;
 			sourceTree = "<group>";
@@ -721,15 +730,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				709D9701258B6A4C003C8C93 /* MainInteractorTests.swift in Sources */,
 				707942C2256FD056002AF718 /* ConvexHullTests.swift in Sources */,
 				70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */,
 				F49A2928256BEE2F0039998F /* XCTestCase+timeout.swift in Sources */,
+				709D9706258B7835003C8C93 /* MainPreseterTests.swift in Sources */,
 				70672319257205B000CF68FD /* ClusteringTests.swift in Sources */,
 				F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */,
 				F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */,
 				706723202572088E00CF68FD /* CoreDataLayerMock.swift in Sources */,
 				C3496436256CEBAE001F40AA /* KMeansTest.swift in Sources */,
 				700A667325626CF800184916 /* (null) in Sources */,
+				709D96FD258B6065003C8C93 /* MainViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

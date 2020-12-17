@@ -32,19 +32,19 @@ final class MainViewController: UIViewController {
         return controller
     }()
 
-    private lazy var bottomSheetViewController: DetailViewController = {
+    lazy var bottomSheetViewController: DetailViewController = {
         guard let bottom = UIStoryboard(name: "Detail", bundle: nil).instantiateInitialViewController()
                 as? DetailViewController else { return DetailViewController() }
         return bottom
     }()
 
-    private lazy var drawerController = DrawerController(mapView: mapView)
+    lazy var drawerController = DrawerController(mapView: mapView)
     @IBOutlet weak var drawerButton: UIButton!
     
     private lazy var startPoint = NMGLatLng(lat: 37.56295485320913, lng: 126.99235958053829)
 
+    var interactor: MainBusinessLogic?
     private var displayedData: ViewModel = .init(markers: [], polygons: [], bounds: [], count: 0)
-    private var interactor: MainBusinessLogic?
     private var mapView: NMFMapView { naverMapView.mapView }
     private var projection: NMFProjection { naverMapView.mapView.projection }
 

@@ -21,13 +21,13 @@ final class MapViewMock: NMFMapViewProtocol {
 
 extension MapViewMock: ClusteringTool {
     func convertLatLngToPoint(latLng: LatLng) -> CGPoint {
-        return CGPoint(x: latLng.lat, y: latLng.lng)
+        return .init(x: latLng.lat, y: latLng.lng)
     }
 }
 
 final class NMFProjectionMock: NMFProjection {
     override func point(from coord: NMGLatLng) -> CGPoint {
-        return CGPoint(x: coord.lat, y: coord.lng)
+        return .init(x: coord.lat, y: coord.lng)
     }
 }
 
@@ -55,10 +55,9 @@ final class ClusteringTests: XCTestCase {
         XCTAssertNotNil(clustering)
     }
 
-    // MARK: - 보류
     func test_combineClusters() {
         // Given
-        let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjection())
+        let mapViewMock = MapViewMock(coveringBounds: NMGLatLngBounds(), projection: NMFProjectionMock())
         let coreDataLayerMock = CoreDataLayerMock()
         let clustering = Clustering(coreDataLayer: coreDataLayerMock)
         clustering.tool = mapViewMock

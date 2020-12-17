@@ -6,7 +6,14 @@
 //
 import Foundation
 
-final class Clustering {
+protocol ClusteringService {
+    var data: ClusteringData? { get set }
+    var tool: ClusteringTool? { get set }
+    func findOptimalClustering(southWest: LatLng, northEast: LatLng, zoomLevel: Double)
+    func combineClusters(clusters: [Cluster]) -> [Cluster]
+}
+
+final class Clustering: ClusteringService {
     typealias LatLngs = [LatLng]
     
     weak var data: ClusteringData?
