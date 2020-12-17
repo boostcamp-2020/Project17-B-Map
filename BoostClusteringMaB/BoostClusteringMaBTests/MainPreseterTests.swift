@@ -29,7 +29,7 @@ class MainPreseterTests: XCTestCase {
         }
     }
 
-    func testExample() throws {
+    func test_init() throws {
         // Given
         let mainDisplayLogicSpy = MainDisplayLogicSpy()
         sut.viewController = mainDisplayLogicSpy
