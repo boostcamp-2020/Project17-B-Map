@@ -10,11 +10,11 @@ import XCTest
 
 class MainViewControllerTests: XCTestCase {
     // MARK: - Subject Under Test
-
     var sut: MainViewController!
     var window: UIWindow!
 
     override func setUp() {
+        super.setUp()
         window = UIWindow()
         setupViewController()
     }
