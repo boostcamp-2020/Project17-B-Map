@@ -118,7 +118,7 @@ Mab_Project
 |  **[S001] 강민석** <br>[@kati-kms](https://github.com/kati-kms)   |  **[S009] 김석호** [@SeokBA](https://github.com/seokBA)   |  **[S018] 박재현** [@wogus3602](https://github.com/wogus3602)     |  **[S057] 조정래** [@chojl1125](https://github.com/chojl1125)     |  **[S063] 현기엽** [@KYHyeon](https://github.com/KYHyeon)     |
 
 # Requirements
- - iOS 14.0+
+ - iOS 13.0+
  - Xcode 12.2+
  - Swift 5.3+
  
@@ -216,6 +216,18 @@ $ pod install --repo-update
 | - | - | 
 | <img src="img/collectionview.gif" width="200"> | - 화면 하단의 Collection View를 통해 **POI를 리스트** 형식으로 볼 수 있습니다. <br/> - Colletion View는 사용자의 드래그를 통해 크기를 **3단계**로 조절할 수 있습니다.  |
 
+### 📙 Drawer
+| Layergroup | Setting | Maptype | UserDefault |
+| :-: | :-: | :-: | :-: |
+| <img src="img/layergroup.gif" width="200"> | <img src="img/setting.gif" width="200">  | <img src="img/maptype.gif" width="200"> | <img src="img/userDefault.gif" width="200"> |
+
+### 📙 BottomSheet Up & Down Button
+ > Up, Down의 버튼 이미지 모양이 다릅니다.  
+ 
+| Down | Up |
+| :-: | :-: |
+| <img src="https://user-images.githubusercontent.com/46857148/102038648-26b6ab00-3e0b-11eb-8725-c0a1510edf3e.png" width="200"> | <img src="https://user-images.githubusercontent.com/46857148/102038650-27e7d800-3e0b-11eb-8701-1fdc221ae514.png" width="200"> |
+
 ## 기술
 
 ### ❓ 쿼드트리, K-Means 알고리즘 선택에 대한 고민
@@ -284,7 +296,7 @@ $ pod install --repo-update
 
 ### VIP
 ```markdown
-### 채택한 이유
+채택한 이유
 
 - 단순하게 MVC 패턴으로 구현하게 되면 View Controller 가 갖는 책임이 비대하게 되고 모듈 간 분리가 쉽지 않음
 - 특히 Swift 에서는 VIew 와 Controller 간의 결합도가 높기 때문에, 자칫하면 Massive View Controller 가 될 가능성이 높다고 판단함
@@ -293,7 +305,7 @@ $ pod install --repo-update
 - VIPER 패턴과 같이 로직이 양방향으로 순환하게 되면 Retain Cycle 에 의한 메모리 누수가 일어날 가능성이 존재
 - 위와 같은 이유로 우리 팀은 단방향 플로우를 가지는 VIP 패턴을 선택하여 적용하기로 결정
 
-### 각각의 역할
+각각의 역할
 
 - View
     Storyboard 내부에서 User와 상호작용 하는 컴포넌트들
