@@ -118,7 +118,7 @@ Mab_Project
 |  **[S001] 강민석** <br>[@kati-kms](https://github.com/kati-kms)   |  **[S009] 김석호** [@SeokBA](https://github.com/seokBA)   |  **[S018] 박재현** [@wogus3602](https://github.com/wogus3602)     |  **[S057] 조정래** [@chojl1125](https://github.com/chojl1125)     |  **[S063] 현기엽** [@KYHyeon](https://github.com/KYHyeon)     |
 
 # Requirements
- - iOS 14.0+
+ - iOS 13.0+
  - Xcode 12.2+
  - Swift 5.3+
  
