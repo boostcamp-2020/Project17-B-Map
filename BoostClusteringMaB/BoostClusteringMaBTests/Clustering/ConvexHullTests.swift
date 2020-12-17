@@ -8,11 +8,11 @@
 import XCTest
 @testable import BoostClusteringMaB
 
-class ConvexHullTests: XCTestCase {
+final class ConvexHullTests: XCTestCase {
     
     func test_ConvexHull() {
         
-        //Given
+        // Given
         var points: [LatLng] = []
 
         points.append(LatLng(lat: 0.0, lng: 0.0))
@@ -21,10 +21,10 @@ class ConvexHullTests: XCTestCase {
         points.append(LatLng(lat: 1.0, lng: 1.0))
         points.append(LatLng(lat: 0.6, lng: 0.7))
 
-        //When
+        // When
         let convex = ConvexHull(poiPoints: points)
 
-        //Then
+        // Then
         XCTAssertEqual(convex.run().count, 5)
         
     }

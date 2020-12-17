@@ -12,7 +12,7 @@ protocol JsonParserService {
     func parse(address: Data) -> String?
 }
 
-class JsonParser: DataParser, JsonParserService {
+final class JsonParser: DataParser, JsonParserService {
     typealias DataType = Place
     static let shared = JsonParser()
 
@@ -42,9 +42,6 @@ class JsonParser: DataParser, JsonParserService {
         }
     }
     
-    // Return
-    // 도로명 주소가 있는 경우 : 서울 송파구 올림픽로 424
-    //            없는 경우 : 서울 송파구 방이동
     func parse(address: Data) -> String? {
         do {
             let geocoding = try JSONDecoder().decode(Geocoding.self, from: address)
@@ -65,18 +62,11 @@ class JsonParser: DataParser, JsonParserService {
             }
             
             if let loadName = land?.name {
-                // 도로명 주소가 있는 경우
                 return "\(area1) \(area2) \(area3) \(loadName) \(number1)\(number2)"
             } else {
                 return "\(area1) \(area2) \(area3) \(area4)"
             }
-            
-            //            // 건물명 얻어오기 - 없는 경우가 더 많음
-            //            if land?.addition0?.type == "building" {
-            //                let buildingName = land?.addition0?.value
-            //            }
         } catch {
-            debugPrint(error.localizedDescription)
             return nil
         }
     }

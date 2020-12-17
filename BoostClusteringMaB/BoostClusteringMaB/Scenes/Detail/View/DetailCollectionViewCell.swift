@@ -7,15 +7,7 @@
 
 import UIKit
 
-class DetailCollectionViewCell: UICollectionViewCell {
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(frame: storeImageView.frame)
-        indicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        indicator.style = .large
-        contentView.addSubview(indicator)
-        return indicator
-    }()
-    
+final class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var storeImageView: UIImageView! {
@@ -24,9 +16,9 @@ class DetailCollectionViewCell: UICollectionViewCell {
         }
     }
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var latLng: LatLng?
-    var isClicked: Bool = false
     private weak var imageTask: URLSessionTask?
     private weak var addressTask: URLSessionTask?
 

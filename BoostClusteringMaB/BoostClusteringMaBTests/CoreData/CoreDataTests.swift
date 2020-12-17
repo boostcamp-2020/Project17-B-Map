@@ -9,7 +9,7 @@ import XCTest
 import CoreData
 @testable import BoostClusteringMaB
 
-class CoreDataTests: XCTestCase {
+final class CoreDataTests: XCTestCase {
     let newPlace = Place(id: "123321",
                          name: "Mab",
                          x: "124.323412",
@@ -122,26 +122,6 @@ class CoreDataTests: XCTestCase {
         // Then
         XCTAssertTrue( pois.allSatisfy({ poi -> Bool in poi.category == "부스트캠프" }) )
     }
-    
-//    func testAdd10000POI() throws {
-//        timeout(40) { expectation in
-//            // Given
-//            let numberOfRepeats = 10000
-//            let layer = CoreDataLayer()
-//            let places = (0..<numberOfRepeats).map { _ in newPlace }
-//            let beforeCount = layer.fetch()?.count
-//
-//            // When
-//            layer.add(places: places) { _ in
-//                let afterCount = layer.fetch()?.count
-//
-//                // Then
-//                XCTAssertNotNil(beforeCount)
-//                XCTAssertEqual(beforeCount! + numberOfRepeats, afterCount)
-//                expectation.fulfill()
-//            }
-//        }
-//    }
     
     func testRemove() throws {
         // Given

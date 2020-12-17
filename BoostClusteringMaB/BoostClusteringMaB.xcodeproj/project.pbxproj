@@ -10,9 +10,10 @@
 		0D0172C02570BF2A00A26886 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0172BF2570BF2A00A26886 /* JsonParser.swift */; };
 		0D781E8025709E8D00D8A49E /* NMFMarker+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */; };
 		0DE756532577800F00CAB059 /* AddressAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE756522577800F00CAB059 /* AddressAPI.swift */; };
-		0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerImageView.swift */; };
+		0DF97E36256B9F330007BCEE /* MarkerLayerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF97E35256B9F330007BCEE /* MarkerLayerFactory.swift */; };
 		4A3C8021232DFCF9C5E93307 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */; };
 		700A667325626CF800184916 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		701368FC2585FD68002ABCF6 /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701368FB2585FD68002ABCF6 /* DrawerController.swift */; };
 		7017B9FB257E162E005D1512 /* gangnam_8000.json in Resources */ = {isa = PBXBuildFile; fileRef = 7017B9F9257E162E005D1512 /* gangnam_8000.json */; };
 		7017B9FC257E162E005D1512 /* restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = 7017B9FA257E162E005D1512 /* restaurant.json */; };
 		70387DD1256DEB9900F138CB /* CoreDataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DCF256DEB9900F138CB /* CoreDataLayer.swift */; };
@@ -33,8 +34,12 @@
 		709707D825760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */; };
 		709707D925760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */; };
 		709708052577219700D3FC36 /* ClusteringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708042577219700D3FC36 /* ClusteringProtocol.swift */; };
-		7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709708092577228900D3FC36 /* MainAnimationController.swift */; };
 		70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */; };
+		70AA4C692586663C00620D1F /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C682586663C00620D1F /* MapSettings.swift */; };
+		70AA4C6F2586665700620D1F /* LayerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C6E2586665700620D1F /* LayerGroup.swift */; };
+		70AA4C732586666800620D1F /* MapTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C722586666800620D1F /* MapTypes.swift */; };
+		70AA4C782586669E00620D1F /* IsCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C772586669E00620D1F /* IsCheck.swift */; };
+		70AA4C7E258666A700620D1F /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA4C7D258666A700620D1F /* Value.swift */; };
 		70BA50F02562B0950076920D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 70BA50EF2562B0950076920D /* .swiftlint.yml */; };
 		70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD5B256CB9360048CEA6 /* CSVParser.swift */; };
 		70BFFD79256CD4BE0048CEA6 /* CSVParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */; };
@@ -66,6 +71,7 @@
 		F4AE15632577CB6600A2F473 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AE15622577CB6600A2F473 /* Geocoding.swift */; };
 		F4C31B50257779D100103E98 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C31B4F257779D100103E98 /* AlertType.swift */; };
 		F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E23D2A25727A5F008A9B4C /* DataParser.swift */; };
+		F4E3512325887B2E004EBFCB /* MainAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E3511925887668004EBFCB /* MainAnimationController.swift */; };
 		F4FC20A2256B8AD200D97246 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */; };
 		F4FD16EE256CA12900615FA0 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */; };
 /* End PBXBuildFile section */
@@ -84,11 +90,12 @@
 		0D0172BF2570BF2A00A26886 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		0D781E7F25709E8D00D8A49E /* NMFMarker+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFMarker+.swift"; sourceTree = "<group>"; };
 		0DE756522577800F00CAB059 /* AddressAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAPI.swift; sourceTree = "<group>"; };
-		0DF97E35256B9F330007BCEE /* MarkerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerImageView.swift; sourceTree = "<group>"; };
+		0DF97E35256B9F330007BCEE /* MarkerLayerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerLayerFactory.swift; sourceTree = "<group>"; };
 		13716E7DADE89FF0703CEE3B /* Pods-BoostClusteringMaB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB.release.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB/Pods-BoostClusteringMaB.release.xcconfig"; sourceTree = "<group>"; };
 		3164D5B3096E97E6BBC50EF9 /* Pods_BoostClusteringMaBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4644EF4ECBA796AD632C4627 /* Pods_BoostClusteringMaB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoostClusteringMaB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		700A667025626CF800184916 /* BoostClusteringMaBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoostClusteringMaBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		701368FB2585FD68002ABCF6 /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		7017B9F9257E162E005D1512 /* gangnam_8000.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gangnam_8000.json; sourceTree = "<group>"; };
 		7017B9FA257E162E005D1512 /* restaurant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = restaurant.json; sourceTree = "<group>"; };
 		70387DCF256DEB9900F138CB /* CoreDataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataLayer.swift; sourceTree = "<group>"; };
@@ -114,8 +121,12 @@
 		709707D625760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataClass.swift"; sourceTree = "<group>"; };
 		709707D725760BF900D3FC36 /* ManagedPOI+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPOI+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		709708042577219700D3FC36 /* ClusteringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusteringProtocol.swift; sourceTree = "<group>"; };
-		709708092577228900D3FC36 /* MainAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainAnimationController.swift; path = BoostClusteringMaB/MainAnimationController.swift; sourceTree = SOURCE_ROOT; };
 		70989898258274AE0043BD56 /* NMFCameraUpdate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NMFCameraUpdate+.swift"; sourceTree = "<group>"; };
+		70AA4C682586663C00620D1F /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
+		70AA4C6E2586665700620D1F /* LayerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerGroup.swift; sourceTree = "<group>"; };
+		70AA4C722586666800620D1F /* MapTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypes.swift; sourceTree = "<group>"; };
+		70AA4C772586669E00620D1F /* IsCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsCheck.swift; sourceTree = "<group>"; };
+		70AA4C7D258666A700620D1F /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		70BA50EF2562B0950076920D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		70BFFD5B256CB9360048CEA6 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
 		70BFFD78256CD4BE0048CEA6 /* CSVParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParserTests.swift; sourceTree = "<group>"; };
@@ -149,6 +160,7 @@
 		F4AE15622577CB6600A2F473 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		F4C31B4F257779D100103E98 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 		F4E23D2A25727A5F008A9B4C /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		F4E3511925887668004EBFCB /* MainAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAnimationController.swift; sourceTree = "<group>"; };
 		F4FC20A1256B8AD200D97246 /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		F4FD16ED256CA12900615FA0 /* LinkedListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 		FA651F4D9DA7AEB78F2F730D /* Pods-BoostClusteringMaB-BoostClusteringMaBTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoostClusteringMaB-BoostClusteringMaBTests.debug.xcconfig"; path = "Target Support Files/Pods-BoostClusteringMaB-BoostClusteringMaBTests/Pods-BoostClusteringMaB-BoostClusteringMaBTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -177,7 +189,7 @@
 		0D0172CD2570C15100A26886 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				709708092577228900D3FC36 /* MainAnimationController.swift */,
+				F4E3511925887668004EBFCB /* MainAnimationController.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -202,7 +214,7 @@
 		0DF97E34256B9F280007BCEE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0DF97E35256B9F330007BCEE /* MarkerImageView.swift */,
+				0DF97E35256B9F330007BCEE /* MarkerLayerFactory.swift */,
 				708C08C2256258320072B1E0 /* Main.storyboard */,
 				708C08CA256258330072B1E0 /* LaunchScreen.storyboard */,
 				F4A07BAD257118BF00B18415 /* Loading.storyboard */,
@@ -230,6 +242,14 @@
 				9AB05C676CACCBD7FA9A4081 /* Pods_BoostClusteringMaB_BoostClusteringMaBTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		701368F22585FC76002ABCF6 /* DrawerMenu */ = {
+			isa = PBXGroup;
+			children = (
+				701368FB2585FD68002ABCF6 /* DrawerController.swift */,
+			);
+			path = DrawerMenu;
 			sourceTree = "<group>";
 		};
 		706723172572058500CF68FD /* KMeans */ = {
@@ -264,6 +284,7 @@
 		707E63DF25749074003F0E10 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				701368F22585FC76002ABCF6 /* DrawerMenu */,
 				C3A572E425787F9200C2B008 /* Detail */,
 				0DF97E34256B9F280007BCEE /* Views */,
 				F4A07BBB2571203700B18415 /* Loading */,
@@ -360,6 +381,7 @@
 		70970808257721E300D3FC36 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				70AA4C672586662F00620D1F /* DrawerModels */,
 				C3FB0859256B882200B93665 /* LatLng.swift */,
 				C3FB086A256B8D8D00B93665 /* POIModel.swift */,
 				C3FB0854256B87A200B93665 /* LinkedList.swift */,
@@ -371,6 +393,7 @@
 		7097080F2577232500D3FC36 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				70AA4C762586668D00620D1F /* PropertyWrapper */,
 				70BFFD5B256CB9360048CEA6 /* CSVParser.swift */,
 				0D0172BF2570BF2A00A26886 /* JsonParser.swift */,
 				F4E23D2A25727A5F008A9B4C /* DataParser.swift */,
@@ -378,6 +401,25 @@
 				F4151F4C25789064007E356F /* ImageDownloader.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		70AA4C672586662F00620D1F /* DrawerModels */ = {
+			isa = PBXGroup;
+			children = (
+				70AA4C682586663C00620D1F /* MapSettings.swift */,
+				70AA4C6E2586665700620D1F /* LayerGroup.swift */,
+				70AA4C722586666800620D1F /* MapTypes.swift */,
+			);
+			path = DrawerModels;
+			sourceTree = "<group>";
+		};
+		70AA4C762586668D00620D1F /* PropertyWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				70AA4C772586669E00620D1F /* IsCheck.swift */,
+				70AA4C7D258666A700620D1F /* Value.swift */,
+			);
+			path = PropertyWrapper;
 			sourceTree = "<group>";
 		};
 		70BFFD84256CE5F40048CEA6 /* CoreData */ = {
@@ -701,15 +743,16 @@
 				DA805DB6257612890067325E /* DetailCollectionViewCell.swift in Sources */,
 				70E2A21F25776C0D009A5ADC /* NMFPolygonOverlay+.swift in Sources */,
 				C3A287A1256FA33A00DF23B1 /* ConvexHull.swift in Sources */,
+				701368FC2585FD68002ABCF6 /* DrawerController.swift in Sources */,
 				F4C31B50257779D100103E98 /* AlertType.swift in Sources */,
 				F4151F4D25789064007E356F /* ImageDownloader.swift in Sources */,
 				F4E23D2B25727A5F008A9B4C /* DataParser.swift in Sources */,
 				708C08C1256258320072B1E0 /* MainViewController.swift in Sources */,
 				708C08BD256258320072B1E0 /* AppDelegate.swift in Sources */,
-				0DF97E36256B9F330007BCEE /* MarkerImageView.swift in Sources */,
+				0DF97E36256B9F330007BCEE /* MarkerLayerFactory.swift in Sources */,
 				70BFFD5C256CB9360048CEA6 /* CSVParser.swift in Sources */,
 				F4A07BB225711B1900B18415 /* LoadViewController.swift in Sources */,
-				7097080A2577228900D3FC36 /* MainAnimationController.swift in Sources */,
+				70AA4C692586663C00620D1F /* MapSettings.swift in Sources */,
 				C3A28799256F986D00DF23B1 /* Clustering.swift in Sources */,
 				C3FB086B256B8D8D00B93665 /* POIModel.swift in Sources */,
 				70387DD2256DEB9900F138CB /* CoreDataContainer.swift in Sources */,
@@ -722,8 +765,11 @@
 				70E2A21125776ACB009A5ADC /* UIColor+.swift in Sources */,
 				70989899258274AE0043BD56 /* NMFCameraUpdate+.swift in Sources */,
 				F456CB4C257B75530095139A /* String+Localize.swift in Sources */,
+				70AA4C6F2586665700620D1F /* LayerGroup.swift in Sources */,
 				707E63EB257490F5003F0E10 /* MainPresenter.swift in Sources */,
 				708C08BF256258320072B1E0 /* SceneDelegate.swift in Sources */,
+				F4E3512325887B2E004EBFCB /* MainAnimationController.swift in Sources */,
+				70AA4C7E258666A700620D1F /* Value.swift in Sources */,
 				F496019125727ED500740523 /* String+Bundle.swift in Sources */,
 				C3A572E625787FA300C2B008 /* DetailViewController.swift in Sources */,
 				C3FB085A256B882200B93665 /* LatLng.swift in Sources */,
@@ -733,6 +779,8 @@
 				70E2A21725776BED009A5ADC /* CGPoint+isValid.swift in Sources */,
 				C3FB085E256B887300B93665 /* Cluster.swift in Sources */,
 				709707D825760BF900D3FC36 /* ManagedPOI+CoreDataClass.swift in Sources */,
+				70AA4C732586666800620D1F /* MapTypes.swift in Sources */,
+				70AA4C782586669E00620D1F /* IsCheck.swift in Sources */,
 				707E63E7257490EC003F0E10 /* MainInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

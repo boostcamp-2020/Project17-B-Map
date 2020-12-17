@@ -53,7 +53,6 @@ class Cluster: Equatable {
         center = sum / pois.size
     }
     
-    //중심점과 클러스터내의 점들간의 거리의 평균
     func deviation() -> Double {
         var sum: Double = 0
         pois.setNowToHead()
