@@ -9,7 +9,7 @@ import XCTest
 @testable import BoostClusteringMaB
 
 class MainViewControllerTests: XCTestCase {
-    // MARK: - Subject Under Test
+    // MARK: - System Under Test
     var sut: MainViewController!
     var window: UIWindow!
 

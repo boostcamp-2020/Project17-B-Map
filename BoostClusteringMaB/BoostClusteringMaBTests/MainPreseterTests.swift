@@ -9,7 +9,7 @@ import XCTest
 @testable import BoostClusteringMaB
 
 class MainPreseterTests: XCTestCase {
-    // MARK: - Subject Under Test
+    // MARK: - System Under Test
     var sut: MainPresenter!
 
     override func setUp() {
