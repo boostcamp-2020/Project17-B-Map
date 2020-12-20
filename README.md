@@ -334,7 +334,7 @@ $ pod install --repo-update
 
 ### GitHub Actions(CI)
 ```markdown
-- 작업에 집중하기 위해 자동화 했습니다.
+작업에 집중하기 위해 자동화 했습니다.
   1. iOS CI
       - Build와 Test를 자동화하여 매번 테스트코드를 돌려보는 과정을 없앴습니다.
   2. Auto Reviewer
